@@ -18,6 +18,7 @@ class Common extends Controller
 {
     protected function _initialize(){
         $auth = new Authority();
+        Config::set('IS_WEB_CLOSE', false);
         // 1.查看网站是否关停
         if(Config::get('IS_WEB_CLOSE') == true){
             return $this->redirect('/index/close/index');
@@ -26,10 +27,10 @@ class Common extends Controller
 
         // Session::set(Config::get('USER_KEY'), 1); //测试
         //2.查看是否登录
-        if(!$auth->isLogin()){
-            return $this->redirect('/index/login/index');
-            die;
-        }
+        // if(!$auth->isLogin()){
+        //     return $this->redirect('/index/login/index');
+        //     die;
+        // }
     }
     
 }

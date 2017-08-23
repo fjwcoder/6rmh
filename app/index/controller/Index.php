@@ -10,8 +10,8 @@ class Index extends Common
 {
 
     public function index(){
-        return dump(config()); //打印一下框架配置
-
+        // return dump(config()); //打印一下框架配置
+        return $this->fetch();
     }
 
 

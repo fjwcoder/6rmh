@@ -3,7 +3,7 @@
 # | CREATE by FJW IN 2017-5-17.
 # | 后台Index控制器
 # |
-# |
+# | email: fjwcoder@gmail.com
 # +-------------------------------------------------------------
 namespace app\admin\controller;
 use app\common\controller\Manage;

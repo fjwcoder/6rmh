@@ -21,7 +21,7 @@ use think\Cache;
 #| navid 当前页面id
 #|
 #+-----------------------------------
-class Member extends Manage
+class User extends Manage
 {
     // dump(request()->module());//模块
     // dump(request()->controller()); //控制器
