@@ -49,11 +49,11 @@ class Member extends Manage
         if($user['branch']>0){
             $where .= " and a.branch=$user[branch] ";
         }
-        $list = Db::table('keep_admin_member') ->alias('a')
-         -> join('keep_admin_branch b', 'a.branch=b.id', 'LEFT')
-         -> join('keep_admin_level c', 'a.level=c.id', 'LEFT')
+        $list = Db::table(config('database')['prefix'].'admin_member') ->alias('a')
+         -> join(config('database')['prefix'].'admin_branch b', 'a.branch=b.id', 'LEFT')
+         -> join(config('database')['prefix'].'admin_level c', 'a.level=c.id', 'LEFT')
          -> where($where)
-         -> field(array('a.id', 'a.name', 'a.title', 'a.email', 'a.authority', 'a.status', 'a.headimg', 'b.title as branch', 'c.title as level')) -> paginate(15);
+         -> field(array('a.id', 'a.name', 'a.title', 'a.email', 'a.authority', 'a.status', 'a.headimg', 'b.title as branch', 'c.title as level')) -> paginate(Config::get('TABLE_LIST_NUM'));
 
         $this->assign('list', $list); 
         $header =  ['title'=>'扩展管理->后台用户->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 

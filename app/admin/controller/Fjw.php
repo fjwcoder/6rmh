@@ -4,9 +4,14 @@ namespace app\admin\controller;
 use app\common\controller\Common;
 use think\Controller;
 use think\Db;
+// use think\Model;
 // use think\Request;
 class Fjw extends Controller
 {   
+    public function index(){
+        $m = new Model();
+        print_r($m); die;
+    }
     //解密
     public function decode(){
         $user = db('admin_member') -> where(array('id'=>1)) -> find();
