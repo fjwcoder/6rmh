@@ -1,3 +1,56 @@
-商城：
-
-前台推出的商品（6个）
+项目简介：
+	商城模式，分期销售，每期只推N件产品
+	用户注册 +------------------——
+			 |- 网页注册后绑定微信
+			 |- 直接扫描公众号注册
+			 +--------------------
+	用户购买产品后，获得参加游戏的资格，直接通过公众号发送现金红包
+	
+	项目包括 PC端 index，移动端mobile
+	后台管理 admin
+	
+	项目结构：
+		入口文件：/public 
+		配置文件：/conf
+		
+		以后台admin为例：
+			文件继承 /app/common/Manage.php
+	
+		common模块是公共模块，提供继承和调用的方法
+		
+		/app/common.php 是项目公共方法文件，可以在任何控制器直接调用里边的方法。
+		
+		后台拥有完善的管理员权限分配功能（目前只做完了管理员权限，部门权限还没写完）
+		1.后台控制器：
+			Branch 后台管理员的部门管理
+			Category 前台商品的分类管理
+			Goods 前台商品管理
+			Index 
+			Level 后台管理员级别管理
+			Login 后台登录
+			Member 后台用户
+			Menu 后台菜单
+			Node 后台用户的权限节点：配置好权限后，用户登录时会查询节点，菜单中只显示拥有权限的节点
+			System 整站配置
+			User 前台用户管理
+			
+			（还有N多没写的功能，有一些控制器没啥用，先不用了解）
+			
+		2.后台view文件
+			每个控制器对应一个控制器名称的文件夹，文件夹内的*.html名称，是控制器的方法名
+			控制器内方法 return $this->fetch('文件名'); 会调用 文件名.html
+			
+			view结构：
+			/index/index.html 入口文件
+					iframe.html iframe入口文件
+					navbar.html 导航栏文件
+			/iframe/header.html iframe内容头
+					submit.html 提交
+					
+			控制器名的文件夹（member为例）
+			index.html 显示后台用户列表
+			member.html 增加/修改后台用户
+			passcode.html 修改密码 （除了index.html 控制器名.html，其余的都对应相关的方法）
+			
+		
+		

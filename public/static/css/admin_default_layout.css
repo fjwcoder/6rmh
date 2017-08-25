@@ -106,13 +106,15 @@ div.file-upload-indicator{margin-bottom: -12px;}
 
 
 /*textarea{padding: 1px 2px 3px 4px !important;}*/
-/*div.tree_list{padding: 12px 0;}*/
-div.tree_list dl.panel-body{padding-left: 30px; padding-bottom: 0;}
-div.tree_list dl dt{ margin-bottom: 10px; }
+/*div.tree-list{padding: 12px 0;}*/
+div.tree-list dl.panel-body{padding-left: 30px; padding-bottom: 0; padding-right: 0;}
+div.tree-list dl dt{ margin-bottom: 10px; }
 dd.panel-collapse{border-left: 1px solid #e0e0e0;}
 a.operate-a{margin-right: 20px;}
-
-
+.cat-tree-input{width: 160px; font-weight: 400; height: 32px; 
+    border-radius: 5px; margin-right: 20px;
+    border: 1px solid #e0e0e0;}
+.tree-list i{color: #5b5b5b;}
 
 
 

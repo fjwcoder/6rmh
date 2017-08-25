@@ -12,6 +12,30 @@
         </div>
         <{/if}>-->
 
+        
+
+        <div class="form-group">
+            <label for="id_list" class="col-sm-3 control-label">类别链：</label>
+            <div class="col-sm-5">
+                <select class="form-control" name="id_list" required>
+                    
+                    <option value="0" <{if $pid_list == 0}>selected<{/if}> >顶级类别</option>
+                    <{volist name="list" id="vo"}>
+                        <!--不显示本品类-->
+                        <{if $header.form == "add"}>
+                        <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(级别<{$vo.level}>)</option>
+                        <{else}>
+                            <{if $vo.id != $result.id}>
+                            <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(级别<{$vo.level}>)</option>
+                            <{/if}>
+                        <{/if}>
+                    <{/volist}>
+
+                </select>
+                <p class="help-block title-0">选择类别后，新添加/修改的类别会处于该选项类别链之下</p>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="title" class="col-sm-3 control-label">分类名称：</label>
             <div class="col-sm-5">
@@ -20,21 +44,10 @@
         </div>
 
         <div class="form-group">
-            <label for="id_list" class="col-sm-3 control-label">级别链：</label>
-            <div class="col-sm-5">
-                <select class="form-control" name="id_list" required>
-                    <option value="0">顶级类别</option>
-                    <{volist name="list" id="vo"}>
-                    <option value="<{$vo.id_list}>"><{$vo.title}>(级别<{$vo.level}>)</option>
-                    <{/volist}>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label for="headimg" class="col-sm-3 control-label">分类图片：</label>
             <div class="col-sm-5 ">
                 <input id="headimg" type="file" multiple accept="image/*" class="form-control fileinput" name="headimg[]" upurl=""/>
+                <p class="help-block title-0">开发不完善，请慎重图片尺寸，联系开发人员：fjwcoder@gmail.com</p>
             </div>
             <script>
                 initFileInput('headimg', $('input#headimg').attr('upurl'));
@@ -59,7 +72,7 @@
         <div class="form-group">
             <label for="decription" class="col-sm-3 control-label">描述：</label>
             <div class="col-sm-5">
-                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$vo.description}><{/if}></textarea>
+                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$result.description}><{/if}></textarea>
             </div>
         </div>
 
@@ -87,7 +100,7 @@
         <div class="form-group">
             <label for="remark" class="col-sm-3 control-label">备注：</label>
             <div class="col-sm-5">
-                <textarea id="remark"  class="form-control" name="remark" rows=3><{if $header.form != "add"}><{$vo.remark}><{/if}></textarea>
+                <textarea id="remark"  class="form-control" name="remark" rows=3><{if $header.form != "add"}><{$result.remark}><{/if}></textarea>
             </div>
         </div>
         

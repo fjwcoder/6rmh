@@ -1,0 +1,92 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>" enctype="multipart/form-data">
+        <{if $header.form=="edit"}>
+        <div class="form-group">
+            <label for="logo" class="col-sm-3 control-label"></label>
+            <div class=" member-headimg col-sm-3 col-md-3">
+                <a href="javascript: void(0);" class="thumbnail">
+
+                    <img class=" member-headimg form-control" src="<{$result.logo}>" alt="品牌LOGO未显示"/>
+
+                </a>
+            </div>
+        </div>
+        <{/if}>
+
+
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">名称</label>
+            <div class="col-sm-5">  
+                <input id="title" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" <{/if}>required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="logo" class="col-sm-3 control-label">上传头像：</label>
+            <div class="col-sm-5 ">
+                <input id="logo" type="file" multiple accept="image/*" class="form-control fileinput" name="logo[]" upurl=""/>
+            </div>
+            <script>
+                initFileInput('logo', $('input#logo').attr('upurl'));
+            </script>
+        </div>
+
+        <div class="form-group">
+            <label for="catid" class="col-sm-3 control-label">类别：</label>
+            <div class="col-sm-5">
+                <select class="form-control" name="catid" required>
+                    <{volist name="catlist" id="vo"}>
+                        <option value="<{$vo.id}>" <{if $result.catid==$vo.id}>selected<{/if}> ><{$vo.title}>(级别<{$vo.level}>)</option>
+                    <{/volist}>
+
+                </select>
+                <p class="help-block title-0">品牌对应单个类别</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="decription" class="col-sm-3 control-label">描述：</label>
+            <div class="col-sm-5">
+                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$result.description}><{/if}></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                    <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />启用
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>锁定
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">
+                <textarea id="remark"  class="form-control" name="remark" rows=3><{if $header.form != "add"}><{$result.remark}><{/if}></textarea>
+            </div>
+        </div>
+
+        <{if $header.form=="edit"}>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+
+<{/block}>
