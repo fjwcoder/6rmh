@@ -321,6 +321,18 @@ function kgetcookie($key = 'user'){
     return $cookie;
 }
 
+#商城配置文件缓存
+function mallConfig(){
+    if(cache('MALL_CONFIG')){
+        $config = cache('MALL_CONFIG');
+    }else{
+        $config = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
+        $config = getField($config);
+        // cache('MALL_CONFIG', $config); 缓存注释
+    }
+
+    return $config;
+}
 
 #网站配置文件缓存
 function webConfig($type = 0){

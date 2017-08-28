@@ -212,7 +212,7 @@ return [
         // 缓存保存目录
         'path'   => CACHE_PATH,
         // 缓存前缀
-        'prefix' => '',
+        'prefix' => 'keep_',
         // 缓存有效期 0表示永久缓存
         'expire' => 0,
     ],
@@ -238,7 +238,7 @@ return [
     // +----------------------------------------------------------------------
     'cookie'                 => [
         // cookie 名称前缀 trace think 
-        'prefix'    => 'trace',
+        'prefix'    => 'keep_',
         // cookie 保存时间
         'expire'    => 0,
         // cookie 保存路径

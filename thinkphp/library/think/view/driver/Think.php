@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 
 namespace think\view\driver;
-
 use think\App;
 use think\exception\TemplateNotFoundException;
 use think\Loader;
@@ -36,15 +35,31 @@ class Think
         'tpl_cache'   => true,
     ];
 
+    # 原生构造函数，modify by fjw in 2017.8.25
+    // public function __construct0($config = [])
+    // {
+    //     $this->config = array_merge($this->config, $config);
+    //     if (empty($this->config['view_path'])) {
+    //         $this->config['view_path'] = App::$modulePath . 'view' . DS;
+    //     }
+        
+    //     $this->template = new Template($this->config);
+    // }
+
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
         if (empty($this->config['view_path'])) {
-            $this->config['view_path'] = App::$modulePath . 'view' . DS;
-        }
-
+            $module = request() -> module();
+            if( ($module==='index') && (isMobile()===true) ){
+                $this->config['view_path'] = APP_PATH.'mobile'.DS.'view'.DS;
+            }else{
+                $this->config['view_path'] = App::$modulePath . 'view' . DS;
+            }
+        }  
         $this->template = new Template($this->config);
     }
+
 
     /**
      * 检测是否存在模板文件

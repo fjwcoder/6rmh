@@ -54,7 +54,7 @@ class Member extends Manage
          -> join('admin_level c', 'a.level=c.id', 'LEFT')
          -> where($where)
          -> field(array('a.id', 'a.name', 'a.title', 'a.email', 'a.authority', 'a.status', 'a.headimg', 'b.title as branch', 'c.title as level')) 
-         -> paginate(Config::get('TABLE_LIST_NUM'));
+         -> paginate();
 
         $this->assign('list', $list); 
         $header =  ['title'=>'扩展管理->后台用户->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 

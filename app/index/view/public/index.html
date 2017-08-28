@@ -5,23 +5,33 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="__CSS__/web_default_layout.css" type="text/css"/>
+    <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script src="__JS__/admin/admin_default_layout.js"></script>-->
 </head>
 <body class="web-body">
-    <div class=" web-top  ">
-        <{include file="index/top"/}>
-    </div>
-    <div class="web-header">
+    <header class=" web-top  wp_100 pull-left">
+        <{include file="./public/top"/}>
+    </header>
 
-    </div>
-    <div class="web-banner">
+    <!--如果是常规页面，显示头部信息；直推页面，不显示-->
+    <{if $config.template == 'index'}>
+        <header class="web-header wp_100 pull-left">
+            <{include file="./public/header"/}>
+        </header>
+    <{/if}>
 
+    <!--主要内容页面-->
+    <div class="web-content wp_100 pull-left">
+        <{block name="content"}>
+            内容
+        <{/block}>
     </div>
         
 
-    
+    <div class="web-footer wp_100 pull-left">
+        <{include file="./public/footer"/}>
+    </div>
 </body>
 </html>

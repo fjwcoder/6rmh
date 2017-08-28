@@ -19,6 +19,7 @@ class Index extends Manage
 {
     public function index()
     {   
+
         $config = webConfig();
         $this->assign('admin', ['title'=>$config['admin_title']['value']]);
         $this->assign('navbar', $this->loadNavbar());
@@ -69,7 +70,7 @@ class Index extends Manage
                     $html .= '<ul class="dropdown-menu">';
                 }
                 if($navbar[$i]['deep']!=1){
-                    if($navbar[$i]['isnode']==1){ //节点
+                    if($navbar[$i]['isnode'] > 0){ //节点
                         if($navbar[$i]['sort'] == 1){
                             $html .= '<li class="nav-node nav-node-bottom">';
                         }else{

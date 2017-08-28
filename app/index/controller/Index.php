@@ -11,7 +11,11 @@ class Index extends Common
 
     public function index(){
         // return dump(config()); //打印一下框架配置
-        return $this->fetch();
+        $mall_config = mallConfig();
+        $this->assign('config', ['template'=>$mall_config['index_template']['value']
+            ]);
+        // $this->assign('user', ['']);
+        return $this->fetch($mall_config['index_template']['value']);
     }
 
 

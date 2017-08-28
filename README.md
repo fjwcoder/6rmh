@@ -113,6 +113,10 @@ www  WEB部署目录（或者子目录）
 <!--> router.php用于php自带webserver支持，可用于快速测试
 > 切换到public目录后，启动命令：php -S localhost:8888  router.php
 > 上面的目录结构和名称是可以改变的，这取决于你的入口文件和配置参数。-->
+## 底层代码修改
+修改 /thinkphp/library/think/view/driver/Think.php
+中的构造函数：
+当用移动端访问商城时，模板访问/Mobile/View;
 
 ## 命名规范
 

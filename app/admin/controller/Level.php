@@ -25,7 +25,8 @@ class Level extends Manage
         $navid = input('navid', 13, 'intval');
         $nav = adminNav();
         $key = input('post.keyword', '', 'htmlspecialchars,trim');
-        $list = db('admin_level', [], false)  ->order('level desc') -> paginate(Config::get('TABLE_LIST_NUM'));;
+        $list = db('admin_level', [], false)  ->order('level desc') 
+            -> paginate();
         $this->assign('list', $list);   
         $header = ['title'=>'扩展管理->用户归属->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'],
          'form'=>'list', 'navid'=>$navid];

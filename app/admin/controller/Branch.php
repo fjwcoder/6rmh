@@ -36,7 +36,7 @@ class Branch extends Manage
         $navid = input('navid', 12, 'intval');
         $nav = adminNav();
         $key = input('post.keyword', '', 'htmlspecialchars,trim');
-        $list = db('admin_branch', [], false) ->order('id desc') -> paginate(Config::get('TABLE_LIST_NUM'));
+        $list = db('admin_branch', [], false) ->order('id desc') -> paginate();
         $this->assign('list', $list);  
         $header =  ['title'=>'扩展管理->用户归属->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 
         'form'=>'list', 'navid'=>$navid];

@@ -33,7 +33,8 @@ class Brand extends Manage
         $list = Db::name('mall_brand') ->alias('a') 
              -> join('mall_category b', 'a.catid=b.id', 'LEFT') 
              -> field(array('a.id', 'a.title', 'a.logo', 'b.title as category', 'a.status')) 
-             -> where($where) -> order('a.id desc') -> paginate(Config::get('TABLE_LIST_NUM'));
+             -> where($where) -> order('a.id desc') 
+             -> paginate();
         $this->assign('list', $list);
         $header =  ['title'=>'商品管理->商品配置->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 
             'form'=>'list', 'navid'=>$navid ]; 
