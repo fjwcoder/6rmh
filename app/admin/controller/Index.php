@@ -68,8 +68,8 @@ class Index extends Manage
                     $html .= $navbar[$i]['title'].'</b>';
                     $html .= '</a>';
                     $html .= '<ul class="dropdown-menu">';
-                }
-                if($navbar[$i]['deep']!=1){
+                }else{
+                // if($navbar[$i]['deep']!=1){
                     if($navbar[$i]['isnode'] > 0){ //节点
                         if($navbar[$i]['sort'] == 1){
                             $html .= '<li class="nav-node nav-node-bottom">';

@@ -1,1 +1,12 @@
-底部
+<div data-ng-app="myApp" data-ng-controller="userCtrl" class="footer login-footer abs wp_100 h70 text-center">
+    <p>
+        <!--<a data-ng-repeat="x in footers" href="#">{{x}}</a>-->
+    </p>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('userCtrl', function($scope, $http){
+        // $http.get('/index/common/footersinfo');
+    });
+
+</script>

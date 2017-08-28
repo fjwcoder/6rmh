@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-08-28 08:11:58
+Date: 2017-08-28 16:08:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,64 +94,65 @@ INSERT INTO `keep_admin_member` VALUES ('5', 'admin4', 'YW9tk2ljYmk=', 'b165', '
 DROP TABLE IF EXISTS `keep_admin_menu`;
 CREATE TABLE `keep_admin_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `name` varchar(20) DEFAULT NULL COMMENT '标识',
-  `title` varchar(20) NOT NULL COMMENT '标识',
+  `name` varchar(64) DEFAULT NULL COMMENT '标识',
+  `title` varchar(64) NOT NULL COMMENT '标识',
   `pid` int(10) unsigned DEFAULT NULL,
   `id_list` text,
   `sort` int(4) unsigned NOT NULL COMMENT '级别',
   `deep` int(4) unsigned NOT NULL COMMENT '等级，从1开始',
   `level` int(4) unsigned DEFAULT '99' COMMENT '级别',
-  `url` varchar(32) DEFAULT NULL,
+  `url` varchar(128) DEFAULT NULL,
   `icon` varchar(32) DEFAULT NULL,
   `isnode` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是不是一个父节点',
   `status` int(1) unsigned NOT NULL COMMENT '状态',
-  `remark` varchar(64) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of keep_admin_menu
 -- ----------------------------
 INSERT INTO `keep_admin_menu` VALUES ('24', 'NAV_ADMIN_MENU', '菜单管理', '5', '2,5,24', '5', '3', '99', '/admin/menu/index/navid/24', 'glyphicon-list', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('36', 'MALL_NAV_SHIPPING_CO', '物流公司', '35', '26,35,36', '1', '3', '99', null, 'glyphicon-road', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('36', 'MALL_NAV_LOGISTICS', '物流公司', '35', '26,35,36', '1', '3', '99', '/admin/logistics/index/navid/36', 'glyphicon-road', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('14', 'NAV_WELCOME_ANNOUNCE', '系统公告', '4', '1,4,14', '1', '3', '99', '', null, '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('1', 'CMS_WELCOME', '欢迎登录', '0', '1', '1', '1', '99', null, 'glyphicon-home', '1', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('23', 'NAV_WX_CONFIG', '配置信息', '20', '3,20,23', '3', '3', '0', '/admin/wechat/config/navid/23', 'glyphicon-cog', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('8', 'NAV_ADMIN_MANAGE', '用户列表', '7', '2,7,8', '1', '3', '0', '/admin/member/index/navid/8', 'glyphicon-user', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('37', 'MALL_NAV_SHIPPING_WA', '配送方式', '35', '26,35,37', '2', '3', '99', null, 'glyphicon-road', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('2', 'CMS_SYSTEM', '系统设置', '0', '2', '2', '1', '0', null, 'glyphicon-cog', '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('37', 'MALL_NAV_DELIVERY', '配送方式', '35', '26,35,37', '2', '3', '99', '/admin/delivery/index/navid/37', 'glyphicon-road', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('2', 'CMS_SYSTEM', '系统设置', '0', '2', '2', '1', '0', null, 'glyphicon-cog', '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('9', 'NAV_ADMIN_INFO', '我的信息', '7', '2,7,9', '2', '3', '99', '/admin/member/edit/navid/9', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('6', 'NAV_SYSTEM_SET', '基本配置', '5', '2,5,6', '1', '3', '0', '/admin/system/index/navid/6', 'glyphicon-cog', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('21', 'NAV_WX_MENU', '自定义菜单', '20', '3,20,21', '1', '3', '0', '/admin/wechat/menu/navid/21', 'glyphicon-link', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('15', 'WEB_SET', '前台设置', '0', '15', '8', '1', '0', '', 'glyphicon-globe', '1', '0', null);
 INSERT INTO `keep_admin_menu` VALUES ('16', 'NAV_WEB_SEO', 'SEO设置', '5', '2,5,16', '98', '3', '0', '/admin/seo/index/navid/16', 'glyphicon-tags', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('26', 'MALL_GOODS', '商品管理', '0', '26', '4', '1', '99', null, 'glyphicon-th', '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('26', 'MALL_GOODS', '商品管理', '0', '26', '4', '1', '99', null, 'glyphicon-th', '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('13', 'NAV_ADMIN_LEVEL', '级别管理', '11', '2,11,13', '2', '3', '0', '/admin/level/index/navid/13', 'glyphicon-user', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('17', 'WEB_EXT_SET', '基本设置', '15', '2,15,17', '1', '2', '0', '', '', '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('17', 'WEB_EXT_SET', '基本设置', '15', '2,15,17', '1', '2', '0', '', '', '5', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('10', 'NAV_ADMIN_PWD', '修改密码', '7', '2,7,10', '3', '3', '99', '/admin/member/passcode/navid/10', 'glyphicon-lock', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('12', 'NAV_ADMIN_BRANCH', '部门管理', '11', '2,11,12', '1', '3', '0', '/admin/branch/index/navid/12', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('27', 'MALL_ORDER', '订单管理', '0', '27', '5', '1', '99', null, 'glyphicon-list-alt', '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('4', 'NODE_WELCOME_ANNOUNC', '系统公告', '1', '1,4', '99', '2', '99', null, null, '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('34', 'MALL_NAV_BRAND', '品牌管理', '31', '26,31,34', '4', '3', '99', '/admin/brand/index/navid/34', 'glyphicon-bold', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('20', 'NODE_WX_SET', '微信设置', '3', '3,20', '1', '2', '0', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('4', 'NODE_WELCOME_ANNOUNC', '系统公告', '1', '1,4', '1', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('34', 'MALL_NAV_BRAND', '品牌管理', '31', '26,31,34', '5', '3', '99', '/admin/brand/index/navid/34', 'glyphicon-bold', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('20', 'NODE_WX_SET', '微信设置', '3', '3,20', '1', '2', '0', null, null, '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('18', 'WEB_SET_REGIST', '用户注册', '17', '2,17,18', '1', '3', '0', '/admin/web/regist/navid/18', 'glyphicon-thumbs-up', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('25', 'MALL_USER', '用户管理', '0', '25', '3', '1', '99', null, 'glyphicon-user', '1', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('5', 'NODE_SYSTEM_SET', '系统设置', '2', '2,5', '1', '2', '0', null, null, '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('11', 'NODE_ADMIN_BELONG', '权限管理\r\n', '2', '2,11', '3', '2', '0', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('11', 'NODE_ADMIN_BELONG', '权限管理\r\n', '2', '2,11', '3', '2', '0', null, null, '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('28', 'MALL_STATISTIC', '数据统计', '0', '28', '6', '1', '99', null, 'glyphicon-stats', '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('35', 'MALL_NODE_SHIPPING', '配送管理', '26', '26,35', '3', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('35', 'MALL_NODE_SHIPPING', '配送管理', '26', '26,35', '3', '2', '99', null, null, '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('30', 'MALL_NAV_GOODS', '商品列表', '29', '26,29,30', '1', '3', '99', '/admin/goods/index/navid/30', 'glyphicon-th', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('31', 'MALL_NODE_CONFIG', '商品配置', '26', '26,31', '2', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('31', 'MALL_NODE_CONFIG', '商品配置', '26', '26,31', '2', '2', '99', null, null, '5', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('22', 'NAV_WX_CUSTOM', '微信客服', '20', '3,20,22', '2', '3', '0', '/admin/wechat/custom/navid/22', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('3', 'CMS_EXT', '扩展管理', '0', '3', '9', '1', '0', null, 'glyphicon-magnet', '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('7', 'NODE_ADMIN_MANAGE', '后台用户', '2', '2,7', '2', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('7', 'NODE_ADMIN_MANAGE', '后台用户', '2', '2,7', '2', '2', '99', null, null, '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('33', 'MALL_NAV_SPECIFIC', '规格管理', '31', '26,31,33', '3', '3', '99', '/admin/specific/index/navid/33', 'glyphicon-paperclip', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('29', 'MALL_NODE_GOODS', '商品管理', '26', '26,29', '1', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('29', 'MALL_NODE_GOODS', '商品管理', '26', '26,29', '1', '2', '99', null, null, '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('32', 'MALL_NAV_CATEGORY', '商品分类', '31', '26,31,32', '1', '3', '99', '/admin/category/index/navid/32', 'glyphicon-th-large', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('19', 'NAV_WEB_LINK', '友情链接', '5', '2,5,19', '99', '3', '0', '/admin/link/index/navid/19', 'glyphicon-link	', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('38', 'MALL_NAV_GOODS_ADD', '添加商品', '29', '26,29,38', '2', '3', '99', '/admin/goods/add/navid/30', 'glyphicon-th', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('39', 'MALL_NAV_CAT_ADD', '添加分类', '31', '26,31,39', '2', '3', '99', '/admin/category/add/navid/32', 'glyphicon-paperclip', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('40', 'NAV_ADMIN_MALL', '商城配置', '5', '2,5,40', '2', '3', '0', '/admin/mall/index/navid/40', 'glyphicon-cog', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('41', 'MALL_NAV_SERVICE', '服务管理', '31', '26,31,41', '4', '3', '99', null, null, '0', '1', null);
 
 -- ----------------------------
 -- Table structure for keep_admin_node
@@ -242,6 +243,43 @@ CREATE TABLE `keep_mall_config` (
 -- Records of keep_mall_config
 -- ----------------------------
 INSERT INTO `keep_mall_config` VALUES ('1', 'index_template', '首页模板', 'index', '1', '首页模板');
+
+-- ----------------------------
+-- Table structure for keep_mall_delivery
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_mall_delivery`;
+CREATE TABLE `keep_mall_delivery` (
+  `id` int(25) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_mall_delivery
+-- ----------------------------
+INSERT INTO `keep_mall_delivery` VALUES ('1', '默认物流', '默认物流', '1', '哈哈');
+INSERT INTO `keep_mall_delivery` VALUES ('5', '到店自提', '到店自提', '1', '测试haha');
+
+-- ----------------------------
+-- Table structure for keep_mall_logistics
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_mall_logistics`;
+CREATE TABLE `keep_mall_logistics` (
+  `id` int(25) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_mall_logistics
+-- ----------------------------
+INSERT INTO `keep_mall_logistics` VALUES ('1', 'HUI', '顺丰快递', '1', null);
 
 -- ----------------------------
 -- Table structure for keep_mall_service
@@ -336,6 +374,36 @@ INSERT INTO `keep_web_icon//暂时没啥用` VALUES ('22', '满星标', 'glyphic
 INSERT INTO `keep_web_icon//暂时没啥用` VALUES ('23', '空星标', 'glyphicon-star-empty', 'glyphicon glyphicon-star-empty', '1', '');
 INSERT INTO `keep_web_icon//暂时没啥用` VALUES ('24', '对号', 'glyphicon-ok', 'glyphicon glyphicon-ok', '1', '');
 INSERT INTO `keep_web_icon//暂时没啥用` VALUES ('25', '错号', 'glyphicon-remove', 'glyphicon glyphicon-remove', '1', '');
+
+-- ----------------------------
+-- Table structure for keep_web_info
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_web_info`;
+CREATE TABLE `keep_web_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `title` varchar(64) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `url` varchar(64) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `space` int(4) unsigned NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_web_info
+-- ----------------------------
+INSERT INTO `keep_web_info` VALUES ('1', 'common_footer_info', '关于我们', null, 'www.yiqianyun.com', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('2', 'common_footer_info', '联系我们', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('3', 'common_footer_info', '商家入驻', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('4', 'common_footer_info', '友情链接', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('5', 'common_footer_info', '站点地图', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('6', 'common_footer_info', '手机商城', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('7', 'common_footer_info', '商城社区', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('8', 'common_footer_info', '企业文化', null, 'javascript:void(0);', null, '0', '1', null);
+INSERT INTO `keep_web_info` VALUES ('9', 'common_footer_info', '帮助中心', null, 'javascript:void(0);', null, '0', '1', null);
 
 -- ----------------------------
 -- Table structure for keep_wechat_config

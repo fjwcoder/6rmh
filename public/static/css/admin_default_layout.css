@@ -31,7 +31,7 @@ nav.navbar div.container-fluid .navbar-toggle{
 }
 nav.navbar-nav{background-color: white;}
 .navbar-default{background-color: white; border: 0;}
-nav.navbar .navbar-collapse ul li{min-width: 120px; }
+nav.navbar .navbar-collapse ul li{min-width: 120px;}
 nav.navbar .navbar-collapse li.nav-node-bottom{border-bottom: 1px solid #e5e5e5; margin: 5px 0; }
 nav.navbar .navbar-collapse li.nav-node-all{ border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; margin: 5px 0;}
 nav.navbar .navbar-collapse .glyphicon{color: #f75809;}
@@ -42,7 +42,9 @@ nav.navbar .navbar-collapse .dropdown-menu{padding: 0; border: 0;
 }
 nav.navbar .navbar-header button.navbar-toggle{margin-top: 10px; margin-right: 10px;}
 nav.navbar .navbar-header span.glyphicon-off{margin-top: 17px; margin-right: 17px;}
+.dropdown a{font-size: 16px;}
 .dropdown-menu li a{padding: 2px 20px; font-size: 14px;}
+
 /*==================================主页iframe  CSS=========================================*/
 div.cms-panel{top: 60px; left: 0; bottom: 0;}
 div.iframe-content-title{border-bottom: 1px solid #e0e0e0; margin-bottom: 5%; height: 50px; line-height: 50px;}

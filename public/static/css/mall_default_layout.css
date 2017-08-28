@@ -1,17 +1,32 @@
 @import "keep_base.css";/*公共css*/
 
-/*==================================Mall顶部=========================================*/
 .abs{position: absolute;}
 li, ul{list-style: none; margin: 0;}
 a{color: #8e8e8e;}
-a:hover{color: #272727;}
+a:hover{color: #8e8e8e;}
+/*==================================Mall登录页面=========================================*/
+.login-header{top: 0;}
+.login-footer{bottom: 0;}
+.login-panel{width: 1200px; margin: 0 auto; height: 450px; 
+border: 1px solid #8e8e8e; margin-top: 110px; }
+/*==================================Mall顶部=========================================*/
+
 
 header.web-top{height: 26px; margin: 0; background: #f0f0f0;}
 div.content-panel{width: 1200px; margin: 0 auto; line-height: 26px;}
 .web-top li{font-size: 14px; text-align: center; }
 .web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
 .web-top ul.pull-right li{float: right!important; margin-left: 32px;}
-/*==================================Mall头部=========================================*/
+/*==================================Mall内容=========================================*/
+.footer p{height: 26px; line-height: 26px;}
+.footer p a{margin: 0 10px;}
 
+/*==================================Mall头部=========================================*/
+/*.fa{height: 12px; width: 12px;}*/
+.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px; color: #f75809;}
 
 /*==================================Mall内容=========================================*/
+div.footer ul li{float: left!important;}
+
+
+

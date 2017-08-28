@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>用户登录</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link href="css/style.css" rel="stylesheet">-->
+    <title><{$header.title}></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+    <!--<link href="css/style.css" rel="stylesheet">-->
     </head>
-    <body>
-    用户登录
+    <body class="login-body abs" data-ng-app="loginApp" data-ng-controller="loginCtrl" style="background: url(<{$header.loginbg}>);">
+        <div class="login-header wp_100 abs h100">
+            <div class="header-logo hp_100 wp_33"></div>
+            <div class="header-title hp_100 wp_10"></div>
+        </div>
+        <div class="login-panel">
+
+        </div>
+
+
+        <{include file="./public/footer"/}>
+        
+    <script>
+        var app = angular.module('loginApp', []);
+        app.controller('loginCtrl', function($scope){
+
+        });
+    </script>
     </body>
 </html>
