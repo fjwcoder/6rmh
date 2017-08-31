@@ -239,6 +239,7 @@ class Category extends Manage
     //修改状态
     public function status(){
         $id = input('id', 0, 'intval');
+        
         $result = $this->changeStatus($id);
         
         if($result['status']){
@@ -250,17 +251,20 @@ class Category extends Manage
 
     public function changeStatus($id=0){
         $cat = db('mall_category', [], false) -> where(array('id'=>$id)) -> find();
- 
+
         if($cat['status'] == 1){
 
             $cat_tree = Db::name('mall_category') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>2]);
         }else{
             //由 锁定->启用 需要判断父级状态
-            $in = substr($cat['id_list'], 0, strlen($cat['id_list'])-2);
-            $status = Db::name('mall_category') -> where("id in ($in) and status=2") -> select();
-            if($status){
-                return ['status'=>false, 'content'=>'父级锁定，不可启用']; exit;
+            if($cat['pid'] != 0){
+                $in = substr($cat['id_list'], 0, strlen($cat['id_list'])-2);
+                $status = Db::name('mall_category') -> where("id in ($in) and status=2") -> select();
+                if($status){
+                    return ['status'=>false, 'content'=>'父级锁定，不可启用']; exit;
+                }
             }
+
             $cat_tree = Db::name('mall_category') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>1]);
         }
 
