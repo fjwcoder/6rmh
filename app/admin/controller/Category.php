@@ -42,7 +42,7 @@ class Category extends Manage
         $nav = adminNav();
         $keyword = input('post.keyword', '', 'htmlspecialchars,trim');
         if(!empty($keyword)){
-            //这个还没写好！！！！！！！
+            //关键字的这个还没写好！！！！！！！
             $id_list = Db::name('mall_category') -> where('title', 'like', $keyword.'%') -> find();
             $cat_list = Db::name('mall_category') ->where('id_list', 'like', $id_list['id_list'].'%') -> select();
         }else{
@@ -116,6 +116,9 @@ class Category extends Manage
         $this->assign('pid_list', $pid_list);
 
         $list = db('mall_category', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        foreach($list as $k=>$v){
+            $list[$k]['prex'] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $v['deep']);
+        }
         $this->assign('list', $list);
         $this->assign('header', ['title'=>'添加分类', 'icon'=>$nav[$navid]['icon'], 'form'=>'add', 'navid'=>$navid]);
         return $this->fetch('category');
@@ -139,7 +142,11 @@ class Category extends Manage
         }
         $this->assign('pid_list', $pid_list);
         $this->assign('result', $category);
+
         $list = db('mall_category', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        foreach($list as $k=>$v){
+            $list[$k]['prex'] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $v['deep']);
+        }
         $this->assign('list', $list);
         
         $this->assign('header', ['title'=>'编辑分类:  【'.$category['title'].'】', 'icon'=>$nav[$navid]['icon'], 'form'=>'edit', 'navid'=>$navid]);
@@ -167,13 +174,13 @@ class Category extends Manage
         if($type=='add'){
             if($data['id_list'] == 0){ //顶级类别
                 $data['pid'] = 0;
-                $data['level'] = 1;
+                $data['deep'] = 1;
                 $data['id_list'] = '';
-                $max = db('mall_category', [], false) ->where(array('pid'=>0, 'level'=>1)) -> max('sort');
+                $max = db('mall_category', [], false) ->where(array('pid'=>0, 'deep'=>1)) -> max('sort');
             }else{ 
                 $id_list = explode(',', $data['id_list']);
                 $data['pid'] = $id_list[count($id_list)-1];
-                $data['level'] = count($id_list)+1;
+                $data['deep'] = count($id_list)+1;
                 $max = db('mall_category', [], false) -> where(array('pid'=>$data['pid'])) ->max('sort');
             }
 
@@ -198,13 +205,13 @@ class Category extends Manage
 
             if($data['id_list'] == 0){ //顶级类别
                 $data['pid'] = 0;
-                $data['level'] = 1;
+                $data['deep'] = 1;
                 $data['id_list'] = '';
-                $max = db('mall_category', [], false) ->where(array('pid'=>0, 'level'=>1)) -> max('sort');
+                $max = db('mall_category', [], false) ->where(array('pid'=>0, 'deep'=>1)) -> max('sort');
             }else{
                 $id_list = explode(',', $data['id_list']);
                 $data['pid'] = $id_list[count($id_list)-1];
-                $data['level'] = count($id_list)+1;
+                $data['deep'] = count($id_list)+1;
                 $max = db('mall_category', [], false) -> where(array('pid'=>$data['pid'])) ->max('sort');
             }
             $data['sort'] = intval($max)+1;

@@ -11,25 +11,63 @@
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
-    <!--<link href="css/style.css" rel="stylesheet">-->
     </head>
-    <body class="login-body abs" data-ng-app="loginApp" data-ng-controller="loginCtrl" style="background: url(<{$header.loginbg}>);">
+    <body data-ng-app="myApp" data-ng-controller="loginCtrl" class="login-body abs"  style="background: url(<{$header.loginbg}>);">
         <div class="login-header wp_100 abs h100">
-            <div class="header-logo hp_100 wp_33"></div>
-            <div class="header-title hp_100 wp_10"></div>
+            <div class="login-header-panel hp_100">
+                <a href="javascript: void(0);">
+                    <img class="login-logo pull-left" src="__STATIC__/images/company/logo.jpg"/>
+                </a>
+                
+                <div class="login-title text-center pull-left">欢迎登录</div>
+                <!--<div class="login-icons pull-right text-center">
+
+                </div>-->
+            </div>
+            
         </div>
         <div class="login-panel">
-
+            <div class="login-panel-img pull-left hp_100 w700">
+                <a href="javascript: void(0);">
+                    <img class="pull-right" src="__STATIC__/images/company/loginPic.jpg"/>
+                </a>
+            </div>
+            <div class="login-panel-content pull-left text-center">
+                <form action="login/login" method="post">
+                    <div class="web-login-div input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user" ></i>
+                        </span>
+                        <input class="form-control" name="login[name]" placeholder="会员名/邮箱/手机号" required/>
+                        <!--<span class="input-verify" ng-show="myForm.user.$invalid">
+                        <span ng-show="myForm.user.$error.required">*</span>-->
+                    </div>
+                    <div class="web-login-div input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock" ></i>
+                        </span>
+                        <input class="form-control" name="login[password]" required/>
+                    </div>
+                        
+ 
+                    <div class="web-login-div ">
+                        <button class="submit-btn" type="submit">登录</button/>
+                    </div>
+                </form>
+            </div>
         </div>
-
-
-        <{include file="./public/footer"/}>
+        <script>
+            var app = angular.module('myApp', []);
+        </script>
+        <div class="abs wp_100 h70">
+            <{include file="./public/footer"/}>
+        </div>
         
-    <script>
-        var app = angular.module('loginApp', []);
-        app.controller('loginCtrl', function($scope){
+        <script>
+            app.controller('loginCtrl', function($scope){
+                
+            });
 
-        });
-    </script>
+        </script>
     </body>
 </html>

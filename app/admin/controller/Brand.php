@@ -72,7 +72,6 @@ class Brand extends Manage
         $this->assign('catlist', $list);
 
         $result = db('mall_brand', [], false) -> where(array('id'=>$id)) ->find();
-
         $this->assign('result', $result);
         $this->assign('header', ['title'=>'编辑品牌', 'icon'=>$nav[$navid]['icon'], 'form'=>'edit', 'navid'=>$navid]);
         return $this->fetch('brand');

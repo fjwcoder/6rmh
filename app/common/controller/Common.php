@@ -17,20 +17,19 @@ use think\Cache;
 class Common extends Controller
 {
     protected function _initialize(){
-        $auth = new Authority();
-        Config::set('IS_WEB_CLOSE', false);
-        // 1.查看网站是否关停
-        if(Config::get('IS_WEB_CLOSE') == true){
-            return $this->redirect('/index/close/index');
-            die;
+        // Session::set(Config::get('USER_KEY'), 1);//测试账号
+        
+        #是否登录
+        // if(!Authority::isLogin()){
+        if( Session::get(Config::get('USER_KEY')) ){
+            //登陆后，每次跳转，都设置一下session，保持登录状态
+            Session::set(Config::get('USER_KEY'), Session::get(Config::get('USER_KEY')));
+            
+        }else{
+            session(null);
+            return $this->redirect('/index/login/index');
+            exit;
         }
-
-        // Session::set(Config::get('USER_KEY'), 1); //测试
-        //2.查看是否登录
-        // if(!$auth->isLogin()){
-        //     return $this->redirect('/index/login/index');
-        //     die;
-        // }
     }
     
 }

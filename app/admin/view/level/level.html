@@ -7,7 +7,7 @@
         <div class="form-group">
             <label for="max" class="col-sm-3 control-label">最高量级：</label>
             <div class="col-sm-5">  
-                <input id="max" type="text" class="form-control" name="max" value="<{$already.max}>" readonly required/>
+                <input id="max" type="text" class="form-control" name="max" <{if $header.form == "edit"}> value="<{$already.max}>"<{else}> value="" <{/if}> readonly required/>
 
             </div>
             <th class="th-hint t_l">量级越大，级别越低（该数值不可更改）</th>
@@ -22,7 +22,7 @@
                 <{/if}>
             </label>
             <div class="col-sm-5">  
-                <input id="level" type="text" class="form-control" name="level" value="<{$already.level}>" readonly required/>
+                <input id="level" type="text" class="form-control" name="level" <{if $header.form=="add"}>value=""<{else}>value="<{$result.level}>" <{/if}> readonly required/>
             </div>
             <th class="th-hint t_l">量级越大，级别越低（该数值不可更改）</th>
         </div>

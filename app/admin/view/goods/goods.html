@@ -1,0 +1,184 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>"  enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="cat" class="col-sm-3 control-label">类别：</label>
+            <div class="col-sm-3">  
+                <select class="form-control" name="category" >
+                    <{volist name="category" id="vo"}>
+                    <option value="<{$vo.id_list}>"><{$vo.title}>(<{$vo.deep}>)</option>
+                    <{/volist}>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">产品名称：</label>
+            <div class="col-sm-5">  
+                <input id="name" type="text" class="form-control" name="name" <{if $header.form == "edit"}>value="<{$result.name}>" <{else}>value=""<{/if}> placeholder="必填" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sub_name" class="col-sm-3 control-label">副标题：</label>
+            <div class="col-sm-9">  
+                <input id="name" type="text" class="form-control" name="sub_name" <{if $header.form == "edit"}>value="<{$result.sub_name}>" <{else}>value=""<{/if}>/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="key_words" class="col-sm-3 control-label">关键字：</label>
+            <div class="col-sm-9">  
+                <input id="name" type="text" class="form-control" name="key_words" <{if $header.form == "edit"}>value="<{$result.key_words}>" <{else}>value=""<{/if}>/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="brand" class="col-sm-3 control-label">品牌：</label>
+            <div class="col-sm-3">  
+                <select class="form-control" name="brand" >
+                    <{volist name="brand" id="vo"}>
+                    <option value="<{$vo.id}>"><{$vo.title}></option>
+                    <{/volist}>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="col-sm-3 control-label">销售价：</label>
+            <div class="col-sm-2">  
+                <input id="price" type="text" class="form-control" name="price" <{if $header.form == "edit"}>value="<{$result.price}>" <{else}>value=""<{/if}> placeholder="必填" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cost_price" class="col-sm-3 control-label">成本价：</label>
+            <div class="col-sm-2">  
+                <input id="cost_price" type="text" class="form-control" name="cost_price" <{if $header.form == "edit"}>value="<{$result.cost_price}>" <{else}>value=""<{/if}>/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sell_price" class="col-sm-3 control-label">市场价：</label>
+            <div class="col-sm-2">  
+                <input id="sell_price" type="text" class="form-control" name="sell_price" <{if $header.form == "edit"}>value="<{$result.sell_price}>" <{else}>value=""<{/if}>/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pic" class="col-sm-3 control-label">上传图片</label>
+            <div class="col-sm-2">  
+                待开发
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="weight" class="col-sm-3 control-label">重量：</label>
+            <div class="col-sm-2">  
+                <input id="weight" type="text" class="form-control" name="weight" <{if $header.form == "edit"}>value="<{$result.weight}>" <{else}>value=""<{/if}> placeholder="必填"  required/>
+                
+            </div>
+            <span class="help-block">kg</span>
+        </div>
+
+        <div class="form-group">
+            <label for="bait" class="col-sm-3 control-label">鱼饵价格：</label>
+            <div class="col-sm-2">  
+                <input id="bait" type="text" class="form-control" name="bait" <{if $header.form == "edit"}>value="<{$result.bait}>" <{else}>value="10"<{/if}> placeholder="必填"  required/>
+            </div>
+            <span class="help-block">鱼饵价格x：购买该产品每满x元赠送一个鱼饵(默认10)</span>
+            
+        </div>
+
+        <div class="form-group">
+            <label for="point" class="col-sm-3 control-label">赠送积分：</label>
+            <div class="col-sm-2">  
+                <input id="point" type="text" class="form-control" name="point" <{if $header.form == "edit"}>value="<{$result.point}>" <{else}>value=""<{/if}>"  />
+            </div>
+            <span class="help-block">购买该产品赠送的积分数，如果不填写，则1RMB=1积分</span>
+            
+        </div>
+
+        <div class="form-group">
+            <label for="free_shipping" class="col-sm-3 control-label">免邮费：</label>
+            <div class="col-sm-2">  
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="free_shipping" value="1" />免邮费
+                <input type="radio" class="radio-inline" name="free_shipping" value="2" checked/>不免邮费
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="free_shipping" value="1" checked/>免邮费
+                    <input type="radio" class="radio-inline" name="free_shipping" value="2" />不免邮费
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="free_shipping" value="1" />免邮费
+                    <input type="radio" class="radio-inline" name="free_shipping" value="2" checked/>不免邮费
+                    <{/if}>
+                <{/if}>
+            </div>
+            <span class="help-block">如果启用，则不判断重量是否增加邮费</span>
+            
+        </div>
+
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" />上架（启用）
+                <input type="radio" class="radio-inline" name="status" value="2" checked/>下架（锁定）
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>上架（启用）
+                    <input type="radio" class="radio-inline" name="status" value="2"/>下架（锁定）
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />上架（启用）
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>下架（锁定）
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+
+            <div class="col-sm-12">
+                <script id="editor" type="text/plain" style="width: 100%; height: 600px;">
+                    <{if $header.form == "edit"}>
+                        <{$result.detail}>
+                    <{/if}>
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="decription" class="col-sm-3 control-label">描述：</label>
+            <div class="col-sm-5">
+                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$result.description}><{/if}></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">
+                <textarea id="remark"  class="form-control" name="remark" rows=3><{if $header.form != "add"}><{$result.remark}><{/if}></textarea>
+            </div>
+        </div>    
+
+        <{if $header.form=="edit"}>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+    
+    <!--config文件： 官方建议和实例化页面置于同一文件下-->
+    <!--<script type="text/javascript" charset="utf-8" src="./ueditor.config.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="__STATIC__/js/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATIC__/js/plugin/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__STATIC__/js/plugin/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+        var ueditor = UE.getEditor('editor');
+    </script>
+
+<{/block}>

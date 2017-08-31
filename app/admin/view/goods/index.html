@@ -1,0 +1,42 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>商品ID</th>
+                <th>名称</th>
+                <th>价格</th>        
+                <th>库存</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <{volist name="list" id="vo"}>
+            <tr>
+                <td><{$vo.id}></td>
+                <td><{$vo.name}></td>
+                <td><{$vo.price}></td>
+                <td><{$vo.amount}></td>
+
+                <td>
+                    <{switch name="vo['status']"}>
+                        <{case value="1"}>上架<{/case}>
+                        <{case value="2"}>下架<{/case}>
+                        <{default/}>其他
+                    <{/switch}>
+                </td>
+                <td>
+                    <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="编辑"></span></a>
+                    <a href="javascript: void(0);"><span data-toggle="modal" data-target="#myModal_0"  class="glyphicon glyphicon-trash data-delete" title="删除"></span></a>
+                </td>
+            </tr>
+            <{/volist}>
+        </tbody>
+
+    </table>
+</div>
+    
+    
+<{/block}>

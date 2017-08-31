@@ -33,6 +33,12 @@ class Think
         'view_depr'   => DS,
         // 是否开启模板编译缓存,设为false则每次都会重新编译
         'tpl_cache'   => true,
+        
+    ];
+
+    protected $mobile_tpl = [
+        // 移动端模板路径
+        'mobile_view_path' => APP_PATH.'mobile'.DS.'view'.DS,
     ];
 
     # 原生构造函数，modify by fjw in 2017.8.25
@@ -52,7 +58,7 @@ class Think
         if (empty($this->config['view_path'])) {
             $module = request() -> module();
             if( ($module==='index') && (isMobile()===true) ){
-                $this->config['view_path'] = APP_PATH.'mobile'.DS.'view'.DS;
+                $this->config['view_path'] = $this->mobile_tpl['mobile_view_path'];
             }else{
                 $this->config['view_path'] = App::$modulePath . 'view' . DS;
             }

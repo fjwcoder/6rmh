@@ -1,12 +1,19 @@
-<div data-ng-app="myApp" data-ng-controller="userCtrl" class="footer login-footer abs wp_100 h70 text-center">
+<div  data-ng-controller="footerCtrl"  class="footer login-footer hp_100 wp_100 text-center">
     <p>
-        <!--<a data-ng-repeat="x in footers" href="#">{{x}}</a>-->
+        <a class="ng-cloak" ng-cloak data-ng-repeat="x in footers" href="{{x.url}}" target="_blank" ng-bind="x.title"></a>
     </p>
+    <p ng-bind="company"></p>
 </div>
 <script>
-    var app = angular.module('myApp', []);
-    app.controller('userCtrl', function($scope, $http){
-        // $http.get('/index/common/footersinfo');
+    
+    app.controller('footerCtrl', function($scope, $http){
+        $http.get('/index/index/footerinfo')
+        .then(function successCallback(response){
+            $scope.footers = response.data.footer;
+            $scope.company = response.data.company;
+        }, function errorCallback(response){
+
+        });
     });
 
 </script>

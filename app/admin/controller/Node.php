@@ -141,7 +141,7 @@ class Node extends Manage
                     $html .= '<h3 class="panel-title">'.$node[$i]['title'].'</h3>';
                     $html .= '</div>';
                 }else{
-                    if($node[$i]['isnode'] == 1){
+                    if($node[$i]['isnode'] >0){
                         $html .= '<div class=" panel-body node-panel-body">';
                     }else{
                         $html .= '<label class="checkbox-inline">';
@@ -152,7 +152,7 @@ class Node extends Manage
                 }
 
                 $this->recursion($node[$i]['id']);
-                if( ($node[$i]['deep'] != 1) && ($node[$i]['isnode'] == 1)){
+                if( ($node[$i]['deep'] != 1) && ($node[$i]['isnode'] >0)){
                     $html .= '</div>';
                 }
             }

@@ -212,43 +212,6 @@ function cryptCode($data='', $operation='ENCODE', $key=''){
     return $result;
 }
 
-
-function authCode1($string,$operation,$key=''){ 
-    $key= $key?$key:substr(md5($string), 0, 4); 
-    $key_length=strlen($key); 
-    $string=$operation=='DECODE'?base64_decode($string):substr(md5($string.$key),0,8).$string; 
-    $string_length=strlen($string); 
-    $rndkey=$box=array(); 
-    $result=''; 
-    for($i=0;$i<=255;$i++){ 
-           $rndkey[$i]=ord($key[$i%$key_length]); 
-        $box[$i]=$i; 
-    } 
-    for($j=$i=0;$i<256;$i++){ 
-        $j=($j+$box[$i]+$rndkey[$i])%256; 
-        $tmp=$box[$i]; 
-        $box[$i]=$box[$j]; 
-        $box[$j]=$tmp; 
-    } 
-    for($a=$j=$i=0;$i<$string_length;$i++){ 
-        $a=($a+1)%256; 
-        $j=($j+$box[$a])%256; 
-        $tmp=$box[$a]; 
-        $box[$a]=$box[$j]; 
-        $box[$j]=$tmp; 
-        $result.=chr(ord($string[$i])^($box[($box[$a]+$box[$j])%256])); 
-    } 
-    if($operation=='DECODE'){ 
-        if(substr($result,0,8)==substr(md5(substr($result,8).$key),0,8)){ 
-            return substr($result,8); 
-        }else{ 
-            return''; 
-        } 
-    }else{ 
-        return str_replace('=','',base64_encode($result)); 
-    } 
-}
-
 // +----------------------------------------------------
 // |加密解密的方法，存在有效时间
 // |$string: 加解密字段
@@ -256,7 +219,7 @@ function authCode1($string,$operation,$key=''){
 // |$crypt: 加解密秘钥
 // |$expriy: 密文有效期
 // +----------------------------------------------------
-function authCode0($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
+function authCode($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
 {
 	$ckey_length = 4;
     if(empty($crypt)){
@@ -305,18 +268,36 @@ function authCode0($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
 	}
 }
 
-function ksetcookie($array, $key = 'user'){
+// function ksetcookie($array, $key){
+//     foreach($array as $k=>$v){
+//         $array[$k] = authCode($v, 'ENCODE');
+//     }
+//     cookie($key, $array);
+//     return true;
+// }
+
+// function kgetcookie($key){
+//     $cookie = cookie($key);
+//     dump($cookie);
+//     foreach($cookie as $k=>$v){
+//         $cookie[$k] = authCode($v, 'DECODE');
+//     }
+//     dump($cookie);
+//     return $cookie;
+// }
+
+function encodeCookie($array, $key){
     foreach($array as $k=>$v){
-        $array[$k] = cryptCode($v, 'ENCODE');
+        $array[$k] = authCode($v, 'ENCODE', $k);
     }
     cookie($key, $array);
     return true;
 }
 
-function kgetcookie($key = 'user'){
+function decodeCookie($key){
     $cookie = cookie($key);
     foreach($cookie as $k=>$v){
-        $cookie[$k] = cryptCode($v, 'DECODE');
+        $cookie[$k] = authCode($v, 'DECODE', $k);
     }
     return $cookie;
 }
@@ -328,6 +309,7 @@ function mallConfig(){
     }else{
         $config = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
         $config = getField($config);
+        $config = array_merge(webConfig(), $config);
         // cache('MALL_CONFIG', $config); 缓存注释
     }
 

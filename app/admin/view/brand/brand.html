@@ -39,7 +39,12 @@
             <div class="col-sm-5">
                 <select class="form-control" name="catid" required>
                     <{volist name="catlist" id="vo"}>
-                        <option value="<{$vo.id}>" <{if $result.catid==$vo.id}>selected<{/if}> ><{$vo.title}>(级别<{$vo.level}>)</option>
+                        <{if $header.form == "add"}>
+                            <option value="<{$vo.id}>" ><{$vo.title}>(级别<{$vo.deep}>)</option>
+                        <{else}>
+                            <option value="<{$vo.id}>" <{if $result.catid==$vo.id}>selected<{/if}> ><{$vo.title}>(级别<{$vo.deep}>)</option>
+                        <{/if}>
+                        
                     <{/volist}>
 
                 </select>

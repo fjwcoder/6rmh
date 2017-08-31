@@ -3,30 +3,50 @@
 .abs{position: absolute;}
 li, ul{list-style: none; margin: 0;}
 a{color: #8e8e8e;}
-a:hover{color: #8e8e8e;}
+a:hover{color: #f75809;}
+.submit-btn{background-color: #f40; border: 0; color: white;}
+.submit-btn:hover{background-color: #f52b00;}
+.footer p, .footer p a{font-size: 12px;}
+span.input-verify{color: red;}
 /*==================================Mall登录页面=========================================*/
 .login-header{top: 0;}
+.login-header .login-header-panel{width: 1200px; margin: 0 auto; padding: 15px 5%;}
+.login-logo{width: 290px; height: 70px; }
+.login-header div.login-title{height: 50px; margin-top: 10px; width: 200px; border-left: 1px solid #e0e0e0;
+line-height: 50px; font-size: 30px; font-weight: 500; color: #f75809;}
 .login-footer{bottom: 0;}
-.login-panel{width: 1200px; margin: 0 auto; height: 450px; 
-border: 1px solid #8e8e8e; margin-top: 110px; }
+.login-panel{width: 1200px; margin: 0 auto; height: 450px;  margin-top: 110px; }
+
+.login-panel-content{height: 90%; width: 400px; border: 1px solid #e0e0e0;
+    -moz-box-shadow: 5px 3px 20px #949894;
+    -webkit-box-shadow: 5px 3px 20px #949894; 
+    box-shadow: 5px 3px 20px #949894;
+    padding: 45px 30px;
+}
+div.web-login-div{height: 32px; margin: 30px 20px;}
+/*div.web-login-div input{width: 230px; height: 36px;}*/
+div.web-login-div .glyphicon{color: #f75809;}
+div.web-login-div button{width: 260px; height: 36px;}
 /*==================================Mall顶部=========================================*/
 
 
-header.web-top{height: 26px; margin: 0; background: #f0f0f0;}
+header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0;}
 div.content-panel{width: 1200px; margin: 0 auto; line-height: 26px;}
 .web-top li{font-size: 14px; text-align: center; }
 .web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
 .web-top ul.pull-right li{float: right!important; margin-left: 32px;}
+.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px; color: #f75809;}
 /*==================================Mall内容=========================================*/
-.footer p{height: 26px; line-height: 26px;}
-.footer p a{margin: 0 10px;}
+div.web-content{margin-top: 26px;}
 
 /*==================================Mall头部=========================================*/
 /*.fa{height: 12px; width: 12px;}*/
-.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px; color: #f75809;}
 
-/*==================================Mall内容=========================================*/
+
+/*==================================footer内容=========================================*/
 div.footer ul li{float: left!important;}
+.footer p{height: 26px; line-height: 26px; margin: 0;}
+.footer p a{margin: 0 10px;}
 
 
 

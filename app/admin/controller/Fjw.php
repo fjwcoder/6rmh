@@ -4,13 +4,14 @@ namespace app\admin\controller;
 use app\common\controller\Common;
 use think\Controller;
 use think\Db;
+use think\Config;
 // use think\Model;
 // use think\Request;
 class Fjw extends Controller
 {   
     public function index(){
-        $m = new Model();
-        print_r($m); die;
+        Config::get('config.json');
+        return dump(config());
     }
     //解密
     public function decode(){

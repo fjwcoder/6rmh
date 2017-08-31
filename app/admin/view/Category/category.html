@@ -23,10 +23,14 @@
                     <{volist name="list" id="vo"}>
                         <!--不显示本品类-->
                         <{if $header.form == "add"}>
-                        <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(级别<{$vo.level}>)</option>
+                        <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>>
+                            <{$vo.prex}>(<{$vo.deep}>)<{$vo.title}>
+                        </option>
                         <{else}>
                             <{if $vo.id != $result.id}>
-                            <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(级别<{$vo.level}>)</option>
+                            <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>>
+                                <{$vo.prex}>(<{$vo.deep}>)<{$vo.title}>
+                            </option>
                             <{/if}>
                         <{/if}>
                     <{/volist}>
