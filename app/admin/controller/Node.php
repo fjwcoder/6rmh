@@ -37,6 +37,7 @@ class Node extends Manage
         global $node, $html;
         $navid = input('navid', 8, 'intval');
         $id = input('id', 2, 'intval');
+        
         if(($navid == 8) && ($id == Session::get(Config::get('USER_KEY')))){
             return $this->error('不能配置自己的权限');
         }
@@ -59,9 +60,10 @@ class Node extends Manage
         $html = '';
         $this->recursion(0);
         $this->assign('header', ['icon'=>'glyphicon-filter','title'=>'扩展管理->节点配置', 
-            'form'=>"/request()->module()/request()->controller()/edit", 'navid'=>$navid, 'id'=>$id]);
+            'form'=>"/".request()->module()."/".request()->controller()."/edit", 'navid'=>$navid, 'id'=>$id]);
         $this->assign('node', $html);
         //查出被配置用户的节点项
+
         $this->assign('checked', getAdminNode($id));
         return $this->fetch();
     }
@@ -99,7 +101,7 @@ class Node extends Manage
             }
 
             //无论如何，直接成功
-            return $this->success('配置成功', "/request()->module()/request()->controller()/index/navid/$post[navid]/id/$post[id]");
+            return $this->success('配置成功', "/".request()->module()."/".request()->controller()."/index/navid/$post[navid]/id/$post[id]");
         }else{
             $id_list = '';
             foreach($post['node'] as $k=>$v){ //把id_list 接成字符串
@@ -123,7 +125,7 @@ class Node extends Manage
 
         }
         if($result){
-            return $this->success('配置成功', "/request()->module()/request()->controller()/index/navid/$post[navid]/id/$post[id]");
+            return $this->success('配置成功', "/".request()->module()."/".request()->controller()."/index/navid/$post[navid]/id/$post[id]");
         }else{
             return $this->error('配置失败');
         }

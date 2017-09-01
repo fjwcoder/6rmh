@@ -7,7 +7,7 @@
 # +-------------------------------------------------------------
 namespace app\admin\controller;
 use app\common\controller\Manage;
-use app\common\controller\Common;
+use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Session;
 use think\Cookie;
@@ -69,43 +69,63 @@ class Goods extends Manage
         if(request()->post()){
             return $this->dataPost('add');
         }
+        $mallObj = new Mall();
         $navid = input('navid', 30, 'intval');
         $nav = adminNav();
-        $category = db('mall_category', [], false) -> where(['status'=>1]) -> order('id_list, sort') -> select();
-        $this->assign('category', $category);
-        $brand = db('mall_brand', [], false) -> where(['status'=>1]) -> order('id') -> select();
-        $this->assign('brand', $brand);
+
+        $this->assign('category', $mallObj->getCatetory());
+        $this->assign('promotion', $mallObj->getPromotion());
+        $this->assign('service', $mallObj->getService()); //服务可以有多个
+        $this->assign('brand', $mallObj->getBrand());//品牌可以多个
+
+        $this->assign('sercheck', []);
+        $this->assign('picture', []);
         $this->assign('header', ['title'=>'添加商品', 'icon'=>$nav[$navid]['icon'], 'form'=>'add', 'navid'=>$navid]);
         return $this->fetch('goods');
 
     }
 
     public function edit(){
-        
+
         if(request()->post()){
             return $this->dataPost('edit');
         }
+        $mallObj = new Mall();
         $navid = input('navid', 0, 'intval');
         $nav = adminNav();
         $id = input('id', 0, 'intval');
 
-        $category = db('mall_category', [], false) -> where(['status'=>1]) -> order('id_list, sort') -> select();
-        $this->assign('category', $category);
-        $brand = db('mall_brand', [], false) -> where(['status'=>1]) -> order('id') -> select();
-        $this->assign('brand', $brand);
+        $this->assign('category', $mallObj->getCatetory());
+        $this->assign('promotion', $mallObj->getPromotion());
+        $this->assign('service', $mallObj->getService()); //服务可以有多个
+        $this->assign('brand', $mallObj->getBrand());//品牌可以多个
 
         $goods = Db::name('goods') -> alias('a') 
             -> join('goods_detail b', 'a.id=b.gid', 'LEFT')
             -> where(['a.id'=>$id, 'a.userid'=>'b.uid']) -> find();
 
+        $this->assign('sercheck', explode(';', $goods['service']));
+
+        $this->assign('picture', $mallObj->getGoodsImg($id));
+        
+
         $goods['detail'] = htmlspecialchars_decode(html_entity_decode($goods['detail']));
         $this->assign('result', $goods);
         $this->assign('header', ['title'=>'编辑商品:  【'.$goods['name'].'】', 'icon'=>$nav[$navid]['icon'], 'form'=>'edit', 'navid'=>$navid]);
+
         return $this->fetch('goods');
     }
 
     public function dataPost($type=''){
         $post = request()->post();
+
+        if(!empty($_FILES)){
+            $upload = uploadImg('goods'.DS.'image');
+            if($upload['status'] == false){
+                return $this->error('图片上传失败！'); exit;
+            }
+        }
+
         $data['catid_list'] = $post['category'];
         $id_list = explode(',', $data['catid_list'] );
         unset($post['navid'], $post['category']);
@@ -114,9 +134,20 @@ class Goods extends Manage
         }
         $data['catid'] = $id_list[count($id_list)-1];
         $data['point'] = empty($data['point'])?$data['price']:$data['point'];
+        if(!empty($data['detail'])){
+            $detail = htmlspecialchars(stripslashes(trim($data['detail'])));
+            unset($data['detail']);
+        }   
 
-        $detail = htmlspecialchars(stripslashes($data['editorValue']));
-        unset($data['editorValue']);
+        #处理促销活动和关联服务
+        if(!empty($data['services'])){
+            $data['service'] = '';
+            foreach($data['services'] as $k=>$v){
+                $data['service'] .= $v.';';
+            }
+            unset($data['services']);
+        }
+        
         if($type=='add'){
             
             if(Session::get(Config::get('ADMIN_AUTH_NAME'))){
@@ -127,33 +158,51 @@ class Goods extends Manage
             
             $result = Db::name('goods') -> insert($data);
             $id = Db::name('goods') ->getLastInsID();
-            if($id>0 && !empty($detail)){
-                $result = Db::name('goods_detail') -> insert(['uid'=>$data['userid'], 'gid'=>$id, 'detail'=>$detail]);
+            if($id>0){
+                if(isset($detail)){
+                    $result = Db::name('goods_detail') -> insert(['uid'=>$data['userid'], 'gid'=>$id, 'detail'=>$detail]);
+                }
             }
-            
-            
         }else{
             $id = $data['id'];
-            
-
-            // unset($data['id'], $data['password'] );
-            // $result = db('admin_member', [], false) -> where(array('id'=>$id)) ->update($data);
+            unset($data['id']);
+            if(isset($detail)){
+                $updetail = Db::name('goods_detail', [], false) -> where(array('gid'=>$id)) -> update(['detail'=>$detail]);
+            }
+            $result = Db::name('goods', [], false) -> where(array('id'=>$id)) ->update($data);    
         }
 
-        
-        if($result){
-            return $this->success('成功', request()->controller().'/index');
+        if(isset($upload['path'])){
+            foreach($upload['path'] as $k=>$v){
+                $img[$k] = ['gid'=>$id, 'pic'=>$v];
+            }
+            $insertImg = Db::name('goods_picture') -> insertAll($img);
+        }
+
+        if($type=='add'){
+            if($result){
+                return $this->success('添加成功', request()->controller().'/index');
+            }else{
+                return $this->error('添加失败');
+            }
         }else{
-            return $this->error('失败');
+            if($result>0 || $updetail>0 || $insertImg){
+                return $this->success('修改成功', request()->controller().'/index');
+            }else{
+                return $this->error('修改失败或没有修改项');
+            }
         }
+        
+        
     }
 
-    public function showDetail(){
-        $id = 2;
-        $detail = db('goods_detail', [], false) -> where(['gid'=>2]) -> find();
 
-        echo htmlspecialchars_decode(html_entity_decode($detail['detail']));
+    public function delImg(){
+        $id = input('id', 0, 'intval');
+
+
 
     }
+
 
 }

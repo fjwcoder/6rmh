@@ -128,8 +128,7 @@ class Member extends Manage
             $id = $data['id'];
             #头像上传
             if(!empty($_FILES)){
-                $upload = uploadImg('images'.DS.'headimg');
-                // return dump($upload);
+                $upload = uploadHeadImg('images'.DS.'headimg');
                 if($upload['status']){
                     $data['headimg'] = $upload['path'];
                 }else{

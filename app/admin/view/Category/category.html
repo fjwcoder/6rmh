@@ -18,8 +18,10 @@
             <label for="id_list" class="col-sm-3 control-label">类别链：</label>
             <div class="col-sm-5">
                 <select class="form-control" name="id_list" required>
-                    
+
                     <option value="0" <{if $pid_list == 0}>selected<{/if}> >顶级类别</option>
+
+                    
                     <{volist name="list" id="vo"}>
                         <!--不显示本品类-->
                         <{if $header.form == "add"}>
@@ -38,6 +40,9 @@
                 </select>
                 <p class="help-block title-0">选择类别后，新添加/修改的类别会处于该选项类别链之下</p>
             </div>
+            <label class="col-sm-2 control-label">
+                <a class="pull-left" href="<{:url('category/index', ['navid'=>32])}>">查看分类</a>
+            </label>
         </div>
 
         <div class="form-group">
@@ -81,24 +86,42 @@
         </div>
 
         <div class="form-group">
-            <label for="specific" class="col-sm-3 control-label">关联规格：</label>
+            <label for="promotion" class="col-sm-3 control-label">关联促销：</label>
             <div class="col-sm-5">
-                待开发
+                待开发 // 如果不用，就不开发了:)
             </div>
         </div>
 
         <div class="form-group">
             <label for="service" class="col-sm-3 control-label">关联服务：</label>
-            <div class="col-sm-5">
-                待开发
+            <div class="col-sm-5 panel panel-default">
+                <div class="panel-body">
+                    <{volist name="service" id="vo"}>
+                    <label class="checkbox-inline">
+                        <input class="checkbox-input" id="services-<{$vo.id}>" type="checkbox" name="services[]" value="<{$vo.id}>"/><{$vo.title}>
+                    </label>
+                    <{/volist}>
+                </div>
             </div>
+            <label for="service" class="col-sm-2 control-label">
+                <a class="pull-left" href="<{:url('service/index', ['navid'=>41])}>">查看服务</a>
+            </label>
         </div>
 
         <div class="form-group">
             <label for="brand" class="col-sm-3 control-label">关联品牌：</label>
-            <div class="col-sm-5">
-                待开发
+            <div class="col-sm-5 panel panel-default">
+                <div class="panel-body">
+                    <{volist name="brand" id="vo"}>
+                    <label class="checkbox-inline">
+                        <input class="checkbox-input" id="brands-<{$vo.id}>" type="checkbox" name="brands[]" value="<{$vo.id}>"/><{$vo.title}>
+                    </label>
+                    <{/volist}>
+                </div>
             </div>
+            <label for="brand" class="col-sm-2 control-label">
+                <a class="pull-left" href="<{:url('brand/index', ['navid'=>34])}>">查看品牌</a>
+            </label>
         </div>
 
         <div class="form-group">
@@ -131,5 +154,15 @@
         <{include file="iframe/submit"}>
 
     </form>
+    <script>
 
+            <{volist name="sercheck" id="vo"}>
+                $('#services-<{$vo}>').attr('checked', true);
+            <{/volist}>
+
+            <{volist name="bracheck" id="vo"}>
+                $('#brands-<{$vo}>').attr('checked', true);
+            <{/volist}>
+    </script>
+    
 <{/block}>

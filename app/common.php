@@ -412,7 +412,7 @@ function getAdminLevel(){
 // +----------------------------------------------------
 // | 图片上传方法，只支持上传到本地服务器
 // +----------------------------------------------------
-function uploadImg($dir=''){
+function uploadHeadImg($dir=''){
     $static = DS.'upload'.DS.$dir.DS;
     $upurl = ROOT_PATH.'public'.DS.'static'.$static;
     
@@ -437,6 +437,34 @@ function uploadImg($dir=''){
     return ['status'=>false]; 
 }
 
+function uploadImg($dir=''){
+    $static = DS.'upload'.DS.$dir.DS;
+    $upurl = ROOT_PATH.'public'.DS.'static'.$static;
+    
+    if (! file_exists ( $upurl )) {
+        mkdir ( "$upurl", 0777, true );
+    }
+    $path = [];
+
+    $keys = array_keys($_FILES);
+    foreach($keys as $key){
+        $files = request()->file($key);
+        if(!empty($files)){
+            foreach($files as $key=>$file){
+                $info = $file -> move($upurl);
+
+                if($info){
+
+                    $path[] = '__STATIC__'.$static.$info->getSaveName();
+                }else{
+                    // 上传失败获取错误信息
+                    return ['status'=>false, 'error'=>$file->getError()]; exit; //只要有一张上传失败，都算失败
+                }
+            }
+        }
+    }
+    return ['status'=>true, 'path'=>$path]; 
+}
 
 function getAdminNode($userid){
     $result = [];

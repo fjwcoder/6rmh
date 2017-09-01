@@ -1,19 +1,23 @@
 @import "keep_base.css";/*公共css*/
+/*#f75备注809*/
 
 .abs{position: absolute;}
 li, ul{list-style: none; margin: 0;}
+i.fa{color: #6ad4c9;}
 a{color: #8e8e8e;}
-a:hover{color: #f75809;}
-.submit-btn{background-color: #f40; border: 0; color: white;}
-.submit-btn:hover{background-color: #f52b00;}
+
+.submit-btn{background-color: #6ad4c9; border: 0; color: white;}
+.submit-btn:hover{background-color: #6ad4c9;}
 .footer p, .footer p a{font-size: 12px;}
 span.input-verify{color: red;}
+.line-height-26{line-height: 26px;}
+input{outline: none;}
 /*==================================Mall登录页面=========================================*/
 .login-header{top: 0;}
 .login-header .login-header-panel{width: 1200px; margin: 0 auto; padding: 15px 5%;}
 .login-logo{width: 290px; height: 70px; }
 .login-header div.login-title{height: 50px; margin-top: 10px; width: 200px; border-left: 1px solid #e0e0e0;
-line-height: 50px; font-size: 30px; font-weight: 500; color: #f75809;}
+line-height: 50px; font-size: 30px; font-weight: 500; color: #6ad4c9;}
 .login-footer{bottom: 0;}
 .login-panel{width: 1200px; margin: 0 auto; height: 450px;  margin-top: 110px; }
 
@@ -24,29 +28,86 @@ line-height: 50px; font-size: 30px; font-weight: 500; color: #f75809;}
     padding: 45px 30px;
 }
 div.web-login-div{height: 32px; margin: 30px 20px;}
-/*div.web-login-div input{width: 230px; height: 36px;}*/
-div.web-login-div .glyphicon{color: #f75809;}
+div.web-login-div .glyphicon{color: #6ad4c9;}
 div.web-login-div button{width: 260px; height: 36px;}
 /*==================================Mall顶部=========================================*/
 
 
 header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0;}
-div.content-panel{width: 1200px; margin: 0 auto; line-height: 26px;}
+div.content-panel{width: 1200px; margin: 0 auto; }
+
 .web-top li{font-size: 14px; text-align: center; }
 .web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
 .web-top ul.pull-right li{float: right!important; margin-left: 32px;}
-.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px; color: #f75809;}
-/*==================================Mall内容=========================================*/
-div.web-content{margin-top: 26px;}
+.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px;}
+
 
 /*==================================Mall头部=========================================*/
-/*.fa{height: 12px; width: 12px;}*/
+input#web-keyword-input{height: 36px; width: 400px;}
+header.web-header{height: 100px; font-style: none; z-index: 999;}
+#web-logo{height: 140px; width: 200px; z-index: 999;
+    -moz-box-shadow: 1px -4px 15px #949894;
+    -webkit-box-shadow: 1px -4px 15px #949894; 
+    box-shadow: 1px -4px 15px #949894;
+}
+#web-keywords-input{height: 36px; width: 500px; border: 2px solid #6ad4c9;
+    margin: 3% 0 5px 15%; padding: 3px 10px;}
+#web-keywords-button{margin-left: -5px; height: 36px; width: 65px; border: 2px solid #6ad4c9;
+background-color: #6ad4c9;}
+#web-keywords-button i.fa{color: white; font-size: 19px;}
+ul.hot-search{margin-left: 15%;}
+ul.hot-search li{text-align: center; margin-right: 10px;}
+
+div.shop-cart{margin: 2% 0 0 0; height: 40px; line-height: 40px; width: 200px; border: 1px solid #6ad4c9;
+    font-size: 18px; color: #6ad4c9;}
+i.fa-shopping-cart{font-size: 20px; color: #6ad4c9;}
+
+
+/*==================================Mall内容=========================================*/
+body.web-body{padding-top: 26px; 
+/*background-color: #f6f6f6;*/
+}
+div.navbar-panel{
+    /*background: #6ad4c9; */
+    height: 40px; 
+    /*line-height: 45px;*/
+width: 1000px; margin-left: 200px; padding-left: 20px;}
+div.navbar-panel ul li{margin: 16px 10px 0 10px; float: left;}
+div.navbar-panel ul li a{font-size: 16px; color: #272727; font-weight: 600;}
+div.navbar-panel ul li a:hover{color: #6ad4c9;}
+li.li-split{color: #8e8e8e;}
+
+div.banner-panel{height: 450px; margin-top: 10px;}
+img.banner-img{height: 450px; width: 100%;
+    -moz-box-shadow: 0px 3px 10px #949894;
+    -webkit-box-shadow: 0px 3px 10px #949894; 
+    box-shadow: 0px 3px 10px #949894;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*==================================footer内容=========================================*/
-div.footer ul li{float: left!important;}
-.footer p{height: 26px; line-height: 26px; margin: 0;}
-.footer p a{margin: 0 10px;}
+/*div.footer ul li{float: left!important; font-style: italic;}*/
+.footer p{height: 26px; line-height: 26px; margin: 0; font-style: italic;}
+.footer p a{margin: 0 10px; font-style: italic;}
 
 
 
+
+
+/*==================================common内容=========================================*/
+a:hover{color: #6ad4c9;}
