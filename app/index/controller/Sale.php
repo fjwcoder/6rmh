@@ -1,28 +1,60 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\common\controller\Mall as Mall;
+use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;
+use think\Db;
 
-class Index extends controller
+class Sale extends Common
 {
 
-    public function index(){
+    #立即够买
+    public function buy(){
+        $id = input('id', 0, 'intval');
+        $spec = input('spec', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        return $id.'=>'.$spec.'=>'.$num;
+        $mallObj = new Mall();
+        
 
-        // echo Session::get(Config::get('USER_ID')); die;
-        if(Session::get(Config::get('USER_ID'))){
-            $user = decodeCookie('user');
-        }
-        // $this->assign('user', ['']);
-
-
-        $config = mallConfig();
-        $this->assign('config', ['template'=>$config['mall_template']['value']
-            ]);
-        return $this->fetch($config['mall_template']['value']);
     }
+
+    #加入购物车
+    public function cart(){
+        $id = input('id', 0, 'intval');
+        $spec = input('spec', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        return $id.'=>'.$spec.'=>'.$num;
+        $mallObj = new Mall();
+        
+
+    }
+
+
+    public function collect(){
+        $id = input('id', 0, 'intval');
+        $spec = input('spec', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        return $id.'=>'.$spec.'=>'.$num;
+        $mallObj = new Mall();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     #======================================================angularjs的$http========================================================================

@@ -73,7 +73,7 @@ class Goods extends Manage
         $navid = input('navid', 30, 'intval');
         $nav = adminNav();
 
-        $this->assign('category', $mallObj->getCatetory());
+        $this->assign('category', $mallObj->getCatetory('status'));
         $this->assign('promotion', $mallObj->getPromotion());
         $this->assign('service', $mallObj->getService()); //服务可以有多个
         $this->assign('brand', $mallObj->getBrand());//品牌可以多个
@@ -95,7 +95,7 @@ class Goods extends Manage
         $nav = adminNav();
         $id = input('id', 0, 'intval');
 
-        $this->assign('category', $mallObj->getCatetory());
+        $this->assign('category', $mallObj->getCatetory('status'));
         $this->assign('promotion', $mallObj->getPromotion());
         $this->assign('service', $mallObj->getService()); //服务可以有多个
         $this->assign('brand', $mallObj->getBrand());//品牌可以多个
@@ -104,7 +104,7 @@ class Goods extends Manage
             -> join('goods_detail b', 'a.id=b.gid', 'LEFT')
             -> where(['a.id'=>$id, 'a.userid'=>'b.uid']) -> find();
 
-        $this->assign('sercheck', explode(';', $goods['service']));
+        $this->assign('sercheck', explode(',', $goods['service']));
 
         $this->assign('picture', $mallObj->getGoodsImg($id));
         
@@ -141,9 +141,9 @@ class Goods extends Manage
 
         #处理促销活动和关联服务
         if(!empty($data['services'])){
-            $data['service'] = '';
+            $data['service'] = '0';
             foreach($data['services'] as $k=>$v){
-                $data['service'] .= $v.';';
+                $data['service'] .= ','.$v;
             }
             unset($data['services']);
         }
@@ -176,7 +176,12 @@ class Goods extends Manage
             foreach($upload['path'] as $k=>$v){
                 $img[$k] = ['gid'=>$id, 'pic'=>$v];
             }
-            $insertImg = Db::name('goods_picture') -> insertAll($img);
+            if(isset($img)){
+                $insertImg = Db::name('goods_picture') -> insertAll($img);
+            }else{
+                $insertImg = true;
+            }
+            
         }
 
         if($type=='add'){
