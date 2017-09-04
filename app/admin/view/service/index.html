@@ -8,6 +8,7 @@
                 <th>编号</th>
                 <th>名称</th>
                 <th>服务</th>
+                <th>图片</th>
                 <th>状态</th>
                 <th>备注</th>
                 <th>操作</th>
@@ -19,6 +20,14 @@
                 <td><{$vo.id}></td>
                 <td><{$vo.title}></td>
                 <td><{$vo.value}></td>
+                <td style="padding: 0 8px;">
+                    <{if $vo.pic}>
+                    <img class="admin-member-headimg" src="<{$vo.pic}>"/>
+                    <{else}>
+                    <img class="admin-member-headimg" src="__STATIC__/images/admin/default_pic.png"/>
+                    <{/if}>
+                    
+                </td>
                 <td>
                     <{switch name="vo['status']"}>
                         <{case value="1"}>正常<{/case}>

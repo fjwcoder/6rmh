@@ -58,6 +58,7 @@ class Menu extends Manage
                 $html .= '<input class="cat-tree-input text-center" name="menu['.$cat_list[$i]['id'].']" value="'.$cat_list[$i]['title'].'"/>';
                 
                 $html .= '<a class="operate-a " href="/admin/menu/add/navid/24/id/'.$cat_list[$i]['id'].'" title="添加字分类"><i class="glyphicon glyphicon-plus-sign"></i></a>';
+                $html .= '<a class="operate-a pull-right" href="/admin/menu/del/id/'.$cat_list[$i]['id'].'" ><i class="glyphicon glyphicon-trash data-delete" title="删除"></i></a>';                
                 $html .= '<a class="operate-a pull-right" href="/admin/menu/edit/id/'.$cat_list[$i]['id'].'"  title="编辑"><i class="	glyphicon glyphicon-edit"></i></a>';
                 $html .= '<a class="operate-a pull-right" href="/admin/menu/status/id/'.$cat_list[$i]['id'].'"  ';
                 if($cat_list[$i]['status'] == 1){
@@ -86,10 +87,11 @@ class Menu extends Manage
         if(request()->post()){
             return $this->dataPost('add');
         }
+        
         $pid = input('id', 0, 'intval'); //父类别的id
         $navid = input('navid', 24, 'intval');
         $nav = adminNav();
-
+        
         $menu = Db::name('admin_menu') -> where(array('id'=>$pid)) -> find();
         if($menu){
             $pid_list = $menu['id_list'];
@@ -99,12 +101,15 @@ class Menu extends Manage
 
         $this->assign('pid_list', $pid_list);
 
-        $list = Db::name('admin_menu', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        // $list = Db::name('admin_menu', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        $list = Db::name('admin_menu', [], false)  ->order('id_list, sort') -> select();
         
         $this->assign('list', $list);
-        $this->assign('header', ['title'=>'添加菜单', 'icon'=>$nav[$navid]['icon'], 'form'=>'add', 'navid'=>$navid]);
+        $this->assign('level', getAdminLevel());
+            
+        $this->assign('header', ['title'=>'添加菜单', 'icon'=>$nav[$navid]['icon'], 'form'=>'add', 'navid'=>$navid]);           
         return $this->fetch('menu');
-
+    
     }
 
     public function edit(){
@@ -117,6 +122,7 @@ class Menu extends Manage
         $nav = adminNav();
 
         $menu = Db::name('admin_menu') -> where(array('id'=>$id)) -> find();
+        
         if($menu && $menu['pid'] != 0){
             $pid_list = Db::name('admin_menu') -> where(array('id'=>$menu['pid'])) -> value('id_list');
         }else{
@@ -124,9 +130,12 @@ class Menu extends Manage
         }
         $this->assign('pid_list', $pid_list);
         $this->assign('result', $menu);
-        $list = Db::name('admin_menu', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
-        $this->assign('list', $list);
+        // $list = Db::name('admin_menu', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        $list = Db::name('admin_menu', [], false) ->order('id_list, sort') -> select();
         
+        $this->assign('list', $list);
+        $this->assign('level', getAdminLevel());
+  
         $this->assign('header', ['title'=>'编辑菜单:  【'.$menu['title'].'】', 'icon'=>$nav[$navid]['icon'], 'form'=>'edit', 'navid'=>$navid]);
         return $this->fetch('menu');
     }
@@ -149,6 +158,7 @@ class Menu extends Manage
         foreach($post as $k=>$v){
             $data[$k] = $v;
         }
+        
         unset($data['navid']);
         if($type=='add'){
             if($data['id_list'] == 0){ //顶级类别
@@ -172,7 +182,7 @@ class Menu extends Manage
             $data['name'] = strtoupper($data['name']);
             
             //获取到自增ID
-            $insert = Db::name('admin_menu') -> insert($data); //有bug
+            $insert = Db::name('admin_menu') -> insert($data); 
             $id = Db::name('admin_menu') ->getLastInsID();
             $result = Db::name('admin_menu', [], false) -> where(array('id'=>$id)) 
                 -> update(['id_list'=>empty($data['id_list'])?strval($id):$data['id_list'].",$id"]);
@@ -182,7 +192,7 @@ class Menu extends Manage
         }else{
             $id = $data['id'];
             unset($data['id']);
-
+            
             //先把原来的父类别isnode-1
             $curr_cat = Db::name('admin_menu') -> where(['id'=>$id]) -> find();
             $sub_node = Db::name('admin_menu') -> where(['id'=>$curr_cat['pid']]) -> setDec('isnode', 1);
@@ -201,57 +211,95 @@ class Menu extends Manage
             $data['sort'] = intval($max)+1;
             $data['id_list'] = empty($data['id_list'])?strval($id):$data['id_list'].",$id";
             
-                $data['name'] = strtoupper($data['name']);
-           
+            $data['name'] = strtoupper($data['name']);
+            
+            
             //这地方最好是写成事务
             $result = Db::name('admin_menu', [], false) -> where(array('id'=>$id)) -> update($data);
             if($result){
+                
                 $result = Db::name('admin_menu', [], false) -> where(array('id'=>$data['pid'])) -> setInc('isnode', 1);
                 
                 $sql = " update keep_admin_menu set id_list = replace(id_list, '".$curr_cat['id_list']."', '".$data['id_list']."')";
                 $sql .= " where id_list like '".$curr_cat['id_list']."%' ";
                 Db::query($sql);
+    
             }
 
         }
-
+        
         if($result){
-            // return $this->success('成功', "Menu/index");
-            return $this->success('成功', request()->controller().'/index');
+            
+            return $this->success('成功', "Menu/index");
+            // return $this->success('成功', request()->controller().'/index');
         }else{
+            
             return $this->error('失败');
+        }
+    }
+
+    public function del(){
+        $id = Request::instance()->param('id');
+        $del = db('admin_menu', [], false) -> where(array('id'=>$id)) -> find();
+        $del_list = Db::name('admin_menu') 
+            -> where(" id_list like '".$del['id_list'].",%' or id_list='".$del['id_list']."' ")
+            -> delete();
+        if ($del_list) {
+            $this->success('删除成功', "Menu/index");
+        } else {
+            $this->error('删除失败');
         }
     }
 
     //修改状态
     public function status(){
         $id = input('id', 0, 'intval');
+
         $result = $this->changeStatus($id);
         
         if($result['status']){
             return $this->success($result['content'], "Menu/index");
-            // return $this->success($result['content'], request()->controller().'/index');
         }else{
             return $this->error($result['content']);
         }
     }
 
     public function changeStatus($id=0){
-        $cat = Db::name('admin_menu', [], false) -> where(array('id'=>$id)) -> find();
- 
+        $cat = db('admin_menu', [], false) -> where(array('id'=>$id)) -> find();
         if($cat['status'] == 1){
 
-            $cat_tree = Db::name('admin_menu') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>2]);
+            $cat_tree = Db::name('admin_menu') 
+                -> where(" id_list like '".$cat['id_list'].",%' or id_list='".$cat['id_list']."' ") 
+                -> update(['status'=>2]);
+            
         }else{
             //由 锁定->启用 需要判断父级状态
-            $in = substr($cat['id_list'], 0, strlen($cat['id_list'])-2);
-            $status = Db::name('admin_menu') -> where("id in ($in) and status=2") -> select();
-            if($status){
-                return ['status'=>false, 'content'=>'父级锁定，不可启用']; exit;
-            }
-            $cat_tree = Db::name('admin_menu') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>1]);
-        }
+            if($cat['pid'] != 0){
+                $in = substr($cat['id_list'], 0, strlen($cat['id_list'])-1);
+                $ins = substr($in,strlen($in)-1,1);
+                if($ins == ','){
+                    $in = str_replace(',','',$in);
+                }
 
+                $temp = explode(',', $cat['id_list']);
+                unset($temp[count($temp)-1]);
+                $arr = 'id in (0 ';
+                foreach($temp as $k=>$v){
+                    $arr .= ','.$v;
+                }
+                $arr .= ') and status=2';
+
+                $status = Db::name('admin_menu') -> where($arr) -> select();
+                if($status){
+                    return ['status'=>false, 'content'=>'父级锁定，不可启用']; exit;
+                }
+            }
+            
+            $cat_tree = Db::name('admin_menu')
+                -> where(" id_list like '".$cat['id_list'].",%' or id_list='".$cat['id_list']."' ") 
+                -> update(['status'=>1]);
+        }
+        
         if($cat_tree){
             return ['status'=>true, 'content'=>'修改成功'];
         }else{
