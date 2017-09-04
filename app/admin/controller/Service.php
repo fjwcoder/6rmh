@@ -90,10 +90,21 @@ class Service extends Manage
         
         unset($data['navid']);
         if($type=='add'){
-
+            
             $result = db('mall_service', [], false) -> insert($data);
         }else{
             $id = $data['id'];
+            #头像上传
+            if(!empty($_FILES)){
+                $upload = uploadImg('images'.DS.'pic');
+                // return dump($upload);
+                if($upload['status']){
+                    $data['pic'] = $upload['path'];
+                }else{
+                    return $this->error('头像上传失败');
+                }
+            }
+
             unset($data['id']);
             $result = db('mall_service', [], false) -> where(array('id'=>$id)) ->update($data);
         }

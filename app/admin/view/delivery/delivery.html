@@ -15,31 +15,7 @@
                 <input id="remark" type="text" class="form-control" name="remark" <{if $header.form=="add"}>value=""<{else}>value="<{$result.remark}>" <{/if}>required/>
             </div>
         </div>
-        <div class="form-group">
-            <label for="type" class="col-sm-3 control-label">配送方式：</label>
-            <div class="col-sm-5">
-                <{if $header.form=="add"}>
-                <input type="radio" class="radio-inline" name="type" value="默认物流" checked/>默认物流
-                <input type="radio" class="radio-inline" name="type" value="指定物流"/>指定物流
-                <input type="radio" class="radio-inline" name="type" value="到店自提"/>到店自提
-                <{else}>
-                    <{if $result.type=="默认物流"}>
-                    <input type="radio" class="radio-inline" name="type" value="默认物流" checked/>默认物流
-                    <input type="radio" class="radio-inline" name="type" value="指定物流"/>指定物流
-                    <input type="radio" class="radio-inline" name="type" value="到店自提"/>到店自提
-                    <{elseif $result.type=="指定物流"}>
-                    <input type="radio" class="radio-inline" name="type" value="默认物流"/>默认物流
-                    <input type="radio" class="radio-inline" name="type" value="指定物流" checked/>指定物流
-                    <input type="radio" class="radio-inline" name="type" value="到店自提"/>到店自提
-                    <{else}>
-                    <input type="radio" class="radio-inline" name="type" value="默认物流"/>默认物流
-                    <input type="radio" class="radio-inline" name="type" value="指定物流"/>指定物流
-                    <input type="radio" class="radio-inline" name="type" value="到店自提" checked/>到店自提
-                    <{/if}>
-
-                <{/if}>
-            </div>
-        </div>
+        
         <div class="form-group">
             <label for="status" class="col-sm-3 control-label">状态：</label>
             <div class="col-sm-5">

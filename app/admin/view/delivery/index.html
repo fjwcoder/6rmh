@@ -8,7 +8,6 @@
                 <th>编号</th>
                 <th>名称</th>
                 <th>备注</th>
-                <th>配送方式</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
@@ -19,14 +18,7 @@
                 <td><{$vo.id}></td>
                 <td><{$vo.title}></td>
                 <td><{$vo.remark}></td>
-                <td>
-                    <{switch name="vo['type']"}>
-                        <{case value="默认物流"}>默认物流<{/case}>
-                        <{case value="指定物流"}>指定物流<{/case}>
-                        <{case value="到店自提"}>到店自提<{/case}>
-                        <{default/}>其他
-                    <{/switch}>
-                </td>
+                
                 <td>
                     <{switch name="vo['status']"}>
                         <{case value="1"}>正常<{/case}>
