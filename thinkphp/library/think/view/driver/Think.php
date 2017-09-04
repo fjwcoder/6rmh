@@ -36,11 +36,6 @@ class Think
         
     ];
 
-    protected $mobile_tpl = [
-        // 移动端模板路径
-        'mobile_view_path' => APP_PATH.'mobile'.DS.'view'.DS,
-    ];
-
     # 原生构造函数，modify by fjw in 2017.8.25
     // public function __construct0($config = [])
     // {
@@ -56,9 +51,8 @@ class Think
     {
         $this->config = array_merge($this->config, $config);
         if (empty($this->config['view_path'])) {
-            $module = request() -> module();
-            if( ($module==='index') && (isMobile()===true) ){
-                $this->config['view_path'] = $this->mobile_tpl['mobile_view_path'];
+            if(isMobile()===true){
+                $this->config['view_path'] = App::$modulePath . 'mobile' . DS;
             }else{
                 $this->config['view_path'] = App::$modulePath . 'view' . DS;
             }

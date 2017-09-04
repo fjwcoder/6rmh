@@ -10,7 +10,7 @@ class Login extends controller
 
     public function index(){
 
-        if(Session::get(Config::get('USER_KEY'))){
+        if(Session::get(Config::get('USER_ID'))){
             #验证成功后，跳转
             return $this->redirect('/index/index/index');
         }
@@ -35,7 +35,7 @@ class Login extends controller
             return $this->error($check['content']); exit;
         }else{
             $user = $check['user'];
-            Session::set(Config::get('USER_KEY'), $user['id']);
+            Session::set(Config::get('USER_ID'), $user['id']);
 
             #验证成功后，跳转
             encodeCookie($user, 'user'); //设置加密cookie

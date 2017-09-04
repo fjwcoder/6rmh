@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\common\controller\Web;
+use app\common\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -11,14 +11,11 @@ class Index extends controller
 
     public function index(){
 
-        if(Session::get(Config::get('USER_KEY'))){
+        // echo Session::get(Config::get('USER_ID')); die;
+        if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
         // $this->assign('user', ['']);
-
-
-
-
 
 
         $config = mallConfig();
@@ -27,14 +24,32 @@ class Index extends controller
         return $this->fetch($config['mall_template']['value']);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #======================================================angularjs的$http========================================================================
     public function topInfo(){
         $config = mallConfig();
 
-        if(Session::get(Config::get('USER_KEY'))){
+        if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
             $data = [
                 'left'=> [
-                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/center/index', 'iconfont'=>''],
+                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/user/index', 'iconfont'=>''],
                     ['title'=>'定位', 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
                     // ['title'=>'注销', 'url'=>'javascript: void(0);', 'iconfont'=>'']
                 ]

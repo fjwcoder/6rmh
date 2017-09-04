@@ -76,7 +76,7 @@
 
         //,initialContent:'欢迎使用ueditor!'    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
 
-        ,autoClearinitialContent:true //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+        ,autoClearinitialContent:false //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
 
         //,focus:false //初始化时，是否让编辑器获得焦点true或false
 
@@ -350,8 +350,9 @@
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
         //默认过滤规则相关配置项目
-        ,disabledTableInTable:true  //禁止表格嵌套
         ,allowDivTransToP:false      //允许进入编辑器的div标签自动变成p标签
+        ,disabledTableInTable:true  //禁止表格嵌套
+        
         //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
 
 		// xss 过滤是否开启,inserthtml等操作

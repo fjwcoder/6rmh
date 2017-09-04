@@ -1,59 +1,75 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\common\controller\Mall as Mall;
+use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;
+use think\Db;
 
-class User extends Common
+class Goods extends controller
 {
 
     public function index(){
-        return 'User控制器';
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
-        
-        // return dump($user);
-        $mall_config = mallConfig();
-        $this->assign('config', ['template'=>$mall_config['index_template']['value']
-            ]);
-        // $this->assign('user', ['']);
-        return $this->fetch($mall_config['index_template']['value']);
+        $mallObj = new Mall();
+        $gid = input('gid', 0, 'intval');
+        $in = '(1,2)';
+        $goods = $mallObj->getGoodsInfo($in);
+        if($goods['status']){
+            echo $goods['content'].'<br>';
+            return dump($goods['data']);
+        }else{
+            return $goods['content'];
+        }
+
+
+        // $config = mallConfig();
+        // $this->assign('config', ['template'=>$config['mall_template']['value']
+        //     ]);
+        return $this->fetch();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #======================================================angularjs的$http========================================================================
     public function topInfo(){
-        $login = '/index/login/index';
+        $config = mallConfig();
+
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
             $data = [
                 'left'=> [
-                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/center/index', 'iconfont'=>''],
+                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/user/index', 'iconfont'=>''],
                     ['title'=>'定位', 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
                     // ['title'=>'注销', 'url'=>'javascript: void(0);', 'iconfont'=>'']
                 ]
-                // 'right'=> [
-                //     'mobile' => '/index/mobile/index', 
-                //     'order'=> '/index/order/index', 
-                //     'collection'=> '/index/collection/index', 
-                //     'center'=> '/index/center/index'
-                // ]
             ];
         }else{
             $data = [
                 'left' => [
-                    ['title'=>'欢迎来到六耳猕猴网', 'url'=>'/index/index/index', 'iconfont'=>''], 
-                    ['title'=>'欢迎登录', 'url'=>$login, 'iconfont'=>''],
+                    ['title'=>'欢迎来到'.$config['web_name']['value'], 'url'=>'/index/index/index', 'iconfont'=>''], 
+                    ['title'=>'欢迎登录', 'url'=>'/index/login/index', 'iconfont'=>''],
                     ['title'=>'免费注册', 'url'=>'/index/register/index', 'iconfont'=>''],
                     ['title'=>'定位', 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker']
                 ]
-                // 'right' => [
-                //     'mobile' => $login, 
-                //     'order'=> $login, 
-                //     'collection'=> $login, 
-                //     'center'=> $login
-                // ]
             ];
         }
         $data['right'] = [

@@ -40,14 +40,6 @@ $(document).ready(function(){
         $(this).removeClass('open');
     });
 
-    // 点击navbar 显示第一个
-    // $('li.dropdown').click(function(){
-    //     var url = $(this).find('ul.dropdown-menu a.navbar-li:first').attr('data-url');
-    //     if(url != '' && url != null && url != 'undefind'){
-    //         $('#iframe').attr('src', url); 
-    //     }
-    // });
-
 
     //修改iframe的src
     $('a.navbar-li').click(function(){

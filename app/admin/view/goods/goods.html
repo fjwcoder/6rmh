@@ -34,21 +34,17 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="brand" class="col-sm-3 control-label">品牌：</label>
-            <div class="col-sm-3">  
-                <select class="form-control" name="brand" >
-                    <{volist name="brand" id="vo"}>
-                    <option value="<{$vo.id}>"><{$vo.title}></option>
-                    <{/volist}>
-                </select>
-            </div>
-        </div>
+        
 
         <div class="form-group">
             <label for="price" class="col-sm-3 control-label">销售价：</label>
             <div class="col-sm-2">  
                 <input id="price" type="text" class="form-control" name="price" <{if $header.form == "edit"}>value="<{$result.price}>" <{else}>value=""<{/if}> placeholder="必填" required/>
+            </div>
+
+            <label for="sell_price" class="col-sm-2 control-label">市场价：</label>
+            <div class="col-sm-2">  
+                <input id="sell_price" type="text" class="form-control" name="sell_price" <{if $header.form == "edit"}>value="<{$result.sell_price}>" <{else}>value=""<{/if}>/>
             </div>
         </div>
 
@@ -56,20 +52,6 @@
             <label for="cost_price" class="col-sm-3 control-label">成本价：</label>
             <div class="col-sm-2">  
                 <input id="cost_price" type="text" class="form-control" name="cost_price" <{if $header.form == "edit"}>value="<{$result.cost_price}>" <{else}>value=""<{/if}>/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="sell_price" class="col-sm-3 control-label">市场价：</label>
-            <div class="col-sm-2">  
-                <input id="sell_price" type="text" class="form-control" name="sell_price" <{if $header.form == "edit"}>value="<{$result.sell_price}>" <{else}>value=""<{/if}>/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="pic" class="col-sm-3 control-label">上传图片</label>
-            <div class="col-sm-2">  
-                待开发
             </div>
         </div>
 
@@ -86,8 +68,9 @@
             <label for="bait" class="col-sm-3 control-label">鱼饵价格：</label>
             <div class="col-sm-2">  
                 <input id="bait" type="text" class="form-control" name="bait" <{if $header.form == "edit"}>value="<{$result.bait}>" <{else}>value="10"<{/if}> placeholder="必填"  required/>
+                
             </div>
-            <span class="help-block">鱼饵价格x：购买该产品每满x元赠送一个鱼饵(默认10)</span>
+            <p class="help-block title-0">鱼饵价格x：购买该产品每满x元赠送一个鱼饵(默认10)</p>
             
         </div>
 
@@ -97,8 +80,53 @@
                 <input id="point" type="text" class="form-control" name="point" <{if $header.form == "edit"}>value="<{$result.point}>" <{else}>value=""<{/if}>"  />
             </div>
             <span class="help-block">购买该产品赠送的积分数，如果不填写，则1RMB=1积分</span>
-            
         </div>
+
+        <div class="form-group">
+            <label for="promotion" class="col-sm-3 control-label">促销活动：</label>
+            <div class="col-sm-5 panel panel-default">
+                <div class="panel-body">
+                    <{volist name="promotion" id="vo"}>
+                    <input type="radio" class="radio-inline" name="promotion" value="<{$vo.id}>" /><{$vo.title}>
+                    <{/volist}>
+                </div>
+            </div>
+            <label for="service" class="col-sm-2 control-label">
+                <a class="pull-left" href="javascript: void(0);">查看促销</a>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="service" class="col-sm-3 control-label">关联服务：</label>
+            <div class="col-sm-5 panel panel-default">
+                <div class="panel-body">
+                    <{volist name="service" id="vo"}>
+                    <label class="checkbox-inline">
+                        <input class="checkbox-input" id="services-<{$vo.id}>" type="checkbox" name="services[]" value="<{$vo.id}>"/><{$vo.title}>
+                    </label>
+                    <{/volist}>
+                </div>
+            </div>
+            <label for="service" class="col-sm-2 control-label">
+                <a class="pull-left" href="<{:url('service/index', ['navid'=>41])}>">查看服务</a>
+            </label>
+        </div>
+
+
+        <div class="form-group">
+            <label for="brand" class="col-sm-3 control-label">品牌：</label>
+            <div class="col-sm-3">  
+                <select class="form-control" name="brand" >
+                    <{volist name="brand" id="vo"}>
+                    <option value="<{$vo.id}>"><{$vo.title}></option>
+                    <{/volist}>
+                </select>
+            </div>
+        </div>
+
+
+
+
 
         <div class="form-group">
             <label for="free_shipping" class="col-sm-3 control-label">免邮费：</label>
@@ -107,7 +135,7 @@
                 <input type="radio" class="radio-inline" name="free_shipping" value="1" />免邮费
                 <input type="radio" class="radio-inline" name="free_shipping" value="2" checked/>不免邮费
                 <{else}>
-                    <{if $result.status==1}>
+                    <{if $result.free_shipping==1}>
                     <input type="radio" class="radio-inline" name="free_shipping" value="1" checked/>免邮费
                     <input type="radio" class="radio-inline" name="free_shipping" value="2" />不免邮费
                     <{else}>
@@ -139,16 +167,27 @@
             </div>
         </div>
 
-        
         <div class="form-group">
+            <label for="preview" class="col-sm-3 control-label">图片预览：</label>
+            <div class="col-sm-9 panel panel-default">
+                <div class="panel-body">
+                    <{volist name="picture" id="vo"}>
+                        <img class="goods-pic-prew" src="<{$vo.pic}>"/>
 
-            <div class="col-sm-12">
-                <script id="editor" type="text/plain" style="width: 100%; height: 600px;">
-                    <{if $header.form == "edit"}>
-                        <{$result.detail}>
-                    <{/if}>
-                </script>
+                    <{/volist}>
+                </div>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pic" class="col-sm-3 control-label">上传图片：</label>
+            <div class="col-sm-9">
+                <input id="images" type="file" multiple accept="image/*" class="form-control fileinput" name="images[]" upurl=""/>
+                <p class="help-block title-0">图片可同时选择多张，自动按顺序上传</p>
+            </div>
+            <script>
+                initFileInput('images', $('input#images').attr('upurl'));
+            </script>
         </div>
 
         <div class="form-group">
@@ -165,6 +204,18 @@
             </div>
         </div>    
 
+        <div class="form-group">
+            <div class="col-sm-12">
+                <textarea id="editor" type="text/plain" name="detail" style="width: 100%; height: 600px;">
+                    <{if $header.form == "edit"}>
+                        <{$result.detail}>
+                    <{/if}>
+                </textarea>
+            </div>
+        </div>
+
+        
+
         <{if $header.form=="edit"}>
         <input type="hidden" name="id" value="<{$result.id}>"/>
         <{/if}>
@@ -178,7 +229,10 @@
     <script type="text/javascript" charset="utf-8" src="__STATIC__/js/plugin/ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="__STATIC__/js/plugin/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script>
-        var ueditor = UE.getEditor('editor');
+        var ueditor = UE.getEditor('editor',{autoSyncData:true});
+        <{volist name="sercheck" id="vo"}>
+            $('#services-<{$vo}>').attr('checked', true);
+        <{/volist}>
+        
     </script>
-
 <{/block}>

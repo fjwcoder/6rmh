@@ -28,7 +28,7 @@
 
 <script>
     <{volist name="checked" id="vo"}>
-        $('#menu-'+<{$vo.id}>).attr('checked', true);
+        $('#menu-<{$vo.id}>').attr('checked', true);
     <{/volist}>
 </script>   
 <{/block}>

@@ -7,7 +7,7 @@
 # +-------------------------------------------------------------
 namespace app\admin\controller;
 use app\common\controller\Manage;
-use app\common\controller\Common;
+use app\extend\controller\Mall;
 use think\Controller;
 use think\Session;
 use think\Cookie;
@@ -15,8 +15,6 @@ use think\Config;
 use think\Request;
 use think\Db;
 use think\Cache;
-use app\admin\model\GoodsCategory;
-// use think\Paginator;
 
 #+-----------------------------------
 #| navid 当前页面id
@@ -112,10 +110,17 @@ class Category extends Manage
         }else{
             $pid_list = 0;
         }
-
         $this->assign('pid_list', $pid_list);
 
-        $list = db('mall_category', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        $mallObj = new Mall();
+        $this->assign('brand', $mallObj->getBrand());//品牌可以多个
+        $this->assign('service', $mallObj->getService()); //服务可以有多个
+
+        // $promotion = $mallObj->getPromotion(); //促销同一时间只能有一个    待开发
+        $this->assign('sercheck', []);
+        $this->assign('bracheck', []);
+
+        $list = $mallObj->getCatetory();
         foreach($list as $k=>$v){
             $list[$k]['prex'] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $v['deep']);
         }
@@ -135,6 +140,7 @@ class Category extends Manage
         $nav = adminNav();
 
         $category = Db::name('mall_category') -> where(array('id'=>$id)) -> find();
+
         if($category && $category['pid'] != 0){
             $pid_list = Db::name('mall_category') -> where(array('id'=>$category['pid'])) -> value('id_list');
         }else{
@@ -143,7 +149,14 @@ class Category extends Manage
         $this->assign('pid_list', $pid_list);
         $this->assign('result', $category);
 
-        $list = db('mall_category', [], false) -> where(array('status'=>1)) ->order('id_list, sort') -> select();
+        $mallObj = new Mall();
+        $this->assign('brand', $mallObj->getBrand());//品牌可以多个
+        $this->assign('service', $mallObj->getService()); //服务可以有多个
+
+        $this->assign('sercheck', explode(';', $category['service']));
+        $this->assign('bracheck', explode(';', $category['brand']));
+
+        $list = $mallObj->getCatetory();
         foreach($list as $k=>$v){
             $list[$k]['prex'] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $v['deep']);
         }
@@ -170,7 +183,22 @@ class Category extends Manage
         foreach($post as $k=>$v){
             $data[$k] = $v;
         }
-        unset($data['navid']);
+
+        #处理服务和品牌
+        if(!empty($data['services'])){
+            $data['service'] = '';
+            foreach($data['services'] as $k=>$v){
+                $data['service'] .= $v.';';
+            }
+        }
+
+        if(!empty($data['brands'] )){
+            $data['brand'] = '';
+            foreach($data['brands'] as $k=>$v){
+                $data['brand'] .= $v.';';
+            }
+        }
+        unset($data['services'], $data['brands'], $data['navid']);
         if($type=='add'){
             if($data['id_list'] == 0){ //顶级类别
                 $data['pid'] = 0;
@@ -183,10 +211,11 @@ class Category extends Manage
                 $data['deep'] = count($id_list)+1;
                 $max = db('mall_category', [], false) -> where(array('pid'=>$data['pid'])) ->max('sort');
             }
-
+            
             $data['sort'] = intval($max)+1;
             $data['addtime'] = intval(time());
             $data['adduser'] = Session::get(Config::get('ADMIN_AUTH_NAME'));
+
             //获取到自增ID
             $insert = Db::name('mall_category') -> insert($data); //有bug
             $id = Db::name('mall_category') ->getLastInsID();
@@ -241,8 +270,10 @@ class Category extends Manage
         $id = input('id', 0, 'intval');
         
         $result = $this->changeStatus($id);
-        
+        // echo $result['content'];
+
         if($result['status']){
+
             return $this->success($result['content'], request()->controller().'/index');
         }else{
             return $this->error($result['content']);
@@ -254,11 +285,21 @@ class Category extends Manage
 
         if($cat['status'] == 1){
 
-            $cat_tree = Db::name('mall_category') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>2]);
+            $cat_tree = Db::name('mall_category') 
+                -> where(" id_list='".$cat['id_list']."' or id_list like '".$cat['id_list'].",%'  ") 
+                -> update(['status'=>2]);
+
+            // $sql = "update ";
+
         }else{
             //由 锁定->启用 需要判断父级状态
             if($cat['pid'] != 0){
-                $in = substr($cat['id_list'], 0, strlen($cat['id_list'])-2);
+                $temp = explode(',', $cat['id_list']);
+                unset($temp[count($temp)-1]);
+                $in = '0';
+                foreach($temp as $k=>$v){
+                    $in .= ','.$v;
+                }
                 $status = Db::name('mall_category') -> where("id in ($in) and status=2") -> select();
                 
                 if($status){
@@ -266,7 +307,9 @@ class Category extends Manage
                 }
             }
 
-            $cat_tree = Db::name('mall_category') -> where('id_list', 'like', $cat['id_list'].'%') -> update(['status'=>1]);
+            $cat_tree = Db::name('mall_category') 
+                -> where(" id_list='".$cat['id_list']."' or id_list like '".$cat['id_list'].",%'  ") 
+                -> update(['status'=>1]);
         }
 
         if($cat_tree){
