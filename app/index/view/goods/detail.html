@@ -77,7 +77,6 @@
                 </p>
             </div>
             
-            <!--<div class="goods-info"></div>-->
             <p class="goods-info">
                 <span class="item-title">重量：</span>
                 <{$goods.weight}>kg
@@ -102,7 +101,7 @@
             <div class="amount-number wp_100">
                 <p style="line-height: 45px;"><span class="item-title">库存：</span><{$goods.amount}>
                 <!--<i class="deal-num-fa fa fa-plus-square-o"></i>-->
-                <input id="buy-number" ng-model="buy_number" />
+                <input id="buy-number" ng-model="buy_number" title="填写购买数量"/>
                 <!--<i class="deal-num-fa fa fa-minus-square-o"></i>-->
 
                 </p>
@@ -114,13 +113,13 @@
                     <div>立即购买</div>
                 </a>-->
 
-                <a href="/index/sale/cart/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}">
-                    <div class="pull-right ">加入购物车</div>
+                <a href="/index/sale/cart/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">
+                    <button class="submit-btn ">加入购物车</button>
                 </a>
 
-                <a href="/index/sale/collect/id/<{$goods.id}>">
+                <!--<a href="/index/sale/collect/id/<{$goods.id}>">
                     <div>收藏</div>
-                </a>
+                </a>-->
                 
             </div>
             <p class="goods-service">
@@ -135,6 +134,9 @@
         <!--更多内容-->
         
         <div class="more-info wp_100">
+            <header class="more-info-navbar wp_100">
+
+            </header>
             <{$goods.detail | htmlspecialchars_decode}>
         </div>
     </div>
