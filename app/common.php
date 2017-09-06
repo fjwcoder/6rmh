@@ -290,6 +290,7 @@ function encodeCookie($array, $key){
     foreach($array as $k=>$v){
         $array[$k] = authCode($v, 'ENCODE', $k);
     }
+    
     cookie($key, $array);
     return true;
 }

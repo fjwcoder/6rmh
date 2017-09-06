@@ -17,22 +17,22 @@ class Goods extends controller
         $id = input('id', 0, 'intval');
 
         $config = mallConfig();
-        $this->assign('config', ['template'=>$config['mall_template']['value'] ]);
+        $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
 
         $mallObj = new Mall();
-        $goods = $mallObj->getGoodsDetail($id);
+        $goods = $mallObj->getGoodsDetail($id); //获取商品详情
         if($goods['status']){
-            // return dump($goods['data']); die;
+            // return dump($goods['data']);
             $this->assign('goods', $goods['data']);
             return $this->fetch('detail');
         }else{
 
         }
         
-
-        
-        
     }
+
+
+
 
 
 }

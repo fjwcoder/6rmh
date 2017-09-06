@@ -45,7 +45,36 @@
             <h4><{$goods.name}> </h4>
             <p class="goods-desc" title="<{$goods.description}>"><{$goods.description}></p>
             <div class="goods-price  wp_100">
+                <p>
+                    <span class="item-title">六 儿 价：</span>
+                    <span class="font-color-sub_main">¥</span>
+                    
+                    <{if $goods.promotion.type == 1}>
+                    <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}">
+                        
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <s >原价:<span ng-bind="{{price}}"></span></s>
 
+                    <{else}>
+                    <span class=" price" ng-bind="{{price}}"></span>
+                    <{/if}>
+                    
+                </p>
+                <p>
+                    <span class="item-title">促 销：</span>
+                    <span class="goods-promotion " title="<{$goods.promotion.description}>">
+                    <{$goods.promotion.title}>
+                    </span>
+                </p>
+                <p>
+                    <span class="item-title">来 源：</span>
+                    <{if $goods.userid == 0}>
+                        六儿官方
+                    <{else}>
+                        来源不明
+                    <{/if}>
+                </p>
             </div>
             
             <!--<div class="goods-info"></div>-->
@@ -58,12 +87,16 @@
                     免运费 
                 <{/if}>
             </p>
-                <ul>
-                    <li><span class="item-title">选择规格：</span></li>
-                    <{volist name="$goods.spec" id="vo"}>
-                        <li class="spec-li" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
-                    <{/volist}>
-                </ul>
+            
+            <ul>
+                <li><span class="item-title">选择规格：</span></li>
+                <style>
+                    
+                </style>
+                <{volist name="$goods.spec" id="vo"}>
+                    <li class=" default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
+                <{/volist}>
+            </ul>
 
             
             <div class="amount-number wp_100">
@@ -77,12 +110,12 @@
             </div>
             <div class="goods-buy wp_100">
                 <!--立即购买-->
-                <a href="/index/sale/buy/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}">
+                <!--<a href="/index/sale/buy/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}">
                     <div>立即购买</div>
-                </a>
+                </a>-->
 
                 <a href="/index/sale/cart/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}">
-                    <div>加入购物车</div>
+                    <div class="pull-right ">加入购物车</div>
                 </a>
 
                 <a href="/index/sale/collect/id/<{$goods.id}>">
@@ -109,9 +142,15 @@
 <script>
 
     app.controller('goodsCtrl', function($scope) {
-        $scope.buy_number = 1;
+        $scope.price = <{$goods.price}>;
+        <{if $goods.promotion.type==1}>
+            $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
+        <{/if}>
+        $scope.buy_number = 1; //购买数量初始化
+        
         $scope.specSelect = function($id) {
             $scope.specValue = $id; 
+            $scope.isChose = $id;
         }
     });
 

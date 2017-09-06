@@ -19,7 +19,7 @@ class Index extends controller
 
 
         $config = mallConfig();
-        $this->assign('config', ['template'=>$config['mall_template']['value']
+        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
             ]);
         return $this->fetch($config['mall_template']['value']);
     }
@@ -29,7 +29,7 @@ class Index extends controller
     public function topInfo(){
         $config = mallConfig();
 
-        if(Session::get(Config::get('USER_ID'))){
+        if(Session::get(Config::get('USER_ID'))){ //如果没有登录
             $user = decodeCookie('user');
             $data = [
                 'left'=> [
