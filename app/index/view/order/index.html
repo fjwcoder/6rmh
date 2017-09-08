@@ -1,0 +1,97 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<div  class=" content-panel " ng-controller="cartCtrl">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">购物车</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="more-info-detail table-title wp_100">
+        <div class=" wp_15">
+            <div class="hp_100 pull-left">
+                <input ng-model="checked"  type="checkbox"/>
+            </div>
+            &nbsp;全选
+        </div>
+        <div class=" wp_50">商品</div>
+        <div class=" wp_10">单价</div>
+        <div class=" wp_10">数量</div>
+        <div class=" wp_10">小计</div>
+        <div class=" wp_5">操作</div>
+    </div>
+    <div class="more-info-detail wp_100" >
+        <{volist name="carts" id="vo"}>
+            <div class="cart-goods-record  wp_100">
+                <div class="wp_15">
+                    
+                    <input ng-checked="{{m}}" type="checkbox"/>
+                    <a href="javascript: void(0);">
+                        <img title="<{$vo.sub_name}>" class="cart-goods-pic" src="<{$vo.pic}>"/>
+                    </a>
+                </div>
+                <div class="goods-detail wp_50">
+                    <p title="<{$vo.description}>"><{$vo.name}></p>
+                    <p>
+                        规格：<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="javascript: void(0);" class="pull-right">
+                            赠送鱼饵：<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;
+                            获得<{$vo.point}>积分
+                        </a>
+                    </p>
+                    <!--<a href="javascript: void(0);">促销活动：</a>-->
+                    <span class="goods-promotion " ><{$vo.promotion}></span>
+
+                </div>
+                <div class=" wp_10">
+                    <span class="font-color-sub_main">¥ <{$vo.price}></span>
+                    
+                </div>
+                <div class=" wp_10">
+                    <input class="cart-goods-num" name="number" value="<{$vo.num}>"/>
+                </div>
+                <div class=" wp_10">
+                    <span class="font-color-sub_main">¥ <{$vo.price*$vo.num}></span>
+                    
+                </div>
+                <div class=" wp_5">
+                    <a href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">
+                        删除
+                    </a>
+                </div>
+            </div>
+        <{/volist}>
+    </div>
+    <div class="more-info-navbar wp_100">
+        <ul  >
+            <li>
+                <div class="hp_100 pull-left">
+                    <input ng-checked="m" ng-model="checked" ng-click="allChose();"  type="checkbox"/>
+                </div>
+                &nbsp;全选
+            </li>
+            <li> <a href="javascript: void(0);" >删除选中商品</a></li>
+            <li><a href="<{:url('cart/delate')}>" >清除购物车</a></li>
+        </ul>
+
+        <a class="pull-right" href="javascript: void(0);" title="结算选中商品">
+            <button class="submit-btn-default ">去结算</button>
+        </a>
+    </div>
+</div>
+
+<script>
+    app.controller('cartCtrl', function($scope) {
+
+        $scope.allChose = function(){
+            $scope.m = true;  
+        }
+
+    });
+
+
+
+</script>
+<{/block}>

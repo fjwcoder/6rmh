@@ -20,13 +20,14 @@ class Mall extends controller //需要继承该类，否则无法使用
             -> join('mall_brand b', 'a.brand=b.id', 'LEFT') 
             // -> join('shop s', 'a.userid=s.userid', 'LEFT') //商家
             -> field(['a.id', 'a.name', 'a.price'])
-            -> where('a.id in '.$in) -> select();
-        return dump($data);
-        if($data){
-            return ['status'=>true, 'data'=>$data, 'content'=>'数据正常'];
-        }else{
-            return ['status'=>false, 'content'=>'未查到数据'];
-        }
+            -> where('a.id in ('.$in.')') -> select();
+        // if($data){
+        //     return ['status'=>true, 'data'=>$data, 'content'=>'数据正常'];
+        // }else{
+        //     return ['status'=>false, 'content'=>'未查到数据'];
+        // }
+
+        return $data;
     }
 
 

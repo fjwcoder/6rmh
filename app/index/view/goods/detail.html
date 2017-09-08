@@ -46,17 +46,18 @@
             <p class="goods-desc" title="<{$goods.description}>"><{$goods.description}></p>
             <div class="goods-price  wp_100">
                 <p>
-                    <span class="item-title">六 儿 价：</span>
-                    <span class="font-color-sub_main">¥</span>
+                    
                     
                     <{if $goods.promotion.type == 1}>
-                    <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}">
-                        
-                    </span>
+                    <span class="item-title">促销价：</span>
+                    <span class="font-color-sub_main">¥</span>
+                    <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <s >原价:<span ng-bind="{{price}}"></span></s>
+                    <s >六儿价:<span ng-bind="{{price}}"></span></s>
 
                     <{else}>
+                    <span class="item-title">六 儿 价：</span>
+                    <span class="font-color-sub_main">¥</span>
                     <span class=" price" ng-bind="{{price}}"></span>
                     <{/if}>
                     
@@ -113,7 +114,7 @@
                     <div>立即购买</div>
                 </a>-->
 
-                <a href="/index/sale/cart/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">
+                <a href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">
                     <button class="submit-btn ">加入购物车</button>
                 </a>
 
@@ -133,11 +134,39 @@
 
         <!--更多内容-->
         
-        <div class="more-info wp_100">
-            <header class="more-info-navbar wp_100">
-
-            </header>
-            <{$goods.detail | htmlspecialchars_decode}>
+        <div class="more-info wp_100 pull-left">
+            <div class="more-info-navbar wp_100 ">
+                <ul  >
+                    <li  >
+                        <a href="javascript: void(0);" ng-click="barSelect(0);">商品详情</a>
+                    </li>
+                    <li class="li-split">/</li>
+                    <li   >
+                        <a href="javascript: void(0);"  ng-click="barSelect(1);">规格与包装</a>
+                    </li>
+                    <li class="li-split" >/</li>
+                    <li  >
+                        <a href="javascript: void(0);"  ng-click="barSelect(2);">售后保障</a>
+                    </li>
+                    <li class="li-split" >/</li>
+                    <li  >
+                        <a href="javascript: void(0);"  ng-click="barSelect(3);">商品评论</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 0==choseBar}">
+                <{$goods.detail | htmlspecialchars_decode}>
+            </div>
+            <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 1==choseBar}">
+                规格与包装
+            </div>
+            <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 2==choseBar}">
+                售后保障
+            </div>
+            <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 3==choseBar}">
+                评论
+            </div>
+            
         </div>
     </div>
 </div>
@@ -150,6 +179,13 @@
         <{/if}>
         $scope.buy_number = 1; //购买数量初始化
         
+        //商品详情
+        $scope.choseBar = 0;
+        $scope.barSelect = function($id){
+            $scope.choseBar = $id;
+        }
+
+
         $scope.specSelect = function($id) {
             $scope.specValue = $id; 
             $scope.isChose = $id;
