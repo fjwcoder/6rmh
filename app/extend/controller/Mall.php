@@ -15,23 +15,36 @@ use think\Db;
 class Mall extends controller //需要继承该类，否则无法使用
 {
 
-    public function getGoodsInfo($in){
-        $data = Db::name('goods') ->alias('a') 
-            -> join('mall_brand b', 'a.brand=b.id', 'LEFT') 
-            // -> join('shop s', 'a.userid=s.userid', 'LEFT') //商家
-            -> field(['a.id', 'a.name', 'a.price'])
-            -> where('a.id in ('.$in.')') -> select();
-        // if($data){
-        //     return ['status'=>true, 'data'=>$data, 'content'=>'数据正常'];
-        // }else{
-        //     return ['status'=>false, 'content'=>'未查到数据'];
-        // }
+    // public function getGoods($in){
+        
 
-        return $data;
-    }
+    //     $data = Db::name('goods') ->alias('a') 
+    //         -> join('mall_brand b', 'a.brand=b.id', 'LEFT') 
+    //         // -> join('shop s', 'a.userid=s.userid', 'LEFT') //商家
+    //         -> field(['a.id', 'a.name', 'a.price'])
+    //         -> where('a.id in ('.$in.')') -> select();
+    //     // if($data){
+    //     //     return ['status'=>true, 'data'=>$data, 'content'=>'数据正常'];
+    //     // }else{
+    //     //     return ['status'=>false, 'content'=>'未查到数据'];
+    //     // }
 
+    //     return $data;
+    // }
 
-    # 获取商品详情
+    // public function getGoodsInfo(){
+    //     $goods = Db::name('goods') ->alias('a') 
+    //         -> join('goods_picture b', 'a.id=b.gid', 'LEFT') 
+    //         -> join('goods_spec c', 'a.id=c.gid', 'LEFT') 
+    //         -> field(['a.id as id', 'a.name', 'a.description', 'a.weight', 'a.price as gprice', 'a.userid', 'a.status',
+    //             'b.pic', 'c.spec', 'c.num', 'c.price as sprice'])  
+    //         -> where(['a.id'=>$id, 'c.id'=>$sid]) 
+    //         -> group('b.gid')
+    //         -> find();
+    //     return $goods;
+    // }
+
+    # 获取商品详情(前台商品详情页用到该方法)
     public function getGoodsDetail($id){
         $field = ['a.id', 'a.userid', 'a.catid', 'a.catid_list', 'a.name', 'a.sub_name', 'a.key_words', 'a.service', 
             'a.price', 'a.cost_price', 'a.sell_price', 'a.amount', 'a.sell_amount', 'a.weight', 'a.bait', 'a.promotion',

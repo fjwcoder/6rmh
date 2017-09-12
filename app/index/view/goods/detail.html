@@ -90,9 +90,6 @@
             
             <ul>
                 <li><span class="item-title">选择规格：</span></li>
-                <style>
-                    
-                </style>
                 <{volist name="$goods.spec" id="vo"}>
                     <li class=" default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
                 <{/volist}>

@@ -14,14 +14,14 @@ class Cart extends Common
         $user = decodeCookie('user');
         $mallObj = new Mall();
         // 查出购物车信息，包括
-        // 商品具体信息、促销活动、买家信息
-        $where = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'b.promotion as promotion_id', 
+        // 商品具体信息、规格、图片、促销活动、买家信息
+        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'b.promotion as promotion_id', 
             'c.spec', 'b.name', 'b.sub_name', 'b.description', 'b.key_words', 'b.brand', 'b.bait', 'b.point','d.pic'];
         $cart = Db::name('cart') ->alias('a') 
              -> join('goods b', 'a.goods_id=b.id', 'LEFT') 
              -> join('goods_spec c', 'a.spec=c.id', 'LEFT')  
              -> join('goods_picture d', 'a.goods_id=d.gid', 'LEFT') 
-             -> field($where)    
+             -> field($field)    
              -> group('b.id, a.spec') 
              -> order('a.addtime desc') 
              -> where(['a.buyer_id'=>session(config('USER_ID')), 'a.status'=>1, 'b.status'=>1]) -> select(); 
@@ -31,7 +31,6 @@ class Cart extends Common
                 -> where('status=1 and begin_time<='.time().' and end_time>='.time()) -> select();
             $promotion = getField($promotion, 'id');
 
-            // return dump($cart);
             foreach($cart as $k=>$v){
                 $cart_list[] = $v['cart_id'];
                 if($v['promotion_id'] != 0){
@@ -69,14 +68,9 @@ class Cart extends Common
 
     }
 
+    #获取当前商品信息
+    public function getCartGoods($id, $sid=0){
 
-    #加入购物车
-    public function add(){
-        $id = input('id', 0, 'intval'); //商品id
-        $sid = input('spec', 0, 'intval'); //规格  id
-        $num = input('num', 0, 'intval'); //数量
-
-        #检查商品状态
         $goods = Db::name('goods') ->alias('a') 
             -> join('goods_picture b', 'a.id=b.gid', 'LEFT') 
             -> join('goods_spec c', 'a.id=c.gid', 'LEFT') 
@@ -85,13 +79,23 @@ class Cart extends Common
             -> where(['a.id'=>$id, 'c.id'=>$sid]) 
             -> group('b.gid')
             -> find();
+        return $goods;
+    }
+
+    #加入购物车
+    public function add(){
+
+        $id = input('id', 0, 'intval'); //商品id
+        $sid = input('spec', 0, 'intval'); //规格  id
+        $num = input('num', 0, 'intval'); //数量
+
+        $goods = $this->getCartGoods($id, $sid);
         
-        if($goods['status'] != 1){
+        if($goods['status'] != 1 || empty($goods)){
             return $this->error('商品已下架'); exit;
         }
 
         #检查商品数量
-        // $spec = db('goods_spec', [], false) -> where(['id'=>$sid]) -> find();
         if($goods['num'] < $num){
             return $this->error('商品数量不足'); exit;
         }
@@ -108,6 +112,7 @@ class Cart extends Common
                 ];
             
             $result = Db::name('cart') -> insert($data);
+
         }else{
             $result = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
                 'goods_id'=>$id, 'spec'=>$sid]) -> setInc('num', $num);
@@ -117,19 +122,39 @@ class Cart extends Common
                 'goods_id'=>$id, 'spec'=>$sid]) -> find();
         }
 
-        $config = mallConfig();
-        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
-            ]);
-        // return dump($goods);
+        // if($result){
+        //     $this->assign('result', ['status'=>true, 'goods'=>$goods, 'num'=>$data['num']]);
+        // }else{
+        //     $this->assign('result', ['status'=>false, 'goods'=>$goods]);
+        // }
+        // return $this->fetch('add');
+
         if($result){
-            $this->assign('result', ['status'=>true, 'goods'=>$goods, 'num'=>$data['num']]);
+
+            $res = ['status'=>true, 'id'=>$id, 'sid'=>$sid, 'num'=>$num];
+
         }else{
-            $this->assign('result', ['status'=>false, 'goods'=>$goods]);
+            $res = ['status'=>false, 'id'=>$id, 'sid'=>$sid];
+            
         }
-        return $this->fetch('add');
+        return $this->redirect('status', $res);
         
     }
 
+    public function status($status, $id, $sid, $num=0){
+        
+        $goods = $this->getCartGoods($id, $sid);
+
+        $this->assign('result', ['status'=>$status, 'goods'=>$goods, 'num'=>$num]);
+
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
+            ]);
+
+        return $this->fetch('status');
+    }
+
+    
 
     #删除购物车商品
     public function del(){
@@ -139,12 +164,12 @@ class Cart extends Common
 
     #清除购物车
     public function delate(){
-        return '清除购物车';
+        return '清理购物车';
         $result = Db::name('cart')->where(['buyer_id'=>session(config('USER_ID'))]) -> delete();
         if($result){
-            return $this->success('购物车清除成功', 'Cart/index');
+            return $this->success('购物车清理成功', 'Cart/index');
         }else{
-            return $this->error('购物车清除失败');
+            return $this->error('购物车清理失败');
         }
     }
 

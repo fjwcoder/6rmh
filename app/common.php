@@ -30,7 +30,7 @@ use think\Cache;
 // | getAdminLevel 获取级别
 // | uploadImg 图片上传
 // | getAdminNode 获取用户节点
-// |
+// | getOrderID 获取唯一的订单号
 // |
 // |
 // |
@@ -487,4 +487,12 @@ function getAdminNode($userid){
     }
 
     return $result;
+}
+
+
+
+function getOrderID(){
+    $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+    $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+    return $orderSn;
 }
