@@ -1,23 +1,40 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <div  class=" content-panel order-preview-html " ng-controller="previewCtrl">
+    <!--<form action="order/create" method="post">-->
+
+    
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title pull-left"> 收货人信息</h3>
             <a href="javascript: void(0);" class="pull-right">新增收货地址</a>
         </div>
         <div class="panel-body">
-            <ul>
-                <{volist name="address" id="vo"}>
-                    <{$vo.name}>
-                    <{$vo.province}>
-                    <{$vo.city}>
-                    <{$vo.area}>
-                    <{$vo.address}>
-                    <{$vo.mobile}>
-                    <br>
-                <{/volist}>
-            </ul>
+            <{volist name="address" id="vo"}>
+                <div class="address-record wp_100">
+                    <div class="f_l t_c addr-item-title wp_10" title="<{$vo.name}>" ng-class="{choseAddr: <{$vo.id}>==addrID}" data-ng-click="selectAddr(<{$vo.id}>)"><{$vo.name}></div>
+                    <div class="f_l addr-item-content wp_70" ng-class="{choseDiv: <{$vo.id}>==addrID}"><{$vo.name}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <{$vo.province}>&nbsp;
+                        <{$vo.city}>&nbsp;
+                        <{$vo.area}>&nbsp;
+                        <{$vo.address}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <{$vo.mobile|substr=0,3}>****<{$vo.mobile|substr=7}>
+                        <{if $vo.type==1}>
+                        <span class="f_r main-color">默认地址</span>
+                        <{/if}>
+                    </div>
+                    <div class="f_r t_r addr-item-ctrl wp_15">
+                        <{if $vo.type != 1}>
+                            <a href="/index/order/defaddr/id_list/<{$id_list}>/id/<{$vo.id}>">设为默认</a>
+                            &nbsp;&nbsp;
+                        <{/if}> 
+                        <a href="javascript: void(0);">编辑</a> 
+                        &nbsp;&nbsp;
+                        <a href="/index/order/deladdr/id_list/<{$id_list}>/id/<{$vo.id}>">删除</a> 
+                    </div>
+                </div>
+            <{/volist}>
+            
         </div>
     </div>
 
@@ -29,6 +46,19 @@
             <ul>
                 <{volist name="pay_way" id="vo"}>
                     <li class=" default-spec-li" name="pay_way" ng-class="{chosePay: <{$vo.id}>==isChose}" ng-click="paySelect(<{$vo.id}>);"><{$vo.name}></li>
+                <{/volist}>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> 配送方式 </h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <{volist name="delivery" id="vo"}>
+                    <li class=" default-spec-li" name="delivery" ng-class="{chosePay: <{$vo.id}>==delivery}" ng-click="deliverySelect(<{$vo.id}>);"><{$vo.title}></li>
                 <{/volist}>
             </ul>
         </div>
@@ -56,8 +86,8 @@
                         <p>
                             规格：<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="javascript: void(0);" class="pull-right">
-                                赠送鱼饵：<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;
-                                获得<{$vo.point}>积分
+                                赠送鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;&nbsp;&nbsp;
+                                获得<{$vo.point*$vo.num}>积分
                             </a>
                         </p>
                         <{if $vo.promotion != ''}>
@@ -75,6 +105,17 @@
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                订单详情
+            </h3>
+        </div>
+        <div class="panel-body t_r">
+            <p>鱼饵：<{$count.baits}></p>
+            <p>积分：<{$count.points}></p>
+        </div>
+    </div>
     
 
     <!--<div class="panel panel-default">
@@ -89,18 +130,33 @@
     </div>-->
 
     <div class="more-info-navbar wp_100">
-        合计：¥ 9999
-        <a class="pull-right" href="javascript: void(0);" title="提交订单">
-            <button class="submit-btn-default ">提交订单</button>
+        
+        <a class="pull-right" href="/index/order/create/id_list/<{$id_list}>/pay/{{isChose}}/addr/{{addrID}}/delivery/{{delivery}}" title="提交订单">
+            <button  class="submit-btn-default ">提交订单</button>
         </a>
+
+        <span class="f_r order-total">
+            
+            应付总额：
+            <span class="font-color-sub_main">¥</span>
+            <span class=" price" title="订单总价格" ><{$count.prices}></span>
+        </span>
     </div>
+    <!--</form>-->
 </div>
 
 <script>
     app.controller('previewCtrl', function($scope) {
         $scope.isChose = 1;
+        $scope.addrID = <{$address[0]['id']}>; //默认是默认地址的ID
         $scope.paySelect = function($id) {
             $scope.isChose = $id;
+        }
+        $scope.selectAddr = function($id){
+            $scope.addrID = $id;
+        }
+        $scope.deliverySelect = function($id){
+            $scope.delivery = $id;
         }
     });
 

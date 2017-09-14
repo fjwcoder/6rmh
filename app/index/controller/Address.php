@@ -42,4 +42,42 @@ class Address extends Common
         echo json_encode($area, JSON_UNESCAPED_UNICODE);
     }
 
+    public function defAddr($id=0){
+        if($id===0){
+            $id = input('id', 0, 'intval');
+        }
+        if($id === 0){
+            return $this->error('参数错误'); exit;
+        }
+        $update = Db::name('user_address') ->where(['userid'=>session(config('USER_ID'))]) -> update(['type'=>0]); //先全都变成0
+        $setInc = Db::name('user_address') ->where(['userid'=>session(config('USER_ID')), 'id'=>$id]) -> setInc('type', 1);
+        if($setInc){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function delAddr($id=0){
+        if($id===0){
+            $id = input('id', 0, 'intval');
+        }
+        if($id === 0){
+            return $this->error('参数错误'); exit;
+        }
+
+        $del = Db::name('user_address') -> where(['id'=>$id]) -> delete();
+        
+        if($del){
+            $min = Db::name('user_address') ->where(['id'=>$id]) ->min('id');
+            if($min>0){
+                $this->defAddr($min);
+            }
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
 }

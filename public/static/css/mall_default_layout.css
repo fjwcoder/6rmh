@@ -4,6 +4,7 @@
 .abs{position: absolute;}
 li, ul{list-style: none; margin: 0;}
 i.fa{color: #6ad4c9;}
+.main-color{color: #6ad4c9;}
 a{color: #8e8e8e;}
 .kshow{display: block!important;}
 .khidden{display: none!important;}
@@ -95,7 +96,7 @@ div.goods-picture div.main-pic{height: 464px;}
 
 .goods-detail-panel .goods-detail{ padding: 0 20px;}
 .goods-detail-panel .goods-price{padding: 5px 10px;}
-.goods-detail-panel .goods-price .price{font-size: 22px; color: #e4393c;}
+ .price{font-size: 22px; color: #e4393c;}
 .font-color-sub_main{color: #e4393c;}
 .goods-promotion{border: 1px solid #e4393c;
 height: 32px; color: #e4393c;}
@@ -112,7 +113,8 @@ margin: 3px 5px; text-align: center; min-height: 32px; line-height: 32px;}
 .default-spec-li{
     border: 1px dashed #e0e0e0; cursor: pointer; 
 }
-.choseSpec, .chosePay{border: 1px solid #e4393c; color: #e4393c;}
+.choseSpec, .chosePay, .choseAddr{border: 2px solid #e4393c!important; color: #e4393c!important;}
+
 .goods-detail-panel .goods-detail .amount-number{
     height: 50px;  margin: 62px 0 10px 0; line-height: 45px;
     /*border-bottom: 1px solid #e0e0e0;*/
@@ -130,11 +132,11 @@ button.submit-btn{background: #df3033; height: 46px; width: 142px;
 font-size: 20px; font-weight: 700;}
 button.submit-btn:hover{background-color: #df3033;}
 button.submit-btn-default{background: #6ad4c9; height: 46px; min-width: 120px;
-font-size: 20px; font-weight: 700; border: 0; color: white;}
+font-size: 20px; font-weight: 700; border: 0; color: white; margin-left: 20px;}
 
 
 .goods-detail-panel .more-info{margin-top: 20px;}
-.more-info-navbar{ height: 46px; border-bottom: 2px solid #6ad4c9; }
+.more-info-navbar{ height: 46px;  border-bottom: 2px solid #6ad4c9; }
 .more-info-navbar ul li{margin: 13px 10px 0 10px; float: left;}
 
 
@@ -158,12 +160,15 @@ font-size: 20px; font-weight: 700; border: 0; color: white;}
 .number-change{font-size: 18px;}
 
 .order-preview-html .panel{margin: 20px 0; border: 0;}
-.panel-heading{background: white!important; border: 0; height: 38px!important;}
+.panel-heading{background: white!important; border: 0; height: 38px!important; color: #666!important;}
 .panel-body{border: 1px solid #e0e0e0;}
 
-
-
-
+.address-record{height: 28px; margin-bottom: 8px;}
+.address-record div{height: 28px; line-height: 26px; color: #666; font-size: 14px;}
+.addr-item-title{ margin-right: 20px;
+    border: 1px dashed #e0e0e0; cursor: pointer;}
+.addr-item-content{padding: 0 10px;}
+span.order-total{margin-top: 10px;}
 
 
 
