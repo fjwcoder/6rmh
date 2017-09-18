@@ -17,28 +17,13 @@ class Address extends Common
         $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
             ]);
 
-        $address = Db::name('user_address') -> where(['userid' => $userid]) ->select();
-        return dump($address);
-        $add1 = Db::name('user_address') ->alias('a')
-            ->join('region b','a.province=b.id', 'LEFT')
-            ->field('b.name')
-            -> where(['userid' => $userid]) ->select();
-        $add2 = Db::name('user_address') ->alias('a')
-            ->join('region b','a.city=b.id', 'LEFT')
-            ->field('b.name')
-            -> where(['userid' => $userid]) ->select();
-        $add3 = Db::name('user_address') ->alias('a')
-            ->join('region b','a.area=b.id', 'LEFT')
-            ->field('b.name')
-            -> where(['userid' => $userid]) ->select();
-        
-        foreach($add1 as $key=>$value){
-            //dump($add2[$key]);
-            $address[$key]['province'] = $value['name'];
-            $address[$key]['city'] = $add2[$key]['name'];
-            $address[$key]['area'] = $add3[$key]['name'];
-            $address[$key]['addr'] = $value['name']. $add2[$key]['name'].$add3[$key]['name'];
-        }
+        $address = Db::name('user_address') -> alias('a') 
+            ->join('region b', 'a.province=b.id', 'LEFT')
+            ->join('region c', 'a.city=c.id', 'LEFT')
+            ->join('region d', 'a.area=d.id', 'LEFT')
+            ->field(['a.id', 'CONCAT(b.name,c.name,d.name) as addr ', 'a.address', 'a.zipcode', 'a.name', 'a.mobile', 'a.type']) 
+            ->where(['a.userid'=>$userid]) -> select();
+
         $count = count($address);
         $this->assign('count', $count);
         if($count < 10){
@@ -54,13 +39,19 @@ class Address extends Common
     public function add(){
         
         $data['name'] = input('name','','htmlspecialchars,trim');
-        $data["province"] = input('province','','intval');
-        $data["city"] = input('city','','intval');
-        $data["area"] = input('area','','intval');
+        $data["province"] = input('province',0,'intval');
+        $data["city"] = input('city',0,'intval');
+        $data["area"] = input('area',0,'intval');
         $data['address'] = input('address','','htmlspecialchars,trim');
         $data['mobile'] = input('mobile','','htmlspecialchars,trim');
         $data['zipcode'] = input('zipcode','','htmlspecialchars,trim');
         $data['userid'] = session(config('USER_ID'));
+
+        // if(!checkPost($data)){
+        //     return '参数错误'; exit;
+        // }
+
+
         $a = Db::name('user_address') ->insert($data);
 
         if($a){  
