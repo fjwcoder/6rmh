@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <title><{$config.page_title}></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--加载swiper的css-->
+    <link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" type="text/css"/>
+    <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
+
+    <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
+
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="__STATIC__/js/plugin/jquery.imagezoom.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--加载angularjs-->
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+    
+    <!--<script src="__JS__/admin/admin_default_layout.js"></script>-->
+</head>
+<body data-ng-app="myApp" class="web-body" >
+    <header class=" web-top  wp_100 ">
+        <{include file="./public/top"/}>
+    </header>
+    
+    
+    <!--主要内容页面-->
+    <div class="web-content wp_100 f_l ">
+        <div class="content-panel">
+            <!--导航栏-->
+            <{include file="./user/nav"/}>
+
+            <{block name="content"}>
+                内容
+            <{/block}>
+        </div>
+        
+    </div>
+        
+
+    <div class="web-footer wp_100 f_l">
+        <{include file="./public/footer"/}>
+    </div>
+
+    
+    <!--加载swiper--> 
+    <script src="__STATIC__/js/plugin/swiper3/swiper-3.4.2.jquery.min.js"></script>
+    <script src="__STATIC__/js/plugin/swiper3/swiper.animate1.0.2.min.js"></script>
+</body>
+</html>

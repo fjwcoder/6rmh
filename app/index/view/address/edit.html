@@ -1,26 +1,13 @@
-<{extend name="./public/index"/}>
+<{extend name="./public/user"/}>
 <{block name="content"}>
-<style>
-    .user-address-add{padding:20px 20px;}
-    .user-address-add div{float: left;}
-    .rights{text-align: right;line-height: 50px;}
-    .middles{line-height: 50px;}
-    .middle-label{font-size: 14px;color:#666;}
-    .right-label{font-size: 14px;color: #999;}
-    .addaddress{height:50px;line-height:50px;font-size: 14px;color:#6AD4C9;}
-    .middle-label input{width: 500px;height:30px;border: 1px solid #E0E0E0;}
-    .clear{clear: both;}
-    .pro{min-width: 85px;margin:14px 15px 0px 0px;border: 1px solid #E0E0E0;color:#666;}
-    .middle-lab{width: 90px;height: 50px;}
-</style>
-<div class="content-panel">
+<div class="user-panel address">
     
     <div class="wp_100" >
 
         <div class="addaddress">修改收货地址</div>
         <form  method="post" name="form" action="<{:url('editor')}>">
             <div class="user-address-add  wp_100">
-                <div class="wp_30 rights">
+                <div class="wp_30 f_l t_r l_h_50">
                     <input type="hidden" name="id" value="<{$address.id}>"/>
                     <span class="right-label">收货人：</span><br>
                     <span class="right-label">所在地区：</span><br> 
@@ -28,7 +15,7 @@
                     <span class="right-label">手机：</span><br>
                     <span class="right-label">邮编：</span> 
                 </div>
-                <div class="wp_70 middles">
+                <div class="wp_70 f_l l_h_50">
                     <span class="middle-label"><input type="text" name="name" value="<{$address.name}>"></span><br>
                     <span class="middle-lab f_l">
                         <select id="province" class="pro kshow" name="province" >
@@ -74,7 +61,7 @@
             </div>
         
             <div class="clear"></div>
-            <div class="more-info-navbar wp_100">  
+            <div class="more-info-navbar f_l wp_100">  
                 <a class="pull-right" href="javascript: void(0);" title="修改地址">
                     <button class="submit-btn-default ">修改地址</button>
                 </a>

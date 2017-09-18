@@ -14,6 +14,11 @@ a{color: #8e8e8e;}
 span.input-verify{color: red;}
 .line-height-26{line-height: 26px;}
 input{outline: none;}
+.clear{clear: both;}
+.l_h_30{line-height: 30px;}
+.l_h_50{line-height: 50px;}
+.ctrl-option{color:#005EA7;}
+.ctrl-option:hover{color:#F30213;}
 /*==================================Mall登录页面=========================================*/
 .login-header{top: 0;}
 .login-header .login-header-panel{width: 1200px; margin: 0 auto; padding: 15px 5%;}
@@ -171,6 +176,26 @@ font-size: 20px; font-weight: 700; border: 0; color: white; margin-left: 20px;}
 span.order-total{margin-top: 10px;}
 
 
+/*用户中心*/
+.address .user-address{height: 190px;border-bottom: 1px dashed #f0f0f0;}
+.address .middle-label{font-size: 14px;color:#666;}
+.address .middle-label input{width: 500px;height:30px;border: 1px solid #E0E0E0; padding: 0 10px;}
+.address .right-label{font-size: 14px;color: #999;}
+.address .right-labels{font-size: 14px;color: #999;}
+.address .middle-lab{width: 90px;height: 50px;}
+.address .pro{min-width: 85px;margin:14px 15px 0px 0px;border: 1px solid #E0E0E0;color:#666;}
+
+
+.hint-str{font-size: 12px;font-weight: 400;margin-left: 10px;color:#999;}
+.hint-int{font-size: 12px;font-weight: 400;color:#71b247;}
+/*.user-footer{bottom: 0;}*/
+.user-panel{width: 1050px; padding: 15px; float: left;}
+.user-left{width: 150px;}
+.user-left .panel-default{border: 0!important;}
+.user-left .panel-body{padding: 10px 35px!important;}
+.user-nav-li{margin: 5px 0; cursor: pointer;}
+
+.user-content{ width: 1050px; }
 
 
 /*==================================footer内容=========================================*/

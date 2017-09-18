@@ -11,6 +11,12 @@ use think\Db;
 
 class Order extends Common
 {
+
+    #订单详情页
+    public function index(){
+        return '订单详情页';
+    }
+
     #生成订单预览
     public function preview($cart_list=''){
         if(empty($cart_list)){

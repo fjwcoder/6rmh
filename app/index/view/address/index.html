@@ -1,40 +1,16 @@
-<{extend name="./public/index"/}>
+<{extend name="./public/user"/}>
 <{block name="content"}>
-<style>
-    .user-address{height: 190px;border-bottom: 1px dashed #f0f0f0;float:left;}
-    .user-address-add{padding:20px 20px;}
-    .user-address div{float: left;}
-    .user-address-add div{float: left;}
-    .right{text-align: right;line-height: 30px;}
-    .rights{text-align: right;line-height: 50px;}
-    .middle{line-height: 30px;}
-    .middles{line-height: 50px;}
-    .middle-label{font-size: 14px;color:#666;}
-    .right-label{font-size: 14px;color: #999;}
-    .right-labels{font-size: 14px;color: #999;}
-    .option{color:#005EA7;}
-    .option:hover{color:#F30213;}
-    .addaddress{height:50px;line-height:50px;font-size: 14px;color:#6AD4C9;}
-    .middle-label input{width: 500px;height:30px;border: 1px solid #E0E0E0;}
-    .center{text-align: center;}
-    .addbutton{width: 120px;height: 45px;background: #6AD4C9;font-size: 14px;color: #fff;font-weight: 900;}
-    .more-info-navbars{border: 1px solid #6ad4c9;margin-top: -6px;}
-    .clear{clear: both;}
-    .ftx-03{font-size: 12px;font-weight: 400;margin-left: 10px;color:#999;}
-    .ftx-02{font-size: 12px;font-weight: 400;color:#71b247;}
-    .pro{min-width: 85px;margin:14px 15px 0px 0px;border: 1px solid #E0E0E0;color:#666;}
-    .middle-lab{width: 90px;height: 50px;}
-</style>
-<div class="content-panel" data-ng-controller="addrCtrl">
+<!--create by zmx-->
+<div class="user-panel address" data-ng-controller="addrCtrl">
     <div class="more-info-navbar wp_100 ">
         <ul  >
             <li>
                 <a href="javascript: void(0);">收货地址</a>
-                <span class="ftx-03">
+                <span class="hint-str">
                         您已创建
-                        <span id="addressNum_top" class="ftx-02"><{$count}></span>
+                        <span id="addressNum_top" class="hint-int"><{$count}></span>
                         个收货地址，最多可创建
-                        <span class="ftx-02">10</span>
+                        <span class="hint-int">10</span>
                         个
                 </span>
             </li>
@@ -42,30 +18,26 @@
     </div>
     <div class="wp_100" >
         <{volist name="address" id="vo"}>
-        <div class="user-address  wp_50">
-            <div class="wp_15 right">
+        <div class="user-address f_l wp_50">
+            <div class="wp_15 f_l t_r l_h_30">
                <span class="right-label">收货人：</span><br>
                <span class="right-label">所在地区：</span><br> 
+               <span class="right-labels">地址：</span><br>
                <span class="right-label">手机：</span><br>
-               <span class="right-label">邮编：</span><br>
-               <span class="right-labels">地址：</span>
+               <span class="right-label">邮编：</span>
+               
             </div>
-            <div class="wp_55 middle">
+            <div class="wp_60 f_l l_h_30">
                 <span class="middle-label"><{$vo.name}></span><br>
                 <span class="middle-label"><{$vo.addr}></span><br>
+                <span class="middle-label"><{$vo.address}></span><br>
                 <span class="middle-label"><{$vo.mobile}></span><br>
-                <span class="middle-label"><{$vo.zipcode}></span><br>
-                <span class="middle-label"><{$vo.address}></span>
+                <span class="middle-label"><{$vo.zipcode}></span>
             </div> 
-            <div class="wp_30 middle">
-                <span></span><br>
-                <span></span><br>
-                <span></span><br>
-                <span></span><br>
-                <span></span><br>
-                <span class="option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认地址</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<{:url('del',['id' => $vo['id']])}>"><span class="option">删除</span></a>
+            <div class="t_r f_l wp_100 l_h_50">
+                <span class="ctrl-option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认地址</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="ctrl-option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('del',['id' => $vo['id']])}>"><span class="ctrl-option">删除</span></a>
             </div>
         </div>
         <{/volist}>
@@ -78,14 +50,14 @@
 
         <form  method="post" name="form" action="<{:url('add')}>">
             <div class="user-address-add  wp_100">
-                <div class="wp_30 rights">
+                <div class="wp_30 f_l t_r l_h_50">
                     <span class="right-label">收货人：</span><br>
                     <span class="right-label">所在地区：</span><br> 
                     <span class="right-label">地址：</span><br> 
                     <span class="right-label">手机：</span><br>
                     <span class="right-label">邮编：</span> 
                 </div>
-                <div class="wp_70 middles">
+                <div class="wp_70 f_l l_h_50">
                     <span class="middle-label"><input type="text" name="name" required></span><br>
                     <span class="middle-lab f_l">
                         <select id="province" class="pro kshow" name="province" required>
@@ -115,7 +87,7 @@
                 </div>
             </div>
             <div class="clear"></div>
-            <div class="more-info-navbar wp_100">  
+            <div class="more-info-navbar f_l wp_100">  
                 <a class="pull-right"  href="javascript: void(0);" title="新增地址">
                     <button class="submit-btn-default ">新增地址</button>
                 </a>

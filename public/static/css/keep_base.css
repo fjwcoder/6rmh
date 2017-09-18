@@ -154,7 +154,7 @@ a, a:visited, a:hover, a:link{text-decoration: none;}
 .abs_all{position: absolute; top: 0; bottom: 0;}
 
 
-/*.fz_10{font-size: 10px;}
+.fz_10{font-size: 10px;}
 .fz_11{font-size: 11px;}
 .fz_12{font-size: 12px;}
 .fz_13{font-size: 13px;}
@@ -166,4 +166,4 @@ a, a:visited, a:hover, a:link{text-decoration: none;}
 .fz_19{font-size: 19px;}
 .fz_20{font-size: 20px;}
 
-.bg_op_b10{background: url(../images/opacity/b_10.png);}*/
+/*.bg_op_b10{background: url(../images/opacity/b_10.png);}*/
