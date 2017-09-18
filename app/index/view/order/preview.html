@@ -1,7 +1,7 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <div  class=" content-panel order-preview-html " ng-controller="previewCtrl">
-    <!--<form action="order/create" method="post">-->
+    <form action="<{:url('order/create')}>" method="post">
 
     
     <div class="panel panel-default">
@@ -40,7 +40,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"> 支付方式 </h3>
+            <h3 class="panel-title"> 
+                支付方式   &nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="money_first" type="checkbox"/>优先使用余额
+            </h3>
         </div>
         <div class="panel-body">
             <ul>
@@ -49,6 +52,7 @@
                 <{/volist}>
             </ul>
         </div>
+        
     </div>
 
     <div class="panel panel-default">
@@ -128,11 +132,15 @@
             面板内容
         </div>
     </div>-->
-
+<!---->
     <div class="more-info-navbar wp_100">
-        
-        <a class="pull-right" href="/index/order/create/id_list/<{$id_list}>/pay/{{isChose}}/addr/{{addrID}}/delivery/{{delivery}}" title="提交订单">
-            <button  class="submit-btn-default ">提交订单</button>
+        <input type="hidden" name="id_list" value="<{$id_list}>"/><!--商品列表ID-->
+        <input type="hidden" name="pay" value="{{isChose}}"/><!--支付方式-->
+        <input type="hidden" name="addr" value="{{addrID}}"/><!--收货地址-->
+        <input type="hidden" name="delivery" value="{{delivery}}"/><!--配送方式-->
+
+        <a class="pull-right" href="javascript: void(0);" title="提交订单">
+            <button type="submit" class="submit-btn-default ">提交订单</button>
         </a>
 
         <span class="f_r order-total">
@@ -142,7 +150,7 @@
             <span class=" price" title="订单总价格" ><{$count.prices}></span>
         </span>
     </div>
-    <!--</form>-->
+    </form>
 </div>
 
 <script>

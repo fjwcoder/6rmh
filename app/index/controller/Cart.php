@@ -47,6 +47,9 @@ class Cart extends Common
             // return dump($cart); //打印
 
             $this->assign('all_cart', json_encode($cart_list)); //把全部购物车ID
+
+        }else{
+            return '没有商品'; die;
         }
         
         $this->assign('carts', $cart);
@@ -162,15 +165,35 @@ class Cart extends Common
         return $id;
     }
 
+
     #清除购物车
-    public function delate(){
-        return '清理购物车';
-        $result = Db::name('cart')->where(['buyer_id'=>session(config('USER_ID'))]) -> delete();
-        if($result){
-            return $this->success('购物车清理成功', 'Cart/index');
+    public function delete($id_list, $action=''){
+        if(empty($id_list)){
+            if($action === 'order'){ //订单
+                return false; exit;
+            }else{
+                return $this->error('所选商品为空'); exit;
+            }
+            
         }else{
-            return $this->error('购物车清理失败');
+            $result = Db::name('cart')->where('buyer_id='.session(config('USER_ID')).' and id in ('.$id_list.')') -> delete();
+            if($result){
+                if($action === 'order'){ //订单
+                    return true; exit;
+                }else{
+                    return $this->success('购物车清理成功', 'Cart/index');
+                }
+                
+            }else{
+                if($action === 'order'){ //订单
+                    return false; exit;
+                }else{
+                    return $this->error('购物车清理失败'); exit;
+                }
+            }
         }
+        
+        
     }
 
 }

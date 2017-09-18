@@ -3,6 +3,7 @@ namespace app\index\controller;
 use app\common\controller\Common; 
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Address as Address; 
+use app\index\controller\Cart as Cart; 
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -45,7 +46,7 @@ class Order extends Common
                 if($v['promotion_id'] != 0){
                     $cart[$k]['promotion'] = $promotion[$v['promotion_id']]['title'];
                     if($promotion[$v['promotion_id']]['type'] == 1){
-                        $cart[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100;
+                        $cart[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100;//单价
                     }
                 }else{
                     $cart[$k]['promotion'] = '';
@@ -81,10 +82,14 @@ class Order extends Common
 
     #创建订单
     public function create(){
+
         $id_list = input('id_list', '', 'htmlspecialchars,trim');
         $pay = input('pay', 0, 'intval');
         $addr = input('addr', 0, 'intval');
         $ship = input('delivery', 0, 'intval');
+        $money_first = input('money_first', '', 'htmlspecialchars,trim');
+
+
 
         if(empty($id_list))
             return $this->error('商品参数错误');
@@ -101,27 +106,86 @@ class Order extends Common
         $address = Db::name('user_address') -> where(['userid'=>session(config('USER_iD')), 'id'=>$addr]) -> find();
         #获取配送方式
         $delivery = $this->getDelivery();
-        #获取商品信息
-        // return $id_list;
-        $goods = Db::name('goods') -> alias('a') 
-            -> join('goods_spec b', 'a.id=b.gid', 'LEFT') 
-            -> join('goods_picture c', 'a.id=c.gid', 'LEFT') 
-            -> field()
-            // -> group('a.id, b.spec') 
-            -> where('a.id in ('.$id_list.')') 
-            -> select(); 
-        return dump($goods);
-        $data = ['userid'=>session(config('USER_iD')), 'order_id'=>getOrderID(), 
-            'status'=>0, 'pay_status'=>0,// 'currency'=>0, 'money'=>0, 
-            'payment_id'=>$pay, 'payment_name'=>$payment[$pay]['name'],
-            'shipping_id'=>$delivery[$ship]['id'], 'shipping_name'=>$delivery[$ship]['title'],
-            'user_name'=>$address['name'], 'user_address'=>$address['province'].$address['city'].$address['area'].$address['address'],
-            'user_mobile'=>$address['mobile']
-            ];
-        return dump($data);
+        #获取商品信息 (跟预览方法里的一样，应该封装方法)
+        $field = ['a.buyer_id', 'a.goods_id as gid', 'a.price', 'a.num', 
+            'b.point', 'b.bait', 'b.promotion as promotion_id', 'b.service', 'b.catid_list', 'b.name', 'c.spec', 'd.pic'];
+        $goods = Db::name('cart') ->alias('a') 
+             -> join('goods b', 'a.goods_id=b.id', 'LEFT') 
+             -> join('goods_spec c', 'a.spec=c.id', 'LEFT')  
+             -> join('goods_picture d', 'a.goods_id=d.gid', 'LEFT') 
+             -> field($field)    
+             -> group('b.id, a.spec') 
+             -> order('a.addtime desc') 
+             -> where('a.id in ('.$id_list.')') 
+             -> select(); 
+        if(!empty($goods)){
+            #生成订单ID
+            $order_id = getOrderID();
+            $count = ['baits'=>0, 'points'=>0, 'money'=>0];
+            # 查询促销
+            $promotion = Db::name('mall_promotion') 
+                -> where('status=1 and begin_time<='.time().' and end_time>='.time()) -> select();
+            $promotion = getField($promotion, 'id');
+            foreach($goods as $k=>$v){
+                $goods[$k]['order_id'] = $order_id;
+                if($v['promotion_id'] != 0){
+                    $goods[$k]['promotion'] = $promotion[$v['promotion_id']]['title'];
+                    if($promotion[$v['promotion_id']]['type'] == 1){ 
+                        $goods[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100; 
+                    }
+                    #还需要添加更多东西促销活动
+                }else{
+                    $goods[$k]['promotion'] = '';
+                }
+                #计算订单总额们
+                $count['baits'] += floatval($goods[$k]['bait']*$goods[$k]['num']);  
+                $count['points'] += floatval($goods[$k]['point']*$goods[$k]['num']);
+                $count['money'] += floatval($goods[$k]['price']*$goods[$k]['num']); 
+            }
+            // return dump($goods);
+            $data = [];
+            #如果余额优先
+            if($money_first === 'on'){
+                $user = Db::name('users') -> where(['id'=>session(config('USER_ID'))]) -> find();
+                if($user['money']>=$count['money']){ //余额足够
+                    
+                }else{//余额不够的时候
+
+                }
+                return dump($user);
+            }
+
+            $data = ['userid'=>session(config('USER_iD')), 'order_id'=>$order_id, 
+                'status'=>0, 'pay_status'=>0, 'money'=>$count['money'], 'baits'=>$count['baits'], 'points'=>$count['points'],
+                'payment_id'=>$pay, 'payment_name'=>$payment[$pay]['name'],
+                'shipping_id'=>$delivery[$ship]['id'], 'shipping_name'=>$delivery[$ship]['title'],
+                'user_name'=>$address['name'], 'user_address'=>$address['province'].$address['city'].$address['area'].$address['address'],
+                'user_mobile'=>$address['mobile']  ];
+
+            #生成细表记录
+            $detail = Db::name('order_detail') -> insertAll($goods);
+
+            if($detail){
+                $create = Db::name('order') -> insert($data);
+                if($create){ //订单生成成功 
+                    # 删除购物车信息
+                    $cartObj = new Cart();
+                    $cartObj->delete($id_list, 'order'); //注意这个方法有两个参数的时候
+
+                    return '订单生成成功'; exit;
+                }
+            }else{
+                return '订单生成失败'; exit;
+            }
+
+            
+        }else{
+            return '订单生成失败'; exit;
+        }
 
     }
 
+    // public function
 
     #设置默认地址
     public function defAddr(){

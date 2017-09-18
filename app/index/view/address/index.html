@@ -20,12 +20,23 @@
     .addbutton{width: 120px;height: 45px;background: #6AD4C9;font-size: 14px;color: #fff;font-weight: 900;}
     .more-info-navbars{border: 1px solid #6ad4c9;margin-top: -6px;}
     .clear{clear: both;}
+    .ftx-03{font-size: 12px;font-weight: 400;margin-left: 10px;color:#999;}
+    .ftx-02{font-size: 12px;font-weight: 400;color:#71b247;}
+    .pro{min-width: 85px;margin:14px 15px 0px 0px;border: 1px solid #E0E0E0;color:#666;}
+    .middle-lab{width: 90px;height: 50px;}
 </style>
 <div class="content-panel" data-ng-controller="addrCtrl">
     <div class="more-info-navbar wp_100 ">
         <ul  >
             <li>
                 <a href="javascript: void(0);">收货地址</a>
+                <span class="ftx-03">
+                        您已创建
+                        <span id="addressNum_top" class="ftx-02"><{$count}></span>
+                        个收货地址，最多可创建
+                        <span class="ftx-02">10</span>
+                        个
+                </span>
             </li>
         </ul>
     </div>
@@ -53,17 +64,19 @@
                 <span></span><br>
                 <span></span><br>
                 <span class="option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认地址</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="option">编辑</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="option">删除</span>
+                <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('del',['id' => $vo['id']])}>"><span class="option">删除</span></a>
             </div>
         </div>
         <{/volist}>
     </div>
     <div class="clear"></div>
+    <{if condition="$count < 10"}>
     <div class="wp_100" >
 
-        <div class="addaddress">新增收货地址</div>
-        <form  method="post" name="form" action="">
+        <div class="addaddress">新增收货地址</div> 
+
+        <form  method="post" name="form" action="<{:url('add')}>">
             <div class="user-address-add  wp_100">
                 <div class="wp_30 rights">
                     <span class="right-label">收货人：</span><br>
@@ -73,9 +86,9 @@
                     <span class="right-label">邮编：</span> 
                 </div>
                 <div class="wp_70 middles">
-                    <span class="middle-label"><input type="text" name="name"></span><br>
-                    <span class="middle-label f_l">
-                        <select id="province" name="province">
+                    <span class="middle-label"><input type="text" name="name" required></span><br>
+                    <span class="middle-lab f_l">
+                        <select id="province" class="pro kshow" name="province" required>
                             <option value="" selected>==选择==</option>
                             <{volist name="province" id="vo"}>
                             <option value="<{$vo.id}>"><{$vo.name}></option>
@@ -83,64 +96,92 @@
                         </select>
                     </span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="middle-label f_l">
+                    <span class="middle-lab f_l">
                         <select id="city" name="city" class="khidden">
                             
                         </select>
                     </span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="middle-label f_l">
+                    <span class="middle-lab f_l">
                         <select id="area" name="area" class="khidden">
                             
                         </select>
                     </span>
                     <br>
-                    <span class="middle-label"><input type="text" name="name"></span><br>
-                    <span class="middle-label"><input type="text" name="name"></span><br>
-                    <span class="middle-label"><input type="text" name="name"></span>
+                    <span class="middle-label"><input type="text" name="address" required></span><br>
+                    <span class="middle-label"><input type="text" name="mobile" required pattern='^\d{11}$'></span><br>
+                    <span class="middle-label"><input type="text" name="zipcode"></span>
                     
                 </div>
             </div>
-           
+            <div class="clear"></div>
+            <div class="more-info-navbar wp_100">  
+                <a class="pull-right"  href="javascript: void(0);" title="新增地址">
+                    <button class="submit-btn-default ">新增地址</button>
+                </a>
+            </div>
         </form>
-        <div class="clear"></div>
-        <div class="more-info-navbar wp_100">  
-            <a class="pull-right" href="javascript: void(0);" title="新增地址">
-                <button class="submit-btn-default ">新增地址</button>
-            </a>
-        </div>
     </div>
-    
+    <{/if}>
 </div>
+
 <script>
 
     $(document).ready(function(){
         //选择省份
         $('select[name=province]').change(function(){
-            $('select[name=city]').empty(); //清除原有的元素
-
-            $.ajax({
-                type: 'get',
-                url: '/index/address/city',
-                data: {id: $(this).val()},
-                success: function(response){
-                    $('select[name=city]').removeClass('khidden').addClass('kshow');
-                    var html = createHtml(JSON.parse(response));
-                    $('select[name=city]').append(html);
-                },
-                error: function(e){
-                    console.log(e);
-                }
-            });
             
+            $('#city,#area').removeClass('kshow').addClass('khidden');
 
-        });  
+            $('select[name=city]').empty(); //清除原有的元素
+            
+            var ob = $(this).val();
+            if(ob !=''){
+                $.ajax({
+                    type: 'get',
+                    url: '/index/address/city',
+                    data: {id: ob},
+                    success: function(response){
+                        console.log(response);
+                        $('select[name=city]').removeClass('khidden').addClass('kshow pro');
+                        var html = createHtml(JSON.parse(response));
+                        $('select[name=city]').append(html);
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            }
+        });
+        //选择市
+        $('select[name=city]').click(function(){
+            $('select[name=area]').empty(); //清除原有的元素
+            
+                $.ajax({
+                    type: 'get',
+                    url: '/index/address/area',
+                    data: {id: $(this).val()},
+                    success: function(response){
+                        
+                        $('select[name=area]').removeClass('khidden').addClass('kshow pro');
+                        var html = createHtml(JSON.parse(response));
+                        $('select[name=area]').append(html);
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            
+        });
+
     });
+
+    
 
 
     function createHtml(data){
         var html = '';
-        for(var i=0; i<data.length-1; i++){
+        for(var i=0; i<data.length; i++){
             html += '<option value="'+data[i]['id']+'">'+data[i]['name']+'</option>';
         }
         return html;

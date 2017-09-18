@@ -78,8 +78,8 @@
                 </div>
                 &nbsp;全选
             </li>
-            <li> <a href="javascript: void(0);" >删除选中商品</a></li>
-            <li><a href="<{:url('cart/delate')}>" >清理下架商品</a></li>
+            <li> <a href="/index/cart/delete/id_list/{{cart_list}}" >删除选中商品</a></li>
+            <li><a href="<{:url('cart/delete')}>" >清理下架商品</a></li>
         </ul>
 
         <a class="pull-right" href="/index/order/preview/id_list/{{cart_list}}" title="结算选中商品">

@@ -1,0 +1,174 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+    .user-address-add{padding:20px 20px;}
+    .user-address-add div{float: left;}
+    .rights{text-align: right;line-height: 50px;}
+    .middles{line-height: 50px;}
+    .middle-label{font-size: 14px;color:#666;}
+    .right-label{font-size: 14px;color: #999;}
+    .addaddress{height:50px;line-height:50px;font-size: 14px;color:#6AD4C9;}
+    .middle-label input{width: 500px;height:30px;border: 1px solid #E0E0E0;}
+    .clear{clear: both;}
+    .pro{min-width: 85px;margin:14px 15px 0px 0px;border: 1px solid #E0E0E0;color:#666;}
+    .middle-lab{width: 90px;height: 50px;}
+</style>
+<div class="content-panel">
+    
+    <div class="wp_100" >
+
+        <div class="addaddress">修改收货地址</div>
+        <form  method="post" name="form" action="<{:url('editor')}>">
+            <div class="user-address-add  wp_100">
+                <div class="wp_30 rights">
+                    <input type="hidden" name="id" value="<{$address.id}>"/>
+                    <span class="right-label">收货人：</span><br>
+                    <span class="right-label">所在地区：</span><br> 
+                    <span class="right-label">地址：</span><br> 
+                    <span class="right-label">手机：</span><br>
+                    <span class="right-label">邮编：</span> 
+                </div>
+                <div class="wp_70 middles">
+                    <span class="middle-label"><input type="text" name="name" value="<{$address.name}>"></span><br>
+                    <span class="middle-lab f_l">
+                        <select id="province" class="pro kshow" name="province" >
+                            <{volist name="province" id="vo"}>
+                                <{if $address.province == $vo.id}>
+                                    <option value="<{$vo.id}>" selected><{$vo.name}></option>
+                                <{else}>
+                                    <option value="<{$vo.id}>"><{$vo.name}></option>
+                                <{/if}>
+                            <{/volist}>
+                        </select>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="middle-lab f_l">
+                        <select id="city" class="pro kshow" name="city">
+                            <{volist name="pro" id="vo"}>
+                                <{if $address.city == $vo.id}>
+                                    <option value="<{$vo.id}>" selected><{$vo.name}></option>
+                                <{else}>
+                                    <option value="<{$vo.id}>"><{$vo.name}></option>
+                                <{/if}>
+                            <{/volist}>
+                        </select>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="middle-lab f_l">
+                        <select id="area" class="pro kshow" name="area">
+                            <{volist name="prov" id="vo"}>
+                                <{if $address.area == $vo.id}>
+                                    <option value="<{$vo.id}>" selected><{$vo.name}></option>
+                                <{else}>
+                                    <option value="<{$vo.id}>"><{$vo.name}></option>
+                                <{/if}>
+                            <{/volist}>
+                        </select>
+                    </span>
+                    <br>
+                    <span class="middle-label"><input type="text" name="address"  value="<{$address.address}>"></span><br>
+                    <span class="middle-label"><input type="text" name="mobile"  value="<{$address.mobile}>" pattern='^\d{11}$'></span><br>
+                    <span class="middle-label"><input type="text" name="zipcode" value="<{$address.zipcode}>"></span>
+                    
+                </div>
+            </div>
+        
+            <div class="clear"></div>
+            <div class="more-info-navbar wp_100">  
+                <a class="pull-right" href="javascript: void(0);" title="修改地址">
+                    <button class="submit-btn-default ">修改地址</button>
+                </a>
+            </div>
+        </form>
+    </div>
+    
+</div>
+<script>
+
+    $(document).ready(function(){
+        //选择省份
+        $('select[name=province]').change(function(){
+            $('#city,#area').removeClass('kshow').addClass('khidden');
+
+            $('select[name=city]').empty(); //清除原有的元素
+
+            $.ajax({
+                type: 'get',
+                url: '/index/address/city',
+                data: {id: $(this).val()},
+                success: function(response){
+                    // console.log(response);
+                    $('select[name=city]').removeClass('khidden').addClass('kshow pro');
+                    var html = createHtml(JSON.parse(response));
+                    $('select[name=city]').append(html);
+                },
+                error: function(e){
+                    console.log(e);
+                }
+            });
+
+        });
+        //选择市
+        $('select[name=city]').click(function(){
+            $('select[name=area]').empty(); //清除原有的元素
+
+            $.ajax({
+                type: 'get',
+                url: '/index/address/area',
+                data: {id: $(this).val()},
+                success: function(response){
+                    // console.log(response);
+                    $('select[name=area]').removeClass('khidden').addClass('kshow pro');
+                    var html = createHtml(JSON.parse(response));
+                    $('select[name=area]').append(html);
+                },
+                error: function(e){
+                    console.log(e);
+                }
+            });
+
+        });
+
+    });
+
+    
+
+
+    function createHtml(data){
+        var html = '';
+        for(var i=0; i<data.length; i++){
+            html += '<option value="'+data[i]['id']+'">'+data[i]['name']+'</option>';
+        }
+        return html;
+    }
+
+
+
+
+
+
+    //angularjs 还没学会怎么动态操作option,先用jquery写吧 ToT
+    // app.controller('addrCtrl', function($scope, $http){ 
+        // $scope.changex = function(x){
+        //     $http.get('/index/address/city', {params: {"id": x}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.citys = response;
+        //     }, function errorCallback(response){
+
+        //     });
+
+        // }
+
+        // $scope.changey = function(y){
+        //     $http.get('/index/address/area', {params: {"id": y}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.areas = response;
+        //     }, function errorCallback(response){
+
+        //     });
+        // }
+    // });
+</script>
+<{/block}>
