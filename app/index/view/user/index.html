@@ -1,0 +1,89 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+    .m_a{margin: 0 auto;}
+    .user_headimg{margin-top: 15px;box-shadow: 0 3px 10px #949894;}
+    
+    .f_c{color: #666;}
+    .l_h_40{line-height: 40px;}
+    .file_btn{border:1px solid #666;border-radius: 5px;}
+    .file_btn:hover{background: #CDCDCD;}
+    .edits{color: #005EA7;}
+    .edits:hover{color: #E4393C;}
+</style>
+<form class="form-horizontal" method="post" role="form" action="<{:url('editor')}>" enctype="multipart/form-data">
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">个人信息</a>
+            </li>
+        </ul>
+    </div>
+    <div class="wp_100">
+        <div class="wp_25  f_l">&nbsp;</div>
+        <div class="wp_50  f_l">
+            <input type="hidden" name="id" value="<{$users.id}>"/>
+            <div class="w100 h100 m_a user_headimg">
+                <img class="hp_100 wp_100 o_h" src="<{$users.headimg}>" alt="用户头像未显示">
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">昵称：</span>
+                <span class="wp_50 f_l t_l f_c"><input id="shows" class="w150 h30 f_c" type="text" name="name" value="<{$users.name}>" required></span>
+                <!-- <span id="edits" class="wp_10 edits">修改</span> -->
+            </div>
+            <div class="wp_100 l_h_40">
+                <span class="wp_40 f_l t_r f_c">真实姓名：</span>
+                <span class="wp_60 f_l t_l f_c"><{$users.realname}></span>
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">性别：</span>
+                <span class="wp_60 f_l t_l f_c">
+                    <{if $users.sex==1}>
+                    <input type="radio" name="sex" value="1" checked/>&nbsp;男&nbsp;&nbsp;
+                    <input type="radio" name="sex" value="0" />&nbsp;女
+                    <{else}>
+                    <input type="radio" name="sex" value="1" />&nbsp;男&nbsp;&nbsp;
+                    <input type="radio" name="sex" value="0" checked/>&nbsp;女
+                    <{/if}>
+                </span>
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">手机号：</span>
+                <span class="wp_60 f_l t_l f_c"><input id="mobile" class="w150 h30 f_c" type="text" name="mobile" value="<{$users.mobile}>" pattern='^\d{11}$'></span>
+                
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">QQ：</span>
+                <span class="wp_60 f_l t_l f_c"><input id="qq" class="w150 h30 f_c" type="text" name="qq" value="<{$users.qq}>"></span>
+                
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">邮箱：</span>
+                <!-- 正则邮箱验证 pattern='/^[_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,3}$/' -->
+                <span class="wp_60 f_l t_l f_c"><input id="email" class="w150 h30 f_c" type="text" name="email" value="<{$users.email}>" ></span>
+                
+            </div>
+            <div class="wp_100 m_t20 l_h_40">
+                <span class="wp_40 f_l t_r f_c">上传头像：</span>
+                <span class="wp_60 f_l t_l f_c">
+                    <div class="w90 h40 t_c">
+                        <input id="headimg" type="file" accept="image/*" class="form-control fileinput" name="headimg" upurl=""/>
+                    </div>
+                    <script>
+                        initFileInput('headimg', $('input#headimg').attr('upurl'));
+                    </script>
+                </span>
+            </div>
+        </div>
+        <div class="wp_25  f_l"></div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="more-info-navbar wp_100">
+    <a class="pull-right" href="javascript: void(0);" title="提交">
+        <button class="submit-btn-default ">提交</button>
+    </a>
+</div>
+</form>
+<{/block}>

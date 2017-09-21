@@ -63,11 +63,35 @@ class Cart extends Common
 
     #数量增加
     public function setInc(){
+        $id = input('id', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
+        if($inc){
+            return $this->redirect('index'); exit;
+        }else{
+            return $this->error('修改失败');
+        }
+
+
 
     }
 
     #数量减少
     public function setDec(){
+        $id = input('id', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        $inc = Db::name('cart') -> where(['id'=>$id]) -> setDec('num', 1);
+        if($inc){
+            return $this->redirect('index'); exit;
+        }else{
+            return $this->error('修改失败');
+        }
+
+
+    }
+
+    #手动修改数量
+    public function changeNum(){
 
     }
 
@@ -124,13 +148,6 @@ class Cart extends Common
             $data = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
                 'goods_id'=>$id, 'spec'=>$sid]) -> find();
         }
-
-        // if($result){
-        //     $this->assign('result', ['status'=>true, 'goods'=>$goods, 'num'=>$data['num']]);
-        // }else{
-        //     $this->assign('result', ['status'=>false, 'goods'=>$goods]);
-        // }
-        // return $this->fetch('add');
 
         if($result){
 

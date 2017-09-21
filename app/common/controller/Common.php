@@ -9,6 +9,7 @@
 
 namespace app\common\controller;
 use app\common\controller\Authority as Authority;
+use app\common\controller\Gaode as Gaode;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -19,6 +20,11 @@ class Common extends Controller
     protected function _initialize(){
         // Session::set(Config::get('USER_ID'), 1);//测试账号
         
+        if(empty(session('LOCATION'))){
+            $gaode = new Gaode();
+            $gaode->IPLocation();
+        }
+
         #是否登录
         // if(!Authority::isLogin()){
         if( Session::get(Config::get('USER_ID')) ){

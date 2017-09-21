@@ -19,10 +19,10 @@ class Fishing extends Common
         }
         
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>'支付页面', 'template'=>$config['mall_template']['value'] 
+        $this->assign('config', ['page_title'=>'钓鱼页面', 'template'=>$config['mall_template']['value'] 
             ]);
 
-        return '支付';
+        return '钓鱼页面';
 
 
         return $this->fetch();

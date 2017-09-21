@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
+use app\common\controller\Gaode as Gaode;
 use app\common\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
@@ -10,6 +11,13 @@ class Index extends controller
 {
 
     public function index(){
+        
+
+        if(empty(session('LOCATION'))){
+            $gaode = new Gaode();
+            $gaode->IPLocation();
+        }
+
 
         // echo Session::get(Config::get('USER_ID')); die;
         if(Session::get(Config::get('USER_ID'))){
@@ -33,8 +41,8 @@ class Index extends controller
             $user = decodeCookie('user');
             $data = [
                 'left'=> [
-                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/user/index', 'iconfont'=>''],
-                    ['title'=>'定位', 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
+                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/order/index', 'iconfont'=>''],
+                    ['title'=>session('LOCATION.CITY'), 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
                     // ['title'=>'注销', 'url'=>'javascript: void(0);', 'iconfont'=>'']
                 ]
             ];
@@ -44,7 +52,7 @@ class Index extends controller
                     ['title'=>'欢迎来到'.$config['web_name']['value'], 'url'=>'/index/index/index', 'iconfont'=>''], 
                     ['title'=>'欢迎登录', 'url'=>'/index/login/index', 'iconfont'=>''],
                     ['title'=>'免费注册', 'url'=>'/index/register/index', 'iconfont'=>''],
-                    ['title'=>'定位', 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker']
+                    ['title'=>session('LOCATION.CITY'), 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker']
                 ]
             ];
         }
@@ -52,7 +60,7 @@ class Index extends controller
             'mobile' => '/index/mobile/index', 
             'order'=> '/index/order/index', 
             'collection'=> '/index/collection/index', 
-            'user'=> '/index/user/index'
+            'user'=> '/index/order/index'
         ];
 
         echo json_encode($data, JSON_UNESCAPED_UNICODE);

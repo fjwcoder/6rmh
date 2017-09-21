@@ -124,29 +124,35 @@ class Member extends Manage
             $data['adduser'] = Session::get(Config::get('ADMIN_AUTH_NAME'));
 
             $result = db('admin_member', [], false) -> insert($data);
+            if($result){
+                session('user', null);
+                return $this->success('成功', request()->controller().'/index');
+            }else{
+                return $this->error('失败');
+            }
         }else{
             $id = $data['id'];
             #头像上传
-            if(!empty($_FILES)){
+            // return dump($_FILES['headimg']['name'][0]);
+            if(!empty($_FILES['headimg']['name'])){
                 $upload = uploadHeadImg('images'.DS.'headimg');
+
                 if($upload['status']){
-                    $data['headimg'] = $upload['path'];
+                    $data['headimg'] = $upload['path'][0];
                 }else{
                     return $this->error('头像上传失败');
                 }
             }
 
             unset($data['id'], $data['password'] );
+            // return dump($data);
             $result = db('admin_member', [], false) -> where(array('id'=>$id)) ->update($data);
+            session('user', null);
+            return $this->success('成功', request()->controller().'/index');
         }
 
         
-        if($result){
-            session('user', null);
-            return $this->success('成功', request()->controller().'/index');
-        }else{
-            return $this->error('失败');
-        }
+        
     }
 
     #用户节点权限设置

@@ -31,7 +31,7 @@ use think\Cache;
 // | uploadImg 图片上传
 // | getAdminNode 获取用户节点
 // | getOrderID 获取唯一的订单号
-// | checkPost: 验证
+// | clientIP: 获取IP地址
 // |
 // |
 // |
@@ -413,31 +413,8 @@ function getAdminLevel(){
 // +----------------------------------------------------
 // | 图片上传方法，只支持上传到本地服务器
 // +----------------------------------------------------
-function uploadHeadImg($dir=''){
-    $static = DS.'upload'.DS.$dir.DS;
-    $upurl = ROOT_PATH.'public'.DS.'static'.$static;
-    
-    if (! file_exists ( $upurl )) {
-        mkdir ( "$upurl", 0777, true );
-    }
-    $keys = array_keys($_FILES);
-    foreach($keys as $key){
-        $files = request()->file($key);
-        if(!empty($files)){
-            foreach($files as $key=>$file){
-                $info = $file -> move($upurl);
-                if($info){
-                    return ['status'=>true, 'path'=>'__STATIC__'.$static.$info->getSaveName()];
-                }else{
-                    // 上传失败获取错误信息
-                    return ['status'=>false, 'error'=>$file->getError()];
-                }
-            }
-        }
-    }
-    return ['status'=>false]; 
-}
 
+#多图片上传
 function uploadImg($dir=''){
     $static = DS.'upload'.DS.$dir.DS;
     $upurl = ROOT_PATH.'public'.DS.'static'.$static;
@@ -462,6 +439,35 @@ function uploadImg($dir=''){
                     return ['status'=>false, 'error'=>$file->getError()]; exit; //只要有一张上传失败，都算失败
                 }
             }
+        }
+    }
+    return ['status'=>true, 'path'=>$path]; 
+}
+
+#头像上传
+function uploadHeadImg($dir=''){
+    $static = DS.'upload'.DS.$dir.DS;
+    $upurl = ROOT_PATH.'public'.DS.'static'.$static;
+    
+    if (! file_exists ( $upurl )) {
+        mkdir ( "$upurl", 0777, true );
+    }
+    $path = [];
+
+    $keys = array_keys($_FILES);
+    foreach($keys as $key){
+        $files = request()->file($key);
+        if(!empty($files)){
+            
+                $info = $files -> move($upurl);
+                
+                if($info){
+
+                    $path[] = '__STATIC__'.$static.$info->getSaveName();
+                }else{
+                    // 上传失败获取错误信息
+                    return ['status'=>false, 'error'=>$file->getError()]; exit; //只要有一张上传失败，都算失败
+                }
         }
     }
     return ['status'=>true, 'path'=>$path]; 
@@ -497,11 +503,16 @@ function getOrderID(){
     return $orderSn;
 }
 
-function checkPost($array){
-    foreach($array as $k=>$v){
-        if(empty($v) || $v==0){
-            return false; exit;
-        }
-    }
-    return true;
+//获取当前客户端的IP地址
+function clientIP() { 
+    if(getenv('HTTP_CLIENT_IP')){ 
+        $client_ip = getenv('HTTP_CLIENT_IP'); 
+    } elseif(getenv('HTTP_X_FORWARDED_FOR')) { 
+        $client_ip = getenv('HTTP_X_FORWARDED_FOR'); 
+    } elseif(getenv('REMOTE_ADDR')) {
+        $client_ip = getenv('REMOTE_ADDR'); 
+    } else {
+        $client_ip = $_SERVER['REMOTE_ADDR'];
+    } 
+    return $client_ip; 
 }

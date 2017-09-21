@@ -1,0 +1,77 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+
+    .f_c{color: #666;}
+</style>
+<form class="form-horizontal" method="post" role="form" action="<{:url('password')}>" enctype="multipart/form-data">
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">修改登录密码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="wp_100">
+        <div class="wp_25  f_l">&nbsp;</div>
+        <div class="wp_50  f_l m_t50">
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">原密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="old-password" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">新密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="pass" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">重复密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="repass" value=""></span>   
+            </div>
+        </div>
+        <div class="wp_25  f_l"></div>
+    </div><div class="clear"></div>
+    <div class="more-info-navbar wp_100">
+            <a class="pull-right" href="javascript: void(0);" title="提交">
+                <button class="submit-btn-default ">提交</button>
+            </a>
+        </div>
+</div>
+
+
+</form>
+<form class="form-horizontal" method="post" role="form" action="<{:url('payword')}>" enctype="multipart/form-data">
+    <div class="user-panel address">
+        <div class="more-info-navbar wp_100 ">
+            <ul  >
+                <li>
+                    <a href="javascript: void(0);">修改付款密码</a>
+                </li>
+            </ul>
+    </div>
+    <div class="wp_100">
+        <div class="wp_25  f_l">&nbsp;</div>
+        <div class="wp_50  f_l m_t50">
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">原密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="old-password" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">新密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="pass" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r f_c">重复密码：</span>
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="repass" value=""></span>   
+            </div>
+        </div>
+        <div class="wp_25  f_l"></div>
+    </div><div class="clear"></div>
+    <div class="more-info-navbar wp_100">
+            <a class="pull-right" href="javascript: void(0);" title="提交">
+                <button class="submit-btn-default ">提交</button>
+            </a>
+        </div>
+    </div>
+</form>
+<{/block}>

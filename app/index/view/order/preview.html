@@ -29,8 +29,8 @@
                             &nbsp;&nbsp;
                         <{/if}> 
                         <a href="javascript: void(0);">编辑</a> 
-                        &nbsp;&nbsp;
-                        <a href="/index/order/deladdr/id_list/<{$id_list}>/id/<{$vo.id}>">删除</a> 
+                        <!--&nbsp;&nbsp;
+                        <a href="/index/order/deladdr/id_list/<{$id_list}>/id/<{$vo.id}>">删除</a> -->
                     </div>
                 </div>
             <{/volist}>
@@ -42,7 +42,10 @@
         <div class="panel-heading">
             <h3 class="panel-title"> 
                 支付方式   &nbsp;&nbsp;&nbsp;&nbsp;
-                <input name="money_first" type="checkbox"/>优先使用余额
+                <span class="hint-str">
+                    <input name="money_first" type="checkbox"/>优先使用余额
+                </span>
+                
             </h3>
         </div>
         <div class="panel-body">
@@ -89,10 +92,11 @@
                         <p title="<{$vo.description}>"><{$vo.name}></p>
                         <p>
                             规格：<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="javascript: void(0);" class="pull-right">
-                                赠送鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;&nbsp;&nbsp;
-                                获得<{$vo.point*$vo.num}>积分
-                            </a>
+                            <span class="hint-str pull-right">
+                                赠送鱼饵：
+                                <span class="hint-int"><{$vo.bait*$vo.num}></span>个&nbsp;&nbsp;&nbsp;&nbsp;
+                                获得<span class="hint-int"><{$vo.point*$vo.num}></span>积分
+                            </span>
                         </p>
                         <{if $vo.promotion != ''}>
                             <span class="goods-promotion " > <{$vo.promotion}> </span>
@@ -157,6 +161,7 @@
     app.controller('previewCtrl', function($scope) {
         $scope.isChose = 1;
         $scope.addrID = <{$address[0]['id']}>; //默认是默认地址的ID
+        $scope.delivery = 1;
         $scope.paySelect = function($id) {
             $scope.isChose = $id;
         }

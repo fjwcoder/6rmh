@@ -1,97 +1,127 @@
-<{extend name="./public/index"/}>
+<{extend name="./public/user"/}>
 <{block name="content"}>
-<div  class=" content-panel " ng-controller="cartCtrl">
-    <div class="more-info-navbar wp_100 ">
-        <ul  >
-            <li>
-                <a href="javascript: void(0);">购物车</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="more-info-detail table-title wp_100">
-        <div class=" wp_15">
-            <div class="hp_100 pull-left">
-                <input ng-model="checked"  type="checkbox"/>
-            </div>
-            &nbsp;全选
+<div  class=" user-panel order-preview-html " >
+    <div class="more-info wp_100 ">
+        <div class="more-info-navbar wp_100 ">
+            <ul  >
+                <li  >
+                    <a href="<{:url('index')}>" >全部订单</a>
+                </li>
+                <li class="li-split">/</li>
+                <li   >
+                    <a href="<{:url('index', ['status'=>1])}>"  >待支付</a>
+                </li>
+                <li class="li-split" >/</li>
+                <li  >
+                    <a href="<{:url('index', ['status'=>2])}>" >待发货</a>
+                </li>
+                <li class="li-split" >/</li>
+                <li  >
+                    <a href="<{:url('index', ['status'=>3])}>" >待收货</a>
+                </li>
+                <li class="li-split" >/</li>
+                <li  >
+                    <a href="<{:url('index', ['status'=>4])}>" >已完成</a>
+                </li>
+                <li class="li-split" >/</li>
+                <li  >
+                    <a href="javascript: void(0);" >已取消</a>
+                </li>
+            </ul>
         </div>
-        <div class=" wp_50">商品</div>
-        <div class=" wp_10">单价</div>
-        <div class=" wp_10">数量</div>
-        <div class=" wp_10">小计</div>
-        <div class=" wp_5">操作</div>
-    </div>
-    <div class="more-info-detail wp_100" >
-        <{volist name="carts" id="vo"}>
-            <div class="cart-goods-record  wp_100">
-                <div class="wp_15">
-                    
-                    <input ng-checked="{{m}}" type="checkbox"/>
-                    <a href="javascript: void(0);">
-                        <img title="<{$vo.sub_name}>" class="cart-goods-pic" src="<{$vo.pic}>"/>
-                    </a>
-                </div>
-                <div class="goods-detail wp_50">
-                    <p title="<{$vo.description}>"><{$vo.name}></p>
-                    <p>
-                        规格：<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript: void(0);" class="pull-right">
-                            赠送鱼饵：<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;
-                            获得<{$vo.point}>积分
-                        </a>
-                    </p>
-                    <!--<a href="javascript: void(0);">促销活动：</a>-->
-                    <span class="goods-promotion " ><{$vo.promotion}></span>
 
-                </div>
-                <div class=" wp_10">
-                    <span class="font-color-sub_main">¥ <{$vo.price}></span>
-                    
-                </div>
-                <div class=" wp_10">
-                    <input class="cart-goods-num" name="number" value="<{$vo.num}>"/>
-                </div>
-                <div class=" wp_10">
-                    <span class="font-color-sub_main">¥ <{$vo.price*$vo.num}></span>
-                    
-                </div>
-                <div class=" wp_5">
-                    <a href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">
-                        删除
-                    </a>
-                </div>
+    </div>
+
+    <div class="panel panel-default ">
+        <div class="panel-heading main-panel-heading">
+            <div class=" f_l wp_60 panel-title">商品详情</div>
+            <div class=" f_l wp_10 t_c panel-title">收货人</div>
+            <div class=" f_l wp_10 t_c panel-title">金额</div>
+            <div class=" f_l wp_10 t_c panel-title">订单状态</div>
+            <div class=" f_l wp_10 t_c panel-title">操作</div>
+        </div>
+    </div>
+    <{volist name="order" id="vo"}>
+        <div class="panel panel-default ">
+        <div class="panel-heading">
+            <{$vo.order.addtime}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            订单号：<{$vo.order.order_id}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            六耳泥猴
+
+            
+        </div>
+        <div class="panel-body more-info-detail order-panel-body">
+            <div class="order-item-div wp_60 f_l">
+                <{volist name="vo.detail" id="v"}>
+                    <div class="wp_100 order-goods-detail f_l">
+                        <div class="wp_20 f_l">
+                            <a href="/index/goods/detail/id/<{$v.gid}>">
+                                <img class="cart-goods-pic" src="<{$v.pic}>"/>
+                            </a>
+                        </div>
+                        <div class="wp_60 f_l ">
+                            <{$v.goods_name}>
+                            <br><br>
+                            <{if $v.promotion != ''}>
+                                <span class="goods-promotion " > <{$v.promotion}> </span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <{/if}>
+                            <{$v.spec}>
+                            
+                        </div>
+                        <div class="wp_20 f_l t_c">
+                            x <{$v.num}>
+                        </div>
+                    </div>
+                <{/volist}>
             </div>
-        <{/volist}>
+            <div class="order-item-div wp_10 hp_100 t_c f_l">
+                <span class="order-user" data-container="body" title="联系方式：<{$vo.order.user_mobile}>" data-toggle="popover" data-placement="left" 
+                data-content="收货地址：<{$vo.order.user_address}>  ">
+                    <i class="fa fa-user-o"></i>&nbsp;<{$vo.order.user_name}>
+                </span>
+                
+            </div>
+            <div class="order-item-div wp_10 hp_100 t_c f_l">
+                 <i class="fa fa-rmb"></i>&nbsp;<{$vo.order.money}>
+            </div>
+            <div class="order-item-div wp_10 hp_100 t_c f_l">
+                <{switch name="vo.order.status"}>
+                    <{case value=1}>待支付<{/case}>
+                    <{case value=2}>待发货<{/case}>
+                    <{case value=3}>待收货<{/case}>
+                    <{case value>=4}>已完成<{/case}>
+                    <{default}>其他
+                <{/switch}>
+            </div>
+            <div class="order-item-div wp_10 hp_100 t_c f_l">
+                <{switch name="vo.order.status"}>
+                    <{case value=1}><{$vo.order.payment_name}><{/case}>
+                    <{case value=2}>提醒发货<{/case}>
+                    <{case value=3}>确认收货<{/case}>
+                    <{case value>=4}>评价<{/case}>
+                    <{default}>其他
+                <{/switch}>
+            </div>
+        </div>
     </div>
-    <div class="more-info-navbar wp_100">
-        <ul  >
-            <li>
-                <div class="hp_100 pull-left">
-                    <input ng-checked="m" ng-model="checked" ng-click="allChose();"  type="checkbox"/>
-                </div>
-                &nbsp;全选
-            </li>
-            <li> <a href="javascript: void(0);" >删除选中商品</a></li>
-            <li><a href="<{:url('cart/delate')}>" >清除购物车</a></li>
-        </ul>
+    <{/volist}>
 
-        <a class="pull-right" href="javascript: void(0);" title="结算选中商品">
-            <button class="submit-btn-default ">去结算</button>
-        </a>
-    </div>
+
 </div>
-
 <script>
-    app.controller('cartCtrl', function($scope) {
-
-        $scope.allChose = function(){
-            $scope.m = true;  
-        }
-
+    $(function () { 
+        $("[data-toggle='popover']").popover();
+        $("[data-toggle='popover']").mousemove(function(){
+            $(this).popover('show');
+        });
+        $("[data-toggle='popover']").mouseout(function(){
+            $(this).popover('hide');
+        });
+        // $("[data-toggle='popover']").mouseover(function(){
+        //     $(this).popover('toggle');
+        // });
     });
-
-
-
 </script>
+
 <{/block}>

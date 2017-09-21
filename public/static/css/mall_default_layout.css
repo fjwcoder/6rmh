@@ -3,7 +3,7 @@
 
 .abs{position: absolute;}
 li, ul{list-style: none; margin: 0;}
-i.fa{color: #6ad4c9;}
+i.fa{color: #6ad4c9; }
 .main-color{color: #6ad4c9;}
 a{color: #8e8e8e;}
 .kshow{display: block!important;}
@@ -17,8 +17,11 @@ input{outline: none;}
 .clear{clear: both;}
 .l_h_30{line-height: 30px;}
 .l_h_50{line-height: 50px;}
+.m_t20{margin-top: 20px;}
+.m_t50{margin-top: 50px;}
 .ctrl-option{color:#005EA7;}
 .ctrl-option:hover{color:#F30213;}
+
 /*==================================Mall登录页面=========================================*/
 .login-header{top: 0;}
 .login-header .login-header-panel{width: 1200px; margin: 0 auto; padding: 15px 5%;}
@@ -40,7 +43,7 @@ div.web-login-div button{width: 260px; height: 36px;}
 /*==================================Mall顶部=========================================*/
 
 
-header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0;}
+header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0; z-index: 999;}
 div.content-panel{width: 1200px; margin: 0 auto; }
 
 .web-top li{font-size: 14px; text-align: center; }
@@ -69,7 +72,6 @@ div.shop-cart{margin: 2% 0 0 0; height: 40px; line-height: 40px; width: 200px; b
     font-size: 18px; color: #6ad4c9;}
 i.fa-shopping-cart{font-size: 20px; color: #6ad4c9;}
 
-
 /*==================================Mall内容=========================================*/
 body.web-body{padding-top: 26px; 
 /*background-color: #f6f6f6;*/
@@ -79,7 +81,10 @@ div.navbar-panel ul li{margin: 16px 10px 0 10px; float: left;}
 div.navbar-panel ul li a{font-size: 16px; color: #272727; font-weight: 600;}
 div.navbar-panel ul li a:hover{color: #6ad4c9;}
 li.li-split{color: #8e8e8e;}
+/*special.html*/
 
+
+/*index.html*/
 div.banner-panel{height: 450px; margin-top: 10px;}
 img.banner-img{height: 450px; width: 100%;
     -moz-box-shadow: 0px 3px 10px #949894;
@@ -176,8 +181,34 @@ font-size: 20px; font-weight: 700; border: 0; color: white; margin-left: 20px;}
 span.order-total{margin-top: 10px;}
 
 
+.order-item-div, .order-goods-detail{padding-top: 15px;}
+.order-goods-detail{height: 120px;  border-bottom: 1px solid #e0e0e0;}
+.main-panel-heading{background-color: #f5f5f5!important;}
+.order-panel-body{padding: 0 15px!important;}
+span.order-user{cursor: pointer;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*用户中心*/
-.address .user-address{height: 190px;border-bottom: 1px dashed #f0f0f0;}
+.address .user-address{height: 190px; width: 49%; border: 1px dashed #e0e0e0; margin: 5px;}
 .address .middle-label{font-size: 14px;color:#666;}
 .address .middle-label input{width: 500px;height:30px;border: 1px solid #E0E0E0; padding: 0 10px;}
 .address .right-label{font-size: 14px;color: #999;}
@@ -187,10 +218,10 @@ span.order-total{margin-top: 10px;}
 
 
 .hint-str{font-size: 12px;font-weight: 400;margin-left: 10px;color:#999;}
-.hint-int{font-size: 12px;font-weight: 400;color:#71b247;}
+.hint-int{font-size: 12px;font-weight: 400;color:#6ad4c9;}
 /*.user-footer{bottom: 0;}*/
 .user-panel{width: 1050px; padding: 15px; float: left;}
-.user-left{width: 150px;}
+.user-left{width: 150px; margin-top: 20px;}
 .user-left .panel-default{border: 0!important;}
 .user-left .panel-body{padding: 10px 35px!important;}
 .user-nav-li{margin: 5px 0; cursor: pointer;}

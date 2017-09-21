@@ -14,7 +14,43 @@ class Order extends Common
 
     #订单详情页
     public function index(){
-        return '订单详情页';
+        $status = input('status', 0, 'intval');
+        // echo $status;
+        $order = [];
+        $where['a.userid'] = session(config('USER_ID'));
+        if($status !== 0 ){
+            $where['status'] = $status;
+        }
+        $data = Db::name('order') ->alias('a')
+            ->join('order_detail b', 'a.order_id=b.order_id') 
+            ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
+                'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
+            ->where($where) ->order('a.add_time desc') -> select();
+
+        if(!empty($data)){
+            foreach($data as $k=>$v){
+                if(!array_key_exists($v['order_id'], $order)){
+                    $order[$v['order_id']]['order'] = ['order_id'=>$v['order_id'], 'userid'=>$v['userid'], 'status'=>$v['status'], 
+                        'pay_status'=>$v['pay_status'], 'balance'=>$v['balance'], 'money'=>$v['money'], 'baits'=>$v['baits'], 
+                        'points'=>$v['points'], 'payment_id'=>$v['payment_id'], 'payment_name'=>$v['payment_name'], 
+                        'shipping_id'=>$v['shipping_id'], 'shipping_name'=>$v['shipping_name'], 'addtime'=>$v['add_time'],
+                        'user_name'=>$v['user_name'], 'user_address'=>$v['user_address'], 'user_mobile'=>$v['user_mobile']];
+                }
+                $order[$v['order_id']]['detail'][] = ['gid'=>$v['gid'], 'goods_name'=>$v['goods_name'], 'pic'=>$v['pic'], 'price'=>$v['price'], 
+                    'num'=>$v['num'], 'bait'=>$v['bait'], 'point'=>$v['point'], 'promotion'=>$v['promotion'], 'spec'=>$v['spec']
+                ];
+
+            }
+            // return dump($order);
+            $this->assign('order', $order);
+        }else{
+            $this->assign('order', []);
+        }
+        
+
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>'我的订单', 'template'=>$config['mall_template']['value'] ]);
+        return $this->fetch();
     }
 
     #生成订单预览
@@ -178,7 +214,8 @@ class Order extends Common
                     $cartObj = new Cart();
                     $cartObj->delete($id_list, 'order'); //注意这个方法有两个参数的时候
 
-                    return '订单生成成功'; exit;
+                    return $this->redirect('index');
+                    // return '订单生成成功'; exit;
                 }
             }else{
                 return '订单生成失败'; exit;
