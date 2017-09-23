@@ -25,7 +25,16 @@ function initFileInput(ctrlName, uploadUrl) {
 }; 
 
 $(document).ready(function(){
-
+    $("[data-toggle='popover']").popover();
+    $("[data-toggle='popover']").mousemove(function(){
+        $(this).popover('show');
+    });
+    $("[data-toggle='popover']").mouseout(function(){
+        $(this).popover('hide');
+    });
+    // $("[data-toggle='popover']").mouseover(function(){
+    //     $(this).popover('toggle');
+    // });
 
 
 
