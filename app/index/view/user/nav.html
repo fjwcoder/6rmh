@@ -6,9 +6,11 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li class="user-nav-li" data-url="/index/order/index">
-                        <i class="fa fa-reorder"></i>&nbsp;我的订单
-                    </li>
+                    <a href="/index/order/index">
+                        <li class="user-nav-li" data-url="/index/order/index">
+                            <i class="fa fa-reorder"></i>&nbsp;我的订单
+                        </li>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -38,7 +40,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> 资金记录</h3>
+                <h3 class="panel-title"> 资产明细</h3>
             </div>
             <div class="panel-body">
                 <ul>
@@ -50,12 +52,22 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> 余额记录</h3>
+                <h3 class="panel-title"> 我的余额</h3>
             </div>
             <div class="panel-body">
                 <ul>
-                    <li class="user-nav-li" data-url="javascript: void(0);">余额充值</li>
-                    <li class="user-nav-li" data-url="javascript: void(0);">余额提现</li>
+                    <a href="/index/balance/recharge">
+                        <li class="user-nav-li" data-url="javascript: void(0);">
+                            <i class="fa fa-database"></i>&nbsp;&nbsp;余额充值
+                        </li>
+                    </a>
+                    
+                    <a href="/index/balance/withdraw">
+                        <li class="user-nav-li" data-url="javascript: void(0);">
+                            <i class="fa fa-rmb"></i>&nbsp;&nbsp;&nbsp;余额提现
+                        </li>
+                    </a>
+                    
                 </ul>
             </div>
         </div>

@@ -21,7 +21,7 @@ input{outline: none;}
 .m_t50{margin-top: 50px;}
 .ctrl-option{color:#005EA7;}
 .ctrl-option:hover{color:#F30213;}
-
+.main_font_color{color: #666;}
 /*==================================Mall登录页面=========================================*/
 .login-header{top: 0;}
 .login-header .login-header-panel{width: 1200px; margin: 0 auto; padding: 15px 5%;}
@@ -227,7 +227,7 @@ span.order-user{cursor: pointer;}
 .user-nav-li{margin: 5px 0; cursor: pointer;}
 
 .user-content{ width: 1050px; }
-
+.withdraw{height: 50px;padding: 16px 10px;border-bottom: 1px dashed #f0f0f0;}
 
 /*==================================footer内容=========================================*/
 /*div.footer ul li{float: left!important; font-style: italic;}*/
