@@ -1,0 +1,134 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">名称：</label>
+            <div class="col-sm-5">  
+                <input id="name" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" readonly <{/if}>required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="col-sm-3 control-label">本期描述：</label>
+            <div class="col-sm-5">
+                <input id="title" type="text" class="form-control" name="description" <{if $header.form=="add"}>value=""<{else}>value="<{$result.description}>" <{/if}> required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="begintime" class="col-sm-3 control-label">本期时间：</label>
+            <div class="col-sm-3">
+                <input id="termtime" type="text" class="form-control" name="termtime"/>
+            </div>
+
+            <!--<div class="col-sm-2">
+                <input id="endtime" type="text" class="form-control" name="endtime" />
+            </div>-->
+
+        </div>
+
+        <{if $header.form=="edit" && $result.pic != ""}>
+            <div class="form-group">
+                <label  class="col-sm-3 control-label">本期图片：</label>
+                <div class="col-sm-9 ">
+                    <img src="<{$result.pic}>" alt="图片预览" />
+                </div>
+            </div>
+        <{/if}>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">图片上传：</label>
+            
+            <div class="col-sm-5 ">
+                <input id="termimg" type="file" accept="image/*" class="form-control fileinput" name="pic" upurl=""/>
+            </div>
+            <script>
+                initFileInput('termimg', $('input#termimg').attr('upurl'));
+            </script>
+        </div>
+        
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                    <!--超级管理员不可锁定-->
+                    <{if $result.id > 1}>
+                        <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                    <{/if}>
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />启用
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>锁定
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+
+
+        <{if $header.form=="edit"}>
+        <div class="form-group">
+            <label for="addtime" class="col-sm-3 control-label">添加时间：</label>
+            <div class="col-sm-5 ">
+                <{$result.addtime}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="addname" class="col-sm-3 control-label">添加人：</label>
+            <div class="col-sm-5">
+                <{$result.addname}>
+            </div>
+        </div>
+        
+        <!--显示本期商品-->
+        <div class=" row wp_100 iframe-header">
+            <div class="form-group form-group-iframe-header">
+                <div class="col-xs-12 col-sm-6 " >
+                    <div class="iframe-header-info pull-left text-left" title="页面信息">
+                        <div class="iframe-header-icon text-center pull-left">
+                            <span class=" glyphicon <{$header.icon}>"></span>
+                        </div>
+                        本期直推商品
+                    </div>
+                    <a href="javascript: void(0);">
+                        <div class="iframe-header-back pull-left text-center" title="添加直推商品">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+        <{volist name="goods" id="vo"}>
+            <div class="form-group" style="cursor: pointer;">
+                <div class="col-sm-1 "><{$vo.id}></div>
+                <div class="col-sm-8 "><{$vo.name}></div>
+                <div class="col-sm-1 t_c"><{$vo.price}></div>
+                <div class="col-sm-2 t_c">
+                    <img src="<{$vo.img}>" style="height: 42px; width: 42px;"/>
+                </div>
+            </div>
+
+        <{/volist}>
+        
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+
+
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+        
+    </form>
+<script>
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#termtime', //指定元素
+        range: true
+    });
+</script>
+<{/block}>

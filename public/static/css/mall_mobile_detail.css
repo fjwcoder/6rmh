@@ -1,0 +1,189 @@
+body{
+    background: #eee;
+}
+li{
+    list-style-type: none;
+}
+
+.current{
+    border-bottom: 3px solid #6ad4c9; 
+}
+.product_info,.details, .comment{
+}
+.tab{
+    position: fixed;
+    top: 0em;
+    z-index: 10;
+    width: 100%;
+    height: 3.25em;
+    overflow:hidden;
+    border-bottom:1px solid #6ad4c9;
+    background: #fff;
+    display: none;
+}
+.tab li{
+    text-align: center;
+    font-size: 1.25em;
+    float:left;
+    height:100%; 
+    width: 33.3%;
+    line-height: 3.25em;
+}
+.swiper-slide{
+    overflow: hidden;
+}
+.swiper-slide img{
+    width: 100%;
+}
+
+.swiper-container{
+    box-shadow: 0px 3px 5px #ccc;
+    transition: box-shadow 0.25s;
+}
+.swiper-container:hover{
+    box-shadow: 0px 8px 10px #ccc;
+}
+.swiper-pagination span{
+    background-color: #6ad4c9;
+}
+.swiper-container-contant{
+    overflow: hidden;
+}
+.shop_car{
+    display: none;
+    text-align: center;
+    background-color: #6ad4c9;
+    color: #fff;
+    line-height: 2.4em;
+    font-size: 2em;
+    box-shadow: 0px 5px 8px #ccc;
+    position: fixed;
+    right: 0.5em;
+    top: 80%;
+    width:2.4em;
+    height: 2.4em;
+    border-radius: 1.2em;
+    z-index: 10;
+    transition: background-color 0.5s, box-shadow 0.5s, transform 0.5s;
+}
+.shop_car:active{
+    transform:scale(0.95,0.95);
+    background-color: #458b83;
+    box-shadow: 0px 1px 2px #bbb;
+}
+.item-title{
+    display: inline;
+}
+s{
+    color: #ccc;
+}
+.price_con{
+    padding: 2em 0;
+    padding: 1em;
+}
+.product_name{
+    display: block;
+}
+.product_description{
+    font-size: 0.75em;
+    color: #f00;
+    display: block;
+}
+.price{
+    font-size: 1.25em;
+    margin-top:0.5em; 
+    font-weight: bold;
+    color: #f00;
+}
+.goods-promotion{
+    color: #f00;
+    border: 1px solid #f00;
+}
+
+.size{
+    width: 100%;
+    display: none;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 20;
+    box-shadow: 0px 8px 10px #ccc;
+    height: 50em;
+    position: absolute;
+    bottom: 0px;
+}
+.size-content{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: auto;
+    background: #fff;
+}
+.size-content img{
+    display: block;
+    position: relative;
+    top: -4em;
+    left: 1em;
+    width: 8em;
+    height: 8em;
+    border: 5px solid #6ad4c9;
+    border-radius: 5px;
+}
+.close{
+    width: 100%;
+    height: 20em;
+}
+.choice_size {
+    box-shadow: 0px -5px 8px #ccc;
+    padding-left: 0.5em;
+    height: 3em;
+    font-size: 1.25em;
+    border: 1px solid #ddd;
+    line-height: 3em;
+    margin-top: 3em;
+}
+.default-spec-li{
+    width: 48%;
+    float: left;
+    text-align: center;
+    margin: 1%;
+    font-size: 1.25em;
+    line-height: 1.5em;
+    border: 1px dashed #6ad4c9;
+}
+.end_count{
+    float: left;
+    width: 100%;
+    font-size: 1.5em;
+}
+.buy_count{
+    height: 2em;
+    line-height: 2em;
+    width: 100%;
+    margin: 1em 0em;
+    float: left;
+    border-radius: 0px;
+}
+.buy_count input{
+    height: 3em;
+    border: none;
+    text-align: center;
+    box-shadow: 0px 0px 10px #ccc inset;
+}
+.input-group-addon{
+    width: 36%;
+    background: #6ad4c9;
+    color: #fff;
+    font-size: 2em;
+}
+.choseSpec{
+    border: 1px dashed #f00;
+}
+.add_car{
+    width: 100%;
+    background: #6ad4c9;
+    color: #fff!important;
+    font-size: 1.5em;
+}
+.add_car:active{
+    color: #fff;
+    background: #458b83;
+}

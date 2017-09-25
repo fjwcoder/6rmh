@@ -1,8 +1,8 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\common\controller\Gaode as Gaode;
-use app\common\controller\Mall as Mall;
+use app\extend\controller\Gaode as Gaode;
+use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;

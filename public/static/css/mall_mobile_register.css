@@ -1,0 +1,60 @@
+body{
+    background-color: #002240;
+    text-align: center;
+}
+.register_logo{
+    font-size: 10em;
+    color: #6ad4c9;
+    margin: 26% auto auto auto;
+}
+.logo_title{
+    color: #ccc;
+    font-weight: bold;
+}
+.input-group{
+    margin: 2em auto;
+}
+.reg_form input, .reg_form span{
+    color: #fff;
+    background-color:#002240;
+    border: none;
+    border-bottom-right-radius: 0px!important;
+}
+.send_msm:active{
+    color: #fff;
+    background: #6ad4c9;
+}
+
+.reg_form input{
+    border-bottom: 1px solid #ccc;
+    transition: border 0.25s;
+    -moz-transition: border 0.25s;
+    -webkit-transition: border 0.25s;
+    -o-transition: border 0.25s;
+}
+.reg_form span{
+    font-size: 1.25em!important;
+}
+.reg_form input:focus{
+    box-shadow: none;
+    border-bottom: 3px solid #6ad4c9;
+}
+
+.reg_form button{
+    color: #fff;
+    background: #6ad4c9;
+    font-size: 1.5em;
+    border: none;
+}
+.reg_form button:active{
+    background: #6992d4;
+}
+.wrong_phone, .right_phone, .wrong_password,.right_password{
+    display: none;
+}
+.wrong_phone, .wrong_password{
+    color: #ff0000!important;
+}
+.right_phone, .right_password{
+    color: #6ad4c9!important;
+}

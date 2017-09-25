@@ -15,12 +15,13 @@ class Goods extends controller
             $user = decodeCookie('user');
         }
         $id = input('id', 0, 'intval');
-
+        // return $id;
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
 
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
+        // return dump($goods);
         if($goods['status']){
             // return dump($goods['data']);
             $this->assign('goods', $goods['data']);

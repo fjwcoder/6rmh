@@ -9,7 +9,7 @@
 
 namespace app\common\controller;
 use app\common\controller\Authority as Authority;
-use app\common\controller\Gaode as Gaode;
+use app\extend\controller\Gaode as Gaode;
 use think\Controller;
 use think\Config;
 use think\Session;

@@ -84,7 +84,7 @@ div.iframe-header-back:hover, button.header-search-btn:hover, div.member-headimg
 div.iframe-header-info{height: 35px; border-radius: 20px; margin-left: 5px; padding-right: 10px;
     -moz-box-shadow: 0px 3px 10px #949894;
     -webkit-box-shadow: 0px 3px 10px #949894; 
-    box-shadow: 0px 3px 10px #949894;
+    box-shadow: 0px 3px 10px #949894; max-width: 450px; overflow: hidden;
 }
 
 

@@ -36,6 +36,7 @@ class Goods extends Manage
     #用户列表
     public function index()
     {   
+        // return 'here';
         $navid = input('navid', 30, 'intval');
         $nav = adminNav();
         $keyword = input('post.keyword', '', 'htmlspecialchars,trim');
@@ -118,8 +119,10 @@ class Goods extends Manage
 
     public function dataPost($type=''){
         $post = request()->post();
+        // dump($post);
+        // return dump($_FILES);
 
-        if(!empty($_FILES)){
+        if(!empty($_FILES['images']['name'][0])){
             $upload = uploadImg('goods'.DS.'image');
             if($upload['status'] == false){
                 return $this->error('图片上传失败！'); exit;
@@ -138,16 +141,19 @@ class Goods extends Manage
             $detail = htmlspecialchars(stripslashes(trim($data['detail'])));
             unset($data['detail']);
         }   
-
-        #处理促销活动和关联服务
-        if(!empty($data['services'])){
-            $data['service'] = '0';
-            foreach($data['services'] as $k=>$v){
-                $data['service'] .= ','.$v;
-            }
-            unset($data['services']);
+        #处理促销活动
+        if(!isset($data['promotion'])){
+            $data['promotion'] = 0;
         }
-        
+        #处理和关联服务
+        if(isset($data['services'])){
+            $data['service'] = implode(',', $data['services']);
+            unset($data['services']);
+        }else{
+            $data['service'] = '';
+        }
+
+        // return dump($data);
         if($type=='add'){
             
             if(Session::get(Config::get('ADMIN_AUTH_NAME'))){
@@ -172,11 +178,13 @@ class Goods extends Manage
             $result = Db::name('goods', [], false) -> where(array('id'=>$id)) ->update($data);    
         }
 
+        #处理图片
         if(isset($upload['path'])){
             foreach($upload['path'] as $k=>$v){
                 $img[$k] = ['gid'=>$id, 'pic'=>$v];
             }
             if(isset($img)){
+                $delete = Db::name('goods_picture') -> where(['gid'=>$id]) -> delete();
                 $insertImg = Db::name('goods_picture') -> insertAll($img);
             }else{
                 $insertImg = true;

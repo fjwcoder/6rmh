@@ -79,6 +79,8 @@ class Mall extends controller //需要继承该类，否则无法使用
             }
             $goods['service'] = empty($service)?[]:$service;
             
+            // return dump($goods);
+
             #查出促销 （还没写好，没考虑好怎么样继承父级促销）
             if($goods['promotion']>0){
                 $promotion = Db::name('mall_promotion') 

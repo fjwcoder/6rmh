@@ -62,12 +62,14 @@
                     <{/if}>
                     
                 </p>
+                <{if $goods.promotion > 0}>
                 <p>
                     <span class="item-title">促 销：</span>
                     <span class="goods-promotion " title="<{$goods.promotion.description}>">
                     <{$goods.promotion.title}>
                     </span>
                 </p>
+                <{/if}>
                 <p>
                     <span class="item-title">来 源：</span>
                     <{if $goods.userid == 0}>

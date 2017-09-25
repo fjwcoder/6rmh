@@ -50,7 +50,7 @@
     </div>
     <div class="more-info-detail wp_100" >
         <{volist name="list" id="vo"}>
-        <div class="withdraw wp_100" <{if $vo.status==3}>title="驳回理由：<{$vo.remark}>"<{/if}> >
+        <div class="withdraw wp_100" <{if $vo.status==3}>title="驳回理由：<{$vo.opreason}>"<{/if}> >
             <div class="wp_25 f_l"><{$vo.addtime}></div>
             <div class=" wp_15 f_l"><{$vo.name}></div>
             <div class="font-color-sub_main wp_15 f_l">¥ <{$vo.value}></div>
