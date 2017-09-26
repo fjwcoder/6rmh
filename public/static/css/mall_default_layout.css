@@ -96,9 +96,12 @@ img.banner-img{height: 450px; width: 100%;
     padding: 10px 20px;
 }
 .goods-detail-panel .goods-picture{
-    border: 1px solid #e0e0e0;
+    /*border: 1px solid #e0e0e0;*/
+    overflow: hidden;
 }
-div.goods-picture div.main-pic{height: 464px;}
+div.goods-picture div.main-pic{height: 462px; 
+    /*padding: 20px 20px 0 20px;*/
+}
 
 
 

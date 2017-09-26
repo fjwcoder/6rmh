@@ -3,44 +3,30 @@
 <div  class=" content-panel ">
     <!--导航栏-->
     <!--<{include file="./public/navbar"/}>-->
-    
+    <link rel="stylesheet" href="__CSS__/plugin/magnifier.css" type="text/css"/>
     <div data-ng-controller="goodsCtrl" class="goods-detail-panel wp_100">
         <div class="goods-picture wp_40  pull-left">
-            <style>
-                .tb-thumb li{float: left;}
-
-                .tb-pic a{display:table-cell;text-align:center;vertical-align:middle;}
-                .tb-pic a img{vertical-align:middle;}
-                .tb-pic a{*display:block;*font-family:Arial;*line-height:1;}
-                .tb-thumb{margin:10px 0 0;overflow:hidden;}
-                .tb-thumb li{background:none repeat scroll 0 0 transparent;float:left;height:42px;margin:0 6px 0 0;overflow:hidden;padding:1px;}
-                .tb-s310, .tb-s310 a{height:310px;width:310px;}
-                .tb-s310, .tb-s310 img{max-height:310px;max-width:310px;}
-                .tb-s310 a{*font-size:271px;}
-                .tb-s40 a{*font-size:35px;}
-                .tb-s40, .tb-s40 a{height:40px;width:40px;}
-                .tb-booth{border:1px solid #CDCDCD;position:relative;z-index:1;}
-                .tb-thumb .tb-selected{background:none repeat scroll 0 0 #C30008;height:40px;padding:2px;}
-                .tb-thumb .tb-selected div{background-color:#FFFFFF;border:medium none;}
-                .tb-thumb li div{border:1px solid #CDCDCD;}
-                div.zoomDiv{z-index:999; position:absolute; top:0px; left:0px; width:303.75px; height:303.75px;
-                    background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden;}
-                div.zoomMask{position:absolute; background:url("images/mask.png") repeat scroll 0 0 transparent;cursor:move;z-index:1;}
-            </style>
-            <div class="main-pic wp_100">
-                <a href="__STATIC__/images/01.jpg">
-                    <img src="__STATIC__/images/01_mid.jpg" alt="美女" rel="__STATIC__/images/01_mid.jpg" id="jqzoom" class="jqzoom" />
-                </a>
+            <!-- 大图begin -->
+            <div id="preview" class="main-pic wp_100">
+                <span class="jqzoom"><img jqimg="http://demo.lanrenzhijia.com/2014/jd0912/images/b1.jpg" src="http://demo.lanrenzhijia.com/2014/jd0912/images/s1.jpg" /></span> 
             </div>
-            
-            <ul class="tb-thumb" id="thumblist">
-                <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript: void(0);"><img src="__STATIC__/images/01_small.jpg" mid="__STATIC__/images/01_mid.jpg" big="__STATIC__/images/01.jpg"></a></div></li>
-                <li><div class="tb-pic tb-s40"><a href="javascript: void(0);"><img  src="__STATIC__/images/02_small.jpg" mid="__STATIC__/images/02_mid.jpg" big="__STATIC__/images/02.jpg"></a></div></li>
-                <li><div class="tb-pic tb-s40"><a href="javascript: void(0);"><img src="__STATIC__/images/03_small.jpg" mid="__STATIC__/images/03_mid.jpg" big="__STATIC__/images/03.jpg"></a></div></li>
-                <li><div class="tb-pic tb-s40"><a href="javascript: void(0);"><img src="__STATIC__/images/04_small.jpg" mid="__STATIC__/images/04_mid.jpg" big="__STATIC__/images/04.jpg"></a></div></li>
-                <li><div class="tb-pic tb-s40"><a href="javascript: void(0);"><img src="__STATIC__/images/05_small.jpg" mid="__STATIC__/images/05_mid.jpg" big="__STATIC__/images/05.jpg"></a></div></li>
-            </ul>
+            <!-- 大图end -->
+            <!-- 缩略图begin -->
+
+            <div class="spec-scroll"> <a class=" prev">&lt;</a> <a class=" next">&gt;</a>
+                <div class="items">
+                    <ul>
+                        <{volist name="goods.pic" id="vo"}>
+                            <li><img bimg="http://demo.lanrenzhijia.com/2014/jd0912/images/b1.jpg" src="<{$vo.pic}>" onmousemove="preview(this);"></li>
+                        <{/volist}>
+                    </ul>
+                </div>
+            </div>
+            <!-- 缩略图end -->
+
         </div>
+
+
         <div class="goods-detail wp_60 pull-left">
             <h4><{$goods.name}> </h4>
             <p class="goods-desc" title="<{$goods.description}>"><{$goods.description}></p>
@@ -169,8 +155,10 @@
         </div>
     </div>
 </div>
+<script src="__JS__/plugin/magnifier/jquery.jqzoom.js"></script>
+<script src="__JS__/plugin/magnifier/magnifier.js"></script>
 <script>
-
+    
     app.controller('goodsCtrl', function($scope) {
         $scope.price = <{$goods.price}>;
         <{if $goods.promotion.type==1}>
@@ -192,19 +180,19 @@
     });
 
     //暂时用jquery，回头看看能不能改成angularjs
-    $(document).ready(function(){
-        $("#jqzoom").imagezoom();
-        var currImg = $('#thumblist li:first a');
-        $(currImg).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-        $(".jqzoom").attr('src',$(currImg).find("img").attr("mid"));
-        $(".jqzoom").attr('rel',$(currImg).find("img").attr("big"));
+    // $(document).ready(function(){
+    //     $("#jqzoom").imagezoom();
+    //     var currImg = $('#thumblist li:first a');
+    //     $(currImg).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
+    //     $(".jqzoom").attr('src',$(currImg).find("img").attr("mid"));
+    //     $(".jqzoom").attr('rel',$(currImg).find("img").attr("big"));
 
-        $("#thumblist li a").click(function(){
-            $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-            $(".jqzoom").attr('src',$(this).find("img").attr("mid"));
-            $(".jqzoom").attr('rel',$(this).find("img").attr("big"));
-        });
-    });
+    //     $("#thumblist li a").click(function(){
+    //         $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
+    //         $(".jqzoom").attr('src',$(this).find("img").attr("mid"));
+    //         $(".jqzoom").attr('rel',$(this).find("img").attr("big"));
+    //     });
+    // });
 
 </script>
 <{/block}>

@@ -1,0 +1,70 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+    .f_c{color: #666;}
+    .withdraw{height: 50px;padding: 16px 10px;border-bottom: 1px dashed #f0f0f0;}
+    .begintime{width: 140px; height: 25px;margin: 10px 10px;border:1px solid #666;}
+    .span{margin-top:12px;color:#aaa}
+    .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
+</style>
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul>
+            <li>
+                <a href="javascript: void(0);">积分明细</a>
+            </li>
+        </ul>
+        <form class="form-horizontal" method="post" role="form" action="<{:url('index', ['type'=>'point'])}>" onsubmit="return check(this)">
+            <button title="搜索" class="search f_r glyphicon glyphicon-search"></button>
+            <input id="endtime" class="layui-input f_r begintime" type="text" name="endtime" <{if $time.status }>value="<{$time.endtime}>"<{/if}> placeholder="结束时间" readonly="readonly"><span class="f_r span">——</span>
+            <input id="begintime" class="layui-input f_r begintime" type="text" name="begintime" <{if $time.status }>value="<{$time.begintime}>"<{/if}> placeholder="开始时间" readonly="readonly">
+        </form>
+    </div>
+
+    <div class="more-info-detail table-title wp_100">
+        <div class=" wp_40">时间</div>
+        <div class=" wp_25">名字</div>
+        <div class=" wp_25">积分</div>
+        <div class=" wp_10">类型</div>
+    </div>
+    <div class="more-info-detail wp_100" >
+        <{volist name="list" id="vo"}>
+        <div class="withdraw wp_100">
+            <div class="wp_40 f_l"><{$vo.addtime}></div>
+            <div class=" wp_25 f_l"><{$vo.name}></div>
+            <div class="wp_25 f_l"><{$vo.value}></div>
+            <div class="wp_10 f_l">
+                <{if $vo.type == 1}>
+                获得积分
+                <{else}>
+                消耗积分
+                <{/if}>
+            </div>
+        </div>
+        <{/volist}>
+    </div>
+    <!-- <{$list->render()}> -->
+    <div class="more-info-navbar wp_100"></div>
+</div>
+<script>
+    laydate.render({
+        elem: '#begintime', //指定元素
+        type: 'datetime'
+    });
+    laydate.render({
+        elem: '#endtime', //指定元素
+        type: 'datetime'
+    });
+</script>
+<script>
+    function check(form){
+        if(form.begintime.value == '' || form.endtime.value ==''){
+            alert('请输入开始时间和结束时间！！！');
+            form.begintime.focus();
+            form.endtime.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+<{/block}>

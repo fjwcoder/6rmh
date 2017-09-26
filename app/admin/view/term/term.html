@@ -2,8 +2,20 @@
 <{block name="content"}>
     <form class="form-horizontal" method="post" role="form" action="<{$header.form}>" enctype="multipart/form-data">
 
+        <{if $header.form=="add"}>
         <div class="form-group">
-            <label for="title" class="col-sm-3 control-label">名称：</label>
+            <label for="title" class="col-sm-3 control-label">上期的时间：</label>
+            <div class="col-sm-2">  
+                <input type="text" class="form-control"  value="<{$last.begintime | date='Y-m-d 00:00:00',###}>" readonly />
+            </div>
+
+            <div class="col-sm-2">  
+                <input type="text" class="form-control"  value="<{$last.endtime | date='Y-m-d 00:00:00',###}>" readonly />
+            </div>
+        </div>
+        <{/if}>
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">本期名称：</label>
             <div class="col-sm-5">  
                 <input id="name" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" readonly <{/if}>required/>
             </div>
@@ -19,13 +31,10 @@
         <div class="form-group">
             <label for="begintime" class="col-sm-3 control-label">本期时间：</label>
             <div class="col-sm-3">
-                <input id="termtime" type="text" class="form-control" name="termtime"/>
+                <input id="termtime" type="text" class="form-control" name="termtime" value="<{$result.termtime}>" required/>
             </div>
 
-            <!--<div class="col-sm-2">
-                <input id="endtime" type="text" class="form-control" name="endtime" />
-            </div>-->
-
+            <p class="help-block">本期时间的开始时间，必须晚于上一期的结束时间；本期结束时间必须晚于本期开始时间</p>
         </div>
 
         <{if $header.form=="edit" && $result.pic != ""}>
@@ -106,10 +115,10 @@
     
         <{volist name="goods" id="vo"}>
             <div class="form-group" style="cursor: pointer;">
-                <div class="col-sm-1 "><{$vo.id}></div>
-                <div class="col-sm-8 "><{$vo.name}></div>
-                <div class="col-sm-1 t_c"><{$vo.price}></div>
-                <div class="col-sm-2 t_c">
+                <div class="col-sm-1 " title="商品ID"><{$vo.id}></div>
+                <div class="col-sm-8 " title="商品名称"><{$vo.name}></div>
+                <div class="col-sm-1 t_c" title="商品价格"><{$vo.price}></div>
+                <div class="col-sm-2 t_c" title="商品图片">
                     <img src="<{$vo.img}>" style="height: 42px; width: 42px;"/>
                 </div>
             </div>
@@ -128,7 +137,9 @@
     //执行一个laydate实例
     laydate.render({
         elem: '#termtime', //指定元素
-        range: true
+        range: true,
+        theme: '#f75809',
+        trigger: 'click'
     });
 </script>
 <{/block}>

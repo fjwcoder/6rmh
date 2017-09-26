@@ -169,7 +169,28 @@
         </div>
 
         <div class="form-group">
-            <label for="preview" class="col-sm-3 control-label">图片预览：</label>
+            <label for="adv_img" class="col-sm-3 control-label">广告图片：</label>
+            <div class="col-sm-3 panel panel-default">
+                <div class="panel-body">
+                    <img class="h250 w250" src="<{$result.img}>" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pic" class="col-sm-3 control-label">上传广告：</label>
+            <div class="col-sm-9">
+                <input id="advimg" type="file" multiple accept="image/*" class="form-control fileinput" name="advimg" upurl=""/>
+                <!--<p class="help-block title-0">图片可同时选择多张，自动按顺序上传</p>-->
+            </div>
+            <script>
+                initFileInput('advimg', $('input#advimg').attr('upurl'));
+            </script>
+        </div>
+
+
+        <div class="form-group">
+            <label for="preview" class="col-sm-3 control-label">图片详情：</label>
             <div class="col-sm-9 panel panel-default">
                 <div class="panel-body">
                     <{volist name="picture" id="vo"}>

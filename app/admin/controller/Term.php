@@ -48,7 +48,9 @@ class Term extends Manage
         $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->添加分期', 
         'form'=>'add', 'navid'=>$navid
         ]);
-
+        #查出上期结束时间
+        $last = Db::name('term') -> order('addtime desc') -> limit(1) -> find();
+        $this->assign('last', $last);
         return $this->fetch('term');
     }
 
@@ -61,13 +63,15 @@ class Term extends Manage
 
         $id = input('id', 0, 'intval'); //期数
         $term = Db::name('term') -> where(['id'=>$id]) -> find();
-        $term['begintime'] = date('Y-m-d H:i:s', $term['begintime']);
+        // $term['begintime'] = date('Y-m-d', $term['begintime']);
+        // $term['endtime'] = date('Y-m-d', $term['endtime']);
+        $term['termtime'] = date('Y-m-d', $term['begintime']).' - '.date('Y-m-d', $term['endtime']);
         $goods = Db::name('term_goods') -> alias('a') 
             -> join('goods b', 'a.gid=b.id', 'LEFT') 
             -> field(['b.id', 'b.userid', 'b.name', 'b.sub_name', 'b.brand', 'b.promotion', 'b.price', 'b.img']) 
             -> where(['a.term'=>$id]) 
             -> select();
-        // return dump($goods);
+        // return dump($term);
         $this->assign('result', $term);
         $this->assign('goods', $goods);
         
@@ -79,19 +83,24 @@ class Term extends Manage
 
     public function dataPost($type){
         $post = request() -> post();
-        if(empty($post['begintime'])){
+        $date = explode(' - ', $post['termtime']);
+        // return dump($date);
+        if(empty($date[0])){
             return $this->error('起始时间不可为空');
         }
-        if(empty($post['endtime'])){
+        if(empty($date[1])){
             return $this->error('结束时间不可为空');
         }
-        unset($post['navid']);
+        unset($post['navid'], $post['termtime']);
         foreach($post as $k=>$v){
             $data[$k] = $v;
         }
+
+        // return dump($data);
         #处理该期的时间
-        $data['begintime'] = strtotime($data['begintime']);
-        $data['endtime'] = strtotime($data['endtime']);
+        $data['begintime'] = strtotime($date[0]);
+        $data['endtime'] = intval(strtotime($date[1])+3600*24-1); //取到结束时间当天的最后一秒
+        
         if($data['begintime'] <= time()){
             return $this->error('起始时间错误');
         }
@@ -99,7 +108,11 @@ class Term extends Manage
             return $this->error('结束时间错误');
         }
         #查出上一期的结束时间
-
+        $last = Db::name('term') -> order('addtime desc') ->limit(1) -> find();
+        if($last['endtime'] >= $data['begintime']){
+            return $this->error('起始时间错误');
+        }
+        
         if(!empty($_FILES['pic']['name'])){
             $upload = uploadHeadImg('mall'.DS.'term');
             if($upload['status'] == false){
