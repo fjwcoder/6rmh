@@ -1,0 +1,109 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">标识：</label>
+            <div class="col-sm-5">  
+                <input id="name" type="text" class="form-control" name="name" <{if $header.form=="add"}>value=""<{else}>value="<{$result.name}>" <{/if}>/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">名称：</label>
+            <div class="col-sm-5">  
+                <input id="title" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">规格：</label>
+            <label  class="col-sm-1  control-label" style="text-align: left!important;">排序</label>
+            <label  class="col-sm-2 control-label" style="text-align: left!important;">属性</label>
+        </div>
+        <div id="speclist">
+            <{if $header.form=="add"}>
+                <{for start="1" end="6" name="i"}>
+                    <div class="form-group spec-div" sort="<{$i}>">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-1">  
+                            <input  type="text" class="form-control" name="spec[<{$i}>][sort]" value="<{$i}>" required/>
+                        </div>
+                        <div class="col-sm-2">  
+                            <input  type="text" class="form-control" name="spec[<{$i}>][value]" value="" required/>
+                        </div>
+
+                    </div>
+
+                <{/for}>
+            <{else}>
+                <{volist name="result.value" id="vo"}>
+                    <div class="form-group spec-div" sort="<{$vo.0}>">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-1">  
+                            <input  type="text" class="form-control" name="spec[<{$vo.0}>][sort]" value="<{$vo.0}>" required/>
+                        </div>
+                        <div class="col-sm-2">  
+                            <input  type="text" class="form-control" name="spec[<{$vo.0}>][value]" value="<{$vo.1}>" required/>
+                        </div>
+
+                    </div>
+
+                <{/volist}>
+            <{/if}>
+
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">
+                <div class="col-sm-3 pull-right header-search-btn text-center" onclick="addSpec();" title="增加规格项">
+                    <span class="glyphicon glyphicon-plus" ></span>
+                </div>
+            </label>
+
+        </div>
+
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                    <input type="radio" class="radio-inline" name="status" value="2"/>锁定
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />启用
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>锁定
+                    <{/if}>
+                <input type="hidden" name="id" value="<{$result.id}>"/>
+                <{/if}>
+            </div>
+        </div>
+
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+<script>
+    function addSpec(){
+        var max = $('div.spec-div:last').attr('sort');
+        max = parseInt(max)+1;
+        var html = '<div class="form-group spec-div" sort="'+max+'">';
+        html += '<label  class="col-sm-3 control-label"></label>';
+        html += '<div class="col-sm-1">';
+        html += '<input  type="text" class="form-control" name="spec['+max+'][sort]" value="'+max+'" required/>';
+        html += '</div>';
+        html += '<div class="col-sm-2">  ';
+        html += '<input  type="text" class="form-control" name="spec['+max+'][value]" value="" required/>';
+        html += '</div>';
+        html += '<div class="col-sm-1"> <a href="javascript: void(0);" onClick="delSpec('+max+');">删除</a>  </div>';
+        html += '</div>';
+        $('div#speclist').append(html);
+    }
+
+    function delSpec(id){
+        $('div.spec-div[sort='+id+']').remove();
+    }
+
+</script>
+
+<{/block}>

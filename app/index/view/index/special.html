@@ -17,55 +17,35 @@
         <!--直推产品-->
         <div class="htmleaf-container" >
 		<ul id="hexGrid" >
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/1.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/2.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/3.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
+				<{volist name="goods" id="vo" offset="0" length='3' empty="暂时没有数据"}>
+					<li class="hex">
+						<!--<a class="hexIn" href="index/goods/detail/id/<{$vo.id}>">-->
+						<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
+							<img src="<{$vo.img}>" alt="" />
+							<h1><{$vo.name}></h1>
+							<p><{$vo.description}></p>
+						</a>
+					</li>
+				<{/volist}>
+	            
 	            <li class="hex">
 	                <a class="hexIn" href="/index/fishing/index">
 	                    <img src="__STATIC__/css/hexagon/img/7.jpg" alt="" />
-	                    <h1>进入钓鱼游戏</h1>
-	                    <p>商品详情：价格 促销等</p>
+	                    <!--<h1>进入钓鱼游戏</h1>
+	                    <p>商品详情：价格 促销等</p>-->
 	                </a>
 	            </li>
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/4.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/5.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
-	            <li class="hex">
-	                <a class="hexIn" href="javascript: void(0);">
-	                    <img src="__STATIC__/css/hexagon/img/6.jpg" alt="" />
-	                    <h1>商品名称</h1>
-	                    <p>商品详情：价格 促销等</p>
-	                </a>
-	            </li>
+
+				<{volist name="goods" id="vo" offset="3" length='3' empty="暂时没有数据"}>
+					<li class="hex">
+						<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
+							<img src="<{$vo.img}>" alt="" />
+							<h1><{$vo.name}></h1>
+							<p><{$vo.description}></p>
+						</a>
+					</li>
+				<{/volist}>
+
 
 
 	</div>

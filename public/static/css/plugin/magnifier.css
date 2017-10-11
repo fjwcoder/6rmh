@@ -3,7 +3,8 @@
 /**{ margin:0; padding:0; list-style:none;}*/
 img{ border:0;}
 .jqzoom{float:left;border:none;position:relative;padding:0px;cursor:pointer;margin:0px;display:block;}
-.jqzoom img{ background:url(http://www.lanrenzhijia.com/demo/images/loading.gif) no-repeat center center;}
+/*.jqzoom img{ background:url(http://www.lanrenzhijia.com/demo/images/loading.gif) no-repeat center center;}*/
+.jqzoom img{ background: #fff;;}
 .zoomdiv{z-index:100;position:absolute;top:0px;left:0px;width:350px;height:350px;
 background:#ffffff;border:1px solid #CCCCCC;
 display:none;text-align:center;overflow:hidden;}

@@ -123,7 +123,12 @@ class Mall extends controller //需要继承该类，否则无法使用
         $picture = db('goods_picture') -> where(['gid'=>$id]) -> select();
         return $picture;
     }
-
+    #获取某商品的所有规格
+    public function getGoodsSpec($id){
+        $spec = db('goods_spec') -> where(['gid'=>$id]) -> select();
+        return $spec;
+    }
+    
     public function getCartInfo($id){
 
 
@@ -185,7 +190,17 @@ class Mall extends controller //需要继承该类，否则无法使用
         return $category;
     }
 
-    
+    #获取全部规格
+    public function getSpec(){
+        if(cache('MALL_SPEC')){
+            $spec = cache('MALL_SPEC');
+        }else{
+            $spec = Db::name('mall_spec') -> where(['status'=>1]) -> select();
+            // cache('MALL_SPEC', $spec); //缓存注释
+        }
+
+        return $spec;
+    }
 
 
 }

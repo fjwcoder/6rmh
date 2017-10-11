@@ -122,11 +122,16 @@ a.operate-a{margin-right: 20px;}
     border-radius: 5px; margin-right: 20px;
     border: 1px solid #e0e0e0;}
 .tree-list i{color: #5b5b5b;}
-img.goods-pic-prew{height: 200px; width: 250px; margin: 3px 5px;}
+img.goods-pic-prew{height: 250px; width: 250px; margin: 3px 5px;}
 
 
-
-
+.default-spec-li{  border: 1px dashed #e0e0e0; width: 48%; height: 34px; padding: 0 5px; 
+    margin: 0 10px 5px 0; overflow: hidden; float: left;}
+.default-spec-li input{border: 0; height: 32px;}
+.default-spec-li input.spec-value{ font-size: 12px;}
+.default-spec-li input.spec-num{height: 32px!important;  border: 1px solid #949894; margin-left: 11px;}
+.default-spec-li .glyphicon-remove{margin-top: 8px; background: #e0e0e0; border: 1px dashed #e0e0e0;
+cursor: pointer; }
 
 
 

@@ -1,4 +1,4 @@
-/* 代码整理：懒人之家 www.lanrenzhijia.com */
+
 (function($){
 
 		$.fn.jqueryzoom = function(options){
@@ -161,17 +161,17 @@
 
 		if(settings.preload){
 
-		$('body').append("<div style='display:none;' class='jqPreload"+count+"'>sdsdssdsd</div>");
+			$('body').append("<div style='display:none;' class='jqPreload"+count+"'>sdsdssdsd</div>");
 
-		$(this).each(function(){
+			$(this).each(function(){
 
-        var imagetopreload= $(this).children("img").attr("jqimg");
+			var imagetopreload= $(this).children("img").attr("jqimg");
 
-        var content = jQuery('div.jqPreload'+count+'').html();
+			var content = jQuery('div.jqPreload'+count+'').html();
 
-        jQuery('div.jqPreload'+count+'').html(content+'<img src=\"'+imagetopreload+'\">');
+			jQuery('div.jqPreload'+count+'').html(content+'<img src=\"'+imagetopreload+'\">');
 
-		});
+			});
 
 		}
 
@@ -185,6 +185,3 @@ this.y = e.pageY
 
 
 }
-
-
-/* 代码整理：懒人之家 www.lanrenzhijia.com */

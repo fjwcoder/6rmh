@@ -12,26 +12,31 @@ class Goods extends controller
 {
 
     public function detail(){
-    //    $image = new \Think\Image(); 
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
         $id = input('id', 0, 'intval');
-        // return $id;
+        
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
 
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
-        // return dump($goods);
+
         if($goods['status']){
-            // return dump($goods['data']);
+            // return dump($goods);
             $this->assign('goods', $goods['data']);
             return $this->fetch('detail');
         }else{
 
         }
+    
+    
+        
+    }
 
+
+#没啥用
     function CreateSmallImage( $OldImagePath, $NewImagePath, $NewWidth=1, $NewHeight=134)
     {
         // 取出原图，获得图形信息getimagesize参数说明：0(宽),1(高),2(1gif/2jpg/3png),3(width="638" height="340")
@@ -78,11 +83,6 @@ class Goods extends controller
         //结束图形
         @imagedestroy($NewImg);
         }
-        
-    }
-
-
-
 
 
 }

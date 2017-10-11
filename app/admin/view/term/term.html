@@ -31,7 +31,7 @@
         <div class="form-group">
             <label for="begintime" class="col-sm-3 control-label">本期时间：</label>
             <div class="col-sm-3">
-                <input id="termtime" type="text" class="form-control" name="termtime" value="<{$result.termtime}>" required/>
+                <input id="termtime" type="text" class="form-control" name="termtime" <{if $header.form=="add"}>value=""<{else}>value="<{$result.termtime}>"<{/if}> required/>
             </div>
 
             <p class="help-block">本期时间的开始时间，必须晚于上一期的结束时间；本期结束时间必须晚于本期开始时间</p>

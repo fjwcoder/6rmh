@@ -32,7 +32,7 @@ use think\Cache;
 // | getAdminNode 获取用户节点
 // | getOrderID 获取唯一的订单号
 // | clientIP: 获取IP地址
-// |
+// | getTerm: 获取当前期的信息
 // |
 // |
 // |
@@ -415,7 +415,7 @@ function getAdminLevel(){
 // +----------------------------------------------------
 
 #多图片上传
-function uploadImg($dir=''){
+function uploadImg($dir='', $param=''){
     $static = DS.'upload'.DS.$dir.DS;
     $upurl = ROOT_PATH.'public'.DS.'static'.$static;
     
@@ -445,7 +445,7 @@ function uploadImg($dir=''){
 }
 
 #头像上传
-function uploadHeadImg($dir=''){
+function uploadHeadImg($dir='', $param = ''){
     $static = DS.'upload'.DS.$dir.DS;
     $upurl = ROOT_PATH.'public'.DS.'static'.$static;
     
@@ -455,6 +455,7 @@ function uploadHeadImg($dir=''){
     $path = [];
 
     $keys = array_keys($_FILES);
+
     foreach($keys as $key){
         $files = request()->file($key);
         if(!empty($files)){
@@ -466,7 +467,7 @@ function uploadHeadImg($dir=''){
                     $path[] = '__STATIC__'.$static.$info->getSaveName();
                 }else{
                     // 上传失败获取错误信息
-                    return ['status'=>false, 'error'=>$file->getError()]; exit; //只要有一张上传失败，都算失败
+                    return ['status'=>false, 'error'=>$file->getError()]; exit; 
                 }
         }
     }
@@ -515,4 +516,21 @@ function clientIP() {
         $client_ip = $_SERVER['REMOTE_ADDR'];
     } 
     return $client_ip; 
+}
+
+//获取期数
+function getTerm(){
+    if(cache('TERM')){
+        $temp = cache('TERM');
+        if($temp['begintime']<=time() && $temp['endtime']>time()){
+            $term = cache('TERM');
+        }else{
+            $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
+            // cache('TERM', $term); 缓存注释
+        }
+    }else{
+        $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
+        // cache('TERM', $term); 缓存注释
+    }
+    return $term;
 }

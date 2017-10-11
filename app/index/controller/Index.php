@@ -6,25 +6,34 @@ use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;
+use think\Db;
 
 class Index extends controller
 {
 
     public function index(){
         
-
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
             $gaode->IPLocation();
         }
 
-
-        // echo Session::get(Config::get('USER_ID')); die;
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
-        // $this->assign('user', ['']);
+        
+        $term = getTerm();
 
+        $goods = Db::name('term_goods') -> alias('a') 
+            -> join('goods b', 'a.gid=b.id', 'LEFT') 
+            -> field(['b.id, b.name', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
+            -> where(['a.term'=>$term['id']]) -> select();
+        if($goods){
+            $this->assign('goods', $goods);
+        }else{
+            return '商品报错';
+        }
+        
 
         $config = mallConfig();
         $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']

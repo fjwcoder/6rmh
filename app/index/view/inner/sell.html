@@ -1,0 +1,102 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+    .f_c{color: #666;}
+    .withdraw{height: 50px;padding: 16px 10px;border-bottom: 1px dashed #f0f0f0;}
+    .begintime{width: 140px; height: 25px;margin: 10px 10px;border:1px solid #666;}
+    .span{margin-top:12px;color:#aaa}
+    .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
+
+    .black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);}
+    .white_content {display: none;position: absolute;top: 20%;left: 36%;width: 40%;height: 45%;border: 16px solid lightblue;background-color: white;z-index:1002;overflow: auto;}
+
+    .button{width:80px;height:30px;background: #6AD4C9;color: #fff;border: none;margin-top:10px;line-height:30px;}
+    .button:hover{background:#08D3C1;}
+</style>
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">我要出售</a>
+            </li>
+        </ul>
+    </div>
+    <div class="wp_100">
+        <div class="wp_25  f_l">&nbsp;</div>
+        <div class="wp_50  f_l m_t50">
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r main_font_color">我的积分：</span>
+                <span class="wp_5 f_l t_r main_font_color">&nbsp;</span>
+                <span class="wp_35 f_l t_l main_font_color"><{$list.point}></span>   
+                <span class="wp_40 f_l t_l"><button id="Button1" type="button" value="点击弹出层" onclick="ShowDiv('MyDiv','fade')" class="button">出售</button></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_20 f_l t_r main_font_color">我的鱼饵：</span>
+                <span class="wp_5 f_l t_r main_font_color">&nbsp;</span>
+                <span class="wp_35 f_l t_l main_font_color"><{$list.bait}></span>   
+                <span class="wp_40 f_l t_l"><button id="Button2" type="button" value="点击弹出层" onclick="ShowDiv('MyDiv','fade')" class="button">出售</button></span>   
+            </div>
+        </div>
+        <div class="wp_25  f_l"></div>
+    </div><div class="clear"></div>    
+</div>
+
+
+
+<script type="text/javascript">
+    //弹出隐藏层
+    function ShowDiv(show_div,bg_div){
+        document.getElementById(show_div).style.display='block';
+        document.getElementById(bg_div).style.display='block' ;
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+        // bgdiv.style.height = $(document).height();
+        $("#"+bg_div).height($(document).height());
+    };
+    //关闭弹出层
+    function CloseDiv(show_div,bg_div)
+    {
+        document.getElementById(show_div).style.display='none';
+        document.getElementById(bg_div).style.display='none';
+    };
+</script>
+<!-- <input id="Button1" type="button" value="点击弹出层" onclick="ShowDiv('MyDiv','fade')" /> -->
+<!--弹出层时背景层DIV-->
+<div id="fade" class="black_overlay"></div>
+<div id="MyDiv" class="white_content">
+    <div style="text-align: right; cursor: default; height: 40px;" id="move">
+    <span style="font-size: 16px;" onclick="CloseDiv('MyDiv','fade')">关闭</span>
+    </div>
+    <form class="form-horizontal" method="post" role="form" action="<{:url('sellgoods')}>">
+            
+        <div class="wp_100  f_l ">
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_40 f_l t_r main_font_color">出售数量：</span>
+                <span class="wp_60 f_l t_l main_font_color"><input class="w120 h30 main_font_color" type="text" name="value" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_40 f_l t_r main_font_color">出售金额：</span>
+                <span class="wp_60 f_l t_l main_font_color"><input class="w120 h30 main_font_color" type="text" name="money" value=""></span>   
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_40 f_l t_r main_font_color">出售时间段：</span>
+                <span class="wp_30 f_l t_l main_font_color">
+                    <select class="w120 h30 main_font_color" name="selltime" required>
+                        <option value="2" selected>2</option>
+                        <option value="6">6</option>
+                        <option value="10">10</option>
+                        <option value="14">14</option>
+                        <option value="18">18</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                    </select>
+                </span>
+                <span class="wp_30 f_l t_l main_font_color fz_12">最低2小时，最高24小时</span> 
+            </div>
+            <div class="wp_100 m_t l_h_50">
+                <span class="wp_60 f_l t_r main_font_color"><input class="button" type="submit" name="submit" value="提交"></span>
+            </div>
+        </div> 
+    </form>
+</div>
+<{/block}>

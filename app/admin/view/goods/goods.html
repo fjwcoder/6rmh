@@ -14,8 +14,20 @@
         </div>
 
         <div class="form-group">
+            <label for="cat" class="col-sm-3 control-label">期数：</label>
+            <div class="col-sm-3">  
+                <select class="form-control" name="term" >
+                    <option value="0">不设期数</option>
+                    <{volist name="term" id="vo"}>
+                    <option value="<{$vo.id}>"><{$vo.title}></option>
+                    <{/volist}>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="name" class="col-sm-3 control-label">产品名称：</label>
-            <div class="col-sm-5">  
+            <div class="col-sm-9">  
                 <input id="name" type="text" class="form-control" name="name" <{if $header.form == "edit"}>value="<{$result.name}>" <{else}>value=""<{/if}> placeholder="必填" required/>
             </div>
         </div>
@@ -41,9 +53,12 @@
             <div class="col-sm-2">  
                 <input id="price" type="text" class="form-control" name="price" <{if $header.form == "edit"}>value="<{$result.price}>" <{else}>value=""<{/if}> placeholder="必填" required/>
             </div>
-
+            <label for="price" class="col-sm-2 control-label">库存：</label>
+            <div class="col-sm-2">  
+                <input id="price" type="text" class="form-control" name="amount" <{if $header.form == "edit"}>value="<{$result.amount}>" <{else}>value="99"<{/if}> placeholder="必填" required/>
+            </div>
         </div>
-
+        
         <div class="form-group">
             <label for="cost_price" class="col-sm-3 control-label">成本价：</label>
             <div class="col-sm-2">  
@@ -68,10 +83,16 @@
         <div class="form-group">
             <label for="bait" class="col-sm-3 control-label">鱼饵价格：</label>
             <div class="col-sm-2">  
-                <input id="bait" type="text" class="form-control" name="bait" <{if $header.form == "edit"}>value="<{$result.bait}>" <{else}>value="10"<{/if}> placeholder="必填"  required/>
-                
+                <input id="bait" type="text" class="form-control" name="baitprice" value="10" placeholder="必填"  required/>
             </div>
-            <p class="help-block title-0">鱼饵价格x：购买该产品每满x元赠送一个鱼饵(默认10)</p>
+            <{if $header.form == 'edit'}>
+            <label for="bait" class="col-sm-2 control-label">当前鱼饵：</label>
+            <div class="col-sm-2">  
+                <input id="bait" type="text" class="form-control" name="bait" <{if $header.form == "edit"}>value="<{$result.bait}>" <{else}>value=""<{/if}> placeholder="不填则为默认"  />
+            </div>
+            <{/if}>
+
+            <p class="help-block title-0">鱼饵价格x：购买该产品每满x元赠送一个鱼饵(默认10元)</p>
             
         </div>
 
@@ -81,6 +102,52 @@
                 <input id="point" type="text" class="form-control" name="point" <{if $header.form == "edit"}>value="<{$result.point}>" <{else}>value=""<{/if}>"  />
             </div>
             <span class="help-block">购买该产品赠送的积分数，如果不填写，则1RMB=1积分</span>
+        </div>
+
+
+        <div class="form-group">
+            <label for="promotion" class="col-sm-3 control-label">设置规格：</label>
+            <div class="col-sm-7 panel panel-default">
+                <div class="panel-body ">
+                    <ul id="specul">
+                        <{if $header.form=='edit'}>
+                            <{volist name="speccheck" id="vo" key="k"}>
+                                <li class=" default-spec-li" sort="<{$k}>">
+                                    <input type="hidden" name="specs[<{$k}>][id]" value="<{$vo.id}>"/>
+                                    <input class="pull-left spec-value o_h wp_45" name="specs[<{$k}>][spec]" value="<{$vo.spec}>" title="<{$vo.spec}>" required/>
+                                    <!--<span class="glyphicon glyphicon-remove pull-right" onClick="delSpec(<{$k}>);" title="删除该规格"></span>-->
+                                    <input class="pull-left spec-num wp_20" name="specs[<{$k}>][num]" value="<{$vo.num}>" placeholder="数量" required/>
+                                    <input class="pull-left spec-num wp_20" name="specs[<{$k}>][price]" value="<{$vo.price}>" placeholder="价格" />
+                                </li>
+                            <{/volist}>
+                        <{/if}>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="promotion" class="col-sm-3 control-label">选择规格：</label>
+            <div class="col-sm-7 panel panel-default">
+                <div class="panel-body " >
+                    <{volist name="specs" id="vo"}>
+                        <select class="form-control col-sm-2 spec-select"  style="width: 23%!important; margin: 0 2% 5px 0;">
+                            <option value="0"><{$vo.title}></option>
+                            <{volist name="$vo.value" id="v"}>
+                            <option value="<{$v.1}>"><{$v.1}></option>
+                            <{/volist}>
+                        </select>
+                    <{/volist}>
+                </div>
+            </div>
+            <label for="service" class="col-sm-2 control-label">
+                
+                <a class="pull-left" href="javascript: void(0);" onClick="selectSpec();">确定</a>
+                <br><br>
+                <a class="pull-left" href="javascript: void(0);">查看规格</a>
+            </label>
+            
         </div>
 
         <div class="form-group">
@@ -133,8 +200,8 @@
             <label for="free_shipping" class="col-sm-3 control-label">免邮费：</label>
             <div class="col-sm-2">  
                 <{if $header.form=="add"}>
-                <input type="radio" class="radio-inline" name="free_shipping" value="1" />免邮费
-                <input type="radio" class="radio-inline" name="free_shipping" value="2" checked/>不免邮费
+                <input type="radio" class="radio-inline" name="free_shipping" value="1" checked/>免邮费
+                <input type="radio" class="radio-inline" name="free_shipping" value="2" />不免邮费
                 <{else}>
                     <{if $result.free_shipping==1}>
                     <input type="radio" class="radio-inline" name="free_shipping" value="1" checked/>免邮费
@@ -168,21 +235,24 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="adv_img" class="col-sm-3 control-label">广告图片：</label>
-            <div class="col-sm-3 panel panel-default">
-                <div class="panel-body">
-                    <img class="h250 w250" src="<{$result.img}>" />
+        <{if $header.form !="add"}>
+            <div class="form-group">
+                <label for="adv_img" class="col-sm-3 control-label">展示图片：</label>
+                <div class="col-sm-3 panel panel-default">
+                    <div class="panel-body" >
+                        <img class="h250 w250" src="<{$result.img}>" />
+                    </div>
                 </div>
             </div>
-        </div>
+        <{/if}>
 
         <div class="form-group">
-            <label for="pic" class="col-sm-3 control-label">上传广告：</label>
+            <label for="pic" class="col-sm-3 control-label">上传展示：</label>
             <div class="col-sm-9">
-                <input id="advimg" type="file" multiple accept="image/*" class="form-control fileinput" name="advimg" upurl=""/>
-                <!--<p class="help-block title-0">图片可同时选择多张，自动按顺序上传</p>-->
+                <input id="advimg" type="file" multiple accept="image/*" class="form-control fileinput" name="advimg[]" upurl=""/>
+                <span class="help-block">如果不设置展示图片，则会使用详情图片</span>
             </div>
+            
             <script>
                 initFileInput('advimg', $('input#advimg').attr('upurl'));
             </script>
@@ -199,6 +269,7 @@
                     <{/volist}>
                 </div>
             </div>
+            
         </div>
 
         <div class="form-group">
@@ -256,5 +327,40 @@
             $('#services-<{$vo}>').attr('checked', true);
         <{/volist}>
         
+        function selectSpec(){
+            var spec = [];
+            var val = '';
+            var max = 0;
+            jQuery('.spec-select').each(function(key, value){
+                if($(this).val() != '0'){
+                    spec.push($(this).val());
+                }
+            });
+
+            if(spec.length === 0){
+                alert('尚未选择规格');
+            }else{
+                val = spec.join(' '); //获取选择的规格
+                if($('.default-spec-li').attr('sort') !== undefined){
+                    max = parseInt($('.default-spec-li:last').attr('sort'))+1;
+                }
+                
+                var html = '<li class=" default-spec-li" sort="'+max+'">';
+                html += '<input type="hidden" name="specs['+max+'][id]" value="0"/>';
+                html += '<input class="pull-left spec-value o_h wp_45" name="specs['+max+'][spec]" value="'+val+'" title="'+val+'" required/>';
+                
+                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][num]" value="0" placeholder="数量" required/>';
+                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][price]" value="99" placeholder="价格" />';
+                html += '<span class="glyphicon glyphicon-remove pull-right" onClick="delSpec('+max+');" title="删除该规格"></span></li>';
+                $('#specul').append(html);
+            }
+            
+        }
+
+        function delSpec(id){
+            $('li.default-spec-li[sort='+id+']').remove();
+        }
+        
     </script>
+
 <{/block}>

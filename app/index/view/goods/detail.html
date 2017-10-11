@@ -8,16 +8,15 @@
         <div class="goods-picture wp_40  pull-left">
             <!-- 大图begin -->
             <div id="preview" class="main-pic wp_100">
-                <span class="jqzoom"><img jqimg="http://demo.lanrenzhijia.com/2014/jd0912/images/b1.jpg" src="http://demo.lanrenzhijia.com/2014/jd0912/images/s1.jpg" /></span> 
+                 <span class="jqzoom"><img jqimg="<{$goods.pic.0.pic}>" src="<{$goods.pic.0.pic}>" /></span> 
             </div>
             <!-- 大图end -->
             <!-- 缩略图begin -->
-
             <div class="spec-scroll"> <a class=" prev">&lt;</a> <a class=" next">&gt;</a>
                 <div class="items">
                     <ul>
-                        <{volist name="goods.pic" id="vo"}>
-                            <li><img bimg="http://demo.lanrenzhijia.com/2014/jd0912/images/b1.jpg" src="<{$vo.pic}>" onmousemove="preview(this);"></li>
+                        <{volist name="goods.pic" id="vo" empty="暂时没有数据"}>
+                            <li><img bimg="<{$vo.pic}>" src="<{$vo.pic}>" onmousemove="preview(this);"></li>
                         <{/volist}>
                     </ul>
                 </div>
@@ -48,14 +47,20 @@
                     <{/if}>
                     
                 </p>
-                <{if $goods.promotion > 0}>
+                
                 <p>
-                    <span class="item-title">促 销：</span>
-                    <span class="goods-promotion " title="<{$goods.promotion.description}>">
-                    <{$goods.promotion.title}>
-                    </span>
+                    <{if $goods.promotion > 0}>
+                        <span class="item-title">促 销：</span>
+                        <span class="goods-promotion " title="<{$goods.promotion.description}>">
+                        <{$goods.promotion.title}>
+                        </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <{/if}>
+                    <span class="item-title">购买可获得：</span>
+                    购买可获得 <{$goods.bait}> 鱼饵 + <{$goods.point}> 积分
+                    
                 </p>
-                <{/if}>
+                
                 <p>
                     <span class="item-title">来 源：</span>
                     <{if $goods.userid == 0}>
@@ -108,12 +113,15 @@
                 </a>-->
                 
             </div>
-            <p class="goods-service">
-                <span class="item-title">尊享服务：</span>
-                <{volist name="goods.service" id="vo"}>
-                <{$vo.title}>
-                <{/volist}>
-            </p>
+            <{if $goods.service}>
+                <p class="goods-service">
+                    <span class="item-title">尊享服务：</span>
+                    <{volist name="goods.service" id="vo"}>
+                    <{$vo.title}>
+                    <{/volist}>
+                </p>
+            <{/if}>
+            
         </div>
 
 
@@ -155,8 +163,7 @@
         </div>
     </div>
 </div>
-<script src="__JS__/plugin/magnifier/jquery.jqzoom.js"></script>
-<script src="__JS__/plugin/magnifier/magnifier.js"></script>
+
 <script>
     
     app.controller('goodsCtrl', function($scope) {
@@ -179,20 +186,8 @@
         }
     });
 
-    //暂时用jquery，回头看看能不能改成angularjs
-    // $(document).ready(function(){
-    //     $("#jqzoom").imagezoom();
-    //     var currImg = $('#thumblist li:first a');
-    //     $(currImg).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-    //     $(".jqzoom").attr('src',$(currImg).find("img").attr("mid"));
-    //     $(".jqzoom").attr('rel',$(currImg).find("img").attr("big"));
-
-    //     $("#thumblist li a").click(function(){
-    //         $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-    //         $(".jqzoom").attr('src',$(this).find("img").attr("mid"));
-    //         $(".jqzoom").attr('rel',$(this).find("img").attr("big"));
-    //     });
-    // });
 
 </script>
+<script src="__JS__/plugin/magnifier/jquery.jqzoom.js"></script>
+<script src="__JS__/plugin/magnifier/magnifier.js"></script>
 <{/block}>

@@ -21,8 +21,8 @@
                 <td><{$vo.id}></td>
                 <td><{$vo.title}></td>
                 <td><{$vo.description}></td>
-                <td><{$vo.begintime | date="Y-m-d 00:00:00",###}></td>
-                <td><{$vo.endtime | date="Y-m-d 00:00:00",###}></td>
+                <td><{$vo.begintime | date="Y-m-d H:i:s",###}></td>
+                <td><{$vo.endtime | date="Y-m-d H:i:s",###}></td>
                 <td><{$vo.addname}></td>
                 <td>
                     <{switch name="vo['status']"}>

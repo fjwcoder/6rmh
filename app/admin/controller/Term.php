@@ -130,10 +130,15 @@ class Term extends Manage
                 return $this->success('添加成功', request()->controller().'/index');
             }
         }else{
-
+            $id = $data['id'];
+            unset($data['title'], $data['id']);
+            if(empty($pic)){
+                unset($data['pic']);
+            }
+            $update = Db::name('term') -> where(['id'=>$id]) -> update($data);
+            return $this->success('添加成功', request()->controller().'/index');
         }
         
-        return dump($data);
 
     }
 

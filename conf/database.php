@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'sixer',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'user',
     // 密码
-    'password'        => 'root',//'root',
+    'password'        => '123456',//'root',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

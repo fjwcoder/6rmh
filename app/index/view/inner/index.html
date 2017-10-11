@@ -1,0 +1,88 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+
+</style>
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">个人资产</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="more-info-detail table-title wp_100">
+        <div class=" wp_35">图片</div>
+        <div class=" wp_25">名称</div>
+        <div class=" wp_25">数量</div>
+        <div class=" wp_15">操作</div>
+    </div>
+    <div class="more-info-detail wp_100" >
+        <{volist name="list" id="vo"}>
+        <div class="cart-goods-record wp_100">
+            <div class="wp_35 f_l"><img class="w100 h80" src="<{$vo.pic}>"></div>
+            <div class=" wp_25 f_l"><{$vo.title}></div>
+            <div class="wp_25 f_l"><{$vo.value}></div
+            <div class="wp_15 f_l">
+                <span class="ctrl-option" data-toggle="modal" data-target="#myModal">出售</span>&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('Fishing/index')}>"><span class="ctrl-option">使用</span>&nbsp;&nbsp;&nbsp;</a>
+                <a href="<{:url('purchase', ['id'=>$vo.id])}>"><span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp;</a>
+                
+            </div>
+        </div>
+        <{/volist}>
+    </div>
+    
+    <div class="more-info-navbar wp_100"></div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="form-horizontal" method="post" role="form" action="<{:url('sellgoods')}>">                    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        模态框（Modal）标题
+                    </h4>
+                </div>
+                <div class="wp_100">
+                    <div class="wp_100  f_l ">
+                        <div class="wp_100 m_t l_h_50">
+                            <span class="wp_40 f_l t_r main_font_color">出售数量：</span>
+                            <span class="wp_60 f_l t_l main_font_color"><input class="w120 h30 main_font_color" type="text" name="value" value=""></span>   
+                        </div>
+                        <div class="wp_100 m_t l_h_50">
+                            <span class="wp_40 f_l t_r main_font_color">出售金额：</span>
+                            <span class="wp_60 f_l t_l main_font_color"><input class="w120 h30 main_font_color" type="text" name="money" value=""></span>   
+                        </div>
+                        <div class="wp_100 m_t l_h_50">
+                            <span class="wp_40 f_l t_r main_font_color">出售时间段：</span>
+                            <span class="wp_25 f_l t_l main_font_color">
+                                <select class="w120 h30 main_font_color" name="selltime" required>
+                                    <option value="2" selected>2</option>
+                                    <option value="6">6</option>
+                                    <option value="10">10</option>
+                                    <option value="14">14</option>
+                                    <option value="18">18</option>
+                                    <option value="22">22</option>
+                                    <option value="24">24</option>
+                                </select>
+                            </span>
+                            <span class="wp_35 f_l t_l main_font_color fz_12">最低2小时，最高24小时</span> 
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <input class="btn btn-primary" type="submit" name="submit" value="提交">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<{/block}>
