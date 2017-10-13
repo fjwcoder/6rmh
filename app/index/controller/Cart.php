@@ -12,6 +12,7 @@ class Cart extends Common
     public function index(){
         
         $user = decodeCookie('user');
+        return dump($user);
         $mallObj = new Mall();
         // 查出购物车信息，包括
         // 商品具体信息、规格、图片、促销活动、买家信息
@@ -111,7 +112,7 @@ class Cart extends Common
 
     #加入购物车
     public function add(){
-
+        $user = decodeCookie('user');
         $id = input('id', 0, 'intval'); //商品id
         $sid = input('spec', 0, 'intval'); //规格  id
         $num = input('num', 0, 'intval'); //数量
@@ -126,7 +127,7 @@ class Cart extends Common
         if($goods['num'] < $num){
             return $this->error('商品数量不足'); exit;
         }
-  
+        
         #查询是否存在 同商品 同规格
         #有则数量相加、没有则新建一条
         $cart = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
@@ -135,7 +136,7 @@ class Cart extends Common
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
                 'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
                 'price'=>$goods['sprice']?$goods['sprice']:$goods['gprice'],
-                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid
+                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'parent_id'=>$user['pid']
                 ];
             
             $result = Db::name('cart') -> insert($data);

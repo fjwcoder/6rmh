@@ -33,7 +33,7 @@ use think\Cache;
 // | getOrderID 获取唯一的订单号
 // | clientIP: 获取IP地址
 // | getTerm: 获取当前期的信息
-// |
+// | getWxConf: 获取微信配置
 // |
 // |
 // |
@@ -526,11 +526,24 @@ function getTerm(){
             $term = cache('TERM');
         }else{
             $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
-            // cache('TERM', $term); 缓存注释
+            // cache('TERM', $term); //缓存注释
         }
     }else{
         $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
-        // cache('TERM', $term); 缓存注释
+        // cache('TERM', $term); //缓存注释
     }
     return $term;
+}
+
+function getWxConf($param = ''){
+    if(cache('WX_CONFIG')){
+        $wxconf = cache('WX_CONFIG');
+    }else{
+        $wxconf = Db::name('wechat_config')-> where(['status'=>1]) -> select();
+        $wxconf = getField($wxconf, 'name');
+        //cache('WX_CONFIG', $wxconf); //缓存注释
+    }
+
+    return empty($param)?$wxconf:$wxconf[$param];
+
 }

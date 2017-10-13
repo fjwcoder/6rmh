@@ -1,5 +1,6 @@
 <?php
 namespace app\index\controller;
+use app\admin\controller\Wechat as Wechat;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -20,6 +21,21 @@ class Login extends controller
     }
 
     public function login(){
+        #微信登录
+        $wxcode = input('get.code', '', 'htmlspecialchars,trim');
+        if(!empty($wxcode)){ 
+            $wechat = new Wechat();
+            #==========静默授权=============
+            // $web_url = $wechat->getDef(WEB_AUTH).$wechat->getDef(APPID).'&secret='.$wechat->getDef(APPSECRET).'&code='.$wxcode.'&grant_type=authorization_code';;
+            // $open_res = httpsGet($web_url);
+            // $open_arr = json_decode($open_res, true);
+            // $openid = $open_arr['openid'];
+
+            #==========用户授权=============
+            return $web_url;
+        }
+
+        #账号登录
         $login['name'] = input('post.login.name', '', 'htmlspecialchars,trim'); //input = I;
         $login['password'] = input('post.login.password', '', 'htmlspecialchars,trim'); //input = I;
         if(empty($login['name'])){
@@ -31,6 +47,7 @@ class Login extends controller
 
 
         $check = $this->checkUser($login);
+        // return dump($check);
         if(!$check['status']){
             return $this->error($check['content']); exit;
         }else{

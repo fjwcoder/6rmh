@@ -1,0 +1,25 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<form class="form-horizontal" method="post" role="form" action="<{:url('edit')}>">
+    <div class=" row wp_100 ">
+        <{volist name="list" id="vo"}>
+            <{if $vo.show == 1}>
+            <div class="form-group">
+                <label for="id_<{$vo.name}>" class="col-sm-3 control-label"><{$vo.title}></label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="id_<{$vo.name}>" name="<{$vo.name}>" value="<{$vo.value}>" />
+                </div>
+            </div>
+            <{/if}>
+        <{/volist}>
+        <div class="form-group">
+            <label for="submit-btn" class="col-sm-4 control-label"></label>
+            <div class="col-sm-6">
+                <button type="submit" id="submit-btn" class="admin-submit-btn">提交</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+    
+<{/block}>
