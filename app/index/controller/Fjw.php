@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
+use app\common\controller\Gaode as Gaode;
 use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
@@ -10,6 +11,10 @@ use think\Db;
 class Fjw extends Common
 {
 
+    public function location(){
+        dump(config('LOCATION'));
+    }
+    
 
     public function users($f){
         
@@ -81,5 +86,14 @@ class Fjw extends Common
 
         return $sum;
     }
+    
+    public function six(){
 
+        return $this->fetch();
+    }
+
+    public function sixs(){
+
+        return $this->fetch();
+    }
 }

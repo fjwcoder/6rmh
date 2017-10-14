@@ -14,77 +14,20 @@ namespace app\admin\controller;
 // define('FOREVER_SUCAI', 'https://api.weixin.qq.com/cgi-bin/material/get_material?access_token='); //获取永久素材
 // define('SUCAI_LIST', 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=');//素材列表
 use app\common\controller\Common;
+use app\index\controller\Register as Register;
 use think\Controller;
-use think\Config;
 use think\Session;
+use think\Cookie;
+use think\Config;
+use think\Request;
+use think\Db;
+use think\Cache;
 
 class Wechat extends Controller
 {   
-    
-    #获取素材
-    // public function sucaiList(){
-    //     $token = $this->access_token();
-    //     $url = SUCAI_LIST.$token;
-    //     $comm = new Common();
-    //     $data = '{
-    //         "type":"news",
-    //         "offset": 4,
-    //         "count":1,
-    //     }';
-    //     $post = $comm -> https_post($url, $data);
-    //     return $post;
-    // }
-    private function getMenu(){
-        $menu_json = '{
-            "button":[
-                {
-                    "name":"了解安进",
-                    "sub_button":[
-                        {
-                            "type":"media_id",
-                            "name":"安进简介",
-                            "media_id":"h_axBe_dStGjHPGeaFsmtYGVsZDVCfBSMx_XDyajFGY"
-                        },
-                        {
-                            "type":"media_id",
-                            "name":"选择安进",
-                            "media_id":"h_axBe_dStGjHPGeaFsmtWfhagcQiWP3n-gBdGn0Al4"
-                        },
-                    ]
-                },
-                {
-                    "name":"业务领域",
-                    "sub_button":[
-                        {
-                            "type":"media_id",
-                            "name":"业务领域",
-                            "media_id":"h_axBe_dStGjHPGeaFsmtbqyFgLcE4aoLG5UrN3TwU0"
-                        },
-                        {
-                            "type":"media_id",
-                            "name":"安进客户",
-                            "media_id":"h_axBe_dStGjHPGeaFsmtZctTWyd8qPcqlwdFmf523s"
-                        },
-                    ]
-                },
-                {
-                    "type":"view",
-                    "name":"法务测评",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa61ba5429b802e8f&redirect_uri=http%3A%2F%2Fwww.ajconsulting.top&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-                }
-        ]}';
-        return $menu_json;
-    }
-    
-
-    public function createMenu(){
-		$access_token = $this -> access_token();
-		$menu_url = MENU_URL.$access_token;
-		$menu_res = $this -> https_post($menu_url, $this->getMenu());
-        return $menu_res;
-	}
-
+    #验证信息
     public function index(){
+        
         if(!isset($_GET['echostr'])){
 			$this -> responseMsg();
 		}else{
@@ -108,9 +51,9 @@ class Wechat extends Controller
         $signature = $_GET['signature'];
         $timestamp = $_GET['timestamp'];
         $nonce = $_GET['nonce'];	
-        		
-		$token = TOKEN;
-		$tmpArr = array($token, $timestamp, $nonce);
+        	
+		$token = getWxConf('TOKEN');
+		$tmpArr = array($token['value'], $timestamp, $nonce);
 		sort($tmpArr);
 		$tmpStr = implode( $tmpArr );
 		$tmpStr = sha1( $tmpStr );
@@ -121,10 +64,50 @@ class Wechat extends Controller
 			return false;
 		}
 	}
+    
+
+    //获取access_token: by fjw in 17.10.13
+    public function access_token() {
+        
+        $res = db("wechat_config", [], false) -> where(array("name"=>'ACCESS_TOKEN')) -> find();
+        if($res['endtime'] > time()){ //没过期
+            return $res['value'];
+        }else{
+            $wxconf = getWxConf();
+            $url = $wxconf['ACCESS_TOKEN_URL']['value'].$wxconf['APPID']['value']."&secret=".$wxconf['APPSECRET']['value'];
+            $response = httpsGet($url);
+            $res = json_decode($response, true);
+            if(!empty($res['access_token'])){
+                $data['value'] = $res['access_token'];
+                $data['exprire'] = intval($res['expires_in'])-100;
+                #endtime 是到期时间
+                $data['edittime'] = time();
+                $data['endtime'] = $data['edittime']+$data['exprire'];
+                db('wechat_config') -> where(array('name'=>'ACCESS_TOKEN')) -> update($data);
+                return $res['access_token'];
+            }
+        }
+
+    }
+    #获取素材
+    // public function sucaiList(){
+    //     $token = $this->access_token();
+    //     $url = SUCAI_LIST.$token;
+    //     $comm = new Common();
+    //     $data = '{
+    //         "type":"news",
+    //         "offset": 4,
+    //         "count":1,
+    //     }';
+    //     $post = httpsPost($url, $data);
+    //     return $post;
+    // }
+
+
+    
 
     public function responseMsg()
 	{
-		
 		$postStr = file_get_contents('php://input');
 		if (!empty($postStr))
 		{
@@ -148,42 +131,32 @@ class Wechat extends Controller
 		}
 	}
     
-    //获取access_token
-    public function access_token() {
-        $access_token = db("wechat_config", [], false) -> where(array("name"=>'ACCESS_TOKEN')) -> find();
-        $access_token_value = json_decode( $access_token['value'], true);
-        if( $access_token_value['stop_time'] < time() ){
-            $url = ACCESS_TOKEN."&appid=".APPID."&secret=".APPSECRET;
-            $get = $this->https_get($url);
-            $access_token = json_decode($get, true); 
-            if( !empty($access_token['access_token']) ){
-                $value = array(
-                    'access_token' => $access_token['access_token'],
-                    'stop_time' => intval(time()+7000) //7000秒，7200是两个小时
-                );
-                db('wechat_config') -> where(array('name'=>'ACCESS_TOKEN')) -> update(['value'=>json_encode($value)]);
-            }
-            return $access_token['access_token'];
-        }else{
-            return $access_token_value['access_token'];
-        }
-    }
+    
     
     //接收事件消息
     public function handleEvent($object){
         $openid = strval($object->FromUserName);
         $content = "";
+        
         switch ($object->Event){
             case "subscribe":
+                $wxconf = getWxConf();
+                $register = new Register();
                 $access_token = $this->access_token();
-                $user_url = USER_BASEINFO.'?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-                $user_res = $this->https_get($user_url);
+                $user_url = $wxconf['USER_BASEINFO']['value'].$access_token.'&openid='.$openid.'&lang=zh_CN';
+                $user_res = httpsGet($user_url);
                 $user_arr = json_decode($user_res, true);//获取到的用户信息
 
-                $content .= "欢迎关注 山东安进企业管理咨询有限公司";
-                $content .= "\n\n详情请点击公众号底部菜单";
-                $content .= "\n\n".'<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa61ba5429b802e8f&redirect_uri=http%3A%2F%2Fwww.ajconsulting.top&response_type=code&scope=snsapi_base&state=1#wechat_redirect">法务测评</a>';
-            break;
+                if(empty($object->EventKey)){ //不带场景值
+
+                    $content .= "bu带场景值";
+                }else{ //带场景值
+                    $content .= "带场景值";
+                }
+                // $register->subscribe($user_arr);
+
+                $content .= "欢迎关注 亿签网络旗下六耳猕猴商城";
+                break;
             case "CLICK":
                 switch($object->EventKey){
                     
@@ -243,14 +216,14 @@ class Wechat extends Controller
 	// 	}else{
 	// 		$media_id = $find['tvalue'];
 	// 		if(empty($media_id)){
-	// 			$count_json = $this->https_get(SUCAI_COUNT.$this->access_token());
+	// 			$count_json = httpsGet(SUCAI_COUNT.$this->access_token());
 	// 			$count_arr = json_decode($count_json, true);//素材总数
 	// 			$img_count = $count_arr['image_count'];
 
 	// 			$post_arr = array("type"=>"image", "offset"=>0, "count"=>$img_count);
 	// 			$post_json = json_encode($post_arr);
 	// 			$url = SUCAI_LIST.$this->access_token();
-	// 			$list_json = $this->https_post($url, $post_json);
+	// 			$list_json = httpsPost($url, $post_json);
 	// 			$list_arr = json_decode($list_json, true);
 	// 			\Think\Log::write(var_export($list_arr), true);//写入日志
 	// 			foreach($list_arr as $v){
@@ -354,52 +327,5 @@ class Wechat extends Controller
         return $result;
     }
 
-    public function getDef($def){
-        return $def;
-    }
-
-    // +----------------------------------------------------
-    // | https请求：POST
-    // |应用实例：1.微信
-    // |
-    // +----------------------------------------------------
-	public function https_post($url, $data = null){
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-		if(!empty($data)){
-			curl_setopt($curl, CURLOPT_POST, 1);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-		}
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		$output = curl_exec($curl);
-		curl_close($curl);
-		return $output;
-	}
-
-    // +----------------------------------------------------
-    // |https请求：GET
-    // |应用实例：1.微信
-    // |
-    // +----------------------------------------------------
-	public function https_get($url){
-		$oCurl = curl_init();
-		if(stripos($url, 'https://')!==FALSE){
-			curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
-			curl_setopt($oCurl, CURLOPT_SSLVERSION, 1);
-		}
-		curl_setopt($oCurl, CURLOPT_URL, $url);
-		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
-		$sContent = curl_exec($oCurl);
-		$aStatus = curl_getinfo($oCurl);
-		curl_close($oCurl);
-		if(intval($aStatus['http_code'])==200){
-			return $sContent;
-		}else{
-			return false;
-		}
-	}
 
 }

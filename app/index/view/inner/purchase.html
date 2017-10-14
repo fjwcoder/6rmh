@@ -4,41 +4,183 @@
     .f_c{color: #666;}
     .withdraw{height: 50px;padding: 16px 10px;border-bottom: 1px dashed #f0f0f0;}
     .begintime{width: 140px; height: 25px;margin: 10px 10px;border:1px solid #666;}
+    .search_input{width: 66px; height: 25px;margin: 10px 10px;border:1px solid #666;}
     .span{margin-top:12px;color:#aaa}
     .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
+    
 </style>
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
         <ul  >
             <li>
-                <a href="javascript: void(0);">余额明细</a>
+                <a href="javascript: void(0);">出售列表</a>
             </li>
         </ul>
+        <!-- onsubmit="return check(this)" -->
+        <form class="form-horizontal" method="post" role="form" action="<{:url('purchase')}>">
+            <button title="搜索" class="search f_r glyphicon glyphicon-search"></button>
+            <input id="endtime" class="layui-input f_r begintime" type="text" name="endtime" placeholder="结束时间" readonly="readonly" <{if $time.status }>value="<{$time.endtime}>"<{/if}>>
+            <span class="f_r span">——</span>
+            <input id="begintime" class="layui-input f_r begintime" type="text" name="begintime" placeholder="开始时间" readonly="readonly" <{if $time.status }>value="<{$time.begintime}>"<{/if}>>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="value" placeholder="数量" <{if $sum.status }>value="<{$sum.value}>"<{/if}>>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="maxprice" placeholder="最高价" <{if $times.status }>value="<{$times.maxprice}>"<{/if}>>
+            <span class="f_r span">—</span>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="minprice" placeholder="最低价" <{if $times.status }>value="<{$times.minprice}>"<{/if}>>                           
+            <select class="f_r search_input" name="title">
+                <{if $timer.status}>
+                    <{volist name="title" id="vo"}>
+                    <option value="<{$vo.title}>" <{if $timer.title==$vo.title}>selected<{/if}> ><{$vo.title}></option>
+                    <{/volist}>
+                <{else}>
+                    <option value="" selected><{if $timer.status }><{$timer.title}><{else}>请选择<{/if}></option>
+                    <{volist name="title" id="vo"}>
+                    <option value="<{$vo.title}>"><{$vo.title}></option>
+                    <{/volist}>
+                <{/if}>
+                
+            </select>
+        </form>
     </div>
     <div class="more-info-detail table-title wp_100">
-            <div class=" wp_25">图片</div>
-            <div class=" wp_15">名称</div>
-            <div class=" wp_15">数量</div>
-            <div class=" wp_15">价格</div>
-            <div class=" wp_15">卖家姓名</div>
-            <div class=" wp_15">操作</div>
+            <div class=" wp_20">图片</div>
+            <div class=" wp_20">上架时间</div>
+            <div class=" wp_10">名称</div>
+            <div class=" wp_10">数量</div>
+            <div class=" wp_10">价格</div>
+            <div class=" wp_10">出售时间段</div>
+            <div class=" wp_10">卖家姓名</div>
+            <div class=" wp_10">操作</div>
         </div>
         <div class="more-info-detail wp_100" >
             <{volist name="list" id="vo"}>
+            <{if $vo.status == 1}>
             <div class="cart-goods-record wp_100">
-                <div class="wp_25 f_l"><img class="w100 h80" src="<{$vo.pic}>"></div>
-                <div class=" wp_15 f_l"><{$vo.value}></div>
-                <div class="wp_15 f_l"><{$vo.money}></div>
-                <div class="wp_15 f_l"><{$vo.username}></div>
-                <div class="wp_15 f_l">
-                    <span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp;
-                    
+                <div class="wp_20 f_l">
+                    <{if $vo.type == 1}>
+                    <img class="w100 h80" src="<{$vo.pic}>">
+                    <{else}>
+                    <img class="w100 h80" src="<{$vo.pic}>">
+                    <{/if}>
+                </div>
+                <div class="wp_20 f_l"><{$vo.addtime}></div>
+                <div class=" wp_10 f_l">
+                    <{if $vo.type == 1}>
+                    积分
+                    <{else}>
+                    鱼饵
+                    <{/if}>
+                </div>
+                <div class="wp_10 f_l"><{$vo.value}></div>
+                <div class="wp_10 f_l"><{$vo.money}></div>
+                <div class="wp_10 f_l"><{$vo.selltime}></div>
+                <div class="wp_10 f_l"><{$vo.username}></div>
+                <div class="wp_10 f_l">
+                    <!-- <span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp; rel="<{$vo.orderid}>"-->
+                    <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.orderid}>">购买</span>
                 </div>
             </div>
+            <{/if}>
             <{/volist}>
         </div>
-        
+        <{$list->render()}>
         <div class="more-info-navbar wp_100"></div>
-
 </div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="form-horizontal" id="form1" name="form1" method="post" role="form" action="<{:url('pay')}>">                    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        支付
+                    </h4>
+                </div>
+                <div class="wp_100">
+                    <div class="wp_100  f_l ">
+                        <div class="wp_100 m_t l_h_50">
+                            <span class="wp_60 f_l t_r main_font_color"><input id="checked" type="checkbox" name="checkbox">&nbsp;&nbsp;余额支付<p></p></span>
+                            <!-- <span class="wp_60 f_l t_l main_font_color"><input id="pays" class="khidden w120 h30 main_font_color" type="password" name="pass" value=""></span>    -->
+                        </div>
+                        <!-- <div class="wp_100 m_t l_h_50">
+                            <a href="/index/inner/gopay"><span class="wp_60 f_l t_r main_font_color"><input class="btn btn-primary" type="submit" name="submit" value="微信支付"></span></a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input id="hid" type="hidden" name="orderid" value="">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <!-- <input class="btn btn-primary" type="submit" name="submit" value="提交"> -->
+                    
+                    <input class="btn btn-primary" type="submit" name="submit" value="支付">
+                        
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    laydate.render({
+      elem: '#begintime', //指定元素
+      type: 'datetime'
+    });
+    laydate.render({
+      elem: '#endtime', //指定元素
+      type: 'datetime'
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(".ctrl-option").click(function() {
+            var orderid = $(this).attr('rel');
+            console.log(orderid);
+            $("#hid").val(orderid);
+            $("#Modal").modal();
+        });
+    });
+</script>
+<script>
+    document.getElementById('checked').onclick = function() {
+        var a = this.parentNode.getElementsByTagName('p')[0];
+        // console.log(a);
+        if (this.checked){
+            a.innerHTML = '<input class="w80 h30 main_font_color" type="password" name="pass" autofocus placeholder="支付密码" maxlength="6"/>';
+            a.focus();
+
+        }else{
+            a.innerHTML = '';
+        } 
+    }
+</script>
+<!-- <script>
+    function opear(obj){
+        var pass = $(obj).val();
+        if(pass.length >5){
+            console.log(6666666666666666);
+            $(".form-horizontal").action="<{:url('pay')}>";
+            // document.form1.submit();
+            // $(".form-horizontal").submit();
+        }
+    }
+</script> -->
+<!-- <script>
+    function weixin(){
+        document.form1.action="<{:url('gopay')}>"; 
+    }
+</script> -->
+<!-- <script>
+    function check(form){
+        if(form.begintime.value == '' || form.endtime.value ==''){
+            alert('请输入开始时间和结束时间！！！');
+            form.begintime.focus();
+            form.endtime.focus();
+            return false;
+        }
+        return true;
+    }
+</script> -->
 <{/block}>

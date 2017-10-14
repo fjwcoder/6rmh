@@ -23,32 +23,41 @@
         <div class="cart-goods-record wp_100">
             <div class="wp_35 f_l"><img class="w100 h80" src="<{$vo.pic}>"></div>
             <div class=" wp_25 f_l"><{$vo.title}></div>
-            <div class="wp_25 f_l"><{$vo.value}></div
+            <div class="wp_25 f_l">
+                <{if $vo.name == 'bait'}>
+                    <{$userinfo.bait}>
+                <{else}>
+                    <{$userinfo.point}>
+                <{/if}>
+            </div>
             <div class="wp_15 f_l">
-                <span class="ctrl-option" data-toggle="modal" data-target="#myModal">出售</span>&nbsp;&nbsp;&nbsp;
+                <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.id}>">出售</span>&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('Fishing/index')}>"><span class="ctrl-option">使用</span>&nbsp;&nbsp;&nbsp;</a>
-                <a href="<{:url('purchase', ['id'=>$vo.id])}>"><span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp;</a>
+                <a href="<{:url('buy', ['id'=>$vo.id])}>"><span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp;</a>
                 
             </div>
         </div>
         <{/volist}>
     </div>
-    
+    <{$list->render()}>
     <div class="more-info-navbar wp_100"></div>
 </div>
+
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="form-horizontal" method="post" role="form" action="<{:url('sellgoods')}>">                    
+        <form class="form-horizontal" method="post" role="form" action="<{:url('sellgoods')}>" onsubmit="return check(this)">
+                    
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-                        模态框（Modal）标题
+                        出售信息
                     </h4>
                 </div>
+                <div class="modalbody">
                 <div class="wp_100">
                     <div class="wp_100  f_l ">
                         <div class="wp_100 m_t l_h_50">
@@ -64,10 +73,15 @@
                             <span class="wp_25 f_l t_l main_font_color">
                                 <select class="w120 h30 main_font_color" name="selltime" required>
                                     <option value="2" selected>2</option>
+                                    <option value="4">4</option>
                                     <option value="6">6</option>
+                                    <option value="8">8</option>
                                     <option value="10">10</option>
+                                    <option value="12">12</option>
                                     <option value="14">14</option>
+                                    <option value="16">16</option>
                                     <option value="18">18</option>
+                                    <option value="20">20</option>
                                     <option value="22">22</option>
                                     <option value="24">24</option>
                                 </select>
@@ -76,7 +90,10 @@
                         </div>
                     </div>
                 </div>
+                
+                </div>
                 <div class="modal-footer">
+                    <input id="hid" type="hidden" name="type" value="">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                     </button>
                     <input class="btn btn-primary" type="submit" name="submit" value="提交">
@@ -85,4 +102,68 @@
         </form>
     </div>
 </div>
+
+
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">购买记录</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="more-info-detail table-title wp_100">
+        <div class=" wp_30">时间</div>
+        <div class=" wp_15">名称</div>
+        <div class=" wp_15">数量</div>
+        <div class=" wp_15">价格</div>
+        <div class=" wp_15">类型</div>
+        <div class=" wp_10">卖家姓名</div>
+    </div>
+    <div class="more-info-detail wp_100" >
+        <{volist name="log" id="vo"}>
+        <div class="withdraw wp_100">
+            <div class="wp_30 f_l"><{$vo.addtime}></div>
+            <div class="wp_15 f_l"><{$vo.username}></div>
+            <div class="wp_15 f_l"><{$vo.value}></div>
+            <div class="wp_15 f_l"><{$vo.money}></div>
+            <div class=" wp_15 f_l">
+                <{if $vo.type == 1}>
+                积分
+                <{else}>
+                鱼饵
+                <{/if}>
+            </div>
+            <div class="wp_10 f_l"><{$vo.sellername}></div>
+        </div>
+        <{/volist}>
+    </div>
+    <{$list->render()}>
+    <div class="more-info-navbar wp_100"></div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(".ctrl-option").click(function() {
+        var id = $(this).attr('rel');
+        $("#hid").val(id);
+        $("#Modal").modal();
+        });
+    });
+</script>
+<script>
+    function check(form){
+        if(form.value.value == ''){
+            alert('请输入出售数量！！！');
+            form.value.focus();
+            return false;
+        }
+        if(form.money.value ==''){
+            alert('请输入出售金额');
+            form.money.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
 <{/block}>

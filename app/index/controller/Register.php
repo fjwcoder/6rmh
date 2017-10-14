@@ -35,4 +35,35 @@ class Register extends controller
             $this->error('注册失败！', 'Register/index');
         }
     }
+
+    #微信关注
+    public function subscribe($user=[]){
+        if(!empty($user)){
+            $openid = $user['openid'];
+            unset($user['openid']);
+            $result = Db::name('user') -> where(['openid'=>$openid]) -> find();
+            if($result){ //已经关注过
+                $res = Db::name('user') ->where(['openid'=>$openid]) -> update($user);
+                
+            }else{ //第一次关注
+                #生成账号
+                $user['pid'] = 0;
+                $user['mobile'] = time();
+                
+                $user['encrypt'] = ;
+                $user[''] = ;
+                $user[''] = ;
+                $user[''] = ;
+                $user[''] = ;
+                $user[''] = ;
+
+                $res = Db::name() ->where() -> insert();
+            }
+        }
+    }
+
+    #微信取消关注
+    public function unSubscribe(){
+
+    }
 }
