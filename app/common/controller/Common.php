@@ -31,6 +31,7 @@ class Common extends Controller
             //登陆后，每次跳转，都设置一下session，保持登录状态
             Session::set(Config::get('USER_ID'), Session::get(Config::get('USER_ID')));
             
+            $this->assign('cookie', decodecookie('user'));
         }else{
             session(null);
             return $this->redirect('/index/login/index');

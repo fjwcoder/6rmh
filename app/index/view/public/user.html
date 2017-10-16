@@ -9,12 +9,15 @@
     <!--加载swiper的css-->
     <link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" type="text/css"/>
     <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
-
+    <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
     <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
 
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="__STATIC__/js/plugin/jquery.imagezoom.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/js/fileinput.min.js"></script>
+    <!--加载fileinput 对中文的支持-->
+    <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
     <!--加载angularjs-->
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <!--<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
@@ -27,7 +30,25 @@
         <{include file="./public/top"/}>
     </header>
     
-    
+    <!--显示头像和二维码-->
+    <div class="content-panel" style="height: 120px;; padding: 0 2%;">
+        <a href="javascript: void(0);" title="点击更新二维码">
+            <img class="f_r" style="height: 120px; width: 120px;" src="<{$cookie.qr_code}>"/>
+        </a>
+        <a href="javascript: void(0);" title="点击更新头像">
+            <img class="f_l" style="height: 120px; width: 120px;" src="<{$cookie.headimgurl}>"/>
+        </a>
+        
+        
+        <span class="f_r">
+            <{if $cookie.subscribe==2}>
+                请尽快绑定微信
+            <{else}>
+                我的推广二维码
+            <{/if}>
+        </span>
+    </div>
+
     <!--主要内容页面-->
     <div class="web-content wp_100 f_l ">
         <div class="content-panel">

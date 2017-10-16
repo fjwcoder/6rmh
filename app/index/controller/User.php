@@ -40,7 +40,7 @@ class User extends Common
         if(!empty($_FILES['headimg']['name'])){
             $upload = uploadHeadImg('images'.DS.'headimage');
             if($upload['status']){
-                $data['headimg'] = $upload['path'][0];
+                $data['headimgurl'] = $upload['path'][0];
             }else{
                 return $this->error('头像上传失败');
             }
@@ -134,6 +134,16 @@ class User extends Common
         }else{
             return $this->error('修改失败');
         }
+    }
+
+    public function refreshQRCode(){
+        $get = request() ->get();
+        return dump($get);
+    }
+
+    public function refreshWechat(){
+        $get = request() ->get();
+        return dump($get);
     }
 
 }

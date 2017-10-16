@@ -1,20 +1,13 @@
 <?php
 namespace app\admin\controller;
-// defined('APPID') or define('APPID', 'wxa61ba5429b802e8f');
-// defined('APPSECRET') or define('APPSECRET', '7e7e4f652449441dec476d2b99fa63ba');
-// define('ACCESS_TOKEN', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential');//公众号获取access_token
-// define('USER_BASEINFO', 'https://api.weixin.qq.com/cgi-bin/user/info');//公众号获取用户详细信息
-// define('MENU_URL', 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=');//自定义菜单
+
 #define('REDIRECT_URL', 'http://www.ajconsulting.top');//定义网站地址
-// define('OAUTHOR2_URL', 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=');//微信网页授权
-// define('WEB_AUTH', 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=');
-// define('WEB_AUTH_USERINFO', 'https://api.weixin.qq.com/sns/userinfo?access_token=');
-// define('JSAPI_URL', 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=');//js_sdk url
 // define('SUCAI_COUNT', 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=');//素材数量
 // define('FOREVER_SUCAI', 'https://api.weixin.qq.com/cgi-bin/material/get_material?access_token='); //获取永久素材
 // define('SUCAI_LIST', 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=');//素材列表
 use app\common\controller\Common;
 use app\index\controller\Register as Register;
+use app\index\controller\Login as Login;
 use think\Controller;
 use think\Session;
 use think\Cookie;
@@ -136,35 +129,54 @@ class Wechat extends Controller
     //接收事件消息
     public function handleEvent($object){
         $openid = strval($object->FromUserName);
+        $wxconf = getWxConf();
+        $register = new Register();
+        $access_token = $this->access_token();
+
         $content = "";
-        
         switch ($object->Event){
             case "subscribe":
-                $wxconf = getWxConf();
-                $register = new Register();
-                $access_token = $this->access_token();
+                
                 $user_url = $wxconf['USER_BASEINFO']['value'].$access_token.'&openid='.$openid.'&lang=zh_CN';
                 $user_res = httpsGet($user_url);
                 $user_arr = json_decode($user_res, true);//获取到的用户信息
+                $content .= "欢迎关注 亿签网络旗下六耳猕猴商城\n";
+                if(empty($object->EventKey)){ //不带场景值,直接注册 或者 重新关注
 
-                if(empty($object->EventKey)){ //不带场景值
-
-                    $content .= "bu带场景值";
+                    $regist = $register->subscribe($user_arr); //参数为用户数据
+					$content .= $regist['content'];
+                    
                 }else{ //带场景值
-                    $content .= "带场景值";
-                }
-                // $register->subscribe($user_arr);
+                    #判断绑定 or 推荐
+                    $scene = explode('_', $object->EventKey);
+                    unset($scene[0]);
+                    foreach($scene as $k=>$v){
+                        $scene[$k] = explode('=', $v);
+                        $param[$scene[$k][0]] = $scene[$k][1];
+                    }
+                    
+                    // file_put_contents('user.txt', json_encode($user_arr));
+                    // file_put_contents('param.txt', json_encode($param));
+                    $regist = $register->scanQRCode($user_arr, $param);
+                    $content .= $regist['content'];
 
-                $content .= "欢迎关注 亿签网络旗下六耳猕猴商城";
+                    // $content .= "==".json_encode($param)."==";
+
+
+                }
+                $content .= "详情请关注自定义菜单";
+
+                
                 break;
             case "CLICK":
                 switch($object->EventKey){
                     
                 }
             case "VIEW":
+            
                 $content = "跳转链接 ".$object->EventKey;
             break;
-            case "SCAN":
+            case "SCAN": 
                 $content = "扫描场景 ".$object->EventKey;
             break;
             case "LOCATION":
@@ -327,5 +339,57 @@ class Wechat extends Controller
         return $result;
     }
 
+    #==========================================================
+    # 生成带场景值的二维码
+    # $id 用户ID
+    # $user 用户信息
+    # $command 强势更新
+    # $action 整型还是字符串型，默认字符串
+    # $limit 是否永久，默认否
+    #==========================================================
+    public function sceneQRCode($id, $user=[], $command=false, $action="QR_STR_SCENE", $limit=false, $expire=2590000){
+        
+        if(session("USER_ID") ){ //登录
+            $user = decodeCookie('user');
+        }else{ //没有登录
+            if(empty($user)){
+                $user = Db::name('users') -> where(['id'=>$id ,'status'=>1]) -> find();
+            }
+        }
+        #强制更新
+        if($command){
+            $user = Db::name('users') -> where(['id'=>$id ,'status'=>1]) -> find();
+        }
+        if(empty($user['qr_ticket']) || (time() >= $user['qr_seconds']) || $command == true){  //不存在或者超时
+            
+            $scene = [
+                'expire_seconds'=>$expire, 'action_name'=>$action,
+                'action_info'=>[]
+            ];
+            
+            if($action==="QR_STR_SCENE"){
+                $scene['action_info']['scene']['scene_str'] = "uid=".$id."_subscribe=".$user['subscribe']."_pid=$user[pid]";;
+            }elseif($action==="QR_SCENE"){
+                $scene['action_info']['scene']['scene_id'] = $id;
+            }
+
+            $wxconf = getWxConf();
+            $url = $wxconf['PARAM_QRCODE']['value'].$this->access_token();
+            $response = httpsPost($url, json_encode($scene));
+            $result = json_decode($response, true);
+            $data = ['qr_code'=>$wxconf['SHOW_QRCODE']['value'].urlencode($result['ticket']), 
+                'qr_seconds'=>intval(time())+intval($result['expire_seconds']), 
+                'qr_ticket'=>$result['ticket']];
+            $update = Db::name('users') -> where(['id'=>$id]) -> update($data);
+
+            $user = Db::name('users') -> where(['id'=>$id ,'status'=>1]) -> find();
+
+            return $user;
+
+        }else{
+            return $user;
+        }
+        
+    }
 
 }

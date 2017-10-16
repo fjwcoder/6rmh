@@ -23,6 +23,9 @@
     <!--<script src="__JS__/admin/admin_default_layout.js"></script>-->
 </head>
     <body>
-    移动端special模板
+        <{volist name="goods" id="vo" offset="0" length='3' empty="暂时没有数据"}>
+            <h1><{$vo.name}></h1>
+                    <p><{$vo.description}></p>
+        <{/volist}>
     </body>
 </html>

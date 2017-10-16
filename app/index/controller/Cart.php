@@ -12,7 +12,6 @@ class Cart extends Common
     public function index(){
         
         $user = decodeCookie('user');
-        return dump($user);
         $mallObj = new Mall();
         // 查出购物车信息，包括
         // 商品具体信息、规格、图片、促销活动、买家信息
