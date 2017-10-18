@@ -1,0 +1,73 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<form class="form-horizontal" method="post" role="form" action="<{:url('addgoodsname')}>">
+    <div class="panel panel-default node-panel-default">
+        <input type="hidden" name="term" value="<{$term}>"> 
+        <div class="panel-body  node-panel-body" sort="0">
+            <div class="form-group">
+                <label   class="col-sm-5 control-label">添加商品：</label>
+                <div class="col-sm-3">
+                    <P>  
+                    <select id="name-0" class="form-control" name="config[0][gid]" value="" required>
+                        <option value="" selected>==请选择商品==</option>
+                        <{volist name="goods" id="vo"}>
+                        <option value="<{$vo.id}>"><{$vo.name}></option>
+                        <{/volist}>
+                    </select>
+                    </p>
+                    <!-- <input id="name-0" type="text" class="form-control" name="config[0][name]" value="" onblur="loseBlur(0, 0);" placeholder="ENGLISH_NAME(大写)" required/> -->
+                    <!-- <p class="help-block name-0">不可与已存在的商品重复</p> -->
+                </div>
+            </div>
+        </div>  
+    </div>
+    <br>
+    <div class="col-sm-1 pull-left header-search-btn text-center" onclick="addConfig();" title="增加配置项">
+        <span class="glyphicon glyphicon-plus" ></span>
+    </div>
+    <br>
+
+    <{include file="iframe/submit"}>
+</form>
+<script>
+    var check = false;
+    function addConfig(){
+        var max = $('div.node-panel-body:last').attr('sort');
+        max = parseInt(max)+1;
+        var html = '<hr sort="'+max+'"/>';
+        html += '<div class="panel-body  node-panel-body" sort="'+max+'">';
+        html += '<div class="form-group">';
+        html += '<label   class="col-sm-5 control-label">添加商品：</label>';
+        html += '<div class=" col-sm-3">  ';
+        html += '<p>';
+        html += '<select id="name-'+max+'" class="form-control" name="config['+max+'][gid]" value="" required>';
+        html += '<option value="">==请选择商品==</option>';
+
+        html += '<{volist name="goods" id="vo"}>';
+        html += '<option value="<{$vo.id}>"><{$vo.name}></option>';
+        html += '<{/volist}>';
+        html += '</select>';
+        html += '</p>';
+        // html += '<p class="help-block name-'+max+'">不可与已存在的商品重复</p>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="col-sm-1 pull-right header-search-btn header-delete-btn text-center" onclick="delConfig('+max+');" title="删除配置项">';
+        html += '<span class="glyphicon glyphicon-minus"></span>';
+        html += '</div>'
+        html += '</div>';
+        html += '</div>';
+        if(max > 5){
+            alert('最多可添加6个商品');
+        }else{
+            $('div.node-panel-default').append(html);
+        }
+    }
+    
+    function delConfig(id){
+        $('hr[sort='+id+']').remove();
+        $('div.node-panel-body[sort='+id+']').remove();
+    }
+
+</script>
+
+<{/block}>

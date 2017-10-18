@@ -56,7 +56,7 @@ class Term extends Manage
 
 
     public function edit(){
-
+        
         if(request()->post()){
             return $this->dataPost('edit');
         }
@@ -76,6 +76,7 @@ class Term extends Manage
         $this->assign('goods', $goods);
         
         $navid = input('navid', 44, 'intval');
+        $this ->assign('id', $id);
         $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->编辑分期', 
         'form'=>'edit', 'navid'=>$navid]);
         return $this->fetch('term');
@@ -145,8 +146,65 @@ class Term extends Manage
 
     //增加本期商品
     public function addGoods(){
-
-
+        $id = input('id', 0, 'intval');
+        $navid = input('navid', 44, 'intval');
+        $keyword = input('post.keyword', '', 'htmlspecialchars,trim');
+        // dump($id);die;
+        $goods = db('goods', [], false) ->field('name,id') ->select();
+        $this->assign('goods', $goods);
+        $this->assign('term', $id);
+        $this->assign('keyword', $keyword?$keyword:'');
+        $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->添加商品', 
+        'form'=>'list', 'navid'=>$navid]);
+        return $this->fetch('add');
     }
+
+    public function addgoodsname(){
+        $post = request()->post();
+        unset($post['navid']);
+        $id_list = Db::name('term_goods') -> where(['term'=>$post['term']]) -> field('gid') -> select();   
+        
+        foreach($post['config'] as $array){
+            foreach($id_list as $secondarray){
+                if($array==$secondarray){
+                    return $this->error('商品已存在'); 
+                }
+                
+            }
+        }
+        $count = Db::name('term_goods') ->where(['term'=>$post['term']]) ->count();   
+        foreach($post['config'] as $k=>$v){
+            $data[$k] = $v;
+            $data[$k]['term'] = $post['term'];
+        }
+        // dump($data);die;
+        
+        if($count <6 && count($data) + $count < 7){
+            $result = Db::name('term_goods') -> insertAll($data);
+            if($result){
+                return $this->success('添加成功', request()->controller().'/index');
+            }else{
+                return $this->error('添加失败');
+            }
+
+        }else{
+            return $this->error('最多添加6个商品');
+        }
+    
+    }
+
+    // public function test(){
+        
+    //     $id_list = Db::name('term_goods') -> where(['term'=>2]) -> field('gid') -> select();
+    //     // dump($id_list);
+    //     foreach($id_list as $k => $v){
+    //         $gid[] = $v["gid"];
+    //     }
+    //     $res = implode(",",$gid);
+    //     dump($res);
+    //     $sql = "select * from keep_goods where id not in($res) and status=1";
+    //     $goods = Db::query($sql);
+    //     return dump($goods);
+    // }
 
 }

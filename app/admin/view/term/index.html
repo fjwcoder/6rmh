@@ -32,7 +32,8 @@
                     <{/switch}>
                 </td>
                 <td>
-                    <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="详情/编辑"></span></a>
+                    <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="详情/编辑"></span></a>&nbsp;&nbsp;
+                    <a href="<{:url('addGoods', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-plus-sign" title="添加本期商品"></span></a>
                     <!--<{if $vo.status == 1}>
                     <a href="javascript: void(0);"><span class="glyphicon glyphicon-eye-close " title="锁定"></a>
                     <{else}>
