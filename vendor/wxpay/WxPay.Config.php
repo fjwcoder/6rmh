@@ -42,9 +42,7 @@ class WxPayConfig
 	/* const SSLCERT_PATH = $_SERVER['DOCUMENT_ROOT']."/Include/Library/Vendor/cert/apiclient_cert.pem";
 	const SSLKEY_PATH = $_SERVER['DOCUMENT_ROOT'].'/Include/Library/Vendor/cert/apiclient_key.pem';
 	const CAINFO_PATH = $_SERVER['DOCUMENT_ROOT'].'/Include/Library/Vendor/cert/rootca.pem'; */
-	const SSLCERT_PATH = 'E:/PHP_Develop/5FZ2/Include/Library/Vendor/cert/apiclient_cert.pem';
-	const SSLKEY_PATH = 'E:/PHP_Develop/5FZ2/Include/Library/Vendor/cert/apiclient_key.pem';
-	const CAINFO_PATH = 'E:/PHP_Develop/5FZ2/Include/Library/Vendor/cert/rootca.pem';
+	
 	
 	
 	//=======【curl代理设置】===================================

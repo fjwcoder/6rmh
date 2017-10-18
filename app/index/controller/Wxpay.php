@@ -13,11 +13,15 @@ use think\Db;
 
 class Wxpay extends Common
 {
+
     public function index(){
         
+        $id = input('id', '', 'htmlspecialchars,trim');
         $uid = session(config('USER_ID'));
-        $action = input('action', '', 'htmlspecialchars,trim');
-        $check = $this->check();
+        $action = input('type', '', 'htmlspecialchars,trim');
+
+        $check = $this->check($id);
+
         if($check['status']){
             #获取用户信息
             $user = decodecookie("user");
@@ -25,42 +29,94 @@ class Wxpay extends Common
                 $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
             }
 
-            // $qrcode = $this->$action($check['order']);
+            # 扫码支付 模式一
+            // $qrcode = $this->scanPay($check['order']);
             // return '<img src="'.$qrcode.'"/>';
             
-            $this->orderPay();
+            # 扫码支付 模式二
+            $jsApiParameters = $this->orderPay($check['order'], $user, 'NATIVE');
+            $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
+            $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
+            $this->assign('order', $check['order']);
+
         }else{
-            return $check['content'];
+            $this->assign('result', ['status'=>false, 'content'=>$check['content']]);
         }
+        return $this->fetch();
 
-        
-        
-        
-        $config = mallConfig();
-        $this->assign('config', ['page_title'=>'支付页面', 'template'=>$config['mall_template']['value'] 
-            ]);
-
-        return '支付';
 
 
         
     }
 
-    #查询订单信息并进行验证
-    public function check(){
-        $id = input('id', '', 'htmlspecialchars,trim'); //订单ID
+    # 统一下单支付
+    public function orderPay($order, $user, $trade_type='NATIVE' ,$attach='六耳猕猴购物订单支付'){
         
-        $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
-        if(isset($order)){
-            if($order['money']<=0){
-                return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
+        $wxconf = getWxConf();
+        #拼凑信息
+        $money = floatval($order['money'])*100;
+        $tools = new \JsApiPay();
+        $input = new \WxPayUnifiedOrder();
+        $input -> SetAppid($wxconf['APPID']['value']);//公众账号ID
+        $input -> SetMch_id($wxconf['MCHID']['value']);//商户号
+        $input -> SetOpenid($user['openid']);
+        $input -> SetBody('六耳猕猴订单支付');
+        $input -> SetAttach($attach);
+        $input -> SetOut_trade_no(strval($order['order_id']));
+        $input -> SetProduct_id(strval($order['order_id']));
+        if($trade_type==='NATIVE'){
+            if( ($user['subscribe'] == 'Y') || ($user['subscribe'] == 1) ){
+                $subscribe = 'Y';
+            }else{
+                $subscribe = 'N';
             }
-            return ['status'=>true, 'order'=>$order];
+            $input -> SetIs_subscribe($subscribe);
         }
+        $input -> SetTotal_fee(strval($money));
+        $input -> SetTime_start(date('YmdHis'));
+        $input -> SetTime_expire(date('YmdHis', time() + 1000));
+        $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/wxPayResult');
+        $input -> SetTrade_type($trade_type);
+        $order = \WxPayApi::unifiedOrder($input); 
+        return $order;
+        // $jsApiParameters = $tools->GetJsApiParameters($order);
+        // return $jsApiParameters;
+        
+    }
+
+
+    #查询订单信息并进行验证
+    # $id 订单号
+    public function check($id=0, $wxconf= []){
+        if($id===0){
+            return ['status'=>false, 'content'=>'订单错误']; exit;
+        }
+        if(empty($wxconf)){
+            $wxconf = getWxConf();
+        }
+        $number = ['1', '2','3','4','5','6','7','8','9','0'];
+        $first = substr($id, 0, 1);
+        if(!in_array($first, $number)){ //购物订单
+        
+            $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+            
+            if(isset($order)){
+                if($order['money']<=0){
+                    return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
+                }
+                return ['status'=>true, 'order'=>$order];
+            }else{
+                return ['status'=>false, 'content'=>'订单不存在'];
+            }
+        }else{ //内部交易订单
+            //$order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+        }
+
+        
     }
 
     # 扫码支付
-    public function order($order=[]){
+    public function scanPay($order=[]){
 
         
         if(!empty($order)){
@@ -80,16 +136,7 @@ class Wxpay extends Common
             $qr_str .= "&nonce_str=".$sign['noncestr']; // 随机字符串 String(32)
 
             return "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($qr_str);
-            // return $qr_str;
-            // 草料二维码API  https://cli.im/api/qrcode/code?text=
-            // $qrObj = new \QRcode();
-            // $errorCorrectionLevel = 'L';  
-            // //生成图片大小  
-            // $matrixPointSize = 6;  
-            // $qrObj->png($qr_str, false, $errorCorrectionLevel, $matrixPointSize, 2);
-            // $data = ob_get_contents();
-            // ob_end_clean();
-            // return "data:image/jpeg;base64,".base64_encode($data);
+
 
         }else{
             return $check['content'];
@@ -127,47 +174,7 @@ class Wxpay extends Common
 	}
 
 
-    # 统一下单支付
-    public function orderPay($attach='六耳猕猴购物订单支付'){
-        
-        $id = input('id', '', 'htmlspecialchars,trim');
-        $uid = session(config('USER_ID'));
-        #查询订单信息并进行验证
-        $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
-        if($order['money']<=0){
-            return '金额为0，不用支付'; exit;
-        }
-
-        #获取用户信息
-        $user = decodecookie("user");
-        if(empty($user)){
-            $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
-        }
-        $wxconf = getWxConf();
-        #拼凑信息
-        $money = floatval($order['money'])*100;
-        $tools = new \JsApiPay();
-        $input = new \WxPayUnifiedOrder();
-        $input -> SetAppid($wxconf['APPID']['value']);//公众账号ID
-        $input -> SetMch_id($wxconf['MCHID']['value']);//商户号
-        $input -> SetOpenid($user['openid']);
-        $input -> SetBody('六耳猕猴订单支付');
-        $input -> SetAttach($attach);
-        $input -> SetOut_trade_no(strval($order['order_id']));
-        $input -> SetProduct_id(strval($order['order_id']));
-        $input -> SetTotal_fee(strval($money));
-        $input -> SetTime_start(date('YmdHis'));
-        $input -> SetTime_expire(date('YmdHis', time() + 1000));
-        $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/wxPayResult');
-        $input -> SetTrade_type('JSAPI');
-
-        return var_dump($input);
-        $order = \WxPayApi::unifiedOrder($input); 
-
-        // $jsApiParameters = $tools->GetJsApiParameters($order);
-        die;
-        
-    }
+    
 
 
 }

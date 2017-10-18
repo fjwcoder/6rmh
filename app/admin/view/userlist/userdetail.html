@@ -1,0 +1,183 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="headimg" class="col-sm-4 control-label"></label>
+        <div class=" member-headimg col-sm-3 col-md-3">
+            <a href="javascript: void(0);" class="thumbnail">
+                <img class=" member-headimg form-control" src="<{$user.headimgurl}>" alt="用户头像未显示"/>
+            </a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="id" class="col-sm-3 control-label">用户id：</label>
+        <div class="col-sm-3">
+            <{$user.id}>
+        </div>
+        <label for="pid" class="col-sm-2 control-label">上线ID：</label>
+        <div class="col-sm-3">
+            <{$user.pid}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-3 control-label">名称：</label>
+        <div class="col-sm-3">
+            <{$user.name}>
+        </div>
+        <label for="password" class="col-sm-2 control-label">密码：</label>
+        <div class="col-sm-3">
+            <{$user.password}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="encrypt" class="col-sm-3 control-label">加密密钥：</label>
+        <div class="col-sm-3">
+            <{$user.encrypt}>
+        </div>
+        <label for="realname" class="col-sm-2 control-label">真实姓名：</label>
+        <div class="col-sm-3">
+            <{$user.realname}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sex" class="col-sm-3 control-label">性别：</label>
+        <div class="col-sm-3">
+            <{$user.sex}>
+        </div>
+        <label for="money" class="col-sm-2 control-label">余额：</label>
+        <div class="col-sm-3">
+            <{$user.money}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mobile" class="col-sm-3 control-label">联系方式：</label>
+        <div class="col-sm-3">
+            <{$user.mobile}>
+        </div>
+        <label for="bait" class="col-sm-2 control-label">鱼饵：</label>
+        <div class="col-sm-3">
+            <{$user.bait}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="point" class="col-sm-3 control-label">积分：</label>
+        <div class="col-sm-3">
+            <{$user.point}>
+        </div>
+        <label for="qq" class="col-sm-2 control-label">QQ号：</label>
+        <div class="col-sm-3">
+            <{$user.qq}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="col-sm-3 control-label">电子邮箱：</label>
+        <div class="col-sm-3">
+            <{$user.email}>
+        </div>
+        <label for="pay_code" class="col-sm-2 control-label">余额支付密码：</label>
+        <div class="col-sm-3">
+            <{$user.pay_code}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="paycrypt" class="col-sm-3 control-label">余额加密密钥：</label>
+        <div class="col-sm-3">
+            <{$user.paycrypt}>
+        </div>
+        <label for="id_num" class="col-sm-2 control-label">身份证号码：</label>
+        <div class="col-sm-3">
+            <{$user.id_num}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="id_card" class="col-sm-3 control-label">身份证路径：</label>
+        <div class="col-sm-3">
+            <{$user.id_card_path}>
+        </div>
+        <label for="id_list" class="col-sm-2 control-label">id链：</label>
+        <div class="col-sm-3">
+            <{$user.id_list}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="regtime" class="col-sm-3 control-label">注册时间：</label>
+        <div class="col-sm-3">
+            <{$user.regtime}>
+        </div>
+        <label for="logintime" class="col-sm-2 control-label">登录时间：</label>
+        <div class="col-sm-3">
+            <{$user.logintime}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="loginip" class="col-sm-3 control-label">登录IP：</label>
+        <div class="col-sm-3">
+            <{$user.loginip}>
+        </div>
+        <label for="status" class="col-sm-2 control-label">状态：</label>
+        <div class="col-sm-3">
+            <{$user.status}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-3 control-label">备注：</label>
+        <div class="col-sm-3">
+            <{$user.remark}>
+        </div>
+        <label for="subscribe" class="col-sm-2 control-label">公众号标识：</label>
+        <div class="col-sm-3">
+            <{$user.subscribe}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="openid" class="col-sm-3 control-label">唯一标识：</label>
+        <div class="col-sm-3">
+            <{$user.openid}>
+        </div>
+        <label for="nickname" class="col-sm-2 control-label">昵称：</label>
+        <div class="col-sm-3">
+            <{$user.nickname}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="language" class="col-sm-3 control-label">语言：</label>
+        <div class="col-sm-3">
+            <{$user.language}>
+        </div>
+        <label for="province" class="col-sm-2 control-label">所在省份：</label>
+        <div class="col-sm-3">
+            <{$user.province}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="city" class="col-sm-3 control-label">所在城市：</label>
+        <div class="col-sm-3">
+            <{$user.city}>
+        </div>
+        <label for="country" class="col-sm-2 control-label">所在国家：</label>
+        <div class="col-sm-3">
+            <{$user.country}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="subscribe_time" class="col-sm-3 control-label">关注时间：</label>
+        <div class="col-sm-3">
+            <{$user.subscribe_time}>
+        </div>
+        <label for="unionid" class="col-sm-2 control-label">绑定账号：</label>
+        <div class="col-sm-3">
+            <{$user.unionid}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="groupid" class="col-sm-3 control-label">分组ID：</label>
+        <div class="col-sm-3">
+            <{$user.groupid}>
+        </div>
+        <label for="tagid_list" class="col-sm-2 control-label">标签ID列表：</label>
+        <div class="col-sm-3">
+            <{$user.tagid_list}>
+        </div>
+    </div>
+</div>
+<{/block}>

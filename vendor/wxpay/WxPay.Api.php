@@ -63,7 +63,7 @@ class WxPayApi
 		
 		//签名
 		$inputObj->SetSign();
-		var_dump($inputObj); die;
+		
 		$xml = $inputObj->ToXml();
 		// echo $xml; die;
 
@@ -72,7 +72,7 @@ class WxPayApi
 		$response = self::postXmlCurl($xml, $url, false, $timeOut);//这一行出错，修改了postXmlCurl函数后运行正常
 		
 		$result = WxPayResults::Init($response);
-		var_dump($result); die;
+		
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
 		return $result;
 	}

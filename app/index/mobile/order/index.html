@@ -12,7 +12,7 @@
 	<{switch name="vo.order.status"}>
 			
                         <{case value="1"}>
-                        <a href="/index/wxpay/index/action/order/id/<{$vo.order.order_id}>">
+                        <a href="/index/wxpay/index?type=order&id=<{$vo.order.order_id}> ">
                             <div class="wp_100 hp_100  order-operation-btn">
                             <{$vo.order.payment_name}>
                             </div>

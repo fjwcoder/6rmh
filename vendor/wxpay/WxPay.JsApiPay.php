@@ -44,6 +44,7 @@ class JsApiPay
 		if (!isset($_GET['code'])){
 			//触发微信返回code码
 			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].$_SERVER['QUERY_STRING']);
+			// file_put_contents('baseurl.txt', $baseUrl);
 			$url = $this->__CreateOauthUrlForCode($baseUrl);
 			Header("Location: $url");
 			exit();

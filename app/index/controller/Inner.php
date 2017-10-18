@@ -66,6 +66,9 @@ class Inner extends Common
         
         return $this->fetch();
     }
+
+
+    
     //出售列表
     public function purchase(){
         $id = session(config('USER_ID'));
