@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__STATIC__/css/mall_mobile_preview.css">
+    <title>订单页</title>
+    <link rel="stylesheet" href="">
+</head>
+<body data-ng-app="myApp">
+    <div ng-controller="previewCtrl">
+        <div class="more-info-navbar">
+            订单
+        </div>
+        <div class="info paper">
+           <{if $address != null}>
+                 <{volist name="address" id="vo"}>
+                    <div class="connect_info">
+                        <span>联系人：<{$vo.name}></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>联系电话:<{$vo.mobile|substr=0,3}>****<{$vo.mobile|substr=7}></span>
+                    </div>
+                    <div class="address">
+                        <span class="fa fa-location-arrow"></span>
+                        <span>默认地址:</span>
+                        <span>
+                            <{$vo.province}>&nbsp;
+                            <{$vo.city}>&nbsp;
+                            <{$vo.area}>&nbsp;
+                            <{$vo.address}>
+                        </span>
+                    </div>
+                    <br>
+                    <div class="info_footer">
+                        <a class="footer_left" href="" title="">编辑</a>
+                        <a class="footer_right" href="" title="">新增</a>
+                    </div>
+                 <{/volist}>
+           <{else}>
+                <a href="" title="">+添加收货地址</a>
+           <{/if}> 
+        </div>
+        <div class="paper pay_way">
+            <div>
+                支付方式:
+            </div>
+            <{volist name="pay_way" id="vo"}>
+                <span name="pay_way" ng-class="{chosePay: <{$vo.id}>==isChose}" ng-click="paySelect(<{$vo.id}>);"><{$vo.name}></span>
+            <{/volist}>
+            <div>
+                配送方式:
+            </div>
+            <{volist name="delivery" id="vo"}>
+                <span class=" default-spec-li" name="delivery" ng-class="{chosePay: <{$vo.id}>==delivery}" ng-click="deliverySelect(<{$vo.id}>);"><{$vo.title}></span>
+            <{/volist}>
+        </div>
+        <div class="goods_info paper">
+            <div>
+                应付总额：¥<{$count.prices}>
+            </div>
+            <{volist name="carts" id="vo"}>
+            <div class="goods_details">
+                <span class="goods_left">
+                    <img title="<{$vo.sub_name}>" class="cart-goods-pic" src="<{$vo.pic}>"/>
+                </span>
+                <span class="goods_center">
+                    <li><{$vo.name}></li>
+                    <li>规格：<{$vo.spec}></li>
+                    <li>单价: ￥<{$vo.price}></li>
+                    <li>数量：<{$vo.num}></li>
+                    <li class="promotion">
+                         <{if $vo.promotion != ''}>
+                         <{$vo.promotion}>
+                         <{/if}>
+                    </li>
+                    <li> 赠送鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;获得积分：<{$vo.point*$vo.num}></li>
+                </span>
+                <span class="goods_right">小计:¥<{$vo.price*$vo.num}></span>
+            </div>
+            <{/volist}>
+        </div>
+        <div class="pay">
+            <div>支付</div>
+        </div>
+    </div>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('previewCtrl', function($scope) {
+            <{if $address != null}>
+                $scope.addrID = <{$address[0]['id']}>;                
+            <{/if}>
+            //默认是默认地址的ID
+            $scope.delivery = 1;
+            $scope.paySelect = function($id) {
+                $scope.isChose = $id;
+            }
+            $scope.selectAddr = function($id){
+                $scope.addrID = $id;
+            }
+            $scope.deliverySelect = function($id){
+                $scope.delivery = $id;
+            }
+        });
+    </script>
+</body>
+</html>

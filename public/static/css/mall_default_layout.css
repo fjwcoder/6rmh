@@ -186,6 +186,8 @@ span.order-total{margin-top: 10px;}
 
 
 .order-item-div, .order-goods-detail{padding-top: 15px;}
+.order-item-sub{height: 40px; margin-top: 15px; line-height: 26px;}
+.order-item-sub .order-operation-btn{background: #6ad4c9; color: white; cursor: pointer;}
 .order-goods-detail{height: 120px;  border-bottom: 1px solid #e0e0e0;}
 .main-panel-heading{background-color: #f5f5f5!important;}
 .order-panel-body{padding: 0 15px!important;}

@@ -141,9 +141,7 @@ input:checked+label {
     text-overflow:ellipsis;
     white-space: nowrap;
 }
-.given-info{
-    clear: 
-}
+
 .cart-goods-num{
     width: 5em;
     text-align: center;
@@ -156,9 +154,6 @@ input:checked+label {
     border: 1px solid #f00;
 }
 .foot-info-navbar{
-    position: fixed;
-    bottom: 0em;
-    width: 100%;
     height: 2.5em;
     line-height: 2.5em;
     text-align: center;
@@ -167,5 +162,4 @@ input:checked+label {
     color: #fff;
     background: #6ad4c9;
     font-size: 1.25em;
-    display: none;
 }

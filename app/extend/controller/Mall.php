@@ -46,7 +46,7 @@ class Mall extends controller //需要继承该类，否则无法使用
 
     # 获取商品详情(前台商品详情页用到该方法)
     public function getGoodsDetail($id){
-        $field = ['a.id', 'a.userid', 'a.catid', 'a.catid_list', 'a.name', 'a.sub_name', 'a.key_words', 'a.service', 
+        $field = ['a.id', 'a.userid', 'a.catid', 'a.catid_list', 'a.name', 'a.sub_name', 'a.key_words', 'a.service', 'a.img',
             'a.price', 'a.cost_price', 'a.sell_price', 'a.amount', 'a.sell_amount', 'a.weight', 'a.bait', 'a.promotion',
             'a.point', 'a.free_shipping', 'a.description', 'a.high_comm', 'a.low_comm', 'a.low_comm', 
             'a.remark', 'b.detail', 'c.title as brand_title', 'c.logo as brand_logo', 'c.description as brand_description'

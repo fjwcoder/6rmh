@@ -59,7 +59,7 @@ class Wxmenu extends Manage
         $wechat = new Wechat();
 		$menu_url = $menu_url['value'].$wechat->access_token();
         $menu_data = $this->getMenuData();
-        return $menu_data;
+        // return $menu_data;
 		$menu_res = httpsPost($menu_url, $menu_data);
         $response = json_decode($menu_res, true);
         return dump($response);

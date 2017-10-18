@@ -1,0 +1,120 @@
+body{
+    background-color: #f0f2f5;
+    margin: 0px;
+}
+li{
+    list-style-type: none;
+}
+
+/*公共样式*/
+.paper{
+    font-size: 0.8em;
+    background: #fff;
+    width: auto;
+    padding: 0.5em 0.5em;
+    margin: 1em 0.25em;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 5px #ccc;
+}
+.more-info-navbar{
+    background: #6ad4c9;
+    color: #fff;
+    text-align: center;
+    font-size: 1.5em;
+    height: 2em;
+    line-height: 2em;
+    box-shadow: 0px 3px 5px #ccc;
+}
+.info{
+    position: relative;
+}
+.info a{
+    color: #6ad4c9;
+}
+.connect_info span{
+    text-align: left;
+    font-size: 0.8em;
+}
+.address span{
+    font-size: 0.8em;
+}
+.info_footer a{
+    text-decoration: none;
+    text-align: center;
+}
+.footer_left, .footer_right{
+    position: absolute;
+    bottom: 0.25em;
+}
+.footer_left{
+    left: 2em;
+}
+.footer_right{
+    right: 2em;
+}
+.pay_way span{
+    height: 2.5em;
+    line-height: 2.5em;
+    border-radius: 0.25em;
+    border: 1px dashed #ccc;
+    margin: 0.5em;
+    width: 44%;
+    display: inline-block;
+    text-align: center;
+}
+.chosePay{
+    background: #6ad4c9;
+    color: #fff;
+    border: none;
+    box-shadow: 0px 2px 10px #ccc;
+}
+.goods_details{
+    line-height: 100%;   
+    border-top: 1px solid #6ad4c9;
+    margin: 0.25em 0em;
+}
+.goods_left,.goods_center,.goods_right{
+    display: inline-block;
+    text-align: center;
+}
+.goods_left{
+    width: 20%;
+}
+.goods_left img{
+    width: 100%;
+    margin: 0 auto;
+}
+.goods_right{
+    color: #f00;
+}
+.goods_center{
+    text-align: left;
+    width: 50%;
+    font-size: 0.8em;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    line-height: 100%;
+}
+.promotion{
+    border: 1px solid #f00;
+    color: #f00;
+    width: 6em;
+}
+.goods_center li{
+    margin: 0.5em;
+}
+.pay{
+    position: fixed;
+    bottom: 3em;
+    right: 1em;
+    background: #6ad4c9;
+    color: #fff;
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    line-height: 4em;
+    text-align: center;
+    box-shadow: 2px 2px 10px #ccc;
+}
+

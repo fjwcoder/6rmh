@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<title><{$config.page_title}></title>
+	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_user.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="head">		
+		<span class="back_home fa fa-long-arrow-left fa-1x" onclick="location.assign('/')"></span>
+		<span class="setting fa fa-cog fa-1x"></span>
+		<img class="hp_100 wp_100 o_h" src="<{$users.headimg}>" alt="用户头像未显示">
+		<span class="user_name"><{$users.name}></span>
+	</div>
+	<div class="body">
+		<ul>
+			<li>
+				<a href="/index/order" class="fa fa-thumb-tack fa-3x" aria-hidden="true"></a>
+				<div>我的订单</div>
+			</li>
+			<li>
+				<a href="/index/inner" class="fa fa-pie-chart fa-3x" aria-hidden="true"></a>
+				<div>我的资产</div>
+			</li>
+			<li>
+				<a href="/index/Log/index/type/bait" class="fa fa-tags fa-3x" aria-hidden="true"></a>
+				<div>鱼饵明细</div>
+			</li>
+			<li>
+				<a href="/index/Log/index/type/point" class="fa fa-ticket fa-3x" aria-hidden="true"></a>
+				<div>积分明细</div>
+			</li>
+			<li>
+				<a href="/index/Log/index/type/balance" class="fa fa-credit-card fa-3x" aria-hidden="true"></a>
+				<div>余额明细</div>
+			</li>
+			<li>
+				<a href="/index/balance/recharge" class="fa fa-paper-plane fa-3x" aria-hidden="true"></a>
+				<div>余额充值</div>
+			</li>
+			<li>
+				<a href="/index/balance/withdraw" class="fa fa-paper-plane fa-3x" aria-hidden="true"></a>
+				<div>余额提现</div>
+			</li>
+			<li>
+				<a href="/index/inner/purchase" class="fa fa-random fa-3x" aria-hidden="true"></a>
+				<div>交易大厅</div>
+			</li>
+		</ul>
+	</div>
+</body>
+<script>
+	var width = $('.body li').width();
+	$('.body li').css('height', width);
+</script>
+</html>

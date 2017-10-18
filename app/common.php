@@ -297,10 +297,15 @@ function encodeCookie($array, $key){
 
 function decodeCookie($key){
     $cookie = cookie($key);
-    foreach($cookie as $k=>$v){
-        $cookie[$k] = authCode($v, 'DECODE', $k);
+    if(!empty($cookie)){
+        foreach($cookie as $k=>$v){
+            $cookie[$k] = authCode($v, 'DECODE', $k);
+        }
+        return $cookie;
+    }else{
+        return [];
     }
-    return $cookie;
+    
 }
 
 #商城配置文件缓存
