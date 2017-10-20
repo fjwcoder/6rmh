@@ -5,6 +5,7 @@ vendor('wxpay.WxPay#JsApiPay');
 use app\admin\controller\Wechat as Wechat;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Wxpay as Wxpay;
+use app\index\controller\Paysuccess as Paysuccess;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -53,35 +54,31 @@ class Payresult extends Controller
     public function wxPayResult(){
         $postStr = file_get_contents('php://input');
         if (!empty($postStr)){
-            
-            // file_put_contents('response.txt', $postStr);
 			$resObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $resJson = json_encode($resObj);
             $resArr = json_decode($resJson, true);
 
             file_put_contents('payresult.txt', $resJson);
 
-            if($resArr['result_code'] === 'SUCCESS'){ // 支付成功
-                $order_id = $resArr['product_id'];
+            if( ($resArr['return_code'] === 'SUCCESS') || ($resArr['result_code'] === 'SUCCESS') ) { // 支付成功
+                $order_id = $resArr['out_trade_no']; //订单号
+                $total_fee = 
                 $wxpay = new Wxpay();
                 $wxconf = getWxConf();
                 $check = $wxpay->check($order_id, $wxconf);
                 if($check['status']){ //订单查询成功
-                    $order = $check['order'];
+                    $success = new Paysuccess();
 
-                    # 上线的物品增加
-                    
-                    # 自己的物品更改
-                    
-                    # 修改订单状态
+                    #调用相关的方法
+                    $result = $success->$check['type']($check['order']);
+
                 }
-            }else{
-
             }
-                
-
         }
     }
+
+
+
 
 
 }

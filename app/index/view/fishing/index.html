@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>钓鱼页面</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <button id="fishing" onclick="fishing();">钓鱼</button>
+
+    </body>
+
+    <script>
+        
+    function fishing(){
+        $.ajax({
+            type: 'GET',
+            url: '/index/fishing/fishing',
+            success: function(result){
+                console.log(result);
+            },
+            error: function(e){
+
+            }
+
+        });
+    }
+    </script>
+
+</html>

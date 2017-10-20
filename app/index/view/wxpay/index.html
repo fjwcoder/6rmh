@@ -1,19 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>微信安全支付</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<style>
+    .wxpay{border:2px solid #ECECEC;height:620px; margin-top:30px;}
+    .configinfo{margin:10px 15px;color:#B4BED1;}
+    .bgcolor{background-color: #ECEEF5; height:140px;margin-bottom:45px;}
+    .order div{line-height:35px;color:#B5B5B6;}
+    .red{color:red;}
+    .pay{border:1px solid #fff;margin:0 auto;position:relative;}
+    .pay_mode{border-top:2px solid #ECECEC;border-left:2px solid #ECECEC;border-right:2px solid #ECECEC;line-height:40px;text-align:center;color:#666;}
+    .top_border{border-top:2px solid #ECECEC;position: absolute;right:0px;width:102px;}
+    .pay_success{border-left:2px solid #ECECEC;border-bottom: 2px solid #ECECEC;position: relative;}
+    .con_info{width:730px;border-top:2px solid #ECECEC;border-bottom:2px solid #ECECEC;border-right:2px solid #ECECEC;position: absolute;top:40px;left:280px;}
+    .pay_success_img{margin:30px 15px 0px 40px;}
+    .pay_tip{position: absolute;top:33px;}
+    .wechat_code{margin:48px 50px 0px 20px;}
+</style>
+<div class="web-content wp_100 f_l ">
+    <{if $result.status}><!-- 订单状态正确 -->
+    <div class="content-panel">
+        <div class="wxpay">
+            <div class="configinfo fz_18">
+                    订单编号：<{$order.order_id}>
+            </div>
+            <div class="wp_100 bgcolor">
+                <div class="wp_50 h35 order f_l">
+                    <div class="wp_30 h35 f_l t_r fz_16">收货人：</div>
+                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_name}></div>
+                </div>
+                <div class="wp_50 h35 order f_l">
+                    <div class="wp_30 h35 f_l t_r fz_16">收货人手机号：</div>
+                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_mobile}></div>
+                </div>
+                <div class="wp_100 h35 order f_l">
+                    <div class="wp_15 h35 f_l t_r fz_16">快递名称：</div>
+                    <div class="wp_85 h35 f_l t_l fz_16"><{$order.shipping_name}></div>
+                </div>
+                <div class="wp_100 h35 order f_l">
+                    <div class="wp_15 h35 f_l t_r fz_16">收货地址：</div>
+                    <div class="wp_85 h35 f_l t_l fz_16 o_h"><{$order.user_address}></div>
+                </div>
+                <div class="order">
+                    <div class="wp_50 h35 order f_l">
+                        <div class="wp_30 h35 f_l t_r fz_16">余额支付金额：</div>
+                        <div class="wp_70 h35 f_l t_l fz_16"><{$order.balance}></div>
+                    </div>
+                    <div class="wp_30 h35 f_r t_r fz_16">
+                        <div class="wp_30 h35 f_l t_r fz_18">应付金额：</div>
+                        <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
+                    </div>
+                </div>
+            </div>
+            <div class="wp_85 h350 pay">
+                <div class="pay_mode w180 h40 fz_16"><{$order.payment_name}></div>
+                <div class="pay_success w280 h300">
+                    <div class="top_border"></div>
+                    <img class="pay_success_img wp_65 h_15" src="__STATIC__/images/wechat/WePayLogo.png" />
+                    <!--<span class="fz_20 pay_tip"><{$order.payment_name}></span>-->
+                </div>
+                <div class="con_info h300">
+                    <img class="w200 h200 wechat_code" src="<{$result.qrcode}>" />
+                    <img class="w250 h80 wechat_code" src="__STATIC__/images/wechat/scan_hint.png" />
+                </div>
+            </div>
+        </div> 
+    </div>
+    <{else}><!-- 订单状态错误 -->
 
-    </head>
-    <body>
-        <{if $result.status}><!--订单状态正确-->
-            <img style="height: 400px; width: 400px;" src="<{$result.qrcode}>"/>
-        <{else}><!--订单状态错误-->
-
-
-        <{/if}>
-		
-    </body>
-</html>
+    <{/if}>
+</div>
+<{/block}>

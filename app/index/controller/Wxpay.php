@@ -42,11 +42,10 @@ class Wxpay extends Common
         }else{
             $this->assign('result', ['status'=>false, 'content'=>$check['content']]);
         }
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
+            ]);
         return $this->fetch();
-
-
-
-        
     }
 
     # 统一下单支付
@@ -94,23 +93,44 @@ class Wxpay extends Common
         if(empty($wxconf)){
             $wxconf = getWxConf();
         }
+
+        # 判断订单种类
         $number = ['1', '2','3','4','5','6','7','8','9','0'];
         $first = substr($id, 0, 1);
         if(!in_array($first, $number)){ //购物订单
-        
             $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
-            
             if(isset($order)){
                 if($order['money']<=0){
                     return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
                 }
-                return ['status'=>true, 'order'=>$order];
+                return ['status'=>true, 'order'=>$order, 'type'=>'buy'];
             }else{
-                return ['status'=>false, 'content'=>'订单不存在'];
+                return ['status'=>false, 'content'=>'购物订单不存在'];
             }
-        }else{ //内部交易订单
-            //$order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+        }else{
+            $last = substr($id, -1);
+            if(strtoupper($last)==='C'){ //充值订单
+                $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                if(isset($order)){
+                    if($order['value'] <= 0){
+                        return ['status'=>false, 'content'=>'金额错误' ]; exit;
+                    }
+                    return ['status'=>true, 'order'=>$order, 'type'=>'charge'];
+                }else{
+                    return ['status'=>false, 'content'=>'充值订单不存在'];
+                }
+                
+
+
+            }else{ //交易订单
+
+                // $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+
+                // return ['status'=>true, 'order'=>$order, 'type'=>'trade'];
+
+            }
         }
+
 
         
     }

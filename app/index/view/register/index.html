@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title><{$header.title}></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <style>
+        .have-account{margin-top:50px;}
+    </style>
+    <body  class="login-body abs"  style="background: url(<{$header.loginbg}>);">
+        <div class="login-header wp_100 abs h100">
+            <div class="login-header-panel hp_100">
+                <a href="javascript: void(0);">
+                    <img class="login-logo pull-left" src="__STATIC__/images/company/logo.jpg"/>
+                </a>
+                
+                <div class="login-title text-center pull-left">欢迎注册</div>
+                <div class="have-account f_r">
+                    <span style="color:#999;font-size:16px;">已有账号？</span>
+                    <a class="fz_16" href="/index/login/index">请登录</a>
+                </div>
+                <!--<div class="login-icons pull-right text-center">
+
+                </div>-->
+            </div>
+            
+        </div>
+        <div class="login-panel">
+            <div class="login-panel-img t_c pull-left hp_100 w700">
+                <a href="javascript: void(0);">
+                    <img  style="height: 400px; width: 400px;" src="__STATIC__/images/company/scanRegist.png"/>
+                </a>
+            </div>
+            <div class="login-panel-content pull-left text-center">
+                <form action="/index/register/register" method="post">
+                    <div class="web-login-div input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user" ></i>
+                        </span>
+                        <input class="form-control phone" name="phone" placeholder="请输入手机号码"  check="wrong" required/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback wrong_phone" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-ok form-control-feedback right_phone" aria-hidden="true"></span>
+                    </div>
+                    <div class="web-login-div input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock" ></i>
+                        </span>
+                        <input type="password" class="form-control password" name="password" placeholder="请输入密码"  check="wrong" required/>
+                    </div>
+                    <div class="web-login-div input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock" ></i>
+                        </span>
+                        <input type="password" class="form-control  password-repeat" placeholder="请再次输入密码"  check="wrong" required/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback wrong_password" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-ok form-control-feedback right_password" aria-hidden="true"></span>
+                    </div>
+                    
+                    <div class="web-login-div input-group">
+                            <span class="input-group-addon glyphicon glyphicon-tag"></span>
+                            <input type="text" class="form-control verify"  name="verify" placeholder="短信验证码" check="right"><!--style="width: 120px;"-->
+                            <a href="javascript:void(0)" class="input-group-addon btn send_sms" onclick="sendM()" >发送</a>
+                            <span class="showtime" style="display: none;"><span class="time_info"></span>秒后重新发送</span>
+                          </div>
+ 
+                    <div class="web-login-div ">
+                        <button class="submit-btn" type="submit" onclick="return checkForm()">注册</button/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--<script src="__STATIC__/js/jquery-1.10.2.min.js"></script>-->
+        <script src="__STATIC__/js/form_verify.js"></script>
+        <!--<div class="abs wp_100 h70">
+            <{include file="./public/footer"/}>
+        </div>-->
+        
+    </body>
+</html>

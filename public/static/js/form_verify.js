@@ -76,32 +76,38 @@ function checkForm(){
 function sendM(){
     //防止重复发送验证码
     var phone=$('.phone').val();
-    $.ajax({
-        url: '/index/sendsms/verify?phone='+phone,
-        dataType: "xml",
-        success:function(data){
-            var code = $(data).find('code').html();
-            /*var smsid = $(data).find('smsid').html();*/
-            if(code == '2'){
-                alert('发送成功!');
-                /*$('.verify').append('<input stype="hidden" name="smdid" value='+smsid+'>');*/
+    if(phone==''){
+        alert('手机号不可为空');
+    }else{
+        $.ajax({
+            url: '/index/sendsms/verify?phone='+phone,
+            dataType: "xml",
+            success:function(data){
+                $('.send_sms').css('display', 'none');
+                $('.showtime').css('display', 'block');
+                var code = $(data).find('code').html();
+                /*var smsid = $(data).find('smsid').html();*/
+                if(code == '2'){
+                    alert('发送成功!');
+                    /*$('.verify').append('<input stype="hidden" name="smdid" value='+smsid+'>');*/
+                }
+                var s = 60;
+                var interval = setInterval(function(){
+                    if(s<10){
+                      $('.time_info').html('0'+s);
+                    }else{
+                      $('.time_info').html(''+s);
+                    }
+                    s--;
+                    if (s<0) {
+                        clearInterval(interval);
+                        $('.showtime').css('display', 'none');
+                        $('.send_sms').css('display', 'table-cell');
+                    }
+                  },1000);
+                
             }
-            var s = 60;
-            var interval = setInterval(function(){
-                if(s<10){
-                  $('.time_info').html('0'+s);
-                }else{
-                  $('.time_info').html(''+s);
-                }
-                s--;
-                if (s<0) {
-                    clearInterval(interval);
-                    $('.showtime').css('display', 'none');
-                    $('.send_sms').css('display', 'table-cell');
-                }
-              },1000);
-            $('.send_sms').css('display', 'none');
-            $('.showtime').css('display', 'block');
-        }
-    });
+        });
+    }
+    
 }
