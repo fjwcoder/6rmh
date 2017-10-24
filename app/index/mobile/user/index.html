@@ -7,13 +7,16 @@
 	<title><{$config.page_title}></title>
 	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_user.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/js/fileinput.min.js"></script>
 </head>
 <body>
 	<div class="head">		
 		<span class="back_home fa fa-long-arrow-left fa-1x" onclick="location.assign('/')"></span>
 		<span class="setting fa fa-cog fa-1x"></span>
-		<img class="hp_100 wp_100 o_h" src="<{$users.headimg}>" alt="用户头像未显示">
+		<img class="hp_100 wp_100 o_h" src="<{$users.headimgurl}>" alt="用户头像未显示">
 		<span class="user_name"><{$users.name}></span>
 	</div>
 	<div class="body">
@@ -52,9 +55,95 @@
 			</li>
 		</ul>
 	</div>
+	<div class="setting-content">
+		<form method="post" role="form" action="<{:url('editor')}>" enctype="multipart/form-data">
+		<div class="change_info">
+			<img class="hp_100 wp_100 o_h" src="<{$users.headimgurl}>" alt="用户头像未显示">
+			<div class="change_cont">
+				<span class="left">昵称：</span>
+				<span class="right"><input id="shows" class="" type="text" name="name" value="<{$users.name}>" required></span>
+			</div>
+			<div class="change_cont">
+			    <span class="left">真实姓名：</span>
+			    <span class="right"><{$users.realname}></span>
+			</div>
+			<div class="change_cont">
+			    <span class="left">性别：</span>
+			    <span class="right">
+			        <{if $users.sex==1}>
+			        <input type="radio" name="sex" value="1" checked/>&nbsp;男&nbsp;&nbsp;
+			        <input type="radio" name="sex" value="0" />&nbsp;女
+			        <{else}>
+			        <input type="radio" name="sex" value="1" />&nbsp;男&nbsp;&nbsp;
+			        <input type="radio" name="sex" value="0" checked/>&nbsp;女
+			        <{/if}>
+			    </span>
+			</div>
+			<div class="change_cont">
+			    <span class="left">手机号：</span>
+			    <span class="right"><input id="mobile" class="w150 h30 f_c" type="text" name="mobile" value="<{$users.mobile}>" pattern='^\d{11}$'></span>
+			    
+			</div>
+			<div class="change_cont">
+			    <span class="left">QQ：</span>
+			    <span class="right"><input id="qq" class="w150 h30 f_c" type="text" name="qq" value="<{$users.qq}>"></span>
+			    
+			</div>
+			<div class="change_cont">
+			    <span class="left">邮箱：</span>
+			    <!-- 正则邮箱验证 pattern='/^[_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,3}$/' -->
+			    <span class="right"><input id="email" class="w150 h30 f_c" type="text" name="email" value="<{$users.email}>" ></span>
+			    
+			</div>
+			<div class="change_cont">
+			    <span class="left">上传头像：</span>
+			    <span class="right">
+			        <div class="">
+			            <input id="headimg" type="file" accept="image/*" name="headimg" upurl=""/>
+			        </div>
+			       <!--  <script>
+			           initFileInput('headimg', $('input#headimg').attr('upurl'));
+			       </script> -->
+			    </span>
+			</div>
+			<div class="change_cont submit-button">
+				提交
+			</div>
+		</div>
+		</form>
+		<li class="menu"><span class="fa fa-map-marker" aria-hidden="true"></span><a href="/index/address/index" title="">收货地址</a></li>
+		<li class="menu"><span class="fa fa-pencil" aria-hidden="true"></span><a href="/index/user/passcode" title="">修改密码</a></li>
+		<li class="qr">
+			<a href="javascript: void(0);" title="点击更新二维码">
+           	<img class="f_r" style="height: 120px; width: 120px;" src="<{$cookie.qr_code}>"/>
+           </a>
+       </li>
+       <li class="qr">
+       		<{if $cookie.subscribe==2}>
+       		    请尽快绑定微信
+       		<{else}>
+       		    我的推广二维码
+       		<{/if}>
+       </li>
+	</div>
+	<{include file="public/footer"/}>
 </body>
 <script>
-	var width = $('.body li').width();
-	$('.body li').css('height', width);
+	$('.body li').css('height', $('.body li').width());
+	$('.setting-content').height($(document).height());
+	$('.setting').click(function(event) {
+		/*$('.setting-content').animate({'right':'0' }, 200);*/
+		/*$('.setting-content').css('width','75%');*/
+		$('.setting-content').css('display','block');
+		event.stopPropagation();
+	});
+	$('.setting-content').siblings().click(function(event) {
+		/*$('.setting-content').animate({'right':'-75%' }, 500);*/
+		/*$('.setting-content').css('width','0');*/
+		$('.setting-content').css('display','none');
+	});
+	$('.submit-button').click(function(event) {
+		$('form').submit();
+	});
 </script>
 </html>

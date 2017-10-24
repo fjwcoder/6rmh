@@ -25,7 +25,7 @@ class Order extends Common
             ->join('order_detail b', 'a.order_id=b.order_id') 
             ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
                 'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
-            ->where($where) ->order('a.add_time desc') -> select();
+            ->where($where) ->order('a.add_time desc') -> paginate();
 
         if(!empty($data)){
             foreach($data as $k=>$v){
@@ -77,7 +77,7 @@ class Order extends Common
              -> order('a.addtime desc') 
              -> where('a.id in ('.$cart_list.')') 
              -> select(); 
-        
+        // return dump($cart);
         if(!empty($cart)){
             $count = ['baits'=>0, 'points'=>0, 'prices'=>0];
             # 查询促销
@@ -255,9 +255,16 @@ class Order extends Common
         }
     }
 
-        public function getAddress(){
+    public function getAddress(){
+        $region = getRegion();
         $address = Db::name('user_address') -> where(['userid'=>session(config('USER_ID'))]) ->order('type desc') -> select();
-        // $address = Db::name('user_address') -> where(['userid'=>2]) -> select();
+        foreach($address as $k=>$v){
+            $address[$k]['province'] = $region[$v['province']]['name'];
+            $address[$k]['city'] = $region[$v['city']]['name'];
+            $address[$k]['area'] = $region[$v['area']]['name'];
+
+        }
+        
         return $address;
     }
 

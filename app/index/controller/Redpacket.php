@@ -6,6 +6,7 @@
 # |
 # +-------------------------------------------------------------
 namespace app\index\controller;
+vendor('wxpay.WxPay#JsApiPay');
 use app\common\controller\Common; 
 use app\index\controller\Reward as Reward;
 use app\admin\controller\Wechat as Wechat;
@@ -17,6 +18,53 @@ use think\Db;
 
 class Redpacket extends Common
 {
+    public function index(){
+        $res = request()->server();
+        $re = \WxPayConfig::SSLCERT_PATH;
+        return $re;
+        return dump($res);
+    }
+
+    # 红包发放（普通红包）
+    # 默认1元
+    public function redpacket($money = 1){
+        $uid = session(config('USER_ID'));
+
+        $user = decodecookie('user'); //获取用户信息
+        $wxconf = getWxConf();
+        // $mch_billno = strval($this->set_mch_billno());
+        $input = new \WxPayUnifiedOrder();
+        $input -> SetWxappid($wxconf['APPID']['value']);
+        // $input -> SetMch_billno(strval($this->set_mch_billno()));
+        $input -> SetMch_billno(getOrderID());
+        $input -> SetSend_name('六耳猕猴红包来袭');
+        $input -> SetRe_openid($user['openid']);
+        $input -> SetTotal_amount($money*100);
+        $input -> SetTotal_num(1);
+        $input -> SetWishing("六耳猕猴，恭喜发财！");
+        $input -> SetAct_name("钓鱼送红包");
+        $input -> SetRemark("六耳猕猴红包来袭");
+        $order = \WxPayApi::redPack($input); 
+        return dump($order);
+        if(strtoupper($order['return_code']) == 'SUCCESS'){
+            if(strtoupper($order['result_code']) == 'SUCCESS'){
+                return 'true';
+            }
+        }
+
+
+    }
+
+    private function set_mch_billno(){
+        $mch_id = \WxPayConfig::MCHID;
+        $mid = strval(date('Ymd'));
+        $ten = strval(time());
+        return strval($mch_id.$mid.$ten);
+    }
+
+
+
+#=============模拟部分==============================================================================
     public function test(){
 
         $mallConf = mallConfig();
@@ -31,13 +79,6 @@ class Redpacket extends Common
         }
         echo $num;
     }
-
-    # 红包发放
-    public function redpacket(){
-
-    }
-
-
     #数量模拟
     public function numMoni(){
         $arr = ['1'=>0, '2'=>0, '3'=>0, '4'=>0, '5'=>0, '6'=>0];

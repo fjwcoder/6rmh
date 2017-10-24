@@ -31,6 +31,12 @@ li{
 .info a{
     color: #6ad4c9;
 }
+.address_info{
+    border: 1px dashed #ccc;
+    margin: 0.5em auto;
+    padding: 0.1em;
+    border-radius: 5px;
+}
 .connect_info span{
     text-align: left;
     font-size: 0.8em;
@@ -38,19 +44,16 @@ li{
 .address span{
     font-size: 0.8em;
 }
-.info_footer a{
+.info_footer{
     text-decoration: none;
-    text-align: center;
+    text-align: right;
 }
-.footer_left, .footer_right{
-    position: absolute;
-    bottom: 0.25em;
-}
-.footer_left{
-    left: 2em;
+.footer_edit, .footer_right{
+    position: relative;
+    right: 2em;
 }
 .footer_right{
-    right: 2em;
+    text-align: right;
 }
 .pay_way span{
     height: 2.5em;
@@ -67,6 +70,18 @@ li{
     color: #fff;
     border: none;
     box-shadow: 0px 2px 10px #ccc;
+}
+.choseAddr{
+    background:#6ad4c9;
+    color: #fff;
+    border: none;
+    box-shadow: 0px 2px 10px #ccc; 
+}
+.choseAddr a{
+    color: #fff!important;
+}
+.address-default{
+    color: #fff;
 }
 .goods_details{
     line-height: 100%;   

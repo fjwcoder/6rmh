@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<title><{$config.page_title}></title>
+	
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/plugin/mall_balance.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- 顶部提现表单开始 -->
+<div class="head" >
+	<div class="head-content">
+		<form method="post" id="form" role="form" action="<{:url('opwithdraw')}>">
+
+			<span class="content-top"><div class="back_home fa fa-long-arrow-left fa-1x" onclick="location.assign('/')"></div>申请提现</span>
+				<span>
+					<div class="col-xs-2"></div>
+					<div class="col-xs-8">
+					    <input type="text" class="form-control" name="value" placeholder="请输入金额">
+					</div>
+				</span>
+				<span>
+				<div class="col-xs-"></div>
+					<div class="col-xs-2"></div>
+					<div class="col-xs-8">
+					    <input type="password" class="form-control" name="pay_code" placeholder="请输入密码">
+					</div>
+				</span>
+		</form>
+		<span><button onclick="javascript:submit();">提现</button><button onclick="slide()">取消</button></span>
+	</div>
+	<div class="topp fa fa-arrow-up" aria-hidden="true">申请提现</div>
+
+</div>
+<!-- 顶部提现表单结束 -->
+<div class="body">
+	<span class="withdraw-span"><span>提现记录</span></span>
+	<{volist name="list" id="vo"}>
+		<div class="withdraw row">
+			<div class="col-xs-7"><{$vo.addtime}></div>
+			<div class="col-xs-5">姓名：<{$vo.name}></div>
+			<div class="col-xs-7">金额：¥ <{$vo.value}></div>
+			<div class="col-xs-5">方式：
+				<{if $vo.type == 1}>
+                电脑端
+                <{else}>
+                手机端
+                <{/if}>
+			</div>
+			<div class="col-xs-7">IP:<{$vo.terminal}></div>
+			<div class="col-xs-5">状态：
+				<{if $vo.status == 1}>
+                申请提现
+                <{elseif $vo.status == 2}>
+                提现成功
+                <{else}>
+                驳回
+                <{/if}>
+			</div>
+			<div class="col-xs-7">
+				<{if $vo.status==3}>
+                驳回理由：<{$vo.opreason}>
+                <{/if}>
+			</div>
+			
+
+		</div>
+	<{/volist}>
+	<span><{$list->render()}></span>
+	  　
+</div>
+	<script type="text/javascript">
+		function submit(){$('#form').submit()}
+		function slide(){$('.head-content').slideUp(200);}
+		$('.topp').click(function(event) {
+      		$('.head-content').slideToggle(200);
+    	});
+    	$('.head').siblings().click(function(event) {
+    	    $('.head-content').slideUp(200);
+    	});
+	</script>
+<{include file="public/footer"/}>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<title></title>
+	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_inner.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+</head>
+<body>
+	<div class="head">
+		<{volist name="list" id="vo"}>
+			<div class="amount">
+				<span class="score">
+					<{if $vo.name == 'bait'}>
+				    	<{$userinfo.bait}>
+					<{else}>
+				    	<{$userinfo.point}>
+					<{/if}>
+				</span>
+				<span class="title"><{$vo.title}></span>
+				<div class="option" id="<{$vo.id}>">出售</div>
+			</div>
+			</span>
+		<{/volist}>
+	</div>
+	<div class="content">
+		<li class="record">购买记录</li>
+		<li class="head-title">
+			<span>时间</span>
+			<span>名称</span>
+			<span>数量</span>
+			<span>价格</span>
+			<span>类型</span>
+			<span>卖家名称</span>
+		</li>
+		<{volist name="log" id="vo"}>
+		<li class="data-content">
+			<span><{$vo.addtime}></span>
+			<span><{$vo.username}></span>
+			<span><{$vo.value}></span>
+			<span><{$vo.money}></span>
+			<span>
+				<{if $vo.type == 1}>
+				积分
+				<{else}>
+				鱼饵
+				<{/if}>
+			</span>
+			<span><{$vo.sellername}></span>
+		</li>
+		<{/volist}>
+		<li class="data-foot">
+			所有
+		</li>
+	</div>
+	<div class="moudle">
+		<div class="other-top"></div>
+		<div class="moudle-content">
+			<div class="content-title">出售信息</div>
+			<hr>
+			<div class="content-body">
+				<form method="post" action="<{:url('sellgoods')}>" onsubmit="return check(this)">
+					<li>出售数量：<input type="text" name="value"></li>
+					<li>出售金额：<input type="text" name="money"></li>
+					<li>出售时段：<select name="selltime">
+						<option value="2" selected>2</option>
+                     <option value="4">4</option>
+                     <option value="6">6</option>
+                     <option value="8">8</option>
+                     <option value="10">10</option>
+                     <option value="12">12</option>
+                     <option value="14">14</option>
+                     <option value="16">16</option>
+                     <option value="18">18</option>
+                     <option value="20">20</option>
+                     <option value="22">22</option>
+                     <option value="24">24</option>
+					</select></li>
+					<input  class="select_type" type="hidden" name="type">
+				</form>
+			</div>
+			<div class="content-footer">
+				<a class="cancel">取消</a><a class="submit">提交</a>
+			</div>
+		</div>
+		<div class="other-bottom"></div>
+		
+	</div>
+	<{include file="public/footer"/}>
+	<script>
+		$('.option').click(function(event) {
+			$('.moudle').slideDown('fast');
+			var type = $(this).attr('id');
+			$('.select_type').val(type);
+		});
+		$('.moudle-content').siblings().click(function(event) {
+			$('.moudle').slideToggle(100);
+		});
+		$('.cancel').click(function(event) {
+			/* Act on the event */
+			$('.moudle').slideToggle(100);
+		});
+		$('.submit').click(function(event) {
+			/* Act on the event */
+			$('form').submit();
+		});
+		function check(form){
+		    if(form.value.value == ''){
+		        alert('请输入出售数量！！！');
+		        form.value.focus();
+		        return false;
+		    }
+		    if(form.money.value ==''){
+		        alert('请输入出售金额');
+		        form.money.focus();
+		        return false;
+		    }
+		    return true;
+		}
+	</script>		
+</body>
+</html>

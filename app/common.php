@@ -552,3 +552,15 @@ function getWxConf($param = ''){
     return empty($param)?$wxconf:$wxconf[$param];
 
 }
+
+function getRegion(){
+    if(cache('REGION')){
+        $region = cache('REGION');
+    }else{
+        $region = Db::name('region') -> select();
+        $region = getField($region, 'id');
+        cache('REGION', $region); //缓存注释
+    }
+    
+    return $region;
+}

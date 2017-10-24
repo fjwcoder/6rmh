@@ -187,16 +187,6 @@ class Wxmenu extends Manage
     public function dataPost($type=''){
         $post = request()->post();
 
-        // #类别图片上传
-        // if(!empty($_FILES)){
-        //     $upload = uploadImg('images'.DS.'headimg');
-        //     // return dump($upload);
-        //     if($upload['status']){
-        //         $data['headimg'] = $upload['path'];
-        //     }else{
-        //         return $this->error('头像上传失败');
-        //     }
-        // }
 
         foreach($post as $k=>$v){
             $data[$k] = $v;

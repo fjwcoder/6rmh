@@ -7,6 +7,7 @@ use think\Session;
 use think\Request;
 use think\Db;
 
+//没啥用
 class Reward extends Common
 {
     public $rewardMoney; //红包金额，单位元

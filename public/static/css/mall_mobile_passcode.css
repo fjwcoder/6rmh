@@ -1,0 +1,46 @@
+body{
+	overflow: hidden;
+}
+li{
+	list-style: none;
+	width: 100%;
+	margin: 1em auto;
+	text-align: center;
+}
+li span{
+	display: inline-block;
+}
+input{
+	height: 2em;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	border-radius: 0.5em;
+}
+.change_con{
+	width: 100%;
+	
+	border-radius: 0.5em;
+	box-shadow: 0 0.2em 0.4em #ccc;
+}
+.up{
+	color: #fff;
+	background-color: #6ad4c9;
+	margin-bottom: 1em;
+}
+.down{
+	color: #6ad4c9;
+	margin-top: 1em;
+}
+.change_title{
+	text-align: center;
+	line-height: 3em;
+	height: 3em;
+	font-size: 1.25em;
+}
+.login_submit, .pay_submit{
+	text-align: center;
+}
+.left-side{
+	width: 30%;
+}
+

@@ -1,5 +1,7 @@
 body{
 	margin: 0;
+	overflow:hidden;
+	overflow-y: auto;
 }
 .head{
 	width: 100%;
@@ -43,6 +45,16 @@ body{
 .body{
 	margin: auto;
 }
+li{
+	list-style: none;
+}
+input{
+	border: none;
+	border-bottom:2px solid #6ad4c9;
+}
+input:focus{
+	outline: 0;
+}
 .body ul{
 	padding-left: 0px; 
 }
@@ -60,4 +72,76 @@ body{
 	text-decoration: none;
 	color: #6ad4c9;
 }
-
+.setting-content{
+	position: absolute;
+	top: 0em;
+	right: 0;
+	background-color: #fff;
+	color: #666;
+	box-shadow: -0.1em 0em 0.5em #ccc;
+	display: none;
+	overflow: hidden;
+	transition: all 0.5s;
+}
+.menu{
+	height: 3em;
+	line-height: 3em;
+	padding-left: 1em;
+	color:#666;
+}
+.setting-content a{
+	color: #666;
+	text-decoration: none;
+	display: inline-block;
+	width: 70%;
+	padding-left: 2em;
+}
+.setting-content span{
+	display: inline-block;
+}
+.left{
+	width: 30%;
+	text-align: right;
+}
+.change_info{
+	width: 100%;
+	text-align: center;	
+	box-shadow: 0 0.1em 0.3em #ccc;
+	margin-bottom: 2em;
+	font-size: 0.8em;
+}
+.change_info img{
+	width: 3em;
+	height: 3em;
+	box-shadow: 2px 2px 3px #ccc;
+}
+.change_cont{
+	height: 2em; 
+	line-height: 2em;
+	width: 100%;
+	margin: 0.5em 0em;
+	text-align: left;
+}
+.submit-button{
+	background-color: #6ad4c9;
+	color: #fff;
+	height: 3em;
+	line-height: 3em;
+	text-align: center;
+}
+.right{
+	width: 60%;
+	overflow: hidden;;
+}
+.left, .right{
+	
+}
+#headimg{
+	border: none;
+}
+.qr{
+	text-align: center;
+}
+.qr a{
+	padding:0;
+}

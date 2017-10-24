@@ -1,0 +1,228 @@
+
+.head-content{
+	width: 100%;
+	height: 12rem;
+	background: #6ad4c9;
+	z-index: 9999;
+}
+.head-title{
+	width: 100%;
+	height: 3rem;
+	background: #6ad4c9;
+	z-index: 9999;
+	color: #fff;
+	text-align: center;
+	line-height: 3rem;
+}
+input{
+	text-align: center;
+	width: 60%;
+	height: 1.5rem;
+	margin:.2rem auto;
+}
+select{
+	display: block;
+}
+.head-content span{
+	text-align: center;
+	width: 100%;
+	float: left;
+	margin-top: .5rem;
+	color: #fff;
+	margin:0 auto;
+}
+.content-top{
+	height: 3rem;
+	line-height: 3rem;
+}
+.back_home{
+	position:absolute;
+	font-size: 20px;
+	top:.7rem;
+	left: 10px;
+}
+
+.head-content button{
+	width: 40%;
+	height: 2rem;
+	border-radius: .3rem;
+	border: 1px solid #fff;
+	background: #fff;
+	margin-left: .2rem;
+	color: #000;
+}
+.topp{
+	padding: 0em;
+	line-height: 2em;
+	width: 100%;
+	height: 2em;
+	text-align: center;
+	color: #6ad4c9;
+	border-bottom:1px solid #6ad4c9;
+}
+.body{
+	width: 100%;
+}
+.withdraw{
+	margin:5px auto;
+	float: left;
+	border-bottom: 1px solid #6ad4c9;
+	text-align: center;
+	line-height: 20px;
+}
+.row{
+	line-height: 2.5rem;
+}
+.withdraw-span{
+	border-bottom: 2px solid #6ad4c9;
+	color:#fff;
+	float: left;
+	width: 100%;
+	font-size: 18px;
+}
+.withdraw-span span{
+	background: #6ad4c9;
+	border-bottom: 5px solid #6ad4c9;
+}
+.address{
+	font-size: 12px;
+	color: #000;
+}
+.title{
+	width: 100%;
+	height: 2rem;
+	float: left;
+	margin-top: 10px;
+	color: #000;
+	line-height: 2rem;
+	border-bottom: 1px solid #6ad4c9;
+
+}
+.fone-color{
+	color: red;
+}
+.left{
+	text-align: left;
+}
+.right{
+	text-align: right;
+}
+.center{
+	text-align: center;
+	line-height: 5em;
+}
+.inner-center{
+	text-align: center;
+	color: #22ba7f;
+	font-size: 15px;
+	margin-top: 0px;
+}
+.center a{
+	width: 100%;
+	height: 2rem;
+	padding: 2px;
+	border: 2px solid #6ad4c9;
+	background-color: #6ad4c9;
+	color: #fff;
+}
+input[type="radio"]{
+	margin-top: -1px;
+	width: 20%;
+	height:15px;
+	vertical-align:middle;
+}
+.add{
+	position: fixed;
+	right: 2rem;
+	bottom: 3rem;
+	color: #fff;
+	width: 4rem;
+	height: 4rem;
+	font-size: 5rem;
+	background-color: #6ad4c9;
+	text-align: center;
+	border-radius: 5rem;
+}
+.layui-m-layerchild h3{
+    margin-top: -20px;
+}
+.layui-margin-left{
+	margin-left:10px;
+}
+.purchase-button button{
+	margin-left: 2rem;
+	display: inline-block;
+	height: 38px;
+	line-height: 38px;
+	padding: 0 18px;
+	background-color: #22ba7f;
+	color: #fff;
+	white-space: nowrap;
+	text-align: center;
+	font-size: 14px;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.purchase-img{
+	width: 25%;
+	height: 8rem;
+	margin-left: 10px;
+	float: left;
+}
+.left-img{
+	width: 100%;
+	float: left;
+	text-align: center;
+}
+.purchase-img img{
+	width: 6rem;
+	height: 6rem;
+	border-radius:3rem;
+}
+.purchase-img span{
+	margin-top: 5px;
+	width:100%;
+	border-radius:3rem;
+	float: left;
+	color: #fff;
+	background:#22ba7f;
+	text-align: center;
+}
+.purchase-right-content{
+	width: 65%;
+	background:#ececec;
+	border-radius: 1rem;
+	float: left;
+	margin-left: 10px;
+}
+.purchase-right-content .time{
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+.purchase-right-content .price{
+	float: left;
+	text-align: center;
+	width: 45%;
+}
+.purchase-right-button{
+	float: left;
+	width: 65%;
+	text-align: center;
+	margin-top: 15px;
+	margin-left: 10px;
+}
+.purchase-right-button button{
+	float: left;
+	width: 100%;
+	text-align: center;
+}
+.paycheck{
+	width: 10px;
+}
+.paycheck input{
+	width: 10%;
+	margin-top: 2px;
+	vertical-align:text-bottom;
+}

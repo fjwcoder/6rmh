@@ -22,9 +22,9 @@ class WxPayConfig
 	 * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
 	 * @var string
 	 */
-	const APPID = '';
-	const APPSECRET = '';//公众号SECRET
-	const MCHID = '';
+	const APPID = 'wxc7db069fb239b27e';
+	const APPSECRET = 'd92ad54b4ef111ce1df66237a81fe1c9';//公众号SECRET
+	const MCHID = '1265602401';
 	const KEY = 'X2m5c0TMoh0vrhMrKanQvhWhpd08n6ji';//商户key(手动设置的)
 	
 	
@@ -35,13 +35,13 @@ class WxPayConfig
 	 * API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书）
 	 * @var path
 	 */
-	/* const SSLCERT_PATH = '../cert/apiclient_cert.pem';
-	const SSLKEY_PATH = '../cert/apiclient_key.pem';
-	const CAINFO_PATH = '../cert/rootca.pem'; */
-
-	/* const SSLCERT_PATH = $_SERVER['DOCUMENT_ROOT']."/Include/Library/Vendor/cert/apiclient_cert.pem";
-	const SSLKEY_PATH = $_SERVER['DOCUMENT_ROOT'].'/Include/Library/Vendor/cert/apiclient_key.pem';
-	const CAINFO_PATH = $_SERVER['DOCUMENT_ROOT'].'/Include/Library/Vendor/cert/rootca.pem'; */
+	// const SSLCERT_PATH = '../wxcert/apiclient_cert.pem';
+	// const SSLKEY_PATH = '../wxcert/apiclient_key.pem';
+	// const CAINFO_PATH = '../wxcert/rootca.pem'; 
+	// $document_root = request()->server();
+	const SSLCERT_PATH = "H:/PHP_Develop/WWW/sixer/vendor/wxcert/apiclient_cert.pem";
+	const SSLKEY_PATH = 'H:/PHP_Develop/WWW/sixer/vendor/wxcert/apiclient_key.pem';
+	const CAINFO_PATH = 'H:/PHP_Develop/WWW/sixer/vendor/wxcert/rootca.pem';
 	
 	
 	

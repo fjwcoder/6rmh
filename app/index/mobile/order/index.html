@@ -3,21 +3,59 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link rel="stylesheet" href="__STATIC__/css/mall_mobile_order.css">
+    <link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<title>我的订单</title>
 	<link rel="stylesheet" href="">
 </head>
 <body>
+    <div class="head-title">
+        我的订单
+    </div>
 	<{volist name="order" id="vo"}>
-<{$vo.order.order_id}>
-	<{switch name="vo.order.status"}>
-			
+       <div class="order_info">
+            <div class="order_title">
+                <span class="add_time"><{$vo.order.addtime}>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="">订单号：<{$vo.order.order_id}></span>
+            </div>
+            <{volist name="vo.detail" id="v"}>
+            <div class="order_detail">
+                <img src="<{$v.pic}>" alt="图片不见了">
+                <div><{$v.goods_name}></div>
+                <div class="spac"><{$v.spec}> * <{$v.num}></div>
+                <{if $v.promotion != ''}>
+                    <div>
+                        <span class="promotion"><{$v.promotion}></span>
+                    </div>
+                <{/if}>
+            </div>
+            <{/volist}>
+            <div class="order_footer">
+                <span class="user_info">
+                    <span class="fa fa-user-circle-o" aria-hidden="true"></span>
+                    <span class="">&nbsp;<{$vo.order.user_name}></span>
+                </span>
+                <span class="price">
+                    ￥<{$vo.order.money}>
+                </span>
+                <span class="status">
+                    <{switch name="vo.order.status"}>
+                        <{case value="1"}>待支付<{/case}>
+                        <{case value="2"}>待发货<{/case}>
+                        <{case value="3"}>待收货<{/case}>
+                        <{case value="4"}>已完成<{/case}>
+                        <{default/}>其他
+                    <{/switch}>
+                </span>
+                <span class="option">
+                    <{switch name="vo.order.status"}>
                         <{case value="1"}>
-                        <a href="/index/wxpay/index?type=order&id=<{$vo.order.order_id}> ">
-                            <div class="wp_100 hp_100  order-operation-btn">
-                            <{$vo.order.payment_name}>
-                            </div>
-                        </a>
-                            
+                            <a href="/index/wxpay/index?type=order&id=<{$vo.order.order_id}> ">
+                                <{$vo.order.payment_name}>
+                            </a>
                         <{/case}>
                         <{case value="2"}>
                             提醒发货
@@ -30,6 +68,25 @@
                         <{/case}>
                         <{default/}>其他
                     <{/switch}>
+                </span>
+            </div>  
+       </div>
 	<{/volist}>
+    <{include file="public/footer"/}>
+    <script>
+        var dewidth = $('.order_info').width()/$('.order_detail').length;
+        $('.order_detail').width(dewidth);
+        $('.order_info').click(function(event){
+             $('.order_detail').width(dewidth/2);
+        });
+        $('.order_detail').click(function(event) {
+            /* Act on the event */
+            $(this).width('50%');
+            $(this).siblings().width(dewidth/2);
+            $('.order_title').width('100%');
+            $('.order_footer').width('100%');
+            event.stopPropagation();
+        });
+    </script>
 </body>
 </html>

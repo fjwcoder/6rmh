@@ -62,7 +62,7 @@ class Payresult extends Controller
 
             if( ($resArr['return_code'] === 'SUCCESS') || ($resArr['result_code'] === 'SUCCESS') ) { // 支付成功
                 $order_id = $resArr['out_trade_no']; //订单号
-                $total_fee = 
+                // $total_fee = 
                 $wxpay = new Wxpay();
                 $wxconf = getWxConf();
                 $check = $wxpay->check($order_id, $wxconf);
