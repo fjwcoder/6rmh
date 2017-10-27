@@ -1,2 +1,7 @@
 @import "keep_base.css";/*公共css*/
 
+#index-body{
+    background: url(../images/mall/m_index_bg.jpg) no-repeat center; 
+    background-size: 100%; 
+    background-attachment: fixed;
+}

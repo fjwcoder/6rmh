@@ -9,9 +9,13 @@
     <!--加载swiper的css-->
     <link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" type="text/css"/>
     <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="__STATIC__/css/hexagon/mobile_hexagons.css">
-    <link rel="stylesheet" href="__CSS__/mall_mobile_layout.css" type="text/css"/>
 
+
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/hexagon/mobile_hexagons.css">
+
+
+    <link rel="stylesheet" href="__CSS__/mall_mobile_layout.css" type="text/css"/>
+	<link rel="stylesheet" href="__CSS__/plugin/mall_mobile_footer.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <!--<script src="__STATIC__/js/plugin/jquery.imagezoom.min.js"></script>-->
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -21,45 +25,43 @@
     <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
     
     <!--<script src="__JS__/admin/admin_default_layout.js"></script>-->
+
 </head>
-    <body>
-        <img style="height: 140px; width: 90%; margin: 20px 5%;" class="" src="__STATIC__/images/mall/index_font.png" />
+    <body id="index-body">
+        <img style="height: 140px; width: 90%; margin: 10% 5%;" class="" src="__STATIC__/images/mall/index_font.png" />
 
-        <div class="htmleaf-container" >
-		<ul id="hexGrid" >
-				<{volist name="goods" id="vo" offset="0" length='3' empty="暂时没有数据"}>
-					<li class="hex">
-						<!--<a class="hexIn" href="index/goods/detail/id/<{$vo.id}>">-->
-						<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
-							<img src="<{$vo.img}>" alt="" />
-							<h1><{$vo.name}></h1>
-							<p><{$vo.description}></p>
+        <div class="htmleaf-container" style="margin-top: 5%; margin-bottom: 100px;">
+			<ul id="hexGrid" >
+					<{volist name="goods" id="vo"  empty="暂时没有数据"}>
+					<li class="hex-li">
+						<a href="<{:url('goods/detail', ['id'=>$vo.id])}>">
+							<div class="hex">
+								<div class="hexIn">
+									<img src="<{$vo.img}>" alt="" />
+								</div>
+							</div>
+							<div class="hex-info wp_50" >
+								<{$vo.name}>
+								<br>
+								<{$vo.description}>
+							</div>
+
+
 						</a>
 					</li>
-				<{/volist}>
-	            
-	            <li class="hex">
-	                <a class="hexIn" href="/index/fishing/index">
-	                    <img src="__STATIC__/css/hexagon/img/7.jpg" alt="" />
-	                    <!--<h1>进入钓鱼游戏</h1>
-	                    <p>商品详情：价格 促销等</p>-->
-	                </a>
-	            </li>
+						
 
-				<{volist name="goods" id="vo" offset="3" length='3' empty="暂时没有数据"}>
-					<li class="hex">
-						<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
-							<img src="<{$vo.img}>" alt="" />
-							<h1><{$vo.name}></h1>
-							<p><{$vo.description}></p>
-						</a>
-					</li>
-				<{/volist}>
-		</ul>
+
+
+						
+					<{/volist}>
+					
+
+			</ul>
 		</div>
 
 
 
-
+<{include file="public/footer"/}>
     </body>
 </html>
