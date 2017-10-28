@@ -1,0 +1,85 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>">
+        <div class="form-group">
+            <label for="id_list" class="col-sm-3 control-label">目录菜单：</label>
+            <div class="col-sm-5">
+                <select class="form-control" name="id_list" required>
+                    
+                    
+                    <option value="0" <{if $pid_list == 0}>selected<{/if}> >顶级菜单</option>
+                    <{volist name="list" id="vo"}>
+                        <!--不显示本菜单-->
+                        <{if $header.form == "add"}>
+                        <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(深度<{$vo.deep}>)</option>
+                        <{else}>
+                            <{if $vo.id != $result.id}>
+                            <option value="<{$vo.id_list}>" <{if $pid_list == $vo.id_list}>selected<{/if}>><{$vo.title}>(深度<{$vo.deep}>)</option>
+                            <{/if}>
+                        <{/if}>
+                    <{/volist}>
+
+                </select>
+                <p class="help-block title-0">选择菜单后，新添加/修改的菜单会处于该选项菜单链之下</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">标识：</label>
+            <div class="col-sm-5">  
+                <input id="name" type="text" class="form-control" name="name" <{if $header.form=="add"}>value=""<{else}>value="<{$result.name}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">标题：</label>
+            <div class="col-sm-5">  
+                <input id="title" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" <{/if}>required/>
+            </div>
+        </div>
+		<div class="form-group">
+            <label for="level" class="col-sm-3 control-label">级别：</label>
+            <div class="col-sm-5">  
+                <input id="level" type="text" class="form-control" name="level" <{if $header.form=="add"}>value=""<{else}>value="<{$result.level}>" <{/if}>required/>
+            </div>
+        </div>
+		<div class="form-group">
+            <label for="url" class="col-sm-3 control-label">链接：</label>
+            <div class="col-sm-5">  
+                <input id="url" type="text" class="form-control" name="url" <{if $header.form=="add"}>value=""<{else}>value="<{$result.url}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>开启
+                <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>开启
+                    <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />开启
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>禁用
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">  
+                <input id="remark" type="text" class="form-control" name="remark" <{if $header.form=="add"}>value=""<{else}>value="<{$result.remark}>" <{/if}>/>
+            </div>
+        </div>
+
+        <{if $header.form=="edit"}>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>
