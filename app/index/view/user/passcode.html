@@ -1,8 +1,8 @@
 <{extend name="./public/user"/}>
 <{block name="content"}>
 <style>
-
-    .f_c{color: #666;}
+    .f_c{color: #999;}
+    .input_border{border: 1px solid #e0e0e0;padding: 0px 10px;color:#666}
 </style>
 <form class="form-horizontal" method="post" role="form" action="<{:url('password')}>" enctype="multipart/form-data">
 <div class="user-panel address">
@@ -18,15 +18,15 @@
         <div class="wp_50  f_l m_t50">
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">原密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="old-password" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="oldpassword" value=""></span>   
             </div>
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">新密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="pass" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="pass" value=""></span>   
             </div>
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">重复密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="repass" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="repass" value=""></span>   
             </div>
         </div>
         <div class="wp_25  f_l"></div>
@@ -54,15 +54,15 @@
         <div class="wp_50  f_l m_t50">
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">原密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="old-password" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="oldpassword" value=""></span>   
             </div>
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">新密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="pass" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="pass" value=""></span>   
             </div>
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r f_c">重复密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 f_c" type="text" name="repass" value=""></span>   
+                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="repass" value=""></span>   
             </div>
         </div>
         <div class="wp_25  f_l"></div>

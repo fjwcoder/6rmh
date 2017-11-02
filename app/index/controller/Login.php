@@ -135,6 +135,11 @@ class Login extends controller
         }
     }
 
+    #显示手机二维码页面
+    public function mobileMall(){
+        $this->assign('header', ['title'=>'手机商城', 'loginbg'=>'']);
+        return $this->fetch('mobilemall');
+    }
 
     #登出
     public function loginout(){
@@ -142,17 +147,4 @@ class Login extends controller
         return $this->redirect('/index/login/index');
     }
 
-    public function test(){
-        $user = '{"subscribe":1,"openid":"o0CVFxBGajko1pXxjpdByf0V1HUM","nickname":"9\uff1a30","sex":1,"language":"zh_CN","city":"\u9752\u5c9b","province":"\u5c71\u4e1c","country":"\u4e2d\u56fd","headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA\/0","subscribe_time":1508143259,"remark":"","groupid":0,"tagid_list":[]}';
-        $user = json_decode($user, true);
-        $param = '{"uid":"1","subscribe":"1","pid":"0"}';
-        $param = json_decode($param, true);
-        // dump($user);
-        // return dump($param);
-        $register = new Register();
-        $user = $register -> scanQRCode($user, $param);
-        return dump($user);
-
-        // return dump(json_decode($json, true));
-    }
 }

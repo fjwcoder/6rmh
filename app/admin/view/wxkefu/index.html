@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="__CSS__/admin_default_layout.css" type="text/css"/>
+<link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/js/fileinput.min.js"></script>
+<!--加载fileinput 对中文的支持-->
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
+<script src="__JS__/admin/admin_default_layout.js"></script>
+</head>
+<body>
+    <div class="iframe-panel container ">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="tabbable" id="tabs-759301">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#panel-642387" data-toggle="tab">列表</a>
+                            </li>
+                            <li>
+                                <a href="#panel-90661" data-toggle="tab">查询</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- 列表 -->
+                            <div class="tab-pane active" id="panel-642387">
+                                <p>
+                                    <{include file="iframe/header"}>
+                                    <div class="table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>编号</th>
+                                                <th>账号</th>
+                                                <th>客服编号</th>
+                                                <th>昵称</th>
+                                                <th>头像</th>
+                                                <th>微信号</th>
+                                                <th>邀请微信号</th>
+                                                <!-- <th>过期时间</th> -->
+                                                <th>会话数</th>
+                                                <!-- <th>文件标识</th> -->
+                                                <th>邀请状态</th>
+                                                <th>状态</th>
+                                                <th>备注</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <{volist name="list" id="vo"}>
+                                            <tr>
+                                                <td><{$vo.id}></td>
+                                                <td><{$vo.account}></td>
+                                                <td><{$vo.kfid}></td>
+                                                <td><{$vo.nickname}></td>
+                                                <td style="padding: 0 8px;">
+                                                    <{if $vo.headimg}>
+                                                    <img class="admin-member-headimg" src="<{$vo.headimg}>"/>
+                                                    <{else}>
+                                                    <img class="admin-member-headimg" src="__STATIC__/images/admin/default_headimg.png"/>
+                                                    <{/if}>   
+                                                </td>
+                                                <td><{$vo.wx}></td>
+                                                <td><{$vo.invitewx}></td>
+                                                <!-- <td><{$vo.inviteexpiretime}></td> -->
+                                                <td><{$vo.acceptedcase}></td>
+                                                <!-- <td><{$vo.media}></td> -->
+                                                <td>
+                                                    <{switch name="vo['invitestatus']"}>
+                                                        <{case value="1"}>等待确认<{/case}>
+                                                        <{case value="2"}>被拒绝<{/case}>
+                                                        <{case value="3"}>过期<{/case}>
+                                                        <{default/}>其他
+                                                    <{/switch}>
+                                                </td>
+                                                <td>
+                                                    <{switch name="vo['status']"}>
+                                                        <{case value="1"}>web在线<{/case}>
+                                                        <{default/}>其他
+                                                    <{/switch}>
+                                                </td>
+                                                <td><{$vo.remark}></td>
+                                                <td>
+                                                    <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="详情/编辑"></span></a>&nbsp;&nbsp;
+                                                    <!-- <a href="<{:url('getMenu')}>"><span class="glyphicon glyphicon-edit" title="设置"></span></a>&nbsp;&nbsp; -->
+                                                    <!-- <a href="<{:url('getMenu')}>"><span class="glyphicon glyphicon-edit" title="邀请"></span></a>&nbsp;&nbsp; -->
+                                                </td>
+                                            </tr>
+                                            <{/volist}>
+                                        </tbody>
+                                    </table>
+                                    <{$list->render()}>
+                                    </div>       
+                                </p>
+                            </div>  
+                            <!-- 查询 -->
+                            <div class="tab-pane" id="panel-90661">
+                                <p class="list_menu">
+                                    <a href="<{:url('getMenu')}>">查询自定义菜单</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

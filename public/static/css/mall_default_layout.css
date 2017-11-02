@@ -238,8 +238,8 @@ span.order-user{cursor: pointer;}
 /*==================================footer内容=========================================*/
 /*div.footer ul li{float: left!important; font-style: italic;}*/
 .web-footer{margin-top: 20px;}
-.footer p{height: 26px; line-height: 26px; margin: 0; font-style: italic;}
-.footer p a{margin: 0 10px; font-style: italic;}
+.footer p{height: 26px; line-height: 26px; margin: 0; }
+.footer p a{margin: 0 10px; }
 
 
 

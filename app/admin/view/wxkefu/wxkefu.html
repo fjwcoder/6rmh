@@ -1,0 +1,134 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>" enctype="multipart/form-data">
+        <{if $header.form=="edit"}>
+        <div class="form-group">
+            <label for="headimg" class="col-sm-3 control-label"></label>
+            <div class=" member-headimg col-sm-3 col-md-3">
+                <a href="javascript: void(0);" class="thumbnail">
+                    <img class=" member-headimg form-control" src="<{$result.headimg}>" alt="客服头像未显示"/>
+                </a>
+            </div>
+        </div>
+        <{/if}>
+        <div class="form-group">
+            <label for="account" class="col-sm-3 control-label">账号：</label>
+            <div class="col-sm-5">  
+                <input id="account" type="text" class="form-control" name="account" <{if $header.form=="add"}>value=""<{else}>value="<{$result.account}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="kfid" class="col-sm-3 control-label">客服编号：</label>
+            <div class="col-sm-5">  
+                <input id="kfid" type="text" class="form-control" name="kfid" <{if $header.form=="add"}>value=""<{else}>value="<{$result.kfid}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="nickname" class="col-sm-3 control-label">昵称：</label>
+            <div class="col-sm-5">  
+                <input id="nickname" type="text" class="form-control" name="nickname" <{if $header.form=="add"}>value=""<{else}>value="<{$result.nickname}>" <{/if}>required/>
+            </div>
+        </div>
+        <{if $header.form=="edit"}>
+        <div class="form-group">
+            <label for="headimg" class="col-sm-3 control-label">上传头像：</label>
+            <div class="col-sm-5 ">
+                <input id="headimg" type="file" accept="image/*" class="form-control fileinput" name="headimg" upurl=""/>
+            </div>
+            <script>
+                initFileInput('headimg', $('input#headimg').attr('upurl'));
+            </script>
+        </div>
+        <{/if}>
+		<div class="form-group">
+            <label for="wx" class="col-sm-3 control-label">微信号：</label>
+            <div class="col-sm-5">  
+                <input id="wx" type="text" class="form-control" name="wx" <{if $header.form=="add"}>value=""<{else}>value="<{$result.wx}>" <{/if}>required/>
+            </div>
+        </div>
+		<div class="form-group">
+            <label for="invitewx" class="col-sm-3 control-label">邀请微信号：</label>
+            <div class="col-sm-5">  
+                <input id="invitewx" type="text" class="form-control" name="invitewx" <{if $header.form=="add"}>value=""<{else}>value="<{$result.invitewx}>" <{/if}>required/>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label for="inviteexpiretime" class="col-sm-3 control-label">过期时间：</label>
+            <div class="col-sm-5">  
+                <input id="inviteexpiretime" type="text" class="form-control" name="inviteexpiretime" <{if $header.form=="add"}>value=""<{else}>value="<{$result.inviteexpiretime}>" <{/if}>/>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label for="invitestatus" class="col-sm-3 control-label">邀请状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="invitestatus" value="1" checked/>等待确认
+                <input type="radio" class="radio-inline" name="invitestatus" value="2"/>被拒绝
+                <input type="radio" class="radio-inline" name="invitestatus" value="3"/>过期
+                <{else}>
+                    <{if $result.invitestatus==1}>
+                    <input type="radio" class="radio-inline" name="invitestatus" value="1" checked/>等待确认
+                    <input type="radio" class="radio-inline" name="invitestatus" value="2"/>被拒绝
+                    <input type="radio" class="radio-inline" name="invitestatus" value="3"/>过期
+                    <{elseif $result.invitestatus==2}>
+                    <input type="radio" class="radio-inline" name="invitestatus" value="1" />等待确认
+                    <input type="radio" class="radio-inline" name="invitestatus" value="2" checked/>被拒绝
+                    <input type="radio" class="radio-inline" name="invitestatus" value="3"/>过期
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="invitestatus" value="1" />等待确认
+                    <input type="radio" class="radio-inline" name="invitestatus" value="2"/>被拒绝
+                    <input type="radio" class="radio-inline" name="invitestatus" value="3" checked/>过期
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="acceptedcase" class="col-sm-3 control-label">会话数：</label>
+            <div class="col-sm-5">  
+                <input id="acceptedcase" type="text" class="form-control" name="acceptedcase" <{if $header.form=="add"}>value=""<{else}>value="<{$result.acceptedcase}>" <{/if}>/>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label for="media" class="col-sm-3 control-label">文件标识：</label>
+            <div class="col-sm-5">  
+                <input id="media" type="text" class="form-control" name="media" <{if $header.form=="add"}>value=""<{else}>value="<{$result.media}>" <{/if}>/>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>web在线
+                <input type="radio" class="radio-inline" name="status" value="2"/>其它
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>web在线
+                    <input type="radio" class="radio-inline" name="status" value="2"/>其它
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />web在线
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>其它
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">  
+                <input id="remark" type="text" class="form-control" name="remark" <{if $header.form=="add"}>value=""<{else}>value="<{$result.remark}>" <{/if}>/>
+            </div>
+        </div>
+
+        <{if $header.form=="edit"}>
+
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>

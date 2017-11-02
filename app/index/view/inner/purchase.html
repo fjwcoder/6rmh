@@ -3,10 +3,11 @@
 <style>
     .f_c{color: #666;}
     .withdraw{height: 50px;padding: 16px 10px;border-bottom: 1px dashed #f0f0f0;}
-    .begintime{width: 140px; height: 25px;margin: 10px 10px;border:1px solid #666;}
-    .search_input{width: 66px; height: 25px;margin: 10px 10px;border:1px solid #666;}
+    .begintime{width: 156px; height: 25px;margin: 10px 10px;border:1px solid #e0e0e0;color:#666;padding: 0px 10px;}
+    .search_input{width: 86px; height: 25px;margin: 10px 10px;}
     .span{margin-top:12px;color:#aaa}
     .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
+    .input_border{border: 1px solid #e0e0e0;padding: 0px 10px;color:#666}
     
 </style>
 <div class="user-panel address">
@@ -22,11 +23,11 @@
             <input id="endtime" class="layui-input f_r begintime" type="text" name="endtime" placeholder="结束时间" readonly="readonly" <{if $time.status }>value="<{$time.endtime}>"<{/if}>>
             <span class="f_r span">——</span>
             <input id="begintime" class="layui-input f_r begintime" type="text" name="begintime" placeholder="开始时间" readonly="readonly" <{if $time.status }>value="<{$time.begintime}>"<{/if}>>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="value" placeholder="数量" <{if $sum.status }>value="<{$sum.value}>"<{/if}>>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="maxprice" placeholder="最高价" <{if $times.status }>value="<{$times.maxprice}>"<{/if}>>
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="value" placeholder="数量" <{if $sum.status }>value="<{$sum.value}>"<{/if}>>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="maxprice" placeholder="最高价" <{if $times.status }>value="<{$times.maxprice}>"<{/if}>>
             <span class="f_r span">—</span>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r" type="text" name="minprice" placeholder="最低价" <{if $times.status }>value="<{$times.minprice}>"<{/if}>>                           
-            <select class="f_r search_input" name="title">
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="minprice" placeholder="最低价" <{if $times.status }>value="<{$times.minprice}>"<{/if}>>                           
+            <select class="f_r search_input input_border" name="title">
                 <{if $timer.status}>
                     <{volist name="title" id="vo"}>
                     <option value="<{$vo.title}>" <{if $timer.title==$vo.title}>selected<{/if}> ><{$vo.title}></option>

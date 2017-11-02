@@ -285,6 +285,14 @@ class Wechat extends Controller
 	//文本消息处理函数
 	private function handleText($object)
 	{
+        $keyword = trim($object->Content);
+        if(strstr($keyword, '呼叫客服') || strstr($keyword, '在线客服')|| strstr($keyword, '客服') ){
+            $result = $this->transmitService($object);
+            return $result;
+        }else{
+            $result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
+		    return $result;
+        }
 		// $openid = strval($object->FromUserName);
 		// $content = "";
 		// if(($object->Content) == '分享'){
@@ -293,9 +301,20 @@ class Wechat extends Controller
 		// }else{
 		// 	$result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
 		// }
-        $result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
-		return $result;
+        
 	}
+    //回复多客服消息
+    private function transmitService($object)
+    {
+        $xmlTpl = "<xml>
+            <ToUserName><![CDATA[%s]]></ToUserName>
+            <FromUserName><![CDATA[%s]]></FromUserName>
+            <CreateTime>%s</CreateTime>
+            <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+            </xml>";
+        $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time());
+        return $result;
+    }
 	
     //回复图片消息
 	private function transmitImage($object, $content=''){
