@@ -12,6 +12,9 @@ class Goods extends controller
 {
 
     public function detail(){
+
+        // return dump(config());
+
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }

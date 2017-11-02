@@ -24,7 +24,6 @@ class Balance extends Common
     public function opWithdraw(){
         $id = session(config('USER_ID'));
         $money['value'] = input('value',0,'floatval');
-        // dump($money['value']);die;
         $data['pay_code'] = input('pay_code',0,'intval');
 
         $user = decodeCookie('user');

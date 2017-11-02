@@ -29,16 +29,29 @@ class Wxpay extends Common
                 $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
             }
 
-            # 扫码支付 模式一
-            // $qrcode = $this->scanPay($check['order']);
-            // return '<img src="'.$qrcode.'"/>';
-            
-            # 扫码支付 模式二
-            $jsApiParameters = $this->orderPay($check['order'], $user, 'NATIVE');
-            $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
-            $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
-            $this->assign('order', $check['order']);
+            # 判断支付模式 
+            if(isMobile() ===true){ 
+                # 判断：微信浏览器用公众号支付否则用H5支付
 
+
+
+                
+
+
+            }else{ //PC端全都用扫码支付
+                # 扫码支付 模式一
+                // $qrcode = $this->scanPay($check['order']);
+                // return '<img src="'.$qrcode.'"/>';
+                
+                # 扫码支付 模式二
+                $jsApiParameters = $this->orderPay($check['order'], $user, 'NATIVE');
+                $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
+                $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
+                $this->assign('order', $check['order']);
+
+            }
+
+            
         }else{
             $this->assign('result', ['status'=>false, 'content'=>$check['content']]);
         }
