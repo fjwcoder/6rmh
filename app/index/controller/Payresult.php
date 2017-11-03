@@ -58,19 +58,21 @@ class Payresult extends Controller
             $resJson = json_encode($resObj);
             $resArr = json_decode($resJson, true);
 
-            file_put_contents('payresult.txt', $resJson);
-
             if( ($resArr['return_code'] === 'SUCCESS') || ($resArr['result_code'] === 'SUCCESS') ) { // 支付成功
                 $order_id = $resArr['out_trade_no']; //订单号
-                // $total_fee = 
+                $pay_type = session('PAY_TYPE');
+                
                 $wxpay = new Wxpay();
                 $wxconf = getWxConf();
-                $check = $wxpay->check($order_id, $wxconf);
+                $check = $wxpay->orderCheck($order_id, $pay_type, $wxconf);
                 if($check['status']){ //订单查询成功
                     $success = new Paysuccess();
+                    #调用相关的方法 $check['type']可以是'order'， 'charge'， 'trade'
+                    $result = $success->$check['type']($resArr, $check['order']);
+                    if($result){ //成功
 
-                    #调用相关的方法
-                    $result = $success->$check['type']($check['order']);
+                    }
+                }else{
 
                 }
             }

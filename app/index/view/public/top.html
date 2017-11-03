@@ -22,11 +22,11 @@
                 <i class=" fa-li fa fa-list-ul"></i>我的订单
             </a>
         </li>
-        <!--<li>
-            <a href="{{collection}}" target="_blank">
-                <i class=" fa-li fa fa-heart"></i>收藏夹
+        <li>
+            <a href="{{cart}}" target="_blank">
+                <i class=" fa-li fa fa-heart"></i>购物车
             </a>
-        </li>-->
+        </li>
         <li >
             <a href="{{user}}" target="_blank">
                 <i class=" fa-li fa fa-user"></i>会员中心
@@ -49,8 +49,9 @@
             $scope.top = response.data.left;
             $scope.mobile = response.data.right.mobile;
             $scope.order = response.data.right.order;
-            $scope.collection = response.data.right.collection;
+            $scope.cart = response.data.right.cart;
             $scope.user = response.data.right.user;
+            $scope.index = response.data.right.index;
 
         }, function errorCallback(response){
             console.log('失败');

@@ -118,6 +118,7 @@ class Cart extends Common
 
         $goods = $this->getCartGoods($id, $sid);
         
+        return dump($goods);
         if($goods['status'] != 1 || empty($goods)){
             return $this->error('商品已下架'); exit;
         }
@@ -131,6 +132,7 @@ class Cart extends Common
         #有则数量相加、没有则新建一条
         $cart = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
             'goods_id'=>$id, 'spec'=>$sid]) -> find();
+
         if(empty($cart)){ //空的，新加
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
                 'seller_id'=>$goods['userid'], 'goods_id'=>$id, 

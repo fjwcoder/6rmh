@@ -16,11 +16,12 @@ class Wxpay extends Common
 
     public function index(){
         
-        $id = input('id', '', 'htmlspecialchars,trim');
         $uid = session(config('USER_ID'));
-        $action = input('type', '', 'htmlspecialchars,trim');
+        $id = input('id', '', 'htmlspecialchars,trim');
+        $type = input('type', '', 'htmlspecialchars,trim');
 
-        $check = $this->check($id);
+        $check = $this->orderCheck($id, $type);
+        session('PAY_TYPE', $check['type']); //保存支付类型
 
         if($check['status']){
             #获取用户信息
@@ -32,11 +33,13 @@ class Wxpay extends Common
             # 判断支付模式 
             if(isMobile() ===true){ 
                 # 判断：微信浏览器用公众号支付否则用H5支付
+                # 公众号支付
+                $tools = new \JsApiPay();
+                $jsApiParameters = $this->orderPay($check['order'], $user, 'JSAPI');
+                $jsApiParameters = $tools->GetJsApiParameters($jsApiParameters);
 
-
-
+                $this->assign('jsApiParameters', $jsApiParameters);
                 
-
 
             }else{ //PC端全都用扫码支付
                 # 扫码支付 模式一
@@ -67,7 +70,7 @@ class Wxpay extends Common
         $wxconf = getWxConf();
         #拼凑信息
         $money = floatval($order['money'])*100;
-        $tools = new \JsApiPay();
+        
         $input = new \WxPayUnifiedOrder();
         $input -> SetAppid($wxconf['APPID']['value']);//公众账号ID
         $input -> SetMch_id($wxconf['MCHID']['value']);//商户号
@@ -99,7 +102,7 @@ class Wxpay extends Common
 
     #查询订单信息并进行验证
     # $id 订单号
-    public function check($id=0, $wxconf= []){
+    public function orderCheck($id=0, $type='order',$wxconf= []){
         if($id===0){
             return ['status'=>false, 'content'=>'订单错误']; exit;
         }
@@ -107,48 +110,73 @@ class Wxpay extends Common
             $wxconf = getWxConf();
         }
 
-        # 判断订单种类
-        $number = ['1', '2','3','4','5','6','7','8','9','0'];
-        $first = substr($id, 0, 1);
-        if(!in_array($first, $number)){ //购物订单
-            $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
-            if(isset($order)){
-                if($order['money']<=0){
-                    return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
+        switch($type){
+            case 'order':
+                $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+                if(isset($order)){
+                    if($order['money']<=0){
+                        return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
+                    }
+                    return ['status'=>true, 'order'=>$order, 'type'=>$type];
+                }else{
+                    return ['status'=>false, 'content'=>'购物订单不存在'];
                 }
-                return ['status'=>true, 'order'=>$order, 'type'=>'buy'];
-            }else{
-                return ['status'=>false, 'content'=>'购物订单不存在'];
-            }
-        }else{
-            $last = substr($id, -1);
-            if(strtoupper($last)==='C'){ //充值订单
+            break;
+            case 'charge':
                 $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
                 if(isset($order)){
                     if($order['value'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;
                     }
-                    return ['status'=>true, 'order'=>$order, 'type'=>'charge'];
+                    return ['status'=>true, 'order'=>$order, 'type'=>$type];
                 }else{
                     return ['status'=>false, 'content'=>'充值订单不存在'];
                 }
-                
+            break;
+            case 'trade':
 
-
-            }else{ //交易订单
-
-                // $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
-
-                // return ['status'=>true, 'order'=>$order, 'type'=>'trade'];
-
-            }
+            break;
+            default:
+                return ['status'=>false, 'content'=>'支付状态错误'];
+            break;
         }
+
+        # 判断订单种类
+        // $number = ['1', '2','3','4','5','6','7','8','9','0'];
+        // $first = substr($id, 0, 1);
+        // if(!in_array($first, $number)){ //购物订单
+        //     $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+        //     if(isset($order)){
+        //         if($order['money']<=0){
+        //             return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
+        //         }
+        //         return ['status'=>true, 'order'=>$order, 'type'=>'buy'];
+        //     }else{
+        //         return ['status'=>false, 'content'=>'购物订单不存在'];
+        //     }
+        // }else{
+        //     $last = substr($id, -1);
+        //     if(strtoupper($last)==='C'){ //充值订单
+        //         $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+        //         if(isset($order)){
+        //             if($order['value'] <= 0){
+        //                 return ['status'=>false, 'content'=>'金额错误' ]; exit;
+        //             }
+        //             return ['status'=>true, 'order'=>$order, 'type'=>'charge'];
+        //         }else{
+        //             return ['status'=>false, 'content'=>'充值订单不存在'];
+        //         }
+                
+        //     }else{ //交易订单
+
+        //     }
+        // }
 
 
         
     }
 
-    # 扫码支付
+    # 扫码支付 模式一
     public function scanPay($order=[]){
 
         

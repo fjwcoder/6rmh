@@ -198,7 +198,7 @@ class Order extends Common
             }
 
             $data = ['userid'=>session(config('USER_iD')), 'order_id'=>$order_id, 
-                'status'=>0, 'pay_status'=>0, 'money'=>$count['money'], 'baits'=>$count['baits'], 'points'=>$count['points'],
+                'status'=>1, 'pay_status'=>0, 'money'=>$count['money'], 'baits'=>$count['baits'], 'points'=>$count['points'],
                 'payment_id'=>$pay, 'payment_name'=>$payment[$pay]['name'],
                 'shipping_id'=>$delivery[$ship]['id'], 'shipping_name'=>$delivery[$ship]['title'],
                 'user_name'=>$address['name'], 'user_address'=>$address['province'].$address['city'].$address['area'].$address['address'],

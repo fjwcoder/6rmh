@@ -13,6 +13,10 @@ class Index extends controller
 
     public function index(){
         
+        // $user = decodeCookie('user');
+        // $id_list = explode(',', $user['id_list']);
+        // return dump(array_reverse($id_list));
+
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
             $gaode->IPLocation();
@@ -66,11 +70,11 @@ class Index extends controller
             ];
         }
         $data['right'] = [
-            'logout' => '/index/login/logout',
-            'mobile' => '/index/login/mobilemall', 
-            'order'=> '/index/order/index', 
-            // 'collection'=> '/index/collection/index', 
-            'user'=> '/index/order/index',
+            'logout' => '/index/login/logout', // 注销
+            'mobile' => '/index/login/mobilemall',  // 手机商城
+            'order'=> '/index/order/index',  // 我的订单
+            'cart'=> '/index/cart/index', // 购物车
+            'user'=> '/index/order/index', // 
             'index' => '/index/index/index'
         ];
 
