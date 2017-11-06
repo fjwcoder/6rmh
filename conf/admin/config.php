@@ -1,6 +1,10 @@
 <?php
 /* 前后端通信相关的配置,注释只允许使用多行方式 */
 return [
+    // 默认跳转页面对应的模板文件
+    'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+    'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+    
     'ueditor'=>
     [
         /* 上传图片配置项 */

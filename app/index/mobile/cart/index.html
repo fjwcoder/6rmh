@@ -116,16 +116,23 @@
                 $scope.cart_list = check_list.join();
             }
         });
-        $('.edit').click(function(){
+        $('.edit').click(function(event){
             $(this).parent().parent().animate({
                 left: '-10em'
             },100);
             $(this).parent().nextAll('.good-option').fadeIn(100);
+            event.stopPropagation();
         });
-        $('.goods-detail').click(function(){
+       /* $('.goods-detail').click(function(){
             $(this).next().fadeOut(100);
             $(this).parent().animate({
                 left: '0em'
+            },100);
+        });*/
+        $('.edit').parent().siblings().click(function(){
+            $(this).nextAll('.good-option').fadeOut(100);
+            $(this).parents().animate({
+                left:'0em'
             },100);
         });
     </script>

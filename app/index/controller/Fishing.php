@@ -23,7 +23,7 @@ use think\Session;
 use think\Request;
 use think\Db;
 
-class Fishing extends Common
+class Fishing extends controller
 {
     public function index(){
 

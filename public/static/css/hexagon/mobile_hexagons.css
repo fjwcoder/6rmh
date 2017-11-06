@@ -41,13 +41,33 @@
         transform: translateX(50%) rotate(-60deg) skewY(30deg);
 }
 .hex-info{
-    position: relative;
+    position: absolute;
     overflow: hidden;
-    color: white;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 7px;
+    margin:0 auto;
+    text-align: center;
+    height: 12em;
+    overflow-y: hidden;
 }
 
-
-
+.hex, .hex-info{
+    display: inline-block;
+}
+.product_name{
+    font-weight: bold;
+    font-size: 1em;
+}
+.product_des{
+    font-size: 0.8em;
+}
+.product_name, .product_des{
+    color: #999;
+}
+.hex-li{
+    margin:3em auto; 
+}
 /*** SPACING AND SIZING *****************************************************************/
 
 
@@ -61,19 +81,17 @@
         
     }
     .hex-li:nth-child(2n-1) .hex{
-        margin-left: -15%;
+        margin-left: -17%;
     }
     .hex-li:nth-child(2n-1) .hex-info{
-        left: 48%;
+        left: 45%;
     }
     .hex-li:nth-child(2n) .hex{
-        margin-left: 35%;
+        left: 33%;
     }
-
-    
-    
-
-
+    .hex-li:nth-child(2n) .hex-info{
+        margin-left: -38%;
+    }
 
 }
 

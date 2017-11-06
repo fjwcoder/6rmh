@@ -22,6 +22,7 @@
         <div class=" wp_10">小计</div>
         <div class=" wp_5">操作</div>
     </div>
+    <{if $flag == true }>
     <div class="more-info-detail wp_100" >
         <{volist name="carts" id="vo"}>
             <div class="cart-goods-record  wp_100">
@@ -41,7 +42,6 @@
                             获得<{$vo.point}>积分
                         </a>
                     </p>
-                    <!--<a href="javascript: void(0);">促销活动：</a>-->
                     <{if $vo.promotion != ''}>
                     <span class="goods-promotion " >
                         <{$vo.promotion}>
@@ -86,7 +86,19 @@
             <button class="submit-btn-default ">去结算</button>
         </a>
     </div>
-</div>
+    <{else}>
+        <div style="width: 1200px; height: 100px; line-height: 100px; font-size: 26px;" class="t_c">
+            暂无商品，<a href="/index/index/index" style="font-size: 20px; color: #6ad4c9;">前往选购</a>
+        </div>
+        <div class="more-info-navbar wp_100">
+
+
+        <a class="pull-right" href="/index/index/index" title="前往购物">
+            <button class="submit-btn-default ">前往购物</button>
+        </a>
+    </div>
+    <{/if}>
+
 
 <script>
     app.controller('cartCtrl', function($scope) {

@@ -4,9 +4,10 @@
 <style>
     .wxpay{border:2px solid #ECECEC;height:620px; margin-top:30px;}
     .configinfo{margin:10px 15px;color:#B4BED1;}
-    .bgcolor{background-color: #ECEEF5; height:140px;margin-bottom:45px;}
+    .bgcolor{background-color: #ECEEF5; height:35px;}
     .order div{line-height:35px;color:#B5B5B6;}
     .red{color:red;}
+    .m_t30{margin-top:30px;}
     .pay{border:1px solid #fff;margin:0 auto;position:relative;}
     .pay_mode{border-top:2px solid #ECECEC;border-left:2px solid #ECECEC;border-right:2px solid #ECECEC;line-height:40px;text-align:center;color:#666;}
     .top_border{border-top:2px solid #ECECEC;position: absolute;right:0px;width:102px;}
@@ -20,43 +21,88 @@
     <{if $result.status}><!-- 订单状态正确 -->
     <div class="content-panel">
         <div class="wxpay">
+            <{if $type == 'order'}>
             <div class="configinfo fz_18">
-                    订单编号：<{$order.order_id}>
+                订单编号：<{$order.order_id}>
             </div>
-            <div class="wp_100 bgcolor">
-                <div class="wp_50 h35 order f_l">
-                    <div class="wp_30 h35 f_l t_r fz_16">收货人：</div>
-                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_name}></div>
+            <div class="wp_50 h35 bgcolor order f_l">
+                <div class="wp_30 h35 f_l t_r fz_16">收货人：</div>
+                <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_name}></div>
+            </div>
+            <div class="wp_50 h35 bgcolor order f_l">
+                <div class="wp_30 h35 f_l t_r fz_16">收货人手机号：</div>
+                <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_mobile}></div>
+            </div>
+            <div class="wp_100 h35 bgcolor order f_l">
+                <div class="wp_15 h35 f_l t_r fz_16">快递名称：</div>
+                <div class="wp_85 h35 f_l t_l fz_16"><{$order.shipping_name}></div>
+            </div>
+            <div class="wp_100 h35 bgcolor order f_l">
+                <div class="wp_15 h35 f_l t_r fz_16">收货地址：</div>
+                <div class="wp_85 h35 f_l t_l fz_16 o_h"><{$order.user_address}></div>
+            </div>
+            <div class="order">
+                <div class="wp_50 h35 bgcolor order f_l">
+                    <div class="wp_30 h35 f_l t_r fz_16">余额支付金额：</div>
+                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.balance}></div>
                 </div>
-                <div class="wp_50 h35 order f_l">
-                    <div class="wp_30 h35 f_l t_r fz_16">收货人手机号：</div>
-                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.user_mobile}></div>
-                </div>
-                <div class="wp_100 h35 order f_l">
-                    <div class="wp_15 h35 f_l t_r fz_16">快递名称：</div>
-                    <div class="wp_85 h35 f_l t_l fz_16"><{$order.shipping_name}></div>
-                </div>
-                <div class="wp_100 h35 order f_l">
-                    <div class="wp_15 h35 f_l t_r fz_16">收货地址：</div>
-                    <div class="wp_85 h35 f_l t_l fz_16 o_h"><{$order.user_address}></div>
-                </div>
-                <div class="order">
-                    <div class="wp_50 h35 order f_l">
-                        <div class="wp_30 h35 f_l t_r fz_16">余额支付金额：</div>
-                        <div class="wp_70 h35 f_l t_l fz_16"><{$order.balance}></div>
-                    </div>
-                    <div class="wp_30 h35 f_r t_r fz_16">
-                        <div class="wp_30 h35 f_l t_r fz_18">应付金额：</div>
-                        <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
-                    </div>
+                <div class="wp_20 h35 f_l bgcolor">&nbsp;</div>
+                <div class="wp_30 h35 bgcolor f_r t_r fz_16">
+                    <div class="wp_30 h35 f_l t_r fz_18">应付金额：</div>
+                    <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
                 </div>
             </div>
+            <!-- 余额充值 -->
+            <{elseif $type == 'charge'}>
+            <div class="configinfo fz_18">
+                订单编号：<{$order.order_id}>
+            </div>
+            <div class="order">
+                <div class="wp_50 h35 bgcolor order f_l">
+                    <div class="wp_30 h35 f_l t_r fz_16">姓名：</div>
+                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.name}></div>
+                </div>
+                <div class="wp_20 h35 f_l bgcolor">&nbsp;</div>
+                <div class="wp_30 h35 bgcolor f_r t_r fz_16">
+                    <div class="wp_30 h35 f_l t_r fz_18">充值金额：</div>
+                    <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
+                </div>
+            </div>
+            <!-- 交易大厅（购买） -->
+            <{elseif $type == 'trade'}>
+            <div class="configinfo fz_18">
+                订单编号：<{$order.order_id}>
+            </div>
+            <div class="wp_100 h35 bgcolor order f_l">
+                <div class="wp_15 h35 f_l t_r fz_16">卖家姓名：</div>
+                <div class="wp_85 h35 f_l t_l fz_16"><{$order.username}></div>
+            </div>
+            <div class="wp_50 h35 bgcolor order f_l">
+                <div class="wp_30 h35 f_l t_r fz_16">交易数量：</div>
+                <div class="wp_70 h35 f_l t_l fz_16"><{$order.value}></div>
+            </div>
+            <div class="wp_50 h35 bgcolor order f_l">
+                <div class="wp_30 h35 f_l t_r fz_16">名称：</div>
+                <div class="wp_70 h35 f_l t_l fz_16"><{if $order.type == 1}>积分<{elseif $order.type==2}>鱼饵<{/if}></div>
+            </div>
+            <div class="order">
+                <div class="wp_50 h35 bgcolor order f_l">
+                    <div class="wp_30 h35 f_l t_r fz_16">余额支付金额：</div>
+                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.yuepay}></div>
+                </div>
+                <div class="wp_20 h35 f_l bgcolor">&nbsp;</div>
+                <div class="wp_30 h35 bgcolor f_r t_r fz_16">
+                    <div class="wp_30 h35 f_l t_r fz_18">应付金额：</div>
+                    <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
+                </div>
+            </div>
+            <{/if}>
+            <div style="clear:both;margin-bottom:45px;"></div>
             <div class="wp_85 h350 pay">
-                <div class="pay_mode w180 h40 fz_16"><{$order.payment_name}></div>
+                <div class="pay_mode w180 h40 fz_16">微信支付</div>
                 <div class="pay_success w280 h300">
                     <div class="top_border"></div>
                     <img class="pay_success_img wp_65 h_15" src="__STATIC__/images/wechat/WePayLogo.png" />
-                    <!--<span class="fz_20 pay_tip"><{$order.payment_name}></span>-->
                 </div>
                 <div class="con_info h300">
                     <img class="w200 h200 wechat_code" src="<{$result.qrcode}>" />
@@ -66,7 +112,11 @@
         </div> 
     </div>
     <{else}><!-- 订单状态错误 -->
-
+    <div class="content-panel">
+        <div class="h100 m_t30">
+            <span class="red fz_20">支付状态出错，请您稍后再试！！！</span>
+        </div> 
+    </div>
     <{/if}>
 </div>
 <{/block}>

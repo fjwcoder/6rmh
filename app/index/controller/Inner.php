@@ -68,9 +68,13 @@ class Inner extends Common
     }
 
 
+# =================================交易大厅==========================
     
     //出售列表
     public function purchase(){
+
+        // return dump(decodeCookie('user'));
+
         $id = session(config('USER_ID'));
         
         if(!empty($_POST)){
@@ -125,7 +129,7 @@ class Inner extends Common
         return $this->fetch();
     }
 
-    //个人资产（购买）
+    //个人资产（购买） （待删除）
     public function buy(){
         $id = input('id', 0, 'intval');//dump($id);
         
@@ -148,21 +152,33 @@ class Inner extends Common
         $this->assign('list', $list);
         return $this->fetch('purchase');
     }
+
+
     //余额支付
     public function pay(){
         
         $id = session(config('USER_ID'));
-        $user = decodeCookie('user');
+        $user = Db::name('users') -> where(['id'=>$id, 'status'=>1]) -> find();
         $pass = input('pass',0,'intval');
         $orderid = input('orderid', 0, 'intval');
-        // if($order['status'] == 1){
+        if($order['status'] == 1){
         //     $upd = Db::name('inner_shop') ->where(array('orderid'=>$orderid)) ->update(['status'=>3]);
             //输入框被选中
             if(isset($_POST['checkbox'])){
                 //判断密码是否为空
                 if(empty($pass)){
                     return $this->error('支付密码不可为空');
+                }else{
+                    $old_pwd = cryptCode($pass, 'ENCODE', substr(md5($pass), 0, 4));
+                    if($old_pwd == $user['pay_code']){
+
+                    }
+
                 }
+
+
+
+
                 $order = db('inner_shop', [], false) ->where(['orderid' => $orderid]) ->find(); //fjw修改
                 
                 $pay['value'] = $order['value'];
@@ -173,15 +189,15 @@ class Inner extends Common
                 $pay['userid'] = $orderid;
                 $pay['username'] = $user['realname'];
                 
-                $old_pwd = cryptCode($pass, 'ENCODE', substr(md5($pass), 0, 4));
+                
                 
                 if($old_pwd == $user['pay_code']){
                     //查询用户信息
-                    $userinfo = db('users', [], false)  ->where(array('id'=>$id)) ->find(); //$userinfo
+                    // $userinfo = db('users', [], false)  ->where(array('id'=>$id)) ->find(); //$userinfo
                     
-                    if($pay['money'] > $userinfo['money']){
+                    if($pay['money'] > $user['money']){
                         // 余额不足
-                        $surplus = $pay['money'] -$userinfo['money'];
+                        $surplus = $pay['money'] -$user['money'];
                         # 添加微信支付
 
                     }else{
@@ -214,7 +230,8 @@ class Inner extends Common
                 echo '输入框未选中跳转微信支付页面';
             } 
             
-        // }else{
+        }
+        // else{
         //         $order = Db::name('inner_shop') ->where(array('orderid'=>$orderid)) ->find();
         //         if($order['status'] == 3){
         //             $upd = Db::name('inner_shop') ->where(array('orderid'=>$orderid)) ->update(['status'=>1]);

@@ -83,7 +83,31 @@ div.navbar-panel ul li a{font-size: 16px; color: #272727; font-weight: 600;}
 div.navbar-panel ul li a:hover{color: #6ad4c9;}
 li.li-split{color: #8e8e8e;}
 /*special.html*/
-
+.product_show{
+    background: url('/static/images/mall/bg.jpg') no-repeat;
+    /*background-size: 100%;  
+    -moz-background-size: 100%;  
+    -webkit-background-size: 100%;  */
+    background-position: center;
+}
+.title_img{
+    position: relative;
+    width: 40%;
+    top: 13em;
+}
+#product_show{
+    background-color: #6ad4c9;
+    padding-top: 2em;
+}
+.up2pro{
+    display: block;
+    font-size: 4em;
+    position: relative;
+    text-align: center;
+}
+.up2pro span{
+    color: #fff;
+}
 
 /*index.html*/
 div.banner-panel{height: 450px; margin-top: 10px;}

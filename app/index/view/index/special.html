@@ -10,10 +10,15 @@
     <a href="/index/order/index">订单</a>
 </p>-->
 
-<div class=" wp_100 t_c" style="height: 2000px;background: url(__STATIC__/images/mall/bg.jpg) no-repeat;">
+<div class="wp_100 t_c product_show">
     <!--欢迎字样-->
-    <img style="margin: 200px 0;" class="" src="__STATIC__/images/mall/index_font.png" />
-    <div  class=" content-panel" >
+    <img  class="title_img" src="__STATIC__/images/mall/index_font.png" />
+    <a class="up2pro">
+    	<span class="fa fa-caret-down"></span>
+    </a>
+</div>
+<div id="product_show">
+	<div  class=" content-panel" >
         <!--直推产品-->
         <div class="htmleaf-container" >
 		<ul id="hexGrid" >
@@ -30,7 +35,7 @@
 	            
 	            <li class="hex">
 	                <a class="hexIn" href="/index/fishing/index">
-	                    <img src="__STATIC__/images/mall/game.png" alt="" />
+	                    <img src="__STATIC__/css/hexagon/img/7.jpg" alt="" />
 	                    <!--<h1>进入钓鱼游戏</h1>
 	                    <p>商品详情：价格 促销等</p>-->
 	                </a>
@@ -49,5 +54,16 @@
 		</div>
     </div>
 </div>
-
+<script>
+	var height = $(window).height();
+	$('.product_show').css('height', height);
+	$('#hexGrid').css('height',height+200);
+	$('.up2pro').css('top','50%');
+	$('.up2pro').click(function (){
+		$('html,body').animate({scrollTop: height}, 400);
+	});
+	setInterval(function(){
+	$(".up2pro").fadeOut(500).fadeIn(500);
+	},1000);
+</script>
 <{/block}>

@@ -13,6 +13,7 @@
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body data-ng-app="myApp">
+    <form action="<{:url('order/create')}>" method="post">
     <div ng-controller="previewCtrl">
         <div class="more-info-navbar">
             订单
@@ -90,11 +91,18 @@
             </div>
             <{/volist}>
         </div>
+        <div>
+           <input type="hidden" name="id_list" value="<{$id_list}>"/><!--商品列表ID-->
+           <input type="hidden" name="pay" value="{{isChose}}"/><!--支付方式-->
+           <input type="hidden" name="addr" value="{{addrID}}"/><!--收货地址-->
+           <input type="hidden" name="delivery" value="{{delivery}}"/><!--配送方式--> 
+        </div>
         <div class="pay">
             <div>支付</div>
         </div>
     </div>
     <{include file="public/footer"/}>
+</form>
     <script>
         var app = angular.module('myApp', []);
         app.controller('previewCtrl', function($scope) {
@@ -113,6 +121,9 @@
             $scope.deliverySelect = function($id){
                 $scope.delivery = $id;
             }
+        });
+        $('.pay').click(function(){
+            $('form').submit();
         });
     </script>
 </body>

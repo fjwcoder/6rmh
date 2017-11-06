@@ -15,13 +15,13 @@ class Wxpay extends Common
 {
 
     public function index(){
-        
+
         $uid = session(config('USER_ID'));
         $id = input('id', '', 'htmlspecialchars,trim');
         $type = input('type', '', 'htmlspecialchars,trim');
 
         $check = $this->orderCheck($id, $type);
-        session('PAY_TYPE', $check['type']); //保存支付类型
+        Session::set('PAY_TYPE', $check['type']); //保存支付类型
 
         if($check['status']){
             #获取用户信息
@@ -39,7 +39,7 @@ class Wxpay extends Common
                 $jsApiParameters = $tools->GetJsApiParameters($jsApiParameters);
 
                 $this->assign('jsApiParameters', $jsApiParameters);
-                
+                $this->assign('result', ['status'=>true]);
 
             }else{ //PC端全都用扫码支付
                 # 扫码支付 模式一
@@ -50,10 +50,11 @@ class Wxpay extends Common
                 $jsApiParameters = $this->orderPay($check['order'], $user, 'NATIVE');
                 $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
                 $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
-                $this->assign('order', $check['order']);
+                
 
             }
-
+            $this->assign('order', $check['order']);
+            $this->assign('type', $check['type']);
             
         }else{
             $this->assign('result', ['status'=>false, 'content'=>$check['content']]);
@@ -65,7 +66,7 @@ class Wxpay extends Common
     }
 
     # 统一下单支付
-    public function orderPay($order, $user, $trade_type='NATIVE' ,$attach='六耳猕猴购物订单支付'){
+    public function orderPay($order, $user, $trade_type='JSAPI' ,$attach='六耳猕猴购物订单支付'){
         
         $wxconf = getWxConf();
         #拼凑信息
@@ -77,25 +78,29 @@ class Wxpay extends Common
         $input -> SetOpenid($user['openid']);
         $input -> SetBody('六耳猕猴订单支付');
         $input -> SetAttach($attach);
-        $input -> SetOut_trade_no(strval($order['order_id']));
-        $input -> SetProduct_id(strval($order['order_id']));
-        if($trade_type==='NATIVE'){
+
+        if($trade_type==='NATIVE'){ //扫码支付
+            $input -> SetOut_trade_no(strval('N'.$order['order_id']));
             if( ($user['subscribe'] == 'Y') || ($user['subscribe'] == 1) ){
                 $subscribe = 'Y';
             }else{
                 $subscribe = 'N';
             }
             $input -> SetIs_subscribe($subscribe);
+        }else{
+            $input -> SetOut_trade_no(strval('J'.$order['order_id']));
         }
+        
+        $input -> SetProduct_id(strval($order['order_id']));
+        
         $input -> SetTotal_fee(strval($money));
         $input -> SetTime_start(date('YmdHis'));
         $input -> SetTime_expire(date('YmdHis', time() + 1000));
         $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/wxPayResult');
         $input -> SetTrade_type($trade_type);
         $order = \WxPayApi::unifiedOrder($input); 
+        
         return $order;
-        // $jsApiParameters = $tools->GetJsApiParameters($order);
-        // return $jsApiParameters;
         
     }
 
@@ -125,7 +130,7 @@ class Wxpay extends Common
             case 'charge':
                 $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
                 if(isset($order)){
-                    if($order['value'] <= 0){
+                    if($order['money'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;
                     }
                     return ['status'=>true, 'order'=>$order, 'type'=>$type];
@@ -134,7 +139,19 @@ class Wxpay extends Common
                 }
             break;
             case 'trade':
-
+                $order = Db::name('inner_shop') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                // 余额支付多少还需支付多少（假数据测试）
+                // $order["yuepay"] = 3;
+                // $order["haixupay"] = 6;
+                
+                if(isset($order)){
+                    if($order['money'] <= 0){
+                        return ['status'=>false, 'content'=>'金额错误' ]; exit;
+                    }
+                    return ['status'=>true, 'order'=>$order, 'type'=>$type];
+                }else{
+                    return ['status'=>false, 'content'=>'购买订单不存在'];
+                }
             break;
             default:
                 return ['status'=>false, 'content'=>'支付状态错误'];

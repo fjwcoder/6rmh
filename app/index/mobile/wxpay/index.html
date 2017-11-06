@@ -4,6 +4,7 @@
         <title>微信安全支付</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
         <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
         <script type="text/javascript">
             //调用微信JS api 支付
@@ -35,8 +36,17 @@
             }
         </script>
     </head>
+    <style>
+        body{margin: 0px;}
+        .head-title {height: 3em;line-height: 3em;background-color: #6ad4c9;color: #fff;text-align: center;margin-bottom: 2em;}
+    </style>
     <body>
-
+        <div class="head-title">
+            微信支付
+        </div>
+        <div class="configinfo fz_18">
+            订单编号：<{$order.order_id}>
+        </div>
 		<button style="width:210px; height:30px; background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" onclick="callpay()" >支付</button>
     </body>
 </html>

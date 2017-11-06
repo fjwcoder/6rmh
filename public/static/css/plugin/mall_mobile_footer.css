@@ -8,9 +8,7 @@ hr{margin: 2px 0;background-color: #ccc;border: none;height: 1px;}
 	padding: 0.5em 0;
 	background: #fff;
 	width: 100%;
-	-moz-box-shadow:0px -3px 8px #ccc;
-	-webkit-box-shadow:0px -3px 8px #ccc;
-	box-shadow:0px -3px 8px #ccc;
+	box-shadow: 0.25em 0.25em 0.5em #666;
 }
 .footer_content{
 	display: none;
@@ -45,4 +43,12 @@ hr{margin: 2px 0;background-color: #ccc;border: none;height: 1px;}
 }
 .footer a:focus{
 	text-decoration: none;
+}
+.overflow{
+	height: 100em;
+	width: 100%;
+	background-color: rgba(6,6,6,0);
+	position: fixed;
+	bottom: 0em;
+	display: none;
 }

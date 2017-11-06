@@ -3,7 +3,7 @@
 <head>
     <title>首页</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!--加载swiper的css-->
@@ -20,9 +20,9 @@
     <!--<script src="__STATIC__/js/plugin/jquery.imagezoom.min.js"></script>-->
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--加载angularjs-->
-    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <!--<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
-    <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>-->
     
     <!--<script src="__JS__/admin/admin_default_layout.js"></script>-->
 
@@ -41,12 +41,10 @@
 								</div>
 							</div>
 							<div class="hex-info wp_50" >
-								<{$vo.name}>
+								<span class="product_name"><{$vo.name}></span>
 								<br>
-								<{$vo.description}>
+								<span class="product_des"><{$vo.description}></span>
 							</div>
-
-
 						</a>
 					</li>
 						
@@ -64,4 +62,12 @@
 
 <{include file="public/footer"/}>
     </body>
+    <script>
+    	$('.hex-li').each(function() {
+    		var h1 = $(this).find('.hex').offset().top;
+    	    var hc = $(this).find('img').height()/2+h1;
+    	    var hi = hc - ($(this).find('.hex-info').height()+14)/2;
+    	    $(this).find('.hex-info').css('top', hi);
+    	});
+    </script>
 </html>

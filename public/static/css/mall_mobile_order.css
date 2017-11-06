@@ -2,6 +2,25 @@ body{
 	margin: 0px;
 	background: #efefef;
 }
+.cate{
+	padding: 0 0.5em;
+}
+.cate a{
+	color: #666;
+	font-size: 0.8em;
+	display: inline-block;
+	-webkit-transform: skew(-15deg); 
+	-moz-transform: skew(-15deg); 
+	-o-transform: skew(-15deg);
+	-ms-transform: skew(-15deg); 
+	transform: skew(-15deg);
+}
+.cate a:actived{
+	color: #6ad4c9;
+}
+.split{
+	color: #6ad4c9;
+}
 .order_info{
 	height: 11em;
 	margin: 0 auto;
@@ -12,6 +31,7 @@ body{
 	padding: 0 1px 1px 1px;
 	background-color: #fff;
 	text-align: center;
+	position: relative;
 }
 .order_detail{
 	height: 8em;
@@ -32,7 +52,7 @@ body{
 	background-color: #6ad4c9;
 	color: #fff;
 	text-align: center;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 }
 .spac{
 	margin-top: 0.5em;
@@ -89,4 +109,13 @@ img{
 }
 .option{
 	width: auto;
+}
+#current{
+	background: #6ad4c9;
+	color: #fff;
+	-webkit-transform: skew(-15deg); 
+	-moz-transform: skew(-15deg); 
+	-o-transform: skew(-15deg);
+	-ms-transform: skew(-15deg); 
+	transform: skew(-15deg);
 }

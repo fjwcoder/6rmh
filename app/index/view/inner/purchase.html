@@ -8,7 +8,7 @@
     .span{margin-top:12px;color:#aaa}
     .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
     .input_border{border: 1px solid #e0e0e0;padding: 0px 10px;color:#666}
-    
+    .ctrl-option{cursor: pointer;}
 </style>
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
@@ -76,8 +76,8 @@
                 <div class="wp_10 f_l"><{$vo.selltime}></div>
                 <div class="wp_10 f_l"><{$vo.username}></div>
                 <div class="wp_10 f_l">
-                    <!-- <span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp; rel="<{$vo.orderid}>"-->
-                    <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.orderid}>">购买</span>
+
+                    <span class="ctrl-option"  data-toggle="modal" data-target="#myModal" rel="<{$vo.order_id}>">购买</span>
                 </div>
             </div>
             <{/if}>
