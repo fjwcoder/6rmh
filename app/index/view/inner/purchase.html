@@ -8,7 +8,7 @@
     .span{margin-top:12px;color:#aaa}
     .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
     .input_border{border: 1px solid #e0e0e0;padding: 0px 10px;color:#666}
-    .ctrl-option{cursor: pointer;}
+    
 </style>
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
@@ -76,8 +76,7 @@
                 <div class="wp_10 f_l"><{$vo.selltime}></div>
                 <div class="wp_10 f_l"><{$vo.username}></div>
                 <div class="wp_10 f_l">
-
-                    <span class="ctrl-option"  data-toggle="modal" data-target="#myModal" rel="<{$vo.order_id}>">购买</span>
+                    <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.order_id}>">购买</span>
                 </div>
             </div>
             <{/if}>
@@ -112,11 +111,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input id="hid" type="hidden" name="orderid" value="">
+                    <input id="hid" type="hidden" name="order_id" value="">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                     </button>
-                    <!-- <input class="btn btn-primary" type="submit" name="submit" value="提交"> -->
-                    
+                    <!-- <input class="btn btn-primary" type="submit" name="submit" value="提交"> -->  
                     <input class="btn btn-primary" type="submit" name="submit" value="支付">
                         
                 </div>
@@ -137,9 +135,9 @@
 <script>
     $(document).ready(function() {
         $(".ctrl-option").click(function() {
-            var orderid = $(this).attr('rel');
-            console.log(orderid);
-            $("#hid").val(orderid);
+            var order_id = $(this).attr('rel');
+            console.log(order_id);
+            $("#hid").val(order_id);
             $("#Modal").modal();
         });
     });
@@ -157,31 +155,4 @@
         } 
     }
 </script>
-<!-- <script>
-    function opear(obj){
-        var pass = $(obj).val();
-        if(pass.length >5){
-            console.log(6666666666666666);
-            $(".form-horizontal").action="<{:url('pay')}>";
-            // document.form1.submit();
-            // $(".form-horizontal").submit();
-        }
-    }
-</script> -->
-<!-- <script>
-    function weixin(){
-        document.form1.action="<{:url('gopay')}>"; 
-    }
-</script> -->
-<!-- <script>
-    function check(form){
-        if(form.begintime.value == '' || form.endtime.value ==''){
-            alert('请输入开始时间和结束时间！！！');
-            form.begintime.focus();
-            form.endtime.focus();
-            return false;
-        }
-        return true;
-    }
-</script> -->
 <{/block}>

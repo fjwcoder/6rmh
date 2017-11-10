@@ -37,10 +37,10 @@ class Innershop extends Manage
     #处理下架商品
     public function status(){
         $navid = input('navid', 0, 'intval');
-        $orderid = input('orderid', 0, 'intval');
+        $order_id = input('order_id', 0, 'intval');
         $data['status'] = 2;
 
-        $sta = db('inner_shop', [], false) -> where(array('orderid'=>$orderid)) -> update($data); 
+        $sta = db('inner_shop', [], false) -> where(array('order_id'=>$order_id)) -> update($data); 
         
         if($sta){
             return $this->success('商品已成功下架', "Innershop/index");

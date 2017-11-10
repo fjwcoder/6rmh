@@ -1,0 +1,44 @@
+<{extend name="./public/help"/}>
+<{block name="content"}>
+<style>
+    .help-panel{float: left;padding: 20px;width: 1050px;}
+    .help-info{border:1px solid #E0E0E0;padding: 10px;}
+    .help-title{height:50px;line-height:40px;font-size:18px;text-align:center;border-bottom:1px solid #E0E0E0;}
+    .help-detail{padding:20px 20px;overflow:hidden;}
+</style>
+<div  class="help-panel" >
+    <div class="help-info">
+        <div class="help-title">
+            标题
+        </div>
+        <div class="help-detail">
+            <p>测试测试</p>
+        </div>
+    </div>
+</div>
+<script>
+   $(document).ready(function(){
+       $(".licolor").click(function(){
+            // $(this).addClass("red").siblings().removeClass("red");
+            var id = $(this).attr("id");
+            
+            $.ajax({
+                type: "get",
+                url:  "/index/help/detail",
+                data: {id: id},
+                success:function(res){
+                    // 将json转换为对象
+                    var arr=JSON.parse(res);
+                    $('.help-title').empty().append(arr[0].title);
+                    $('.help-detail').empty().append(arr[0].detail);
+                    
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+       });
+   });
+</script>
+
+<{/block}>

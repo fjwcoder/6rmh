@@ -20,7 +20,7 @@
         <tbody>
             <{volist name="list" id="vo"}>
             <tr>
-                <td><{$vo.orderid}></td>
+                <td><{$vo.order_id}></td>
                 <td><{$vo.addtime}></td>
                 <td><{$vo.username}></td>
                 <td><{$vo.value}></td>
@@ -41,7 +41,7 @@
                 <td><{$vo.remark}></td>
 				<td>
                     <{if $vo.status == 1}>
-                        <a href="<{:url('status', ['navid'=>$header.navid, 'orderid'=>$vo.orderid])}>"><span class="glyphicon glyphicon-hand-down" title="下架"></span></a>                    
+                        <a href="<{:url('status', ['navid'=>$header.navid, 'order_id'=>$vo.order_id])}>"><span class="glyphicon glyphicon-hand-down" title="下架"></span></a>                    
                     <{/if}>
                 </td>
             </tr>

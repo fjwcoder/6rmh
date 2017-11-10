@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
         <script type="text/javascript">
             //调用微信JS api 支付
             function jsApiCall()
@@ -37,16 +37,132 @@
         </script>
     </head>
     <style>
-        body{margin: 0px;}
-        .head-title {height: 3em;line-height: 3em;background-color: #6ad4c9;color: #fff;text-align: center;margin-bottom: 2em;}
+        body{margin: 0px;font-family:"微软雅黑";}
+        .header { background: #393a3e; color: #f5f7f6; height: auto; overflow: hidden;}
+        .all_w { width: 91.3%; margin: 0 auto; }
+        .ttwenz { float: left; height: 60px;text-align:center; width:100%; }
+        .ttwenz h4{ font-size: 20px; font-weight: 400; margin-top: 3px; }
+        .ttwenz h5{ font-size: 18px; font-weight: 400; color: #6c7071; margin-top:-26px;}
+        .cgzf_info{ background:#FFF; border-top:1px solid #dfdfdd; }
+        .wenx_xx { text-align: center; font-size: 16px; padding: 18px 0; }
+        .wenx_xx .wxzf_price { font-size: 60px;font-weight:600; }
+        .mz { font-size: 20px; width: 100%;}
+        .order_info{margin: 0 auto;overflow: hidden;margin: 0.5em auto; border-top:2px solid #dfdfdd;border-bottom:2px solid #dfdfdd;padding: 0 1px 1px 1px;background-color: #fff;position: relative;}
+        .ljzf_but { border-radius: 3px;width:50%; height: 45px; line-height: 45px; background: #44bf16; display: block; text-align: center; font-size: 18px; margin:1.5em auto; color: #fff; }
+        .wp_50{width: 50%;}.wp_100{width: 100%;}.wp_30{width: 30%;}.wp_40{width:40%;}.wp_60{width:60%;}.wp_70{width: 70%;}.wp_25{width: 25%;}.wp_75{width: 75%;}.wp_90{width: 90%;}
+        .t_l{text-align: left;}.t_r{text-align: right;}.f_l{float: left;}.lh45{line-height:45px;} .h45{height: 45px;}
+        .m_o{margin:0 auto;}
+        .red{color:red;}.f_z{font-size: 1em;}
+        .orderl{font-size:18px;color:#626262;font-weight:600;}
+        .orderr{font-size:18px;color:#666;font-weight:400;}
     </style>
     <body>
-        <div class="head-title">
-            微信支付
+        <div class="header">
+            <div class="all_w">
+                <div class="ttwenz">
+                    <h4>交易详情</h4>
+                    <h5>微信安全支付</h5>
+                </div>
+            </div>
         </div>
-        <div class="configinfo fz_18">
-            订单编号：<{$order.order_id}>
+        <{if $result.status}><!-- 订单状态正确 -->
+        <{if $type == 'order'}>
+        <div class="cgzf_info">
+            <div class="wenx_xx">
+                <div class="mz">六耳泥猴商城</div>
+                <div class="wxzf_price">￥11.90</div>
+            </div>    
+        </div>  
+        <div class="order_info">
+            <div class="wp_90 m_o">
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">订单号</div>     
+                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">收货人</div>     
+                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">快递名称</div>     
+                    <div class="wp_75 t_r orderr f_l">哪儿都行</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">余额支付</div>     
+                    <div class="wp_75 t_r orderr f_l">0.01</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">还需支付</div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                </div>
+            </div>
         </div>
-		<button style="width:210px; height:30px; background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" onclick="callpay()" >支付</button>
+        <!-- 余额充值 -->
+        <{elseif $type == 'charge'}>
+        <div class="cgzf_info">
+            <div class="wenx_xx">
+                <div class="mz">六耳泥猴商城</div>
+                <div class="wxzf_price">￥11.90</div>
+            </div>    
+        </div>  
+        <div class="order_info">
+            <div class="wp_90 m_o">
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">订单号</div>     
+                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">姓名</div>     
+                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">充值金额</div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                </div>
+            </div>
+        </div>  
+        <!-- 交易大厅（购买） -->
+        <{elseif $type == 'trade'}>
+        <div class="cgzf_info">
+            <div class="wenx_xx">
+                <div class="mz">六耳泥猴商城</div>
+                <div class="wxzf_price">￥11.90</div>
+            </div>    
+        </div>  
+        <div class="order_info">
+            <div class="wp_90 m_o">
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">订单号</div>     
+                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">卖家姓名</div>     
+                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">交易数量</div>     
+                    <div class="wp_75 t_r orderr f_l">6</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">名称</div>     
+                    <div class="wp_75 t_r orderr f_l">积分</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">余额支付</div>     
+                    <div class="wp_75 t_r orderr f_l">3</div>     
+                </div>
+                <div class="wp_100 h45 lh45 f_l">
+                    <div class="wp_25 t_l orderl f_l">还需支付</div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                </div>
+            </div>
+        </div> 
+        <{/if}>      
+        <div class="ljzf_but">微信支付</div>  
+        <{else}><!-- 订单状态错误 -->
+        <div style="margin-left:20px;">
+            <span class="red f_z">支付状态出错，请您稍后再试！！！</span>
+        </div> 
+        <{/if}>        
     </body>
 </html>

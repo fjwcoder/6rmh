@@ -5,10 +5,61 @@
 	background-position: center;
 	}
 #river-panel{
-	background: #6ad4c9;
 	position: absolute;
 	bottom: 0;
-	width: 100%;
+	width: 65%;
 	height: 30%;
+
 }
-#fishing-canvas{width: 100%; height: 100%; background: #e0e0e0;}
+#river-panel:before{
+	content:'';
+    display:block;
+    width: 17%;
+    height: 40%;
+    position:absolute;
+	/*background: red;*/
+    left:-5%;
+    top:0;
+}
+#river-panel:after{
+	content:'';
+    display:block;
+    width: 16%;
+    height: 50%;
+    position:absolute;
+    transform:skewX(30deg);
+    border-top-right-radius:8px;
+    top:0;
+    right:-5%;
+}
+
+.top-panel{z-index: 990; position: fixed; left: 10%;}
+.mask{position: absolute; width: 100%; height: 100%; bottom: 0; display: none;
+z-index: 998;}
+
+#fish-finish{position: absolute; height: 5em; width: 5em; 
+bottom: 2.5em; z-index: 999; 
+display: none;
+/*left: 40%; */
+right: 5%;
+}
+
+.info-panel{height: 40%; width: 80%; top: 25%;  background: red; display: none;}
+.info-panel div{width: 100%; text-align: center;}
+.info-panel-title{height: 20%; margin: 5% 0; font-size: 2em;}
+.info-panel-content{height: 70%; font-size: 1.5em;}
+
+
+
+.fishing-panel{height: 45%; width: 80%; top: 20%; display: none;}
+
+#fish-float{background: url(../images/mall/fishfloat.png) no-repeat;
+height: 60px; width: 0.1em; display: none;}
+#river-canvas{
+	/*background: red;*/
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 65%;
+	height: 50%;
+}
