@@ -27,6 +27,11 @@ class Fishing extends controller
 {
     public function index(){
 
+        $user = decodeCookie('user');
+        if(empty($user)){
+            $user = ['headimgurl'=>'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0'];
+        }
+        $this->assign('user', $user);
 
         return $this->fetch();
 

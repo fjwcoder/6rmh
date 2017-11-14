@@ -18,7 +18,7 @@
     </div>
     <div class="wp_100" >
         <{volist name="address" id="vo"}>
-        <div class="user-address f_l">
+        <div class="user-address f_l" <{if $vo.type==1}>style="border: 1px dashed #6ad4c9"<{/if}> >
             <div class="wp_15 f_l t_r l_h_30">
                <span class="right-label">收货人：</span><br>
                <span class="right-label">所在地区：</span><br> 
@@ -35,7 +35,13 @@
                 <span class="middle-label"><{$vo.zipcode}></span>
             </div> 
             <div class="t_r f_l wp_90 l_h_30">
-                <span class="ctrl-option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认地址</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <{if $vo.type == 1}>
+                    <span class="hint-int">默认地址</span>
+                <{else}>
+                    <a href="<{:url('defAddr', ['id'=> $vo['id']])}>"><span class="ctrl-option">设为默认</span></a>
+                <{/if}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="ctrl-option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('del',['id' => $vo['id']])}>"><span class="ctrl-option">删除</span></a>
             </div>

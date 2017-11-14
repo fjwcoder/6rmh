@@ -21,8 +21,12 @@ class Address extends Common
             ->join('region b', 'a.province=b.id', 'LEFT')
             ->join('region c', 'a.city=c.id', 'LEFT')
             ->join('region d', 'a.area=d.id', 'LEFT')
-            ->field(['a.id', 'CONCAT(b.name,c.name,d.name) as addr ', 'a.address', 'a.zipcode', 'a.name', 'a.mobile', 'a.type']) 
+            ->field(['a.id', 'b.name as province', 'c.name as city', 'd.name as area', 'a.address', 'a.zipcode', 'a.name', 'a.mobile', 'a.type']) 
             ->where(['a.userid'=>$userid]) -> select();
+        
+        foreach($address as $k=>$v){
+            $address[$k]['addr'] = $v['province'].$v['city'].$v['area'];
+        }
 
         $count = count($address);
         $this->assign('count', $count);
@@ -55,7 +59,7 @@ class Address extends Common
         $a = Db::name('user_address') ->insert($data);
 
         if($a){  
-            return $this->success('添加成功', 'Address/index');  
+            return $this->redirect('index');  
         }else{
             return $this->error('添加失败');
         }
@@ -132,6 +136,28 @@ class Address extends Common
         $area = Db::name('region') -> where(['pid'=>$pid, 'type'=>3]) -> select();
         
         echo json_encode($area, JSON_UNESCAPED_UNICODE);
+    }
+
+    #$order ：true 订单预览页修改，false: 地址信息页修改
+    public function defAddr($id, $order=false){
+
+        $uid = session(config('USER_ID'));
+
+        # 全都修改为0
+        $set0 = Db::name('user_address') -> where(['userid'=>$uid]) -> update(['type'=>0]);
+
+        $set1 = Db::name('user_address') -> where(['id'=>$id, 'userid'=>$uid]) -> update(['type'=>1]);
+
+        if($set1){
+            if($order){
+                return true;
+            }else{
+                return $this->success('设置成功', "Address/index");
+            }
+            
+        }
+        
+        
     }
 
 }

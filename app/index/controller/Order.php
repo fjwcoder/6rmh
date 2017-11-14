@@ -235,7 +235,7 @@ class Order extends Common
         $cart_list = input('id_list', '', 'htmlspecialchars,trim');
         $id = input('id', 0, 'intval');
         $addr = new Address();
-        if($addr->defAddr($id)){
+        if($addr->defAddr($id, true)){
             return $this->redirect('preview', ['id_list'=>$cart_list]);
         }else{
             return '修改失败';
@@ -259,9 +259,9 @@ class Order extends Common
         $region = getRegion();
         $address = Db::name('user_address') -> where(['userid'=>session(config('USER_ID'))]) ->order('type desc') -> select();
         foreach($address as $k=>$v){
-            $address[$k]['province'] = $region[$v['province']]['name'];
-            $address[$k]['city'] = $region[$v['city']]['name'];
-            $address[$k]['area'] = $region[$v['area']]['name'];
+            $address[$k]['province'] = empty($region[$v['province']]['name'])?'':$region[$v['province']]['name'];
+            $address[$k]['city'] = empty($region[$v['city']]['name'])?'':$region[$v['city']]['name'];
+            $address[$k]['area'] = empty($region[$v['area']]['name'])?'':$region[$v['area']]['name'];
 
         }
         
@@ -275,7 +275,7 @@ class Order extends Common
         }else{
             $delivery = Db::name('mall_delivery') -> where('status=1') -> select();
             $delivery = getField($delivery, 'id');
-            // cache('MALL_DELIVERY', $delivery);   //缓存注释
+            cache('MALL_DELIVERY', $delivery);   //缓存注释
         }
 
         return $delivery;
@@ -285,8 +285,8 @@ class Order extends Common
     public function getPayWay(){
         $pay = [
             ['id'=>1, 'name'=>'微信支付'],
-            ['id'=>2, 'name'=>'支付宝支付'],
-            ['id'=>3, 'name'=>'银联支付'],
+            // ['id'=>2, 'name'=>'支付宝支付'],
+            // ['id'=>3, 'name'=>'银联支付'],
             ['id'=>4, 'name'=>'货到付款']
         ];
 

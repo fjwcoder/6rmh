@@ -15,7 +15,12 @@
                     'getBrandWCPayRequest', jsApiParameters,
                     function(res){
                         WeixinJSBridge.log(res.err_msg);
-                        alert(res.err_code+res.err_desc+res.err_msg);
+                        if(res.err_msg == 'get_brand_wcpay_request:ok'){
+                            window.location.href="http://www.6rmh.com/Index/Order/Index";
+                        }else{
+                            alert('支付失败');
+                        }
+
                     }
                 );
             }
@@ -70,30 +75,30 @@
         <div class="cgzf_info">
             <div class="wenx_xx">
                 <div class="mz">六耳泥猴商城</div>
-                <div class="wxzf_price">￥11.90</div>
+                <div class="wxzf_price">￥<{$order.money}></div>
             </div>    
         </div>  
         <div class="order_info">
             <div class="wp_90 m_o">
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">订单号</div>     
-                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.order_id}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">收货人</div>     
-                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.user_name}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">快递名称</div>     
-                    <div class="wp_75 t_r orderr f_l">哪儿都行</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.shipping_name}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">余额支付</div>     
-                    <div class="wp_75 t_r orderr f_l">0.01</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.balance}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">还需支付</div>     
-                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ <{$order.money}></span></div>     
                 </div>
             </div>
         </div>
@@ -102,22 +107,22 @@
         <div class="cgzf_info">
             <div class="wenx_xx">
                 <div class="mz">六耳泥猴商城</div>
-                <div class="wxzf_price">￥11.90</div>
+                <div class="wxzf_price">￥<{$order.money}></div>
             </div>    
         </div>  
         <div class="order_info">
             <div class="wp_90 m_o">
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">订单号</div>     
-                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.order_id}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">姓名</div>     
-                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.name}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">充值金额</div>     
-                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ <{$order.money}></span></div>     
                 </div>
             </div>
         </div>  
@@ -126,39 +131,39 @@
         <div class="cgzf_info">
             <div class="wenx_xx">
                 <div class="mz">六耳泥猴商城</div>
-                <div class="wxzf_price">￥11.90</div>
+                <div class="wxzf_price">￥<{$order.money}></div>
             </div>    
         </div>  
         <div class="order_info">
             <div class="wp_90 m_o">
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">订单号</div>     
-                    <div class="wp_75 t_r orderr f_l">GB06367414700025</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.order_id}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">卖家姓名</div>     
-                    <div class="wp_75 t_r orderr f_l">李墨渊</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.username}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">交易数量</div>     
-                    <div class="wp_75 t_r orderr f_l">6</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.value}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">名称</div>     
-                    <div class="wp_75 t_r orderr f_l">积分</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.goodsname}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">余额支付</div>     
-                    <div class="wp_75 t_r orderr f_l">3</div>     
+                    <div class="wp_75 t_r orderr f_l"><{$order.balance}></div>     
                 </div>
                 <div class="wp_100 h45 lh45 f_l">
                     <div class="wp_25 t_l orderl f_l">还需支付</div>     
-                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ 0.01</span></div>     
+                    <div class="wp_75 t_r orderr f_l"><span class="red">¥ <{$order.money}></span></div>     
                 </div>
             </div>
         </div> 
         <{/if}>      
-        <div class="ljzf_but">微信支付</div>  
+        <div class="ljzf_but" onclick="callpay();">微信支付</div>  
         <{else}><!-- 订单状态错误 -->
         <div style="margin-left:20px;">
             <span class="red f_z">支付状态出错，请您稍后再试！！！</span>

@@ -4,14 +4,19 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="__CSS__/plugin/mall_mobile_footer.css">
         <link href="__CSS__/mall_mobile_fishing.css" rel="stylesheet">
         <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
     <body>
-        <div class="container">
-            
+        <div class="container abs">
+
+            <!--用户信息-->
+            <img class="headimgurl abs" src="<{$user.headimgurl}>" />
+
+
+
             <div id="info-panel" class="info-panel top-panel">
                 <div class="info-panel-title">温馨提示</div>
                 <div class="info-panel-content"></div>
@@ -19,13 +24,16 @@
             <div id="fishing-panel" class="fishing-panel top-panel"></div>
             <div id="fish-float" class="fish-float top-panel"></div><!--鱼漂-->
 
-            <img id="fish-finish" class="fish-finish " src="__STATIC__/images/mall/fish_finish.png"/>
+            <img id="fish-finish" class="fish-finish abs" src="__STATIC__/images/mall/fish_finish.png"/>
 
             <!--画布-->
             <canvas id="river-canvas" class="river-canvas" ></canvas>
+            <!--哎，特殊情况啊，没办法-->
+            <div class="river-left abs"></div>
+            <div class="river-right abs"></div>
             <!--河面-->
-            <div id="river-panel" ></div>
-            <div id="mask" class="mask"></div>
+            <div id="river-panel" class="abs"></div>
+            <div id="mask" class="mask abs"></div>
         </div>
 
         <{include file="public/footer"/}>

@@ -108,6 +108,7 @@ class Wxpay extends Common
     #查询订单信息并进行验证
     # $id 订单号
     public function orderCheck($id=0, $type='order',$wxconf= []){
+
         if($id===0){
             return ['status'=>false, 'content'=>'订单错误']; exit;
         }

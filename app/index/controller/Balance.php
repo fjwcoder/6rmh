@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-// use app\common\controller\Mall as Mall;
+use app\index\controller\Wxbank as Wxbank;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -48,6 +48,8 @@ class Balance extends Common
         if($old_pwd == $user['pay_code']){
             $result = db('withdraw', [], false) -> insert($money);
             if($result){
+                $wxbank = new Wxbank();
+
                 return $this->success('申请提现成功', 'Balance/withdraw');
                 
             }else{

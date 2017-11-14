@@ -1,5 +1,6 @@
 !.gitignore
 runtime/
+install/
 .vscode/
 *.zip
 *.rar
