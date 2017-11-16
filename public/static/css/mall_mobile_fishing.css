@@ -5,7 +5,17 @@
 	background-position: center;
 	}
 .abs{position: absolute;}
-
+.user-property{top: 0.5em; left: 0.5em; right: 5em;
+	background: url(../images/opacity/white50.png) no-repeat center ; 
+	border-radius: 10px;
+	padding: 0.5em; font-size: 1.5em;
+}
+.property-title{
+	color: red;
+}
+.property-value{
+	color: white;
+}
 .headimgurl{
 	height: 4em; width: 4em; 
 	border-radius: 50%; 

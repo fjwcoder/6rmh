@@ -1,0 +1,51 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>">
+        <div class="form-group">
+            <label for="bankid" class="col-sm-3 control-label">银行ID：</label>
+            <div class="col-sm-5">  
+                <input id="bankid" type="text" class="form-control" name="bankid" <{if $header.form=="add"}>value=""<{else}>value="<{$result.bankid}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="bankname" class="col-sm-3 control-label">银行名称：</label>
+            <div class="col-sm-5">  
+                <input id="bankname" type="text" class="form-control" name="bankname" <{if $header.form=="add"}>value=""<{else}>value="<{$result.bankname}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>启用
+                    <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />启用
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>禁用
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">  
+                <input id="remark" type="text" class="form-control" name="remark" <{if $header.form=="add"}>value=""<{else}>value="<{$result.remark}>" <{/if}>/>
+            </div>
+        </div>
+
+
+        <{if $header.form=="edit"}>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>

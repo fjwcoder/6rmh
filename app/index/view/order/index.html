@@ -110,13 +110,25 @@
                             
                         <{/case}>
                         <{case value="2"}>
-                            提醒发货
+                            <a href="javascript: void(0); ">
+                                <div class="wp_100 hp_100  order-operation-btn">
+                                提醒发货
+                                </div>
+                            </a>
                         <{/case}>
                         <{case value="3"}>
-                            确认收货
+                            <a href="javascript: void(0); ">
+                                <div class="wp_100 hp_100  order-operation-btn">
+                                确认收货
+                                </div>
+                            </a>
                         <{/case}>
                         <{case value="4"}>
-                            评价
+                            <a href="/index/comment/index?id=<{$vo.order.order_id}>">
+                                <div class="wp_100 hp_100  order-operation-btn">
+                                评价
+                                </div>
+                            </a>
                         <{/case}>
                         <{default/}>其他
                     <{/switch}>

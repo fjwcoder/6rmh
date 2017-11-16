@@ -108,17 +108,19 @@ class Wxpay extends Common
     #查询订单信息并进行验证
     # $id 订单号
     public function orderCheck($id=0, $type='order',$wxconf= []){
-
+        
         if($id===0){
             return ['status'=>false, 'content'=>'订单错误']; exit;
         }
         if(empty($wxconf)){
             $wxconf = getWxConf();
         }
-
+        
         switch($type){
             case 'order':
-                $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
+                
+                $order = Db::name('order') -> where(['order_id'=>strval($id), 'status'=>1, 'pay_status'=>0]) -> find();
+                
                 if(isset($order)){
                     if($order['money']<=0){
                         return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;

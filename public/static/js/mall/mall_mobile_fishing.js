@@ -11,10 +11,13 @@ var qiandao = {
     float_count: 1, //浮动次数
     bar_top: 0, //鱼竿顶部
     bar_left: 0, //鱼竿左边
+    bait: 0, //当前鱼饵
+    point: 0, //当前积分
 };
 
 //获取点击坐标, 并开始钓鱼动画
 function getClickPosition(event){
+    console.log('2.获取点击坐标点，出现鱼漂');
     if(event.originalEvent.targetTouches.length == 1){
         event.preventDefault();// 阻止浏览器默认事件 important
         var touch = event.originalEvent.targetTouches[0];
@@ -79,6 +82,7 @@ function getClickPosition(event){
 
 // 钓鱼执行的方法
 function getFishingResult(){
+    console.log('4.执行收杆方法');
     clearInterval(qiandao.setShake);
     qiandao.float_count = 0;
     $.ajax({
@@ -86,14 +90,15 @@ function getFishingResult(){
         url: '/Index/Fishing/fishing',
         success: function(response){
             cleanCanvas();
-            if(response['status']){
-                console.log(response['content']);
+            console.log(response);
+            // if(response['status']){
+            //     console.log(response['content']);
 
 
 
-            }else{
-                showInfo(response['status'], '温馨提示', response['content']);
-            }
+            // }else{
+            //     showInfo(response['status'], '温馨提示', response['content']);
+            // }
 
             qiandao.isfishing = false;
         },
@@ -105,23 +110,7 @@ function getFishingResult(){
     });
     
 }
-function DrawP(Canvas,P)
 
-{
-console.log('化个点');
-//在点P处画一个点
-
-with (Canvas)
-
-{
-
-moveTo(P[0],P[1]);
-
-lineTo(P[0]+1,P[1]+1);
-
-}
-
-}
 
 // 脱钩后执行的方法方法
 function loseFish(){
@@ -162,6 +151,9 @@ function showInfo(status, title, content){
 
 //获取水面的坐标
 $(document).ready(function(){
+    qiandao.bait = parseInt($('#bait').html());
+    qiandao.point = parseInt($('#point').html());
+
     qiandao.river_width = $('#river-panel').width();
     qiandao.river_height = $('#river-panel').height();
 
@@ -187,14 +179,29 @@ $(document).ready(function(){
 
     // $("#river-canvas").bind('touchstart', function(event){
     $("#river-panel").bind('touchstart', function(event){
-        // alert('开始钓鱼');
+        
+        
+            
         if(!qiandao.isfishing){
-            qiandao.isfishing = true;
-            qiandao.context.clearRect(0, 0, qiandao.river_width, qiandao.river_height);//清空画布
-            $('#mask').fadeIn();
-            getClickPosition(event);
+            
+            if(qiandao.bait < 1){
 
+                showInfo(false, '温馨提示', '鱼饵不足');
+
+            }else if(qiandao.point < 20){
+
+                showInfo(false, '温馨提示', '积分不足');
+
+            }else{
+                console.log('1.点击河面开始钓鱼');
+                qiandao.isfishing = true;
+                qiandao.context.clearRect(0, 0, qiandao.river_width, qiandao.river_height);//清空画布
+                getClickPosition(event);
+                $('#mask').fadeIn();
+            }
+  
         }
+        
     });
 
     // 点击收杆

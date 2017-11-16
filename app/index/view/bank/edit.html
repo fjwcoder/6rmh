@@ -1,0 +1,74 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<div class="user-panel address">
+    
+    <div class="wp_100" >
+
+        <div class="addaddress">修改银行信息</div>
+        <form  method="post" name="form" action="<{:url('editor')}>">
+            <div class="user-address-add  wp_100">
+                <div class="wp_30 f_l t_r l_h_50">
+                    <input type="hidden" name="id" value="<{$bank.id}>"/>
+                    <span class="right-label">银行类型：</span><br>
+                    <span class="right-label">开户行：</span><br> 
+                    <span class="right-label">开户人：</span><br> 
+                    <span class="right-label">卡号：</span><br>
+                    <span class="right-label">手机：</span> 
+                </div>
+                <div class="wp_70 f_l l_h_50">
+                    <span class="middle-lab f_l">
+                        <select id="banktype" class="pro kshow" name="banktype" >
+                            <{volist name="banktype" id="vo"}>
+                                <{if $bank.bankid == $vo.bankid}>
+                                    <option value="<{$vo.bankid}>" selected><{$vo.bankname}></option>
+                                <{else}>
+                                    <option value="<{$vo.bankid}>"><{$vo.bankname}></option>
+                                <{/if}>
+                            <{/volist}>
+                        </select>
+                    </span><br>
+                    <span class="middle-label"><input type="text" name="accountbank" value="<{$bank.accountbank}>"></span><br>
+                    <span class="middle-label"><input type="text" name="accountholder"  value="<{$bank.accountholder}>"></span><br>
+                    <span class="middle-label"><input type="text" name="cartnumber"  value="<{$bank.cartnumber}>" pattern='^\d{19}$'></span><br>
+                    <span class="middle-label"><input type="text" name="mobile" value="<{$bank.mobile}>" pattern='^\d{11}$'></span>
+                    
+                </div>
+            </div>
+        
+            <div class="clear"></div>
+            <div class="more-info-navbar f_l wp_100">  
+                <a class="pull-right" href="javascript: void(0);" title="修改银行">
+                    <button class="submit-btn-default ">修改银行</button>
+                </a>
+            </div>
+        </form>
+    </div>
+    
+</div>
+<script>
+
+    //angularjs 还没学会怎么动态操作option,先用jquery写吧 ToT
+    // app.controller('addrCtrl', function($scope, $http){ 
+        // $scope.changex = function(x){
+        //     $http.get('/index/address/city', {params: {"id": x}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.citys = response;
+        //     }, function errorCallback(response){
+
+        //     });
+
+        // }
+
+        // $scope.changey = function(y){
+        //     $http.get('/index/address/area', {params: {"id": y}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.areas = response;
+        //     }, function errorCallback(response){
+
+        //     });
+        // }
+    // });
+</script>
+<{/block}>

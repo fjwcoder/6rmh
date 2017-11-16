@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\index\controller\Wxbank as Wxbank;
+// use app\common\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -13,30 +13,42 @@ class Balance extends Common
     public function withdraw(){
         $id = session(config('USER_ID'));
         $list = db('withdraw', [], false) -> where(array('userid'=>$id)) ->order('addtime', 'DESC') ->paginate();
-       
+        
+        //查出银行信息
+        $bank = db('user_bank', [], false) ->select();
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'余额提现', 'template'=>$config['mall_template']['value'] 
             ]);
+            // return dump($bank);
         $this->assign('list', $list);
+        $this->assign('bank', $bank);
         return $this->fetch();
     }
 
     public function opWithdraw(){
         $id = session(config('USER_ID'));
+        $money['withdrawstatus'] = input('withdrawstatus',0,'intval');
+        
+        if($money['withdrawstatus'] == 1){//1 选中银行卡
+            $bankid = input('bankid', 0, 'intval');//银行ID
+            if($bankid == ''){
+                return $this->error('请选择银行');
+            }
+        }
+        // return dump($bankid);
         $money['value'] = input('money',0,'floatval');
         $data['pay_code'] = input('pay_code',0,'intval');
 
         $user = decodeCookie('user');
-        
         $old_pwd = cryptCode($data['pay_code'], 'ENCODE', substr(md5($data['pay_code']), 0, 4));
         $money['userid'] = $user['id'];
         $money['name'] = $user['realname'];
-        $mon = db('users', [], false) ->where(array('id'=>$id)) ->field('money') ->find();
+        $userinfo = db('users', [], false) ->where(array('id'=>$id)) ->find();
         
         if($money['value'] == 0){
             return $this->error('金额错误');
         }
-        if($money['value'] > $mon['money']){
+        if($money['value'] > $userinfo['money']){
             return $this->error('余额不足');
         }
         if(isMobile()){
@@ -45,11 +57,9 @@ class Balance extends Common
             $money['type'] = 1;
         }
         $money['terminal'] = clientIP();
-        if($old_pwd == $user['pay_code']){
+        if($old_pwd == $userinfo['pay_code']){
             $result = db('withdraw', [], false) -> insert($money);
             if($result){
-                $wxbank = new Wxbank();
-
                 return $this->success('申请提现成功', 'Balance/withdraw');
                 
             }else{

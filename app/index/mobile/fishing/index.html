@@ -8,13 +8,25 @@
         <link rel="stylesheet" href="__CSS__/plugin/mall_mobile_footer.css">
         <link href="__CSS__/mall_mobile_fishing.css" rel="stylesheet">
         <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <style>
+            
+        </style>
     </head>
     <body>
         <div class="container abs">
 
-            <!--用户信息-->
-            <img class="headimgurl abs" src="<{$user.headimgurl}>" />
 
+            <!--用户信息-->
+            <div class="user-property abs">
+                <span class="property-title">鱼饵: </span>
+                <span id="bait" class="property-value"><{$user.bait}> </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="property-title">积分: </span>
+                <span id="point" class="property-value"><{$user.point}></span>
+
+            </div>
+            <img class="headimgurl abs" src="<{$user.headimgurl}>" />
+            
 
 
             <div id="info-panel" class="info-panel top-panel">

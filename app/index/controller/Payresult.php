@@ -16,7 +16,7 @@ class Payresult extends Controller
     public function wxPayResult(){
         
         $postStr = file_get_contents('php://input');
-
+        
         $postStr = '<xml><appid><![CDATA[wx6daa65cc6fc26c29]]></appid>
 <attach><![CDATA[六耳猕猴购物订单支付]]></attach>
 <bank_type><![CDATA[CFT]]></bank_type>
@@ -35,13 +35,19 @@ class Payresult extends Controller
 <trade_type><![CDATA[JSAPI]]></trade_type>
 <transaction_id><![CDATA[4200000007201711134426739940]]></transaction_id>
 </xml>';
+
         if (!empty($postStr) ){
-			$resObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $resJson = json_encode($resObj);
+             
+			
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
+            $resJson = json_encode($postObj);
             $resArr = json_decode($resJson, true);
+            dump($resArr);
+            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>'和re', 'step'=>9]); 
+            die;
+            
             
             // $resArr = ['mch_id'=>'1446652202', 'out_trade_no'=>'JGB13545290023884', 'return_code'=>'SUCCESS', 'result_code'=>'SUCCESS'];
-
 
 
             // dump($resArr);
@@ -54,10 +60,12 @@ class Payresult extends Controller
                 $order_id = substr($resArr['out_trade_no'], 1); //订单号
         
                 $pay_type = session('PAY_TYPE'); //支付订单类型
-                // echo $pay_type; die;
+
                 $wxpay = new Wxpay();
 
                 $check = $wxpay->orderCheck($order_id, $pay_type, $wxconf);
+                Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]);
+                
 
                 if($check['status']){ //订单查询成功
                     $success = new Paysuccess();
@@ -76,6 +84,8 @@ class Payresult extends Controller
                     // return $this->error('支付成功，订单错误');
                 }
             }
+        }else{
+            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>'$poststr 为空？？？', 'step'=>9]);
         }
     }
 

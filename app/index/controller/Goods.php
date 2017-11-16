@@ -23,16 +23,26 @@ class Goods extends controller
 
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
-
+        // return dump($goods);
+        $comment = db('goods_comment', [], false) ->order('addtime DESC') ->select();
         if($goods['status']){
             // return dump($goods);
             $this->assign('goods', $goods['data']);
+            $this ->assign('comment', $comment);
             return $this->fetch('detail');
         }else{
 
         }
-    
-    
+        
+        
+        
+    }
+
+    public function zan(){
+        $id = session(config('USER_ID'));
+        $data['agree'] = input('agree', 0, 'intval');
+        
+        $list = db('goods_comment', [], false) -> where(array('uid'=>$id)) ->update($data);
         
     }
 

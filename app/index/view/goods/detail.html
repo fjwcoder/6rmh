@@ -3,6 +3,7 @@
 <div  class=" content-panel ">
     <!--导航栏-->
     <!--<{include file="./public/navbar"/}>-->
+    <link rel="stylesheet" href="__CSS__/mall_default_comment.css" type="text/css"/>
     <link rel="stylesheet" href="__CSS__/plugin/magnifier.css" type="text/css"/>
     <div data-ng-controller="goodsCtrl" class="goods-detail-panel wp_100">
         <div class="goods-picture wp_40  pull-left">
@@ -157,7 +158,227 @@
                 售后保障
             </div>
             <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 3==choseBar}">
-                评论
+                <div class="goods-title wp_100 h45">
+                    商品评价
+                </div>
+                <div class="goods-com">
+                    <div class="o_h fz_18">
+                        <div class="comment-percent w120 h100">
+                            <strong class="percent-tit">好评度</strong>
+                            <div class="percent-con">
+                                100<span>%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="goods-main h30">
+                    <ul>
+                        <li>
+                            <a href="javascript: void(0);" ng-click="barSelected(0);">全部评论</a>
+                        </li>
+                        <li class="li-split">/</li>
+                        <li>
+                            <a href="javascript: void(0);" ng-click="barSelected(1);">好评</a>
+                        </li>
+                        <li class="li-split" >/</li>
+                        <li>
+                            <a href="javascript: void(0);" ng-click="barSelected(2);">中评</a>
+                        </li>
+                        <li class="li-split" >/</li>
+                        <li>
+                            <a href="javascript: void(0);" ng-click="barSelected(3);">差评</a>
+                        </li>
+                    </ul>
+                </div>
+                <div style="clear:both;"></div>
+                <!-- 全部评论 -->
+                <div class="more-info-detail wp_100 hp_100 khidden" ng-class="{kshow: 0==choseBare}">
+                    <div class="comment-item">
+                        <{volist name="comment" id="vo"}>
+                        <{if $goods.id == $vo.gid}>
+                        <div class="user-column w150">
+                            <div class="wp_20 f_l">
+								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
+								<span class="liu"><{$vo.nickname}></span><br />
+								<!--<span class="ba">PLUS会员</span>-->
+							</div>
+							<div class="wp_80 f_r" >
+                                    <{if $vo.comment_star == 1}>
+                                    <span><img src="__STATIC__/images/comment/onestar.png"></span>
+                                    <{/if}>
+                                    <{if $vo.comment_star == 2}>
+                                    <span><img src="__STATIC__/images/comment/twostar.png"></span>
+                                    <{/if}>
+                                    <{if $vo.comment_star == 3}>
+                                    <span><img src="__STATIC__/images/comment/threestar.png"></span>
+                                    <{/if}>
+                                    <{if $vo.comment_star == 4}>
+                                    <span><img src="__STATIC__/images/comment/fourstar.png"></span>
+                                    <{/if}>
+                                    <{if $vo.comment_star == 5}>
+                                    <span><img src="__STATIC__/images/comment/fivestar.png"></span>
+                                    <{/if}>
+                                <div><{$vo.comment}></div>
+                                <!-- 遍历评论显示的图片 -->
+								<!-- <div>
+									<img src="" class="w50 h50"/>
+								</div> -->
+								<div>
+									<div class="f_l" >
+                                        <span class="ba"><{$vo.spec}></span>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <span class="ba"><{$vo.addtime|date="Y-m-d H:i",###}></span>
+									</div>
+									<div class="f_r w100" >
+                                        <!-- 点赞 -->
+                                        <div class="praise">
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
+                                            <span id="praise-txt"><{$vo.agree}></span>
+                                            <span id="add-num"><em>+1</em></span>
+                                        </div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                        <{/if}>
+						<{/volist}>
+						
+                    </div>   
+                </div>
+                <!-- 好评 -->
+                <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 1==choseBare}">
+                    <div class="comment-item">
+                        <{volist name="comment" id="vo"}>
+                        <{if $goods.id == $vo.gid}>
+                        <{if $vo.comment_star>=4}>
+                        <div class="user-column w150">
+                            <div class="wp_20 f_l">
+								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
+								<span class="liu"><{$vo.nickname}></span><br />
+								<span class="ba">PLUS会员</span>
+							</div>
+							<div class="wp_80 f_r" >
+                                    <{if $vo.comment_star == 4}>
+                                    <span><img src="__STATIC__/images/comment/fourstar.png"></span>
+                                    <{/if}>
+                                    <{if $vo.comment_star == 5}>
+                                    <span><img src="__STATIC__/images/comment/fivestar.png"></span>
+                                    <{/if}>
+                                <div><{$vo.comment}></div>
+
+								<div>
+									<div class="f_l" >
+                                        <span class="ba"><{$vo.spec}></span>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <span class="ba"><{$vo.addtime|date="Y-m-d H:i",###}></span>
+									</div>
+									<div class="f_r w100" >
+                                        <!-- 点赞 -->
+                                        <div class="praise">
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
+                                            <span id="praise-txt"><{$vo.agree}></span>
+                                            <span id="add-num"><em>+1</em></span>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+                        </div>
+                        <{/if}>
+                        <{/if}>
+						<{/volist}>
+						
+                    </div>   
+                </div>
+                <!-- 中评 -->
+                <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 2==choseBare}">
+                    <div class="comment-item">
+                        <{volist name="comment" id="vo"}>
+                        <{if $goods.id == $vo.gid}>
+                        <{if $vo.comment_star>=2 && $vo.comment_star<4}>
+                        <div class="user-column w150">
+                            <div class="wp_20 f_l">
+								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
+								<span class="liu"><{$vo.nickname}></span><br />
+								<span class="ba">PLUS会员</span>
+							</div>
+							<div class="wp_80 f_r" >
+                                <{if $vo.comment_star == 2}>
+                                <span><img src="__STATIC__/images/comment/twostar.png"></span>
+                                <{/if}>
+                                <{if $vo.comment_star == 3}>
+                                <span><img src="__STATIC__/images/comment/threestar.png"></span>
+                                <{/if}>
+                                <{if $vo.comment_star == 4}>
+                                <span><img src="__STATIC__/images/comment/fourstar.png"></span>
+                                <{/if}>
+                                <div><{$vo.comment}></div>
+                                <!-- 遍历评论显示的图片 -->
+								<!-- <div>
+									<img src="" class="w50 h50"/>
+								</div> -->
+								<div>
+									<div class="f_l" >
+                                        <span class="ba"><{$vo.spec}></span>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <span class="ba"><{$vo.addtime|date="Y-m-d H:i",###}></span>
+									</div>
+									<div class="f_r w100" >
+                                        <!-- 点赞 -->
+                                        <div class="praise">
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
+                                            <span id="praise-txt"><{$vo.agree}></span>
+                                            <span id="add-num"><em>+1</em></span>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+                        </div>
+                        <{/if}>
+                        <{/if}>
+						<{/volist}>
+						
+                    </div>   
+                </div>
+                <!-- 差评 -->
+                <div class="more-info-detail wp_100 khidden" ng-class="{kshow: 3==choseBare}">
+                    <div class="comment-item">
+                        <{volist name="comment" id="vo"}>
+                        <{if $goods.id == $vo.gid}>
+                        <{if $vo.comment_star==1}>
+                        <div class="user-column w150">
+                            <div class="wp_20 f_l">
+								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
+								<span class="liu"><{$vo.nickname}></span><br />
+								<span class="ba">PLUS会员</span>
+							</div>
+							<div class="wp_80 f_r" >
+                                    <{if $vo.comment_star == 1}>
+                                    <span><img src="__STATIC__/images/comment/onestar.png"></span>
+                                    <{/if}>
+                                <div><{$vo.comment}></div>
+                                <!-- 遍历评论显示的图片 -->
+								<!-- <div>
+									<img src="" class="w50 h50"/>
+								</div> -->
+								<div>
+									<div class="f_l" >
+                                        <span class="ba"><{$vo.spec}></span>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <span class="ba"><{$vo.addtime|date="Y-m-d H:i",###}></span>
+									</div>
+									<div class="f_r w100" >
+                                        <!-- 点赞 -->
+                                        <div class="praise">
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
+                                            <span id="praise-txt"><{$vo.agree}></span>
+                                            <span id="add-num"><em>+1</em></span>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+                        </div>
+                        <{/if}>
+                        <{/if}>
+						<{/volist}>
+						
+                    </div>   
+                </div>
             </div>
             
         </div>
@@ -179,6 +400,10 @@
             $scope.choseBar = $id;
         }
 
+        $scope.choseBare = 0;
+        $scope.barSelected = function($id){
+            $scope.choseBare = $id;
+        }
 
         $scope.specSelect = function($id) {
             $scope.specValue = $id; 
@@ -188,6 +413,50 @@
 
 
 </script>
+<script>
+	/* @author:Romey
+	 * 动态点赞
+	 * 此效果包含css3，部分浏览器不兼容（如：IE10以下的版本）
+	*/
+	$(function(){
+		$("#praise").click(function(){
+			var praise_img = $("#praise-img");
+			var text_box = $("#add-num");
+			var praise_txt = $("#praise-txt");
+			var num=parseInt(praise_txt.text());
+			if(praise_img.attr("src") == ("__STATIC__/images/comment/yizan.png")){
+				$(this).html("<img src='__STATIC__/images/comment/zan.png' id='praise-img' class='animation' />");
+				praise_txt.removeClass("hover");
+				text_box.show().html("<em class='add-animation'>-1</em>");
+				$(".add-animation").removeClass("hover");
+				num -=1;
+				praise_txt.text(num)
+			}else{
+				$(this).html("<img src='__STATIC__/images/comment/yizan.png' id='praise-img' class='animation' />");
+				praise_txt.addClass("hover");
+				text_box.show().html("<em class='add-animation'>+1</em>");
+				$(".add-animation").addClass("hover");
+				num +=1;
+				praise_txt.text(num)
+            }
+            var agree = praise_txt.html();
+            $.ajax({
+                type: "get",
+                url:  "/index/goods/zan",
+                data: {agree: agree},
+                success:function(res){
+                },
+                error:function(e){
+                }
+            });
+		});
+    })
+    
+    $("#dianji").click(function(){
+        $("#dianzan").removeClass("khidden").addClass("kshow");
+    });
+</script>
+
 <script src="__JS__/plugin/magnifier/jquery.jqzoom.js"></script>
 <script src="__JS__/plugin/magnifier/magnifier.js"></script>
 <{/block}>

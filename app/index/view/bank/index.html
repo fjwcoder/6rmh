@@ -1,0 +1,113 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<!--create by zmx-->
+<div class="user-panel address" data-ng-controller="addrCtrl">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">银行信息</a>
+                <span class="hint-str">
+                        您已创建
+                        <span id="addressNum_top" class="hint-int"><{$count}></span>
+                        个银行信息，最多可创建
+                        <span class="hint-int">5</span>
+                        个
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="wp_100" >
+        <{volist name="bank" id="vo"}>
+        <div class="user-address f_l">
+            <div class="wp_15 f_l t_r l_h_30">
+               <span class="right-label">银行类型：</span><br>
+               <span class="right-label">开户行：</span><br> 
+               <span class="right-labels">开户人：</span><br>
+               <span class="right-label">卡号：</span><br>
+               <span class="right-label">手机：</span>
+               
+            </div>
+            <div class="wp_60 f_l l_h_30">
+                <span class="middle-label"><{$vo.banktype}></span><br>
+                <span class="middle-label"><{$vo.accountbank}></span><br>
+                <span class="middle-label"><{$vo.accountholder}></span><br>
+                <span class="middle-label"><{$vo.cartnumber}></span><br>
+                <span class="middle-label"><{$vo.mobile}></span>
+            </div> 
+            <div class="t_r f_l wp_90 l_h_30">
+                <span class="ctrl-option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认银行</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="ctrl-option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<{:url('del',['id' => $vo['id']])}>"><span class="ctrl-option">删除</span></a>
+            </div>
+        </div>
+        <{/volist}>
+    </div>
+    <div class="clear"></div>
+    <{if condition="$count < 5"}>
+    <div class="wp_100" >
+
+        <div class="addaddress">新增银行信息</div> 
+
+        <form  method="post" name="form" action="<{:url('add')}>">
+            <div class="user-address-add  wp_100">
+                <div class="wp_30 f_l t_r l_h_50">
+                    <span class="right-label">银行类型：</span><br>
+                    <span class="right-label">开户行：</span><br> 
+                    <span class="right-label">开户人：</span><br> 
+                    <span class="right-label">卡号：</span><br>
+                    <span class="right-label">手机：</span> 
+                </div>
+                <div class="wp_70 f_l l_h_50">
+                    <span class="middle-lab f_l">
+                        <select id="banktype" class="pro kshow" name="banktype" required>
+                            <option value="" selected>==选择==</option>
+                            <{volist name="banktype" id="vo"}>
+                            <option value="<{$vo.bankid}>"><{$vo.bankname}></option>
+                            <{/volist}>
+                        </select>
+                    </span><br>
+                    <span class="middle-label"><input type="text" name="accountbank" required></span><br>
+                    <span class="middle-label"><input type="text" name="accountholder" required></span><br>
+                    <span class="middle-label"><input type="text" name="cartnumber" required pattern='^\d{19}$'></span><br>
+                    <span class="middle-label"><input type="text" name="mobile" pattern='^\d{11}$'></span>
+                    
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="more-info-navbar f_l wp_100">  
+                <a class="pull-right"  href="javascript: void(0);" title="新增银行">
+                    <button class="submit-btn-default ">新增银行</button>
+                </a>
+            </div>
+        </form>
+    </div>
+    <{/if}>
+</div>
+
+<script>
+
+    //angularjs 还没学会怎么动态操作option,先用jquery写吧 ToT
+    app.controller('addrCtrl', function($scope, $http){ 
+        // $scope.changex = function(x){
+        //     $http.get('/index/address/city', {params: {"id": x}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.citys = response;
+        //     }, function errorCallback(response){
+
+        //     });
+
+        // }
+
+        // $scope.changey = function(y){
+        //     $http.get('/index/address/area', {params: {"id": y}})
+        //     .then(function successCallback(response){
+        //         console.log(response);
+        //         $scope.areas = response;
+        //     }, function errorCallback(response){
+
+        //     });
+        // }
+    });
+</script>
+<{/block}>
