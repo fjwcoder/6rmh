@@ -17,24 +17,24 @@ class Payresult extends Controller
         
         $postStr = file_get_contents('php://input');
         
-        $postStr = '<xml><appid><![CDATA[wx6daa65cc6fc26c29]]></appid>
-<attach><![CDATA[六耳猕猴购物订单支付]]></attach>
-<bank_type><![CDATA[CFT]]></bank_type>
-<cash_fee><![CDATA[1]]></cash_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[Y]]></is_subscribe>
-<mch_id><![CDATA[1446652202]]></mch_id>
-<nonce_str><![CDATA[6qvaeye7s9x2bb25rivjmyq46o3yd3q3]]></nonce_str>
-<openid><![CDATA[onHIb0kOB02RVCLcrQolopmNLdHM]]></openid>
-<out_trade_no><![CDATA[JGB13563097602713]]></out_trade_no>
-<result_code><![CDATA[SUCCESS]]></result_code>
-<return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[CFF52FC4CFD2A091A5AD9E0B88DA4893]]></sign>
-<time_end><![CDATA[20171113145842]]></time_end>
-<total_fee>1</total_fee>
-<trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[4200000007201711134426739940]]></transaction_id>
-</xml>';
+//         $postStr = '<xml><appid><![CDATA[wx6daa65cc6fc26c29]]></appid>
+// <attach><![CDATA[六耳猕猴购物订单支付]]></attach>
+// <bank_type><![CDATA[CFT]]></bank_type>
+// <cash_fee><![CDATA[1]]></cash_fee>
+// <fee_type><![CDATA[CNY]]></fee_type>
+// <is_subscribe><![CDATA[Y]]></is_subscribe>
+// <mch_id><![CDATA[1446652202]]></mch_id>
+// <nonce_str><![CDATA[6qvaeye7s9x2bb25rivjmyq46o3yd3q3]]></nonce_str>
+// <openid><![CDATA[onHIb0kOB02RVCLcrQolopmNLdHM]]></openid>
+// <out_trade_no><![CDATA[JGB13563097602713]]></out_trade_no>
+// <result_code><![CDATA[SUCCESS]]></result_code>
+// <return_code><![CDATA[SUCCESS]]></return_code>
+// <sign><![CDATA[CFF52FC4CFD2A091A5AD9E0B88DA4893]]></sign>
+// <time_end><![CDATA[20171113145842]]></time_end>
+// <total_fee>1</total_fee>
+// <trade_type><![CDATA[JSAPI]]></trade_type>
+// <transaction_id><![CDATA[4200000007201711134426739940]]></transaction_id>
+// </xml>';
 
         if (!empty($postStr) ){
              
@@ -42,9 +42,9 @@ class Payresult extends Controller
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
             $resJson = json_encode($postObj);
             $resArr = json_decode($resJson, true);
-            dump($resArr);
-            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>'和re', 'step'=>9]); 
-            die;
+            // dump($resArr);
+            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>$resJson, 'step'=>1]); 
+            // die;
             
             
             // $resArr = ['mch_id'=>'1446652202', 'out_trade_no'=>'JGB13545290023884', 'return_code'=>'SUCCESS', 'result_code'=>'SUCCESS'];
@@ -52,6 +52,8 @@ class Payresult extends Controller
 
             // dump($resArr);
             if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
+            // echo 'here';
+            //     dump($resArr); die;
                 
                 $wxconf = getWxConf();
                 if($resArr['mch_id'] != $wxconf['MCHID']['value']){
