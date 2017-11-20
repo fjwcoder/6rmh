@@ -15,11 +15,9 @@ class Balance extends Common
         $list = db('withdraw', [], false) -> where(array('userid'=>$id)) ->order('addtime', 'DESC') ->paginate();
         
         //查出银行信息
-        $bank = db('user_bank', [], false) ->select();
+        $bank = db('user_bank', [], false) -> where(['userid'=>$id, 'status'=>1]) ->select();
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>'余额提现', 'template'=>$config['mall_template']['value'] 
-            ]);
-            // return dump($bank);
+        $this->assign('config', ['page_title'=>'余额提现', 'template'=>$config['mall_template']['value'] ]);
         $this->assign('list', $list);
         $this->assign('bank', $bank);
         return $this->fetch();
@@ -27,28 +25,32 @@ class Balance extends Common
 
     public function opWithdraw(){
         $id = session(config('USER_ID'));
-        $money['withdrawstatus'] = input('withdrawstatus',0,'intval');
         
+
+
+        $money['withdrawstatus'] = input('withdrawstatus',0,'intval');
+        $money['value'] = input('money',0,'floatval');
         if($money['withdrawstatus'] == 1){//1 选中银行卡
             $bankid = input('bankid', 0, 'intval');//银行ID
-            if($bankid == ''){
+            if($bankid == 0){
                 return $this->error('请选择银行');
             }
         }
-        // return dump($bankid);
-        $money['value'] = input('money',0,'floatval');
-        $data['pay_code'] = input('pay_code',0,'intval');
+        // return dump($money);
+        
+        $pay_code = input('pay_code', 0,'intval');
 
-        $user = decodeCookie('user');
-        $old_pwd = cryptCode($data['pay_code'], 'ENCODE', substr(md5($data['pay_code']), 0, 4));
+        // $user = decodeCookie('user');
+        $user = db('users', [], false) ->where(array('id'=>$id)) ->find();
+        $old_pwd = cryptCode($pay_code, 'ENCODE', substr(md5($pay_code), 0, 4));
         $money['userid'] = $user['id'];
         $money['name'] = $user['realname'];
-        $userinfo = db('users', [], false) ->where(array('id'=>$id)) ->find();
         
-        if($money['value'] == 0){
+        
+        if($money['value'] <= 0){
             return $this->error('金额错误');
         }
-        if($money['value'] > $userinfo['money']){
+        if($money['value'] > $user['money']){
             return $this->error('余额不足');
         }
         if(isMobile()){
@@ -57,13 +59,20 @@ class Balance extends Common
             $money['type'] = 1;
         }
         $money['terminal'] = clientIP();
-        if($old_pwd == $userinfo['pay_code']){
+        if($old_pwd == $user['pay_code']){
             $result = db('withdraw', [], false) -> insert($money);
             if($result){
-                return $this->success('申请提现成功', 'Balance/withdraw');
+                $widthdraw = new Widthdraw();
+                $pay_status = $widthdraw->payToBank();
+                if($pay_status){
+                    return $this->success('提现成功', 'Balance/withdraw');
+                }else{
+                    return $this->error('申请提现成功');
+                }
+                
                 
             }else{
-                return $this->error('申请提现失败');
+                
             }   
         }else{
             return $this->error('密码错误');

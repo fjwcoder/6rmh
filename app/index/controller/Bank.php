@@ -49,7 +49,8 @@ class Bank extends Common
         $res = Db::name('user_bank') ->insert($data);
 
         if($res){  
-            return $this->success('添加成功', 'Bank/index');  
+            return $this->redirect('Bank/index');
+            // return $this->success('添加成功', 'Bank/index');  
         }else{
             return $this->error('添加失败');
         }
@@ -84,7 +85,7 @@ class Bank extends Common
         
         $res = Db::name('user_bank') ->where(['id'=>$id]) ->update($data);
         if($res){
-            return $this->success('修改成功', 'Bank/index');
+            return $this->redirect('Bank/index');
         }else{
             return $this->error('修改失败');
         }
@@ -94,10 +95,29 @@ class Bank extends Common
         $id = Request::instance()->param('id');
         $res = db('user_bank')->where(array('id'=>$id))->delete();
         if ($res) {
-            $this->success('删除成功', "Bank/index");
+            $this->redirect("Bank/index");
         } else {
             $this->error('删除失败');
         }
+    }
+
+    public function defBank($id, $order=false){
+        $uid = session(config('USER_ID'));
+
+        # 全都修改为0
+        $set0 = Db::name('user_bank') -> where(['userid'=>$uid]) -> update(['type'=>0]);
+
+        $set1 = Db::name('user_bank') -> where(['id'=>$id, 'userid'=>$uid]) -> update(['type'=>1]);
+        if($set1){
+            if($order){
+                return true;
+            }else{
+                return $this->redirect("Bank/index");
+                // return $this->success('设置成功', "Address/index");
+            }
+            
+        }
+
     }
 
 

@@ -16,7 +16,7 @@ use think\Config;
 use think\Session;
 use think\Db;
 
-class Paysuccess extends Common
+class Paysuccess extends controller
 {
     public function test(){
         $bait_log[0] = ['userid'=>1, 'value'=>100, 'type'=>1, 'remark'=>'购物获得【100】鱼饵，订单号：100000' ];

@@ -1,18 +1,10 @@
-<style>
-    header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0; z-index: 999;}
-div.content-panel{width: 1200px; margin: 0 auto; }
 
-.web-top li{font-size: 14px; text-align: center; }
-.web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
-.web-top ul.pull-right .sitenav{float: right!important; margin-left: 32px;}
-.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px;}
-</style>
 <div data-ng-controller="topCtrl" class="content-panel line-height-26">
     <ul class="fa-ul pull-left">
         
         <li data-ng-repeat="x in top">
             <a href="{{x.url}}" ng-bind="x.title"><i class="{{x.iconfont}}"></a>
-        </li>
+        </li> 
     </ul>
     
     <ul class="fa-ul pull-right">
@@ -26,40 +18,46 @@ div.content-panel{width: 1200px; margin: 0 auto; }
                 <i class=" fa-li fa fa-qrcode"></i>手机商城
             </a>
         </li>
-        <li class="sitenav">
-            <a href="/index/help/index" target="_blank">
-                <i class=" fa-li fa fa-hand-paper-o"></i>帮助中心
-            </a>
-        </li>
+        
 
-        <li class="sitenav">
-            <a href="{{index}}" target="_blank">
-                <i class=" fa-li fa fa-qrcode"></i>进入商城
-            </a>
-        </li>
-
-        <span class="dropdown sitenav" style="height: 26px;">
-            <span type="button" class=" dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" >
+        
+        
+        <li class="dropdown sitenav" style="height: 26px;">
+            <span type="button" class=" dropdown-toggle" id="dropdownMenu1" >
                 <a role="menuitem" tabindex="-1" href="{{user}}" target="_blank">
                     <i class=" fa-li fa fa-user"></i>会员中心
                 </a>
             </span>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="{{cart}}" target="_blank">
-                        <i class=" fa-li fa fa-heart"></i>购物车
+                <li class="presentation" role="presentation">
+                    <a role="menuitem" tabindex="-1" href="{{order}}" target="_blank">
+                        <!--<i class=" fa-li fa fa-heart"></i>-->
+                        我的订单
                     </a>
                     
                 </li>
-                <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="{{user}}" target="_blank">
-                        <i class=" fa-li fa fa-user"></i>会员中心
+
+                <li class="presentation"  role="presentation">
+                    <a href="/index/help/index" target="_blank">
+                        <!--<i class=" fa-li fa fa-hand-paper-o"></i>-->
+                        帮助中心
                     </a>
                 </li>
-
             </ul>
         </li>
 
+        <li class="sitenav">
+            <a role="menuitem" tabindex="-1" href="{{cart}}" target="_blank">
+                <i class=" fa-li fa fa-heart"></i>
+                购物车
+            </a>
+            
+        </li>
+        <li class="sitenav">
+            <a href="{{index}}" target="_blank">
+                <i class=" fa-li fa fa-qrcode"></i>进入商城
+            </a>
+        </li>
     </ul>
 
 </div>
@@ -82,4 +80,12 @@ div.content-panel{width: 1200px; margin: 0 auto; }
         });
     });
 
+</script>
+<script>
+    $('li.dropdown').mouseover(function(){
+        $(this).addClass('open');
+    });
+    $('li.dropdown').mouseout(function(){
+        $(this).removeClass('open');
+    });
 </script>

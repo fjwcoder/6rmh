@@ -36,11 +36,14 @@
             </div> 
             <div class="t_r f_l wp_90 l_h_30">
                 &nbsp;&nbsp;
+                
                 <{if $vo.type == 1}>
                     <span class="hint-int">默认地址</span>
                 <{else}>
                     <a href="<{:url('defAddr', ['id'=> $vo['id']])}>"><span class="ctrl-option">设为默认</span></a>
                 <{/if}>
+                
+                
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="ctrl-option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('del',['id' => $vo['id']])}>"><span class="ctrl-option">删除</span></a>

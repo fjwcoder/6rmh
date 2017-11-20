@@ -18,7 +18,7 @@
     </div>
     <div class="wp_100" >
         <{volist name="bank" id="vo"}>
-        <div class="user-address f_l">
+        <div class="user-address f_l " <{if $vo.type==1 && $vo.status ==1}>style="border: 1px dashed #6ad4c9"<{/if}> >
             <div class="wp_15 f_l t_r l_h_30">
                <span class="right-label">银行类型：</span><br>
                <span class="right-label">开户行：</span><br> 
@@ -35,7 +35,19 @@
                 <span class="middle-label"><{$vo.mobile}></span>
             </div> 
             <div class="t_r f_l wp_90 l_h_30">
-                <span class="ctrl-option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认银行</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <{if $vo.status != 1}>
+                    <span class="hint-int">银行卡不可用</span>
+                <{else}>
+                    <{if $vo.type == 1}>
+                        <span class="hint-int">默认银行卡</span>
+                    <{else}>
+                        <a href="<{:url('defBank', ['id'=> $vo['id']])}>"><span class="ctrl-option">设为默认</span></a>
+                    <{/if}>
+                <{/if}>
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <!--<span class="ctrl-option"><input type="radio" name="checked" value="">&nbsp;&nbsp;默认银行</span>&nbsp;&nbsp;&nbsp;&nbsp;-->
                 <a href="<{:url('edit',['id' => $vo['id']])}>"><span class="ctrl-option">编辑</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="<{:url('del',['id' => $vo['id']])}>"><span class="ctrl-option">删除</span></a>
             </div>

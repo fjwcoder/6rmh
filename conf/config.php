@@ -18,6 +18,8 @@ return [
     'USER_ID'           => 'user_id', //前台用户id,判断是否登录
     'WEB_CONFIG'        => 'web_config', //整站配置
     
+    'ORDER_TYPE'          => 'order_type',  //支付订单的类型
+
     'ADMIN_AUTH_KEY'    => 'admin_auth_key', //管理员KEY
     'ADMIN_AUTH_NAME'   => 'admin_auth_name', //管理员NAME
     'ADMIN_AUTH_LEVEL'  => 'admin_auth_level', //管理员权限等级

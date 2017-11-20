@@ -10,6 +10,7 @@ use think\Db;
 class User extends Common
 {
 
+
     public function index(){
         $id = session(config('USER_ID'));
         
@@ -29,6 +30,7 @@ class User extends Common
         return $this->fetch();
     }
 
+    //修改用户信息
     public function editor(){
         $id = input('id',0,'intval');
         $data['name'] = input('name','','htmlspecialchars,trim');
@@ -48,7 +50,8 @@ class User extends Common
 
         $res = Db::name('users') ->where(['id'=>$id]) ->update($data);
         if($res){
-            return $this->success('修改成功', 'User/index');
+            return $this->redirect('user/index');
+            // return $this->success('修改成功', 'User/index');    
         }else{
             return $this->error('修改失败');
         }
@@ -63,9 +66,10 @@ class User extends Common
         return $this->fetch('passcode');
     }
 
+    # 修改密码
     public function password(){
         $id = session(config('USER_ID'));
-        if(empty($_POST['old-password'])){
+        if(empty($_POST['oldpassword'])){
             return $this->error('旧密码不可为空');
         }
 
@@ -83,7 +87,7 @@ class User extends Common
         
         $user = getUserInfo('users', $id);
 
-        $old_pwd = cryptCode($_POST['old-password'], 'ENCODE', substr(md5($_POST['old-password']), 0, 4));
+        $old_pwd = cryptCode($_POST['oldpassword'], 'ENCODE', substr(md5($_POST['oldpassword']), 0, 4));
         
         if($old_pwd !== $user['password']){
             return $this->error('旧密码错误');
@@ -100,9 +104,10 @@ class User extends Common
         }
     }
 
+    # 修改支付密码
     public function payword(){
         $id = session(config('USER_ID'));
-        if(empty($_POST['old-password'])){
+        if(empty($_POST['oldpassword'])){
             return $this->error('旧密码不可为空');
         }
 
@@ -120,7 +125,7 @@ class User extends Common
         
         $user = getUserInfo('users', $id);
 
-        $old_pwd = cryptCode($_POST['old-password'], 'ENCODE', substr(md5($_POST['old-password']), 0, 4));
+        $old_pwd = cryptCode($_POST['oldpassword'], 'ENCODE', substr(md5($_POST['oldpassword']), 0, 4));
         
         if($old_pwd !== $user['pay_code']){
             return $this->error('旧密码错误');
@@ -131,6 +136,7 @@ class User extends Common
         $result = db('users', [], false) -> where(array('id'=>$id)) ->update($data);
         if($result){
             return $this->success('修改成功');
+            // return $this->redirect('user/index');
         }else{
             return $this->error('修改失败');
         }

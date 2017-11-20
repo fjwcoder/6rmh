@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
     <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
     <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
+    <link rel="stylesheet" href="__CSS__/mall_default_user.css" type="text/css"/>
+
 
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="__STATIC__/js/plugin/jquery.imagezoom.min.js"></script>
@@ -20,8 +22,6 @@
     <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
     <!--加载angularjs-->
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
-    <!--<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
-    <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>-->
     <script src="__JS__/plugin/laydate/laydate.js"></script> <!--引入日期插件 -->
     <script src="__JS__/mall/mall_default_layout.js"></script>
 </head>
@@ -33,20 +33,20 @@
     <!--显示头像和二维码-->
     <div class="content-panel" style="height: 120px; margin-top: 20px; padding: 0 2%;">
         <a href="javascript: void(0);" title="点击更新二维码">
-            <img class="f_r" style="height: 120px; width: 120px;" src="<{$cookie.qr_code}>"/>
+            <img id="my-qrcode" class="f_r "  src="<{$cookie.qr_code}>"/>
         </a>
         <a href="javascript: void(0);" title="点击更新头像">
-            <img class="f_l" style="height: 120px; width: 120px;" src="<{$cookie.headimgurl}>"/>
+            <img id="top-headimgurl" class="f_l"  src="<{$cookie.headimgurl}>"/>
         </a>
         
         
-        <span class="f_r">
+        <!--<span class="f_r">
             <{if $cookie.subscribe==2}>
                 请尽快绑定微信
             <{else}>
                 我的推广二维码
             <{/if}>
-        </span>
+        </span>-->
     </div>
 
     <!--主要内容页面-->

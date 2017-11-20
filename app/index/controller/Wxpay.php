@@ -21,7 +21,8 @@ class Wxpay extends Common
         $type = input('type', '', 'htmlspecialchars,trim');
 
         $check = $this->orderCheck($id, $type);
-        Session::set('PAY_TYPE', $check['type']); //保存支付类型
+        // Session::set(config('ORDER_TYPE'), $check['type']);
+        
 
         if($check['status']){
             #获取用户信息
@@ -35,7 +36,7 @@ class Wxpay extends Common
                 # 判断：微信浏览器用公众号支付否则用H5支付
                 # 公众号支付
                 $tools = new \JsApiPay();
-                $jsApiParameters = $this->orderPay($check['order'], $user, 'JSAPI');
+                $jsApiParameters = $this->orderPay($check['order'], $user, $check['type'], 'JSAPI');
                 $jsApiParameters = $tools->GetJsApiParameters($jsApiParameters);
 
                 $this->assign('jsApiParameters', $jsApiParameters);
@@ -47,7 +48,7 @@ class Wxpay extends Common
                 // return '<img src="'.$qrcode.'"/>';
                 
                 # 扫码支付 模式二
-                $jsApiParameters = $this->orderPay($check['order'], $user, 'NATIVE');
+                $jsApiParameters = $this->orderPay($check['order'], $user, $check['type'], 'NATIVE');
                 $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
                 $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
                 
@@ -66,7 +67,7 @@ class Wxpay extends Common
     }
 
     # 统一下单支付
-    public function orderPay($order, $user, $trade_type='JSAPI' ,$attach='六耳猕猴购物订单支付'){
+    public function orderPay($order, $user, $order_type, $trade_type='JSAPI' ,$attach='六耳猕猴购物订单支付'){
         
         $wxconf = getWxConf();
         #拼凑信息
@@ -80,7 +81,7 @@ class Wxpay extends Common
         $input -> SetAttach($attach);
 
         if($trade_type==='NATIVE'){ //扫码支付
-            $input -> SetOut_trade_no(strval('N'.$order['order_id']));
+            $input -> SetOut_trade_no(strval('N'.$order['order_id'])); //NATIVE
             if( ($user['subscribe'] == 'Y') || ($user['subscribe'] == 1) ){
                 $subscribe = 'Y';
             }else{
@@ -88,7 +89,7 @@ class Wxpay extends Common
             }
             $input -> SetIs_subscribe($subscribe);
         }else{
-            $input -> SetOut_trade_no(strval('J'.$order['order_id']));
+            $input -> SetOut_trade_no(strval('J'.$order['order_id'])); // JSAPI
         }
         
         $input -> SetProduct_id(strval($order['order_id']));
@@ -96,7 +97,21 @@ class Wxpay extends Common
         $input -> SetTotal_fee(strval($money));
         $input -> SetTime_start(date('YmdHis'));
         $input -> SetTime_expire(date('YmdHis', time() + 1000));
-        $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/wxPayResult');
+        switch($order_type){
+            case 'order':
+                $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/orderResult');
+            break;
+            case 'charge':
+                $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/chargeResult');
+            break;
+            case 'trade':
+                $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/tradeResult');
+            break;
+            default:
+                $input -> SetNotify_url('http://www.6rmh.com/Index/Payresult/wxPayResult');
+            break;
+        }
+
         $input -> SetTrade_type($trade_type);
         $order = \WxPayApi::unifiedOrder($input); 
         
@@ -107,7 +122,7 @@ class Wxpay extends Common
 
     #查询订单信息并进行验证
     # $id 订单号
-    public function orderCheck($id=0, $type='order',$wxconf= []){
+    public function orderCheck($id=0, $type='order', $wxconf= []){
         
         if($id===0){
             return ['status'=>false, 'content'=>'订单错误']; exit;
@@ -160,39 +175,6 @@ class Wxpay extends Common
                 return ['status'=>false, 'content'=>'支付状态错误'];
             break;
         }
-
-        # 判断订单种类
-        // $number = ['1', '2','3','4','5','6','7','8','9','0'];
-        // $first = substr($id, 0, 1);
-        // if(!in_array($first, $number)){ //购物订单
-        //     $order = Db::name('order') -> where(['order_id'=>$id, 'status'=>1, 'pay_status'=>0]) -> find();
-        //     if(isset($order)){
-        //         if($order['money']<=0){
-        //             return ['status'=>false, 'content'=>'金额为0，不需支付' ]; exit;
-        //         }
-        //         return ['status'=>true, 'order'=>$order, 'type'=>'buy'];
-        //     }else{
-        //         return ['status'=>false, 'content'=>'购物订单不存在'];
-        //     }
-        // }else{
-        //     $last = substr($id, -1);
-        //     if(strtoupper($last)==='C'){ //充值订单
-        //         $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
-        //         if(isset($order)){
-        //             if($order['value'] <= 0){
-        //                 return ['status'=>false, 'content'=>'金额错误' ]; exit;
-        //             }
-        //             return ['status'=>true, 'order'=>$order, 'type'=>'charge'];
-        //         }else{
-        //             return ['status'=>false, 'content'=>'充值订单不存在'];
-        //         }
-                
-        //     }else{ //交易订单
-
-        //     }
-        // }
-
-
         
     }
 

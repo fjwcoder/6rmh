@@ -42,7 +42,18 @@ div.web-login-div{height: 32px; margin: 30px 20px;}
 div.web-login-div .glyphicon{color: #6ad4c9;}
 div.web-login-div button{width: 260px; height: 36px;}
 /*==================================Mall顶部=========================================*/
+    header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0; z-index: 999;}
+div.content-panel{width: 1200px; margin: 0 auto; }
 
+.web-top li{font-size: 14px; text-align: center; }
+.web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
+.web-top ul.pull-right .sitenav{float: right!important; margin-left: 32px;}
+.web-top .fa{margin-top: 5px; padding-right: 2px; text-align: right; font-size: 12px;}
+.content-panel .dropdown-menu{
+    min-width: 120px!important; background-color: #f0f0f0; margin: 0; border-radius: 0; border: 0;
+}
+.content-panel .presentation a{color: #8e8e8e;}
+.content-panel .presentation a:hover{color: #6ad4c9;}
 
 
 

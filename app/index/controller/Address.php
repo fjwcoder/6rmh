@@ -152,7 +152,8 @@ class Address extends Common
             if($order){
                 return true;
             }else{
-                return $this->success('设置成功', "Address/index");
+                return $this->redirect("Address/index");
+                // return $this->success('设置成功', "Address/index");
             }
             
         }
