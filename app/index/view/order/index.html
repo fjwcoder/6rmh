@@ -45,10 +45,9 @@
         <div class="panel panel-default ">
         <div class="panel-heading">
             <{$vo.order.addtime}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            订单号：<{$vo.order.order_id}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            六耳猕猴
-
-            
+            订单号：<a href="/index/order/orderDetail?id=<{$vo.order.order_id}> " title="订单详情"><{$vo.order.order_id}></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/index/index/index" title="进入商城">六耳猕猴</a>
         </div>
         <div class="panel-body more-info-detail order-panel-body">
             <div class="order-item-div wp_60 f_l">
@@ -92,7 +91,8 @@
                     <{case value="1"}>待支付<{/case}>
                     <{case value="2"}>待发货<{/case}>
                     <{case value="3"}>待收货<{/case}>
-                    <{case value="4"}>已完成<{/case}>
+                    <{case value="4"}>待评价<{/case}>
+                    <{case value="5"}>订单完成<{/case}>
                     <{default/}>其他
                 <{/switch}>
             </div>
@@ -117,7 +117,7 @@
                             </a>
                         <{/case}>
                         <{case value="3"}>
-                            <a href="javascript: void(0); ">
+                            <a href="/index/order/getgoods?id=<{$vo.order.order_id}>">
                                 <div class="wp_100 hp_100  order-operation-btn">
                                 确认收货
                                 </div>
@@ -130,10 +130,20 @@
                                 </div>
                             </a>
                         <{/case}>
+                        <{case value="5"}>
+                            
+                            <!--<a href="javascript: void(0);">
+                                <div class="wp_100 hp_100  order-operation-btn">
+                                订单完成
+                                </div>
+                            </a>-->
+                        <{/case}>
                         <{default/}>其他
                     <{/switch}>
-                
-                
+                <div><a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单详情</a></div>
+                <{if $vo.order.status >=4}>
+                    <div><a href="/index/order/returnGoods?id=<{$vo.order.order_id}> ">退货/退款</a></div>
+                <{/if}>
             </div>
         </div>
     </div>

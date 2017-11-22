@@ -231,9 +231,10 @@
 									<div class="f_r w100" >
                                         <!-- 点赞 -->
                                         <div class="praise">
-                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
-                                            <span id="praise-txt"><{$vo.agree}></span>
-                                            <span id="add-num"><em>+1</em></span>
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" class="praise-img" /></span>
+                                            <span class="praise-txt"><{$vo.agree}></span>
+                                             
+                                            <input class="goodid" type="hidden" value="<{$vo.gid}>">
                                         </div>
 									</div>
 								</div>
@@ -254,7 +255,7 @@
                             <div class="wp_20 f_l">
 								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
 								<span class="liu"><{$vo.nickname}></span><br />
-								<span class="ba">PLUS会员</span>
+								<!-- <span class="ba">PLUS会员</span> -->
 							</div>
 							<div class="wp_80 f_r" >
                                     <{if $vo.comment_star == 4}>
@@ -273,11 +274,12 @@
 									<div class="f_r w100" >
                                         <!-- 点赞 -->
                                         <div class="praise">
-                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
-                                            <span id="praise-txt"><{$vo.agree}></span>
-                                            <span id="add-num"><em>+1</em></span>
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" class="praise-img" /></span>
+                                            <span class="praise-txt"><{$vo.agree}></span>
+                                             
+                                            <input class="goodid" type="hidden" value="<{$vo.gid}>">
                                         </div>
-                                    </div>
+									</div>
 								</div>
 							</div>
                         </div>
@@ -297,7 +299,7 @@
                             <div class="wp_20 f_l">
 								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
 								<span class="liu"><{$vo.nickname}></span><br />
-								<span class="ba">PLUS会员</span>
+								<!-- <span class="ba">PLUS会员</span> -->
 							</div>
 							<div class="wp_80 f_r" >
                                 <{if $vo.comment_star == 2}>
@@ -322,11 +324,12 @@
 									<div class="f_r w100" >
                                         <!-- 点赞 -->
                                         <div class="praise">
-                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
-                                            <span id="praise-txt"><{$vo.agree}></span>
-                                            <span id="add-num"><em>+1</em></span>
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" class="praise-img" /></span>
+                                            <span class="praise-txt"><{$vo.agree}></span>
+                                             
+                                            <input class="goodid" type="hidden" value="<{$vo.gid}>">
                                         </div>
-                                    </div>
+									</div>
 								</div>
 							</div>
                         </div>
@@ -346,7 +349,7 @@
                             <div class="wp_20 f_l">
 								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
 								<span class="liu"><{$vo.nickname}></span><br />
-								<span class="ba">PLUS会员</span>
+								<!-- <span class="ba">PLUS会员</span> -->
 							</div>
 							<div class="wp_80 f_r" >
                                     <{if $vo.comment_star == 1}>
@@ -365,11 +368,12 @@
 									<div class="f_r w100" >
                                         <!-- 点赞 -->
                                         <div class="praise">
-                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" id="praise-img" /></span>
-                                            <span id="praise-txt"><{$vo.agree}></span>
-                                            <span id="add-num"><em>+1</em></span>
+                                            <span id="praise"><img src="__STATIC__/images/comment/zan.png" class="praise-img" /></span>
+                                            <span class="praise-txt"><{$vo.agree}></span>
+                                             
+                                            <input class="goodid" type="hidden" value="<{$vo.gid}>">
                                         </div>
-                                    </div>
+									</div>
 								</div>
 							</div>
                         </div>
@@ -384,7 +388,29 @@
         </div>
     </div>
 </div>
-
+<style>
+    .goods-title{background-color: #f5f5f5;line-height: 46px;padding-left:20px;}
+    .goods-com{padding: 10px 30px;}
+    .comment-percent{padding:15px 0 0 30px;}
+    .percent-tit{color:#666;font-weight: 400;}
+    .percent-con{color: #e4393c;font-size: 45px;}
+    .percent-con span{font-size: 23px;}
+    .goods-main{background-color: #FAFAFA;border:1px solid #f5f5f5;}
+    .goods-main ul li{float:left;margin: 5px 10px 0;}
+    .comment-item{width:100%;overflow:hidden;line-height:35px;margin-top:10px;}
+    .user-column{border-bottom:1px solid #DDDDDD;width:95%;margin:0 auto;overflow:hidden;padding: 10px 0px;}
+    .liu{color: #666;}
+    .ba{color: #888;}
+    .head-img{border-radius: 15px;display: inline-block;vertical-align: middle;}
+    /* .zan{width:160px;} */
+    .praise{width:20px;height:20px;cursor: pointer;font-size: 12px;text-align:center;position: relative;}
+    #praise{display:block;width:20px;height:20px;margin:0 auto;}
+    .praise-txt{height:25px;line-height:25px;display: block;position: absolute;left:26px;top:0px;}
+    .praise img{width:20px;height:20px;display:block;margin: 0 auto;}
+    #add-num{display:none;}
+    #praise:hover{background: url("__STATIC__/images/comment/yizan.png");}
+    
+</style>
 <script>
     
     app.controller('goodsCtrl', function($scope) {
@@ -393,7 +419,7 @@
             $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
         <{/if}>
         $scope.buy_number = 1; //购买数量初始化
-        
+
         //商品详情
         $scope.choseBar = 0;
         $scope.barSelect = function($id){
@@ -413,50 +439,40 @@
 
 
 </script>
+<!-- 点赞 -->
 <script>
-	/* @author:Romey
-	 * 动态点赞
-	 * 此效果包含css3，部分浏览器不兼容（如：IE10以下的版本）
-	*/
 	$(function(){
-		$("#praise").click(function(){
-			var praise_img = $("#praise-img");
-			var text_box = $("#add-num");
-			var praise_txt = $("#praise-txt");
-			var num=parseInt(praise_txt.text());
-			if(praise_img.attr("src") == ("__STATIC__/images/comment/yizan.png")){
-				$(this).html("<img src='__STATIC__/images/comment/zan.png' id='praise-img' class='animation' />");
-				praise_txt.removeClass("hover");
-				text_box.show().html("<em class='add-animation'>-1</em>");
-				$(".add-animation").removeClass("hover");
-				num -=1;
-				praise_txt.text(num)
-			}else{
-				$(this).html("<img src='__STATIC__/images/comment/yizan.png' id='praise-img' class='animation' />");
-				praise_txt.addClass("hover");
-				text_box.show().html("<em class='add-animation'>+1</em>");
-				$(".add-animation").addClass("hover");
-				num +=1;
-				praise_txt.text(num)
-            }
-            var agree = praise_txt.html();
-            $.ajax({
-                type: "get",
-                url:  "/index/goods/zan",
-                data: {agree: agree},
-                success:function(res){
-                },
-                error:function(e){
-                }
-            });
+        $(".praise-img").mouseover(function(){
+            $(this).animate({width:"26px",height:"26px"},1000);
+        });
+        $(".praise-img").mouseout(function(){
+            $(this).animate({width:"20px",height:"20px"},1000);
+        });
+		$(".praise-img").click(function(){
+                var agre = $(".praise-txt").html();
+                var agree = parseInt(agre)+1;
+                var gid = $(".goodid").val();
+                $.ajax({
+                    type: "get",
+                    url:  "/index/goods/zan",
+                    data: {"agree": agree,"gid":gid},
+                    success:function(res){
+                        var arr=JSON.parse(res);
+                        if(arr.status == 1){
+                            $(".praise-txt").empty().css("color","red").append(agree);
+                            $(".praise-img").attr("src","__STATIC__/images/comment/yizan.png");
+                        }else{
+                            alert("只能点赞一次吆");
+                            return false;
+                        }
+                    },
+                    error:function(res){
+                    }
+                });
+            
 		});
     })
-    
-    $("#dianji").click(function(){
-        $("#dianzan").removeClass("khidden").addClass("kshow");
-    });
 </script>
-
 <script src="__JS__/plugin/magnifier/jquery.jqzoom.js"></script>
 <script src="__JS__/plugin/magnifier/magnifier.js"></script>
 <{/block}>

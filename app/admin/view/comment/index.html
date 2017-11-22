@@ -1,0 +1,46 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<div class="table-responsive">
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>时间</th>
+                <!-- <th>商品id</th> -->
+                <!-- <th>昵称</th> -->
+                <th>商品名称</th>
+                <th>商品规格</th>
+                <th>星级</th>
+                <th>点赞数</th>
+                <!-- <th>状态</th>
+                <th>备注</th> -->
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <{volist name="list" id="vo"}>
+            <tr>
+                <td><{$vo.id}></td>
+                <td><{$vo.addtime|date="Y-m-d H:i",###}></td>
+                <!-- <td><{$vo.gid}></td> -->
+                <!-- <td><{$vo.nickname}></td> -->
+                <td><{$vo.gname}></td>
+                <td><{$vo.spec}></td>
+                <td><{$vo.comment_star}></td>
+                <td><{$vo.agree}></td>
+                <td>
+                    <a href="<{:url('comdetail', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="详细信息"></span></a>&nbsp;                                                    
+                    <!-- <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="编辑"></span></a>
+                    <a href="<{:url('del', ['navid'=>$header.navid, 'id'=>$vo.id])}>" onclick="javascript:return confirm('你确定要删除吗?');"><span class="glyphicon glyphicon-trash data-delete" title="删除"></span></a> -->
+                </td>
+            </tr>
+            <{/volist}>
+        </tbody>
+
+    </table>
+    <{$list->render()}>
+</div>
+    
+    
+<{/block}>

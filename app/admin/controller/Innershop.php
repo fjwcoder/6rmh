@@ -25,7 +25,7 @@ class Innershop extends Manage
         $navid = input('navid', 51, 'intval');
         $nav = adminNav();
         $key = input('post.keyword', '', 'htmlspecialchars,trim');
-        $list = db('inner_shop', [], false) -> paginate();
+        $list = db('inner_shop', [], false) -> order('addtime desc') -> paginate();
         $this->assign('list', $list);  
         $header =  ['title'=>'订单管理->内部交易->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 
         'form'=>'list', 'navid'=>$navid];

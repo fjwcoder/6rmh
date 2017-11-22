@@ -12,7 +12,7 @@ class Goods extends controller
 {
 
     public function detail(){
-
+        
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
@@ -33,16 +33,27 @@ class Goods extends controller
         }else{
 
         }
-        
-        
-        
+    
     }
 
     public function zan(){
         $id = session(config('USER_ID'));
-        $data['agree'] = input('agree', 0, 'intval');
+        $com['agree'] = input('agree', 0, 'intval');
+        $gid = input('gid', 0, 'intval');
+        $com['terminal'] = clientIP();//获取IP
+
+        $list = db('goods_comment', [], false)->field('terminal') -> where(array('gid'=>$gid,'uid'=>$id)) ->find();
         
-        $list = db('goods_comment', [], false) -> where(array('uid'=>$id)) ->update($data);
+        if($list['terminal'] == NULL){
+            $list = db('goods_comment', [], false) -> where(array('gid'=>$gid)) ->update($com);        
+            $data['info'] = "ok";
+            $data['status'] = 1;
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        }else{
+            $data['info'] = "fail";
+            $data['status'] = 0;
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        }
         
     }
 

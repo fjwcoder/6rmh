@@ -23,3 +23,32 @@
     .withdraw-content{height:35px;line-height:35px;}
     .red{color:red;}
     .goadd{width:60px;height:30px;line-height: 30px;text-align: center;background:red;color:#fff;margin:10px 0px;}
+
+
+/*我的资产*/
+    .inner-goods-img{
+        height: 80px; width: 80px; border-radius: 50%;  border: 1px solid white;
+    }
+    .inner-log-img{border-radius: 50%;   border: 1px solid rgba(111, 249, 193, 1);}
+    div.user-money{
+        height: 310px; border: 1px dashed #e0e0e0; 
+        width: 48%; margin: 1% 1% 1% 0; background-color: rgba(111, 249, 193, 1);
+    }
+    div.user-property{
+        height: 150px; border: 1px dashed #e0e0e0; 
+        width: 48%; 
+        margin: 1% 1% 0 1%; 
+        background-color: rgba(111, 249, 193, 1);
+        /*background-color: rgba(244, 234, 32, 1);*/
+    }
+    img.inner-goods-img{margin: 7% 5%;}
+    img.my-money{ height: 200px; width: 200px; margin: 10% 6%;}
+    div.my-money{color: white;}
+    div.inner-money-btn{height: 60px; width: 200px; 
+        font-size: 20px; line-height: 60px; margin-top: 6%; margin-right: 5%;
+    }
+    div.inner-goods-btn{height: 40px; width: 100px;  
+    font-size: 16px; line-height: 40px; margin-top: 11%; margin-right: 3%; cursor: pointer;}
+    .color-white{border: 2px solid white; color: white;}
+    div.withdraw{padding: 5px 10px;}
+    div.log-value{margin-top: 10px;}

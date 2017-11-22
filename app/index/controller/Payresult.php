@@ -15,142 +15,109 @@ class Payresult extends Controller
 
     public function orderResult(){
         $postStr = file_get_contents('php://input');
-        file_put_contents('orderresylt.txt', $poststr);
-        Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>$postStr, 'step'=>1]); 
-        if (!empty($postStr) ){
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
-            $resJson = json_encode($postObj);
-            $resArr = json_decode($resJson, true);
-            if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
-                $wxconf = getWxConf();
-                if($resArr['mch_id'] != $wxconf['MCHID']['value']){
-                    return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
-                }
-                $order_id = substr($resArr['out_trade_no'], 1); //订单号
-                // $wxpay = new Wxpay();
-                $check = $this->orderCheck($order_id, 'order', $wxconf);
-                Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
-                if($check['status']){ //订单查询成功
-                    $success = new Paysuccess();
-                    #调用相关的方法 $check['type']可以是'order'， 'charge'， 'trade'
-                    $result = $success->order($resArr, $check['order']);
-                    
-                    echo 'success';
+        file_put_contents('orderresult.txt', $postStr);
+        try{
+            if (!empty($postStr) ){
+                $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
+                $resJson = json_encode($postObj);
+                $resArr = json_decode($resJson, true);
+                if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
+                    $wxconf = getWxConf();
+                    if($resArr['mch_id'] != $wxconf['MCHID']['value']){
+                        return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
+                    }
+                    $order_id = substr($resArr['out_trade_no'], 1); //订单号
+                    $check = $this->orderCheck($order_id, 'order', $wxconf);
+
+                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
+
+                    if($check['status']){ //订单查询成功
+                        $success = new Paysuccess();
+                        #调用相关的方法 
+                        $result = $success->order($resArr, $check['order']);
+                        echo 'success';
+                    }
+
                 }else{
-                    // return $this->error('支付成功，订单错误');
+                    Db::name('pay_log') -> insert(['type'=>'order', 'order_id'=>substr($resArr['out_trade_no'], 1), 'content'=>$postStr, 'status'=>2]); 
                 }
 
             }
-
+        }catch(Exception $e){
+            Db::name('payresult_exception') -> insert(['type'=>'order', 'order'=>$postStr,'exception'=>$e->getMessage()]); 
         }
+        
     }
 
     public function chargeResult(){
         $postStr = file_get_contents('php://input');
-        if (!empty($postStr) ){
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
-            $resJson = json_encode($postObj);
-            $resArr = json_decode($resJson, true);
-            if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
-                $wxconf = getWxConf();
-                if($resArr['mch_id'] != $wxconf['MCHID']['value']){
-                    return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
-                }
-                $order_id = substr($resArr['out_trade_no'], 1); //订单号
-                $wxpay = new Wxpay();
-                $check = $wxpay->orderCheck($order_id, 'order', $wxconf);
-                if($check['status']){ //订单查询成功
-                    $success = new Paysuccess();
-                    #调用相关的方法 $check['type']可以是'order'， 'charge'， 'trade'
-                    $result = $success->charge($resArr, $check['order']);
+        file_put_contents('chargeResult.txt', $postStr);
 
-                    echo 'success';
+        try{
+            if (!empty($postStr) ){
+                $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
+                $resJson = json_encode($postObj);
+                $resArr = json_decode($resJson, true);
+                if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
+                    $wxconf = getWxConf();
+                    if($resArr['mch_id'] != $wxconf['MCHID']['value']){
+                        return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
+                    }
+                    $order_id = substr($resArr['out_trade_no'], 1); //订单号
+                    // $wxpay = new Wxpay();
+                    $check = $this->orderCheck($order_id, 'charge', $wxconf);
+
+                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
+
+                    if($check['status']){ //订单查询成功
+                        $success = new Paysuccess();
+                        #调用相关的方法 
+                        $result = $success->charge($resArr, $check['order']);
+                        echo 'success';
+                    }
+
                 }else{
-                    // return $this->error('支付成功，订单错误');
+                    Db::name('pay_log') -> insert(['type'=>'charge', 'order_id'=>substr($resArr['out_trade_no'], 1), 'content'=>$postStr, 'status'=>2]); 
                 }
 
             }
-
+        }catch(Exception $e){
+            Db::name('payresult_exception') -> insert(['type'=>'charge', 'order'=>$postStr,'exception'=>$e->getMessage()]); 
         }
     }
 
     public function tradeResult(){
         $postStr = file_get_contents('php://input');
-        if (!empty($postStr) ){
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
-            $resJson = json_encode($postObj);
-            $resArr = json_decode($resJson, true);
-            if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
-                $wxconf = getWxConf();
-                if($resArr['mch_id'] != $wxconf['MCHID']['value']){
-                    return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
-                }
-                $order_id = substr($resArr['out_trade_no'], 1); //订单号
-                $wxpay = new Wxpay();
-                $check = $wxpay->orderCheck($order_id, 'order', $wxconf);
-                if($check['status']){ //订单查询成功
-                    $success = new Paysuccess();
-                    #调用相关的方法 $check['type']可以是'order'， 'charge'， 'trade'
-                    $result = $success->trade($resArr, $check['order']);
+        file_put_contents('tradeResult.txt', $postStr);
+        try{
+            if (!empty($postStr) ){
+                $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
+                $resJson = json_encode($postObj);
+                $resArr = json_decode($resJson, true);
+                if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
+                    $wxconf = getWxConf();
+                    if($resArr['mch_id'] != $wxconf['MCHID']['value']){
+                        return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
+                    }
+                    $order_id = substr($resArr['out_trade_no'], 1); //订单号
+                    $check = $this->orderCheck($order_id, 'trade', $wxconf);
 
-                    echo 'success';
+                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
+
+                    if($check['status']){ //订单查询成功
+                        $success = new Paysuccess();
+                        #调用相关的方法 
+                        $result = $success->trade($resArr, $check['order']);
+                        echo 'success';
+                    }
+
                 }else{
-                    // return $this->error('支付成功，订单错误');
+                    Db::name('pay_log') -> insert(['type'=>'trade', 'order_id'=>substr($resArr['out_trade_no'], 1), 'content'=>$postStr, 'status'=>2]); 
                 }
 
             }
-
-        }
-    }
-
-
-    # 支付回调地址
-    public function wxPayResult(){
-        $postStr = file_get_contents('php://input');
-        file_put_contents('wxpayresult.txt', $postStr); die;
-        if (!empty($postStr) ){
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
-            $resJson = json_encode($postObj);
-            $resArr = json_decode($resJson, true);
-
-            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>$resJson, 'step'=>1]); 
-
-            if( ($resArr['return_code'] == 'SUCCESS') && ($resArr['result_code'] == 'SUCCESS') ) { // 支付成功
-
-                // dump($resArr);
-                $wxconf = getWxConf();
-                if($resArr['mch_id'] != $wxconf['MCHID']['value']){
-                    return '商家账号错误'; // 插入一条记录，支付失败原因“商家账号错误”；
-                }
-                $order_id = substr($resArr['out_trade_no'], 1); //订单号
-        
-                $order_type = Session::get(config('ORDER_TYPE')); //支付订单类型
-
-                Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>$order_type, 'step'=>2]);
-                $check = $this->orderCheck($order_id, $order_type, $wxconf);
-                
-                Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>4]);
-                // return dump($check);
-
-                if($check['status']){ //订单查询成功
-                    $success = new Paysuccess();
-                    #调用相关的方法 $check['type']可以是'order'， 'charge'， 'trade'
-                    $result = $success->$check['type']($resArr, $check['order']);
-
-                    // if($result){ //成功
-                    //     echo '支付成功'; die;
-                    //     // return $this->success('支付成功', $check['type'].'/index');
-                    // }else{
-                    //     echo '支付失败'; die;
-                    //     // return $this->error('支付失败');
-                    // }
-                    echo 'success';
-                }else{
-                    // return $this->error('支付成功，订单错误');
-                }
-            }
-        }else{
-            Db::name('payresult_step') -> insert(['order_id'=>'123', 'content'=>'$poststr 为空？？？', 'step'=>9]);
+        }catch(Exception $e){
+            Db::name('payresult_exception') -> insert(['type'=>'trade', 'order'=>$postStr,'exception'=>$e->getMessage()]); 
         }
     }
 
@@ -180,7 +147,7 @@ class Payresult extends Controller
                 }
             break;
             case 'charge':
-                $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                $order = Db::name('recharge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
                 if(isset($order)){
                     if($order['money'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;
@@ -191,11 +158,8 @@ class Payresult extends Controller
                 }
             break;
             case 'trade':
-                $order = Db::name('inner_shop') -> where(['order_id'=>$id, 'status'=>1]) -> find();
-                // 余额支付多少还需支付多少（假数据测试）
-                // $order["yuepay"] = 3;
-                // $order["haixupay"] = 6;
-                
+                $order = Db::name('inner_log') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+
                 if(isset($order)){
                     if($order['money'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;

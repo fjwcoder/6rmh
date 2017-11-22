@@ -1,7 +1,8 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-// use app\common\controller\Mall as Mall;
+// use app\index\controller\Wxpay as Wxpay;
+use app\index\controller\Paysuccess as Paysuccess;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -17,7 +18,10 @@ class Inner extends Common
         //查询用户信息
         $userinfo = db('users', [], false) ->where(array('id'=>$id)) ->find();  
         //查询购买记录表
-        $log = db('inner_log', [], false) ->order('addtime DESC') ->paginate();
+        $log = db('inner_log', [], false) ->alias('a')
+            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+            ->where(['userid'=>$id])
+            ->order('addtime DESC') ->paginate();
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'个人资产', 'template'=>$config['mall_template']['value'] 
             ]);
@@ -35,10 +39,10 @@ class Inner extends Common
         $sell['value'] = input('value', 0, 'intval');
         $sell['money'] = input('money', 0, 'intval');
         $sell['selltime'] = input('selltime', 0, 'intval');
-        $sell['order_id'] = time();
+        $sell['order_id'] = 'T'.time();
         $sell['userid'] = $id;
         $sell['type'] = input('type', 0, 'intval');  //1积分  2 鱼饵
-        $sell['username'] = $userinfo['realname'];
+        $sell['username'] = $userinfo['nickname']; //昵称
         $sell['addtime'] = date('Y-m-d H:i:s',time());
 
         $goods = Db::name('inner_goods') ->where(['id'=>$sell['type']]) -> find();
@@ -82,7 +86,7 @@ class Inner extends Common
             $value = input('value', 0,'intval');  
         }
         //按条件搜索
-        $where = '(1=1) '; 
+        $where = '(1=1) and a.status=1'; 
         //按名称搜索
         $this->assign('timer', ['status'=>false]);
         if(!empty($title)){
@@ -109,95 +113,84 @@ class Inner extends Common
             $where .= " and value >= $value ";
             $this->assign('sum', ['status'=>true, 'value'=>$value]);
         }
-
+        # 过滤时间
+        $where .= "  ";
+    // echo $where; die;
         $list = Db::name('inner_shop') ->alias('a')
         ->join('inner_goods b', 'a.type=b.id', 'LEFT')
-        ->field('a.*, b.pic')
+        ->field('a.*, b.pic, b.title')
         ->where($where)
         ->order('addtime DESC')
         ->paginate();
 
         $title = Db::name('inner_goods') -> field('title') ->select();
         $this->assign('title', $title);
+        
         $this->assign('list', $list);
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'交易平台', 'template'=>$config['mall_template']['value'] ]);  
         return $this->fetch();
     }
 
-    //余额支付
+    //支付
     public function pay(){
         
         $id = session(config('USER_ID'));
         $user = decodeCookie('user');
-        $pass = input('pass',0,'intval');
+        $pass = input('pass', '','htmlspecialchars,trim');
+
         $order_id = input('order_id', 0, 'intval');
-        // if($order['status'] == 1){
-        //     $upd = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->update(['status'=>3]);
-            //输入框被选中
-            if(isset($_POST['checkbox'])){
-                //判断密码是否为空
-                if(empty($pass)){
-                    return $this->error('支付密码不可为空');
-                }
-                $order = db('inner_shop', [], false) ->where(['order_id' => $order_id]) ->find(); //fjw修改
-                //查询用户信息
-                $userinfo = db('users', [], false)  ->where(array('id'=>$id)) ->find(); //$userinfo
-                
-                $pay['value'] = $order['value'];
-                $pay['type'] = $order['type'];
-                $pay['addtime'] = date('Y-m-d H:i:s',time());
-                $pay['money'] = $order['money'];
-                $pay['sellername'] = $order['username'];
-                $pay['userid'] = $order_id;
-                $pay['username'] = $userinfo['realname'];
-                
-                $old_pwd = cryptCode($pass, 'ENCODE', substr(md5($pass), 0, 4));
-                
-                if($old_pwd == $userinfo['pay_code']){
-                    
-                    if($pay['money'] > $userinfo['money']){
-                        // 余额不足
-                        $surplus = $pay['money'] -$userinfo['money'];
-                        # 添加微信支付
 
-                    }else{
-                        // $ins['money'] = $userinfo['money'] - $pay['money'];
-                        $money = Db::name('users') ->where(array('id'=>$id)) ->setDec('money', $pay['money']);
-                    }
-                    
-                    // $money = Db::name('users') ->where(array('id'=>$id)) ->update($ins);
-                    $goods = Db::name('inner_goods') ->where(['id'=>$order['type']]) -> find();
-
-                    // $ins[$goods['name']] = $userinfo[$goods['name']] + $pay['value'];
-
-                    //交易完成后更新数据 # tp setInc()
-                    $result = Db::name('users') ->where(array('id'=>$id)) ->setInc($goods["name"], $pay['value']);
-                    $res = Db::name('inner_log') ->insert($pay);
-                    //交易成功后修改订单状态
-                    if($order['status'] == 1){
-                        $upd = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->update(['status'=>2]);
-                    }
-    
-                    if($res){  
-                        return $this->success('购买成功', 'Inner/index');  
-                    }else{
-                        return $this->error('购买失败');
-                    } 
-                }else{
-                    return $this->error('密码错误');
-                }
-            }else{
-                echo '输入框未选中跳转微信支付页面';
-            } 
+        $order = Db::name('inner_shop') ->alias('a')
+            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+            -> where(['order_id'=>$order_id]) -> find();
+        if($order['status'] == 1){
             
-        // }else{
-        //         $order = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->find();
-        //         if($order['status'] == 3){
-        //             $upd = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->update(['status'=>1]);
-        //         }
-        //     }
-               
+            $upd = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->update(['status'=>2, 'uptime'=>time()]);
+            $userinfo = db('users', [], false)  ->where(array('id'=>$id)) ->find(); 
+            $log = ['order_id'=>$order['order_id'], 'userid'=>$id, 'username'=>$userinfo['nickname'], 'title'=>$order['title'],
+            'sellerid'=>$order['userid'], 'sellername'=>$order['username'], 'type'=>$order['type'], 'value'=>$order['value'],
+            'name'=>$order['name'], 'price'=>$order['money'] ,'account'=>$order['value']*$order['money']  ];
+            
+            
+            if($pass !== ''){ //输入密码， 使用余额支付
+                $old_pwd = cryptCode($pass, 'ENCODE', substr(md5($pass), 0, 4));
+                if($old_pwd == $userinfo['pay_code']){ //验证支付密码
+                    if($log['account'] > $userinfo['money']){
+                        $log['money'] =  $log['account'] - $userinfo['money'];// 还需支付
+                        $log['balance'] = $userinfo['money'];
+                    }else{
+                        $log['balance'] = $log['account'];
+                        $log['money'] = 0;
+                    }
+                }else{
+                    return $this->error('支付密码错误');
+                }
+            }else{ // 直接支付
+                $log['balance'] = 0;
+                $log['money'] = $log['account'];
+            }
+            $log['addtime'] = time();
+            $log['remark'] = '生成订单，等待支付';
+            $insert = Db::name('inner_log') -> insert($log);
+            if($insert){
+                if($log['money'] != 0){ //微信支付
+                    return $this->redirect('Index/Wxpay/index',  ['id'=>$log['order_id'], 
+                        'type'=>'trade']);
+                }else{ // 支付完成
+                    $success = new Paysuccess();
+                    $result = $success->trade([], $log);
+                    if($result){
+                        return $this->success('购买成功', 'Inner/purchase');
+                    }
+                }
+            }
+
+        }
+
+
     }
+
+
 
 }

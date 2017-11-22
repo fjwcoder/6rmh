@@ -1,5 +1,6 @@
 <{extend name="./public/user"/}>
 <{block name="content"}>
+
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
         <ul  >
@@ -9,35 +10,44 @@
         </ul>
     </div>
 
-    <div class="more-info-detail table-title wp_100">
+    <!--<div class="more-info-detail table-title wp_100">
         <div class=" wp_35">图片</div>
         <div class=" wp_25">名称</div>
         <div class=" wp_25">数量</div>
         <div class=" wp_15">操作</div>
+    </div>-->
+    <div class="user-money f_l">
+        <img class=" my-money f_l" src="__STATIC__/images/mall/money.png" />
+        <div class="inner-money-btn my-money f_r t_c">余额：<{$userinfo.money}></div>
+        <a href="/Index/balance/withdraw">
+            <div class="inner-money-btn color-white t_c f_r"> 提现</div>
+        </a>
+        <a href="/Index/balance/recharge">
+            <div class="inner-money-btn color-white t_c f_r">
+                充值
+            </div>
+        </a>
     </div>
-    <div class="more-info-detail wp_100" >
-        <{volist name="list" id="vo"}>
-        <div class="cart-goods-record wp_100">
-            <div class="wp_35 f_l"><img class="w100 h80" src="<{$vo.pic}>"></div>
-            <div class=" wp_25 f_l"><{$vo.title}></div>
-            <div class="wp_25 f_l">
+    <{volist name="list" id="vo"}>
+        <div class="user-property f_l" >
+            <a href="<{:url('Fishing/index')}>">
+                <img class="inner-goods-img " title="点击图片前往钓鱼" src="<{$vo.pic}>" />
+            </a>
+            <div class="inner-goods-btn color-white t_c f_r" data-toggle="modal" data-target="#myModal" rel="<{$vo.id}>">出售</div>
+            <a href="<{:url('purchase', ['title'=>$vo.title])}>">
+                <div class="inner-goods-btn color-white t_c f_r">购买</div>
+            </a>
+            <div class="inner-goods-btn my-money f_r t_c">数量：
                 <{if $vo.name == 'bait'}>
                     <{$userinfo.bait}>
                 <{else}>
                     <{$userinfo.point}>
                 <{/if}>
             </div>
-            <div class="wp_15 f_l">
-                <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.id}>">出售</span>&nbsp;&nbsp;&nbsp;
-                <a href="<{:url('Fishing/index')}>"><span class="ctrl-option">使用</span>&nbsp;&nbsp;&nbsp;</a>
-                <a href="<{:url('buy', ['id'=>$vo.id])}>"><span class="ctrl-option">购买</span>&nbsp;&nbsp;&nbsp;</a>
-                
-            </div>
+
         </div>
-        <{/volist}>
-    </div>
-    <{$list->render()}>
-    <div class="more-info-navbar wp_100"></div>
+    <{/volist}>
+
 </div>
 
 <!-- 模态框（Modal） -->
@@ -111,28 +121,25 @@
     </div>
 
     <div class="more-info-detail table-title wp_100">
-        <div class=" wp_30">时间</div>
-        <div class=" wp_15">名称</div>
+        <div class=" wp_15">商品</div>
         <div class=" wp_15">数量</div>
-        <div class=" wp_15">价格</div>
-        <div class=" wp_15">类型</div>
-        <div class=" wp_10">卖家姓名</div>
+        <div class=" wp_10">单价</div>
+        <div class=" wp_15">总价</div>
+        <div class=" wp_15">卖家</div>
+        <div class=" wp_30">时间</div>
     </div>
     <div class="more-info-detail wp_100" >
         <{volist name="log" id="vo"}>
         <div class="withdraw wp_100">
-            <div class="wp_30 f_l"><{$vo.addtime}></div>
-            <div class="wp_15 f_l"><{$vo.username}></div>
-            <div class="wp_15 f_l"><{$vo.value}></div>
-            <div class="wp_15 f_l"><{$vo.money}></div>
-            <div class=" wp_15 f_l">
-                <{if $vo.type == 1}>
-                积分
-                <{else}>
-                鱼饵
-                <{/if}>
+            <div class="wp_15 f_l">
+                <img class="w40 h40 inner-log-img f_l"  src="<{$vo.pic}>"/>
             </div>
-            <div class="wp_10 f_l"><{$vo.sellername}></div>
+            <div class="wp_15 log-value f_l"><{$vo.value}></div>
+            <div class="wp_10 log-value f_l"><{$vo.price}></div>
+            <div class="wp_15 log-value f_l"><{$vo.account}></div>
+            <div class="wp_15 log-value f_l"><{$vo.sellername}></div>
+            <div class="wp_30 log-value f_l"><{$vo.addtime}></div>
+            
         </div>
         <{/volist}>
     </div>

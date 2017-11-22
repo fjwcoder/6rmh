@@ -24,6 +24,27 @@ function initFileInput(ctrlName, uploadUrl) {
     }); 
 }; 
 
+// 支付页面查询订单
+function payStatus(order_id, type){
+    console.log('等待支付');
+    $.ajax({
+        type: 'GET',
+        url: '/Index/Wxpay/payStatus',
+        data: {order_id: orderid, type: type},
+        success: function(response){
+            if(response['status']){
+                var webhost =window.location.host;
+                window.location.href= webhost+'/Index/order/index'; 
+            }else{
+                
+            }
+        },
+        error: function(e){
+
+        }
+    });        
+}
+
 $(document).ready(function(){
     $("[data-toggle='popover']").popover();
     $("[data-toggle='popover']").mousemove(function(){

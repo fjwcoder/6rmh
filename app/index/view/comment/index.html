@@ -1,9 +1,9 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <link rel="stylesheet" href="__CSS__/mall_default_comment.css" type="text/css"/>
-<div data-ng-controller="goodsCtrl" class="web-content wp_100 f_l ">
+<div  class="web-content wp_100 f_l ">
     <div class="content-panel">
-        <form class="form-horizontal" method="post" role="form" action="<{:url('comment')}>" enctype="multipart/form-data">                    
+        <form class="form-horizontal" method="post" role="form" onsubmit="return checkall()" action="<{:url('comment')}>" enctype="multipart/form-data">                    
         <div class="t_c wp_100 goods-comment">
             <h3 class="o-title"><{$config.page_title}></h3>
             <div class="o-info">
@@ -11,10 +11,10 @@
                     订单号：
                     <a class="o-number fz_15" href="" target="_blank"><{$orderinfo.order_id}></a>
                 </span>
-                <span class="o-info"><{$orderinfo.addtime}></span>
+                <span class="o-info"><{$orderinfo.add_time}></span>
             </div>       
         </div>
-        <{volist name="comment" id="vo"}>
+        <{volist name="comment" id="vo" key="ids"}>
         <div class="wp_100 o_h com-info">
             <div class="wp_25  f_l com-goods o_h">
                 <div class="wp_100 h100 o_h t_c">
@@ -32,92 +32,109 @@
             </div>
             <div class="wp_75  f_l o-operate o_h">
                 <div class="h60">
-                    
-
-                    <div class="starbox" required>
+                    <div class="starbox">
                         <span class="s_name">商品满意度</span>
-                        <ul class="star_ul fl">
-                            <li><a class="one-star" title="1" href="#"></a></li>
-                            <li><a class="two-star" title="2" href="#"></a></li>
-                            <li><a class="three-star" title="3" href="#"></a></li>
-                            <li><a class="four-star" title="4" href="#"></a></li>
-                            <li><a class="five-star" title="5" href="#"></a></li>
+                        <ul id="ul_<{$ids}>" class="star_ul fl">
+                            <li><a class="one-star " site="ul_<{$ids}>" id="ul_<{$ids}>_1" title="1" href="#"></a></li>
+                            <li><a class="two-star " site="ul_<{$ids}>" id="ul_<{$ids}>_2" title="2" href="#"></a></li>
+                            <li><a class="three-star " site="ul_<{$ids}>" id="ul_<{$ids}>_3" title="3" href="#"></a></li>
+                            <li><a class="four-star " site="ul_<{$ids}>" id="ul_<{$ids}>_4" title="4" href="#"></a></li>
+                            <li><a class="five-star " site="ul_<{$ids}>" id="ul_<{$ids}>_5" title="5" href="#"></a></li>
                         </ul>
-                        <span class="s_result fl">0</span><span style="line-height:25px;">分</span>
+                        <input type="text" id="s_result<{$ids}>" class="s_result fl" value="0" name="comment[<{$ids}>][comment_star]" readonly="readonly"/><font style="line-height:25px;">分</font>
+                        <input type="hidden" name="comment[<{$ids}>][gid]" value="<{$vo.gid}>">
+                        <input type="hidden" name="order_id" value="<{$orderinfo.order_id}>" />
+                        <input type="hidden" name="comment[<{$ids}>][gname]" value="<{$vo.name}>" />
+                        <input type="hidden" name="comment[<{$ids}>][spec]" value="<{$vo.spec}>" />
                     </div>
-
-
                 </div>
                 <div style="clear:both;"></div>
                 <div>
                     <span class="item-title f_l">商品评价</span>
                     <div class="o-main f_l">
                         <div class="o-textarea h100">
-                            <textarea id="TextArea1" onkeyup="words_deal();" name="textarea" required placeholder="商品是否给力？快分享你的购买心得吧~（评价多于10个字,有机会奖励积分哦~）"></textarea>
-                            <span class="o-info">还可输入<font id="textCount">500</font>字</span>
+                            <textarea id="TextArea<{$ids}>" class="text"  name="comment[<{$ids}>][comment]" required placeholder="商品是否给力？快分享你的购买心得吧~（评价多于10个字,有机会奖励积分哦~）"></textarea>
+                            <span class="o-info">还可输入<font id="textCount<{$ids}>" class="count">500</font>字</span>
                         </div>
                         <div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- </form> -->
         </div>
         <{/volist}>
         <div style="clear:both;"></div>
         <div class="more-info-navbar wp_100">
-            <a class="pull-right" href="javascript: void(0);" title="提交">
-                <button class="submit-btn-default ">提交</button>
+            <a class="" href="javascript: void(0);" title="提交">
+                <button class="submit-btn-default pull-right">提交</button>
             </a>
         </div>
-        <input type="hidden" name="id" value="<{$orderinfo.order_id}>">
-        <input id="satis" type="hidden" name="satisfied" value="0">
     </form>
     </div>
 </div>
 <script type="text/javascript">
     $(function(){
         var flag = 1;
-        
         $('.star_ul a').hover(function(){
+            var idval = $(this).attr('id');
+            var site = $(this).attr('site');
+            var sel = $(this).parent().parent().next().attr('id');
+            
             flag = 1;
-            $('.star_ul a').removeClass('active-star');
+            $('#'+site+' a').removeClass('active-star');
             $(this).addClass('active-star');
-            $('.s_result').css('color','#c00').html($(this).attr('title'))
+            $('#'+sel).css('color','#c00').val($(this).attr('title'))
         },function(){
+            var sel = $(this).parent().parent().next().attr('id');
             if( flag == 1){
             $(this).removeClass('active-star');
-            $('.s_result').css('color','#333').html('0')
+            $('#'+sel).css('color','#333').val('0')
             }
         });
         
         $('.star_ul a').click(function(){
-             flag = 2;
+            var site = $(this).attr('site');
+            var sel = $(this).parent().parent().next().attr('id');
+            flag = 2;
             $(this).addClass('active-star');
-            $('.s_result').css('color','#c00').html($(this).attr('title'))
-            var a = $("span.s_result").html();
-            $("#satis").val(a);
+            $('#'+sel).css('color','#c00').val($(this).attr('title'))
+            // var star = $('#'+sel).val();
+            // $('.s_result').attr("value",star);
         });
-        $(".pull-right").click(function(){
-            var a = $("#satis").val();
-            if(a == 0){
-                alert('请选择商品满意度');
-                return false;
+            
+        $('.text').keyup(function(){
+            var text = $(this).attr('id');
+            var curLength=$('#'+text).val().length;
+            var count = $(this).next().children().attr('id');
+            if(curLength>500){
+                var num=$('#'+text).val().substr(0,500);
+                $('#'+text).val(num);
+                alert("超过字数限制，多出的字将被截断！" );
+            }else{
+                $('#'+count).text(500-$('#'+text).val().length);
             }
-        });
+        }); 
+        // $(".pull-right").click(function(){
+        //     $(".s_result").each(function(){
+        //         if($(this).val() == 0){
+        //             alert('请完整填写商品评价');return false;exit;
+        //         }else{
+        //             return true;
+        //         }
+                
+        //     });
+        // });
+        // $(".pull-right").click(function(){
+        //     var star = $('.s_result').attr('id');
+        //     var stars = $('#'+star).val();
+        //     var text = $('.text').attr('id');
+        //     var texts = $('#'+text).val();
+            
+        //     if(stars == 0 || texts == ''){
+        //         alert('请完整填写商品评价');
+        //         return false;
+        //     }
+        // });
     });
-
-    function words_deal(){
-        var curLength=$("#TextArea1").val().length;
-        if(curLength>500){
-            var num=$("#TextArea1").val().substr(0,500);
-            $("#TextArea1").val(num);
-            alert("超过字数限制，多出的字将被截断！" );
-        }else{
-            $("#textCount").text(500-$("#TextArea1").val().length);
-        }
-    }
 </script>
-
 <{/block}>

@@ -13,16 +13,18 @@ use think\Db;
 
 class Wxpay extends Common
 {
-
-    public function index(){
+    public function index($id, $type){
 
         $uid = session(config('USER_ID'));
-        $id = input('id', '', 'htmlspecialchars,trim');
-        $type = input('type', '', 'htmlspecialchars,trim');
+        if(empty($id)){
+            $id = input('id', '', 'htmlspecialchars,trim');
+        }
 
-        $check = $this->orderCheck($id, $type);
-        // Session::set(config('ORDER_TYPE'), $check['type']);
+        if(empty($type)){
+            $type = input('type', '', 'htmlspecialchars,trim');
+        }
         
+        $check = $this->orderCheck($id, $type);
 
         if($check['status']){
             #获取用户信息
@@ -36,7 +38,7 @@ class Wxpay extends Common
                 # 判断：微信浏览器用公众号支付否则用H5支付
                 # 公众号支付
                 $tools = new \JsApiPay();
-                $jsApiParameters = $this->orderPay($check['order'], $user, $check['type'], 'JSAPI');
+                $jsApiParameters = $this->orderPay($check['order'], $user, $type, 'JSAPI');
                 $jsApiParameters = $tools->GetJsApiParameters($jsApiParameters);
 
                 $this->assign('jsApiParameters', $jsApiParameters);
@@ -48,7 +50,7 @@ class Wxpay extends Common
                 // return '<img src="'.$qrcode.'"/>';
                 
                 # 扫码支付 模式二
-                $jsApiParameters = $this->orderPay($check['order'], $user, $check['type'], 'NATIVE');
+                $jsApiParameters = $this->orderPay($check['order'], $user, $type, 'NATIVE');
                 $qrcode = "http://paysdk.weixin.qq.com/example/qrcode.php?data=".urlencode($jsApiParameters['code_url']);
                 $this->assign('result', ['status'=>true, 'qrcode'=>$qrcode]);
                 
@@ -67,7 +69,7 @@ class Wxpay extends Common
     }
 
     # 统一下单支付
-    public function orderPay($order, $user, $order_type, $trade_type='JSAPI' ,$attach='六耳猕猴购物订单支付'){
+    public function orderPay($order, $user, $order_type='order', $trade_type='JSAPI' ,$attach='六耳猕猴购物订单支付'){
         
         $wxconf = getWxConf();
         #拼凑信息
@@ -146,7 +148,7 @@ class Wxpay extends Common
                 }
             break;
             case 'charge':
-                $order = Db::name('charge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                $order = Db::name('recharge') -> where(['order_id'=>$id, 'status'=>1]) -> find();
                 if(isset($order)){
                     if($order['money'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;
@@ -157,11 +159,8 @@ class Wxpay extends Common
                 }
             break;
             case 'trade':
-                $order = Db::name('inner_shop') -> where(['order_id'=>$id, 'status'=>1]) -> find();
-                // 余额支付多少还需支付多少（假数据测试）
-                // $order["yuepay"] = 3;
-                // $order["haixupay"] = 6;
-                
+                $order = Db::name('inner_log') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+
                 if(isset($order)){
                     if($order['money'] <= 0){
                         return ['status'=>false, 'content'=>'金额错误' ]; exit;
@@ -178,6 +177,49 @@ class Wxpay extends Common
         
     }
 
+    # 支付页面轮询查询状态
+    public function payStatus(){
+        header('Content-type: application/json, charset=utf-8');
+        $order_id = input('order_id', '','htmlspecialchars,trim');
+        $type = input('type', '','htmlspecialchars,trim');
+
+        if(empty($order_id)){
+            echo json_encode(array('status'=>false, 'content'=>'订单号错误'), JSON_UNESCAPED_UNICODE); exit;
+        }
+
+        if(empty($type)){
+            echo json_encode(array('status'=>false, 'content'=>'订单类型错误'), JSON_UNESCAPED_UNICODE); exit;
+        }
+        switch($type){
+            case 'order':
+                $status = Db::name('order') -> where(['order_id'=>$order_id]) -> find();
+            break;
+            case 'charge':
+                $status = Db::name('recharge') -> where(['order_id'=>$order_id]) -> find();
+            break;
+            case 'trade':
+                $status = Db::name('inner_log') -> where(['order_id'=>$order_id]) -> find(); 
+            break;
+            default:
+                $status = [];
+            break;
+        }
+        
+        if(!empty($status)){
+            if( ($status['status'] > 1) || ($status['pay_status'] == 1) ){
+                echo json_encode(array('status'=>true, 'content'=>'支付成功'), JSON_UNESCAPED_UNICODE); exit;
+            }
+        }else{
+            echo json_encode(array('status'=>false, 'content'=>'订单查询错误'), JSON_UNESCAPED_UNICODE); exit;
+        }
+
+
+    }
+
+
+
+
+#================目前没啥用，以后再说=================================================================================================================
     # 扫码支付 模式一
     public function scanPay($order=[]){
 

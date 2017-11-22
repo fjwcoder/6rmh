@@ -9,7 +9,7 @@
                 <th>时间</th>
                 <th>名称</th>
                 <th>数量</th>
-                <th>价格</th>
+                <th>总价</th>
                 <th>类型</th>
                 <th>卖家姓名</th>
                 <th>备注</th>
@@ -18,17 +18,12 @@
         <tbody>
             <{volist name="list" id="vo"}>
             <tr>
-                <td><{$vo.userid}></td>
-                <td><{$vo.addtime}></td>
+                <td><{$vo.order_id}></td>
+                <td><{$vo.addtime|date='Y-m-d H:i:s',###}></td>
                 <td><{$vo.username}></td>
                 <td><{$vo.value}></td>
-                <td><{$vo.money}></td>
-                <td>
-                    <{switch name="vo['type']"}>
-                        <{case value="1"}>积分<{/case}>
-                        <{case value="2"}>鱼饵<{/case}>
-                    <{/switch}>
-                </td>
+                <td><{$vo.account}></td>
+                <td><{$vo.title}></td>
                 <td><{$vo.sellername}></td>
                 <td><{$vo.remark}></td>
 				

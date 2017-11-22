@@ -13,9 +13,6 @@ class Index extends controller
 
     public function index(){
         
-        // $user = decodeCookie('user');
-        // $id_list = explode(',', $user['id_list']);
-        // return dump(array_reverse($id_list));
 
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();

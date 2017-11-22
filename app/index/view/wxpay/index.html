@@ -74,26 +74,35 @@
                 订单编号：<{$order.order_id}>
             </div>
             <div class="wp_100 h35 bgcolor order f_l">
-                <div class="wp_15 h35 f_l t_r fz_16">卖家姓名：</div>
-                <div class="wp_85 h35 f_l t_l fz_16"><{$order.username}></div>
-            </div>
-            <div class="wp_50 h35 bgcolor order f_l">
-                <div class="wp_30 h35 f_l t_r fz_16">交易数量：</div>
-                <div class="wp_70 h35 f_l t_l fz_16"><{$order.value}></div>
-            </div>
-            <div class="wp_50 h35 bgcolor order f_l">
-                <div class="wp_30 h35 f_l t_r fz_16">名称：</div>
-                <div class="wp_70 h35 f_l t_l fz_16"><{if $order.type == 1}>积分<{elseif $order.type==2}>鱼饵<{/if}></div>
+                <div class="wp_15 h35 f_l t_r fz_16">卖家：</div>
+                <div class="wp_85 h35 f_l t_l fz_16"><{$order.sellername}></div>
             </div>
             <div class="order">
-                <div class="wp_50 h35 bgcolor order f_l">
-                    <div class="wp_30 h35 f_l t_r fz_16">余额支付金额：</div>
-                    <div class="wp_70 h35 f_l t_l fz_16"><{$order.yuepay}></div>
+                <div class="wp_30 h35 bgcolor order f_l">
+                    <div class="wp_50 h35 f_l t_r fz_16">商品名称：</div>
+                    <div class="wp_50 h35 f_l t_l fz_16"><{$order.title}></div>
                 </div>
-                <div class="wp_20 h35 f_l bgcolor">&nbsp;</div>
-                <div class="wp_30 h35 bgcolor f_r t_r fz_16">
-                    <div class="wp_30 h35 f_l t_r fz_18">应付金额：</div>
-                    <div class="wp_70 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
+
+                <div class="wp_30 h35 bgcolor order f_l">
+                    <div class="wp_50 h35 f_l t_r fz_16">交易数量：</div>
+                    <div class="wp_50 h35 f_l t_l fz_16"><{$order.value}></div>
+                </div>
+                <div class="wp_40 h35 bgcolor f_r t_r fz_16"></div>
+            </div>
+            
+            
+            <div class="order">
+                <div class="wp_30 h35 bgcolor order f_l">
+                    <div class="wp_50 h35 f_l t_r fz_16">总金额：</div>
+                    <div class="wp_50 h35 f_l t_l fz_16">¥ <{$order.account}></div>
+                </div>
+                <div class="wp_30 h35 bgcolor order f_l">
+                    <div class="wp_50 h35 f_l t_r fz_16">余额支付金额：</div>
+                    <div class="wp_50 h35 f_l t_l fz_16">¥ <{$order.balance}></div>
+                </div>
+                <div class="wp_40 h35 bgcolor f_r t_r fz_16">
+                    <div class="wp_50 h35 f_l t_r fz_18">应付金额：</div>
+                    <div class="wp_50 h35 f_l t_l fz_18"><i class="red fz_18">¥ <{$order.money}></i></div>  
                 </div>
             </div>
             <{/if}>
@@ -107,7 +116,10 @@
                 <div class="con_info h300">
                     <img class="w200 h200 wechat_code" src="<{$result.qrcode}>" />
                     <img class="w250 h80 wechat_code" src="__STATIC__/images/wechat/scan_hint.png" />
+					
                 </div>
+				<p style="text-align: center;"><a href="/Index/order/index" style="font-size: 20px; color: #6ad4c9;">支付完成后点击跳转</a></p>
+				
             </div>
         </div> 
     </div>
@@ -119,4 +131,38 @@
     </div>
     <{/if}>
 </div>
+<script>
+    $(document).ready(function () {
+        <{if $result.status}>
+            var orderid = '<{$order.order_id}>';
+            var type = '<{$type}>';
+            setInterval(function(){
+                console.log('等待支付');
+                $.ajax({
+                    type: 'GET',
+                    url: '/Index/Wxpay/payStatus',
+                    data: {order_id: orderid, type: type},
+                    success: function(response){
+                        if(response['status']){
+                            if(type=='trade'){ // 交易
+                                window.location.href= '/Index/Inner/index'; 
+                            }else if(type=='charge'){ // 充值
+                                window.location.href= '/Index/balance/recharge'; 
+                            }else{ // 订单
+                                window.location.href= '/Index/order/index'; 
+                            }
+                             
+                        }else{
+                            
+                        }
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });    
+            }, 5000); //5秒刷新一次
+        <{/if}>
+    });
+    
+</script>
 <{/block}>

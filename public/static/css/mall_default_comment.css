@@ -57,7 +57,7 @@ input{outline: none;}
 .star_ul li .three-star{width:79px;background-position:0 -60px;z-index:30;}
 .star_ul li .four-star{width:105px;background-position:0 -30px;z-index:20;}
 .star_ul li .five-star{width:129px;margin-right:0;background-position:0 0;z-index:10;}
-.s_result{padding:3px 0px 3px 10px;}
+.s_result{padding:3px 0px 3px 10px;width:20px;border:none;background: #FAFAFA;}
 
 
 /*商品评论*/
@@ -85,24 +85,3 @@ input{outline: none;}
 #add-num{display:none;}
 #add-num .add-animation{color: #000;position:absolute;top:-36px;left: 10px;font-size: 15px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;animation: mypraise 0.5s ;-moz-animation: mypraise 0.5s ;-webkit-animation: mypraise 0.5s ;-o-animation: mypraise 0.5s ;font-style:normal;}
 .praise .hover , #add-num .add-animation.hover , #praise-txt.hover{color: #EB4F38;}
-/*点赞图标放大动画开始*/
-@keyframes myfirst
-{0%{width:20px;height:20px;}50%{width:30px;height:30px;}100% {width:20px;height:20px;}}
-@-moz-keyframes myfirst 
-{0%{width:20px;height:20px;}50%{width:30px;height:30px;}100% {width:20px;height:20px;}}
-@-webkit-keyframes myfirst 
-{0%{width:20px;height:20px;}50%{width:30px;height:30px;}100% {width:20px;height:20px;}}
-@-o-keyframes myfirst
-{0%{width:20px;height:20px;}50%{width:30px;height:30px;}100% {width:20px;height:20px;}}
-/*点赞图标放大动画结束*/
-/*点赞数量加减动画开始*/
-@keyframes mypraise
-{0%{top:-15px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}25%{top:-20px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}50%{top:-25px;opacity: 1;filter: Alpha(opacity=100);-moz-opacity:1;}75%{top:-30px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}100% {top:-35px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}}
-@-moz-keyframes mypraise
-{0%{top:-15px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}25%{top:-20px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}50%{top:-25px;opacity: 1;filter: Alpha(opacity=100);-moz-opacity:1;}75%{top:-30px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}100% {top:-35px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}}
-@-webkit-keyframes mypraise 
-{0%{top:-15px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}25%{top:-20px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}50%{top:-25px;opacity: 1;filter: Alpha(opacity=100);-moz-opacity:1;}75%{top:-30px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}100% {top:-35px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}}
-@-o-keyframes mypraise
-{0%{top:-15px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}25%{top:-20px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}50%{top:-25px;opacity: 1;filter: Alpha(opacity=100);-moz-opacity:1;}75%{top:-30px;opacity: 0.5;filter: Alpha(opacity=50);-moz-opacity:0.5;}100% {top:-35px;opacity: 0;filter: Alpha(opacity=0);-moz-opacity:0;}}
-/*点赞数量加减动画结束*/
-/*动态点赞结束*/

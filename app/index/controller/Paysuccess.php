@@ -6,11 +6,10 @@
 # |
 # +-------------------------------------------------------------
 namespace app\index\controller;
-use app\common\controller\Common; 
-use app\admin\controller\Wechat as Wechat;
-use app\extend\controller\Mall as Mall;
-use app\index\controller\Wxpay as Wxpay;
-use app\index\controller\Payresult as Payresult;
+// use app\admin\controller\Wechat as Wechat;
+// use app\extend\controller\Mall as Mall;
+// use app\index\controller\Wxpay as Wxpay;
+// use app\index\controller\Payresult as Payresult;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -18,22 +17,17 @@ use think\Db;
 
 class Paysuccess extends controller
 {
-    public function test(){
-        $bait_log[0] = ['userid'=>1, 'value'=>100, 'type'=>1, 'remark'=>'购物获得【100】鱼饵，订单号：100000' ];
-        $log_bait = Db::name('bait_log') -> insertAll($bait_log);
-        echo $log_bait;
-    }
+
 
     #购物支付成功
     public function order($resArr, $order=[]){
         if(!empty($order)){
-            
             # 查询上级用户
             $user = decodeCookie('user');
-            if(!isset($user)){
+            if(empty($user)){
                 $user = Db::name('users') -> where(['id'=>$order['userid'], 'status'=>1]) -> find();
             }
-            
+
             $id_list = explode(',', $user['id_list']);
             $id_list = array_reverse($id_list);
             # 更改用户资产
@@ -94,9 +88,33 @@ class Paysuccess extends controller
     }
 
     # 交易支付成功
-    public function trade($resArr, $order=[]){
+    public function trade($resArr=[], $order=[]){
         if(!empty($order)){
 
+            # 1. 买家增加商品 减少金额
+            Db::name('users') -> where(['id'=>$order['userid'], 'status'=>1]) -> setInc($order['name'], $order['value']);
+            Db::name('users') -> where(['id'=>$order['userid'], 'status'=>1]) -> setDec('money', $order['account']);
+
+            $goods[0] = ['userid'=>$order['userid'], 'name'=>$order['username'], 'value'=>$order['value'], 
+            'type'=>1, 'remark'=>'交易获得【'.$order['value'].'】'.$order['title'].'，订单号：'.$order['order_id']];
+            $goods[1] = ['userid'=>$order['sellerid'], 'name'=>$order['sellername'], 'value'=>$order['value'], 
+            'type'=>2, 'remark'=>'交易售出【'.$order['value'].'】'.$order['title'].'，订单号：'.$order['order_id']];
+            # 2. 卖家增加余额
+            Db::name('users') -> where(['id'=>$order['sellerid'], 'status'=>1]) -> setInc('money', $order['account']); 
+
+            $money[0] = ['userid'=>$order['userid'], 'name'=>$order['username'], 'value'=>$order['value'], 
+            'type'=>2, 'remark'=>'交易失去余额【'.$order['balance'].'】，订单号：'.$order['order_id']];
+            $money[1] = ['userid'=>$order['sellerid'], 'name'=>$order['sellername'], 'value'=>$order['value'], 
+            'type'=>1, 'remark'=>'交易获得余额【'.$order['balance'].'】，订单号：'.$order['order_id']];
+            # 3. 删除inner_shop 信息
+            Db::name('inner_shop') -> where(['order_id'=>$order['order_id']]) -> delete();
+            # 4. 修改inner_log 状态
+            Db::name('inner_log') -> where(['order_id'=>$order['order_id'], 'status'=>1, 'pay_status'=>0]) -> update([
+                'status'=>2, 'pay_status'=>1, 'paytime'=>time(), 'remark'=>'订单完成']); 
+
+            Db::name($order['name'].'_log') -> insertAll($goods); //商品日志
+            Db::name('balance_log') -> insertAll($money); //余额日志
+            return true;
         }else{
             return false;
         }
@@ -106,12 +124,19 @@ class Paysuccess extends controller
     #充值支付成功
     public function charge($resArr, $order=[]){
         if(!empty($order)){
+            
             # 用户余额增加
-            $money = Db::name('users') -> where(['id'=>$order['userid']]) -> setInc('money', $order['value']);
+            $money = Db::name('users') -> where(['id'=>$order['userid']]) -> setInc('money', $order['money']);
+            
+
             if($money){
                 # 修改订单状态
-                $update = Db::name('charge') -> where(['order_id'=>$order['order_id'], 'status'=>1]) -> update(['status'=>2, 'paytime'=>time() ]);
+                $update = Db::name('recharge') -> where(['order_id'=>$order['order_id'], 'status'=>1]) -> update(['status'=>2, 'pay_status'=>1, 
+                    'optime'=>time()]);
+
                 if($update){
+                    Db::name('balance_log') -> insert(['userid'=>$order['userid'], 'name'=>$order['nickname'], 
+                    'value'=>$order['money'], 'type'=>1, 'remark'=>$order['nickname'].'充值获得【'.$order['money'].'】余额']);
                     return true;
                 }else{
                     return false;
@@ -123,10 +148,6 @@ class Paysuccess extends controller
             return false;
         }
     }
-
-    // public function addLog($table){
-    //     $data = [];
-    // }
 
 
 

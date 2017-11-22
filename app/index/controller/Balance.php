@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-// use app\common\controller\Mall as Mall;
+// use app\index\controller\Wxpay as Wxpay;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -10,6 +10,7 @@ use think\Db;
 
 class Balance extends Common
 {
+    //提现
     public function withdraw(){
         $id = session(config('USER_ID'));
         $list = db('withdraw', [], false) -> where(array('userid'=>$id)) ->order('addtime', 'DESC') ->paginate();
@@ -80,37 +81,32 @@ class Balance extends Common
         
     }
 
+
+    //充值
     public function recharge(){
         $id = session(config('USER_ID'));
         $list = db('recharge', [], false) -> where(array('userid'=>$id)) ->order('addtime', 'DESC') ->paginate();
        
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>'余额充值', 'template'=>$config['mall_template']['value'] 
-            ]);
+        $this->assign('config', ['page_title'=>'余额充值', 'template'=>$config['mall_template']['value']  ]);
         $this->assign('list', $list);
         return $this->fetch();
     }
 
     public function opRecharge(){
         $id = session(config('USER_ID'));
-        $money['money'] = input('money',0,'floatval');
-        // dump($money['money']);die;
-        // $data['pay_code'] = input('pay_code',0,'intval');
-
+        $money['money'] = input('money', 0,'floatval');
         $user = decodeCookie('user');
+
+        $money['order_id'] = 'C'.strval(time());
+
+        $money['userid'] = $id;
+        $money['name'] = $user['nickname'];
         
-        // $old_pwd = cryptCode($data['pay_code'], 'ENCODE', substr(md5($data['pay_code']), 0, 4));
-        $money['order_id'] = time();
-        $money['userid'] = $user['id'];
-        $money['name'] = $user['realname'];
-        // $mon = db('users', [], false) ->where(array('id'=>$id)) ->field('money') ->find();
-        
-        if($money['money'] == 0){
+        if($money['money'] <= 0){
             return $this->error('金额错误');
         }
-        // if($money['money'] > $mon['money']){
-        //     return $this->error('余额不足');
-        // }
+
         if(isMobile()){
             $money['type'] = 2;
         }else{
@@ -118,17 +114,18 @@ class Balance extends Common
         }
         $money['terminal'] = clientIP();
         $money['addtime'] = time();
-        // if($old_pwd == $user['pay_code']){
+
         $result = db('recharge', [], false) -> insert($money);
         if($result){
-            return $this->success('申请充值成功', 'Balance/recharge');
+
+            return $this->redirect('Index/Wxpay/index',  ['id'=>$money['order_id'], 
+            'type'=>'charge']);
+            // return $this->success('申请充值成功', 'Balance/recharge');
             
         }else{
             return $this->error('申请充值失败');
         }   
-        // }else{
-        //     return $this->error('密码错误');
-        // }
+
         
     }
 

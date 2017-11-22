@@ -8,7 +8,9 @@
     .span{margin-top:12px;color:#aaa}
     .search{width:25px; height:25px;margin: 10px 10px;border-radius:10px;}
     .input_border{border: 1px solid #e0e0e0;padding: 0px 10px;color:#666}
-    
+    img.my-property{border-radius: 50%; border: 1px solid #e0e0e0;}
+    div.record-info{margin-top: 3%;}
+    div.buy-operation{margin-left: 20%;}
 </style>
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
@@ -43,40 +45,29 @@
         </form>
     </div>
     <div class="more-info-detail table-title wp_100">
-            <div class=" wp_20">图片</div>
-            <div class=" wp_20">上架时间</div>
-            <div class=" wp_10">名称</div>
-            <div class=" wp_10">数量</div>
-            <div class=" wp_10">价格</div>
-            <div class=" wp_10">出售时间段</div>
-            <div class=" wp_10">卖家姓名</div>
-            <div class=" wp_10">操作</div>
+            <div class="t_c  wp_15">图片</div>
+            <div class="t_c  wp_10">名称</div>
+            <div class="t_c  wp_10">数量</div>
+            <div class="t_c  wp_10">单价</div>
+            <div class="t_c  wp_15">总价</div>
+            <!--<div class="t_c  wp_10">出售时间段</div>-->
+            <div class="t_c  wp_20">卖家姓名</div>
+            <div class="t_c  wp_20">操作</div>
         </div>
         <div class="more-info-detail wp_100" >
             <{volist name="list" id="vo"}>
             <{if $vo.status == 1}>
             <div class="cart-goods-record wp_100">
-                <div class="wp_20 f_l">
-                    <{if $vo.type == 1}>
-                    <img class="w100 h80" src="<{$vo.pic}>">
-                    <{else}>
-                    <img class="w100 h80" src="<{$vo.pic}>">
-                    <{/if}>
-                </div>
-                <div class="wp_20 f_l"><{$vo.addtime}></div>
-                <div class=" wp_10 f_l">
-                    <{if $vo.type == 1}>
-                    积分
-                    <{else}>
-                    鱼饵
-                    <{/if}>
-                </div>
-                <div class="wp_10 f_l"><{$vo.value}></div>
-                <div class="wp_10 f_l"><{$vo.money}></div>
-                <div class="wp_10 f_l"><{$vo.selltime}></div>
-                <div class="wp_10 f_l"><{$vo.username}></div>
-                <div class="wp_10 f_l">
-                    <span class="ctrl-option" data-toggle="modal" data-target="#myModal" rel="<{$vo.order_id}>">购买</span>
+                <div class="wp_15 f_l t_c"><img class="w80 h80 my-property" src="<{$vo.pic}>"></div>
+                <div class="record-info wp_10 t_c f_l"><{$vo.title}> </div>
+                <div class="record-info wp_10 t_c f_l"><{$vo.value}></div>
+                <div class="record-info wp_10 t_c f_l"><{$vo.money}></div>
+                <div class="record-info wp_15 t_c f_l"><{$vo.value*$vo.money}></div>
+                <!--<div class="record-info wp_10 t_c f_l"><{$vo.selltime}></div>-->
+                <div class="record-info wp_20 t_c f_l"><{$vo.username}></div>
+                <div class="record-info wp_20 t_c f_l">
+                    
+                    <div class="wp_60 hp_100 t_c buy-operation order-operation-btn" data-toggle="modal" data-target="#myModal" rel="<{$vo.order_id}>">购买</div>
                 </div>
             </div>
             <{/if}>
@@ -102,19 +93,15 @@
                 <div class="wp_100">
                     <div class="wp_100  f_l ">
                         <div class="wp_100 m_t l_h_50">
-                            <span class="wp_60 f_l t_r main_font_color"><input id="checked" type="checkbox" name="checkbox">&nbsp;&nbsp;余额支付<p></p></span>
-                            <!-- <span class="wp_60 f_l t_l main_font_color"><input id="pays" class="khidden w120 h30 main_font_color" type="password" name="pass" value=""></span>    -->
+                            <span class="wp_100 f_l t_c main_font_color"><input id="checked" type="checkbox" name="checkbox">&nbsp;&nbsp;优先使用余额支付<p></p></span> 
                         </div>
-                        <!-- <div class="wp_100 m_t l_h_50">
-                            <a href="/index/inner/gopay"><span class="wp_60 f_l t_r main_font_color"><input class="btn btn-primary" type="submit" name="submit" value="微信支付"></span></a>
-                        </div> -->
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input id="hid" type="hidden" name="order_id" value="">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                     </button>
-                    <!-- <input class="btn btn-primary" type="submit" name="submit" value="提交"> -->  
                     <input class="btn btn-primary" type="submit" name="submit" value="支付">
                         
                 </div>
@@ -134,7 +121,7 @@
 </script>
 <script>
     $(document).ready(function() {
-        $(".ctrl-option").click(function() {
+        $(".buy-operation").click(function() {
             var order_id = $(this).attr('rel');
             console.log(order_id);
             $("#hid").val(order_id);
@@ -148,6 +135,7 @@
         // console.log(a);
         if (this.checked){
             a.innerHTML = '<input class="w80 h30 main_font_color" type="password" name="pass" autofocus placeholder="支付密码" maxlength="6"/>';
+            a.innerHTML += '<br><span style="color: red;">* 交易密码为空则默认不使用余额</span>';
             a.focus();
 
         }else{

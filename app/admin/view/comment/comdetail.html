@@ -1,0 +1,73 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="headimg" class="col-sm-4 control-label"></label>
+        <div class=" member-headimg col-sm-3 col-md-3">
+            <a href="javascript: void(0);" class="thumbnail">
+                <img class=" member-headimg form-control" src="<{$comment.headimgurl}>" alt="用户头像未显示"/>
+            </a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="uid" class="col-sm-4 control-label">用户id：</label>
+        <div class="col-sm-6">
+            <{$comment.uid}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="gname" class="col-sm-4 control-label">用户昵称：</label>
+        <div class="col-sm-6">
+            <{$comment.nickname}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="gid" class="col-sm-4 control-label">商品编号：</label>
+        <div class="col-sm-6">
+            <{$comment.gid}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="gname" class="col-sm-4 control-label">商品名称：</label>
+        <div class="col-sm-6">
+            <{$comment.nickname}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="spec" class="col-sm-4 control-label">规格：</label>
+        <div class="col-sm-6">
+            <{$comment.spec}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comment_star" class="col-sm-4 control-label">评价星级：</label>
+        <div class="col-sm-6">
+            <{$comment.comment_star}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comment" class="col-sm-4 control-label">评价内容：</label>
+        <div class="col-sm-6">
+            <{$comment.comment}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="agree" class="col-sm-4 control-label">点赞数量：</label>
+        <div class="col-sm-6">
+            <{$comment.agree}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="disagree" class="col-sm-4 control-label">踩数量：</label>
+        <div class="col-sm-6">
+            <{$comment.disagree}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="addtime" class="col-sm-4 control-label">添加时间：</label>
+        <div class="col-sm-6">
+            <{$comment.addtime|date="Y-m-d H:i",###}>
+        </div>
+    </div>
+</div>
+<{/block}>

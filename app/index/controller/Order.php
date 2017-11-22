@@ -12,7 +12,7 @@ use think\Db;
 class Order extends Common
 {
 
-    #订单详情页
+    #订单列表页
     public function index(){
         $status = input('status', 0, 'intval');
         // echo $status;
@@ -107,7 +107,7 @@ class Order extends Common
             // return dump($this->getDelivery());
             $this->assign('delivery', $this->getDelivery());
         }else{
-            return '错误'; die;
+            return $this->error('订单查询错误'); die;
         }
         $this->assign('id_list', $cart_list);
         $this->assign('carts', $cart);
@@ -218,17 +218,24 @@ class Order extends Common
                     // return '订单生成成功'; exit;
                 }
             }else{
-                return '订单生成失败'; exit;
+                return $this->error('订单生成失败'); exit;
             }
 
             
         }else{
-            return '订单生成失败'; exit;
+            return $this->error('订单生成失败'); exit;
         }
 
     }
 
-    // public function
+
+    # 订单详情页
+    public function orderDetail(){
+        $order_id = input('id', '', 'htmlspecialchars,trim');
+
+        return $order_id;
+    }
+    
 
     #设置默认地址
     public function defAddr(){
@@ -255,6 +262,7 @@ class Order extends Common
         }
     }
 
+    # 获取用户地址
     public function getAddress(){
         $region = getRegion();
         $address = Db::name('user_address') -> where(['userid'=>session(config('USER_ID'))]) ->order('type desc') -> select();
@@ -287,12 +295,22 @@ class Order extends Common
             ['id'=>1, 'name'=>'微信支付'],
             // ['id'=>2, 'name'=>'支付宝支付'],
             // ['id'=>3, 'name'=>'银联支付'],
-            ['id'=>4, 'name'=>'货到付款']
+            // ['id'=>4, 'name'=>'货到付款']
         ];
 
         return getField($pay, 'id');
     }
 
+    # 确认收货
+    public function getGoods(){
+        $order_id = input('id', '', 'htmlspecialchars,trim');
+        $result = Db::name('order') -> where(['order_id'=>$order_id, 'status'=>3,'pay_status'=>1]) -> update(['status'=>4]);
+        if($result){
+            return $this->redirect('Order/index');
+        }else{
+            return $this->error('尚未支付');
+        }
 
+    }
 
 }
