@@ -138,7 +138,7 @@
             <div class="wp_10 log-value f_l"><{$vo.price}></div>
             <div class="wp_15 log-value f_l"><{$vo.account}></div>
             <div class="wp_15 log-value f_l"><{$vo.sellername}></div>
-            <div class="wp_30 log-value f_l"><{$vo.addtime}></div>
+            <div class="wp_30 log-value f_l"><{$vo.addtime|date='Y-m-d H:i:s',###}></div>
             
         </div>
         <{/volist}>

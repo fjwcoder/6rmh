@@ -159,7 +159,7 @@ class Wxpay extends Common
                 }
             break;
             case 'trade':
-                $order = Db::name('inner_log') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                $order = Db::name('inner_order') -> where(['order_id'=>$id, 'status'=>1]) -> find();
 
                 if(isset($order)){
                     if($order['money'] <= 0){
@@ -198,7 +198,7 @@ class Wxpay extends Common
                 $status = Db::name('recharge') -> where(['order_id'=>$order_id]) -> find();
             break;
             case 'trade':
-                $status = Db::name('inner_log') -> where(['order_id'=>$order_id]) -> find(); 
+                $status = Db::name('inner_order') -> where(['order_id'=>$order_id]) -> find(); 
             break;
             default:
                 $status = [];

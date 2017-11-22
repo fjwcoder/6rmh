@@ -158,7 +158,7 @@ class Payresult extends Controller
                 }
             break;
             case 'trade':
-                $order = Db::name('inner_log') -> where(['order_id'=>$id, 'status'=>1]) -> find();
+                $order = Db::name('inner_order') -> where(['order_id'=>$id, 'status'=>1]) -> find();
 
                 if(isset($order)){
                     if($order['money'] <= 0){

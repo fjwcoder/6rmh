@@ -167,3 +167,13 @@ a, a:visited, a:hover, a:link{text-decoration: none;}
 .fz_20{font-size: 20px;}
 
 /*.bg_op_b10{background: url(../images/opacity/b_10.png);}*/
+/*ul.pagination li{
+    color: #6ad4c9!important;
+}*/
+ul.pagination li.disabled span{
+    color: #f0f0f0;
+}
+ul.pagination li.active span{
+    background-color: #6ad4c9!important;
+    border-color: #6ad4c9!important;
+}

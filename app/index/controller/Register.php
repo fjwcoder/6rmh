@@ -16,6 +16,8 @@ class Register extends controller
         $this->assign('header', ['title'=>'用户注册', 'loginbg'=>'']);
         return $this->fetch();
     }
+
+    
     #####处理注册提交##############
     ######2017-9-10 by ztf##############
     public function Register(){
@@ -39,7 +41,7 @@ class Register extends controller
             if($uid>0){
                 #生成自己的二维码
                 $wechat = new Wechat();
-                $ticket = $wechat -> sceneQRCode($uid, $data); //设置我的微信二维码
+                $ticket = $wechat -> sceneQRCode($uid, $data, true,'QR_SCENE'); //设置我的微信二维码
                 $this->success('注册成功！', 'Login/index');
             }
         }else{

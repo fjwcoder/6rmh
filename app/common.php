@@ -517,6 +517,7 @@ function clientIP() {
         $client_ip = getenv('HTTP_X_FORWARDED_FOR'); 
     } elseif(getenv('REMOTE_ADDR')) {
         $client_ip = getenv('REMOTE_ADDR'); 
+
     } else {
         $client_ip = $_SERVER['REMOTE_ADDR'];
     } 

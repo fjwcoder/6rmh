@@ -362,7 +362,7 @@ class Wechat extends Controller
     # 生成带场景值的二维码
     # $id 用户ID
     # $user 用户信息
-    # $command 强势更新
+    # $command 强制更新
     # $action 整型还是字符串型，默认字符串
     # $limit 是否永久，默认否
     #==========================================================
@@ -386,9 +386,9 @@ class Wechat extends Controller
                 'action_info'=>[]
             ];
             
-            if($action==="QR_STR_SCENE"){
+            if($action==="QR_STR_SCENE"){ // 生成推广二维码
                 $scene['action_info']['scene']['scene_str'] = "uid=".$id."_subscribe=".$user['subscribe']."_pid=$user[pid]";;
-            }elseif($action==="QR_SCENE"){
+            }elseif($action==="QR_SCENE"){ // 生成绑定二维码
                 $scene['action_info']['scene']['scene_id'] = $id;
             }
 
@@ -396,6 +396,7 @@ class Wechat extends Controller
             $url = $wxconf['PARAM_QRCODE']['value'].$this->access_token();
             $response = httpsPost($url, json_encode($scene));
             $result = json_decode($response, true);
+            return dump($result);
             $data = ['qr_code'=>$wxconf['SHOW_QRCODE']['value'].urlencode($result['ticket']), 
                 'qr_seconds'=>intval(time())+intval($result['expire_seconds']), 
                 'qr_ticket'=>$result['ticket']];

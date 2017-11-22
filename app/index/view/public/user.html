@@ -32,21 +32,18 @@
     
     <!--显示头像和二维码-->
     <div class="content-panel" style="height: 120px; margin-top: 20px; padding: 0 2%;">
-        <a href="javascript: void(0);" title="点击更新二维码">
-            <img id="my-qrcode" class="f_r "  src="<{$cookie.qr_code}>"/>
-        </a>
+        
         <a href="javascript: void(0);" title="点击更新头像">
             <img id="top-headimgurl" class="f_l"  src="<{$cookie.headimgurl}>"/>
         </a>
         
-        
-        <!--<span class="f_r">
-            <{if $cookie.subscribe==2}>
-                请尽快绑定微信
-            <{else}>
-                我的推广二维码
-            <{/if}>
-        </span>-->
+        <a href="javascript: void(0);" title="点击更新二维码">
+            <img id="my-qrcode" class="f_r " data-container="body" title=<{if $cookie.openid != ''}>"我的推广二维码"<{else}>"微信扫描二维码绑定"<{/if}> 
+                data-toggle="popover"data-placement="left" 
+             src="<{$cookie.qr_code}>" data-content=<{if $cookie.openid != ''}>"分享该二维码，关注得好礼"<{else}>"请用微信扫描二维码，绑定微信号"<{/if}> />
+        </a>
+
+
     </div>
 
     <!--主要内容页面-->

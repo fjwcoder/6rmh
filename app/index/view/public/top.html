@@ -8,54 +8,53 @@
     </ul>
     
     <ul class="fa-ul pull-right">
-        <li class="sitenav">
-            <a href="{{logout}}">
-                <i class=" fa-li fa fa-user"></i>注销
-            </a>
-        </li>
-        <li class="sitenav">
-            <a href="{{mobile}}" target="_blank">
-                <i class=" fa-li fa fa-qrcode"></i>手机商城
-            </a>
-        </li>
-        
 
-        
-        
         <li class="dropdown sitenav" style="height: 26px;">
             <span type="button" class=" dropdown-toggle" id="dropdownMenu1" >
-                <a role="menuitem" tabindex="-1" href="{{user}}" target="_blank">
-                    <i class=" fa-li fa fa-user"></i>会员中心
+                <a role="menuitem" tabindex="-1" href="{{mobile}}" target="_blank">
+                    <i class=" fa-li fa fa-mobile-phone"></i>手机商城
                 </a>
             </span>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                <li class="presentation" role="presentation">
-                    <a role="menuitem" tabindex="-1" href="{{order}}" target="_blank">
-                        <!--<i class=" fa-li fa fa-heart"></i>-->
-                        我的订单
-                    </a>
-                    
-                </li>
-
                 <li class="presentation"  role="presentation">
-                    <a href="/index/help/index" target="_blank">
-                        <!--<i class=" fa-li fa fa-hand-paper-o"></i>-->
-                        帮助中心
-                    </a>
+                    <a href="/index/help/index" target="_blank">帮助中心</a>
                 </li>
             </ul>
         </li>
 
+
+        <li class="dropdown sitenav" style="height: 26px;">
+            <span type="button" class=" dropdown-toggle" id="dropdownMenu2" >
+                <a role="menuitem" tabindex="-1" href="{{user}}" target="_blank">
+                    <i class=" fa-li fa fa-user"></i>会员中心
+                </a>
+            </span>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                <li class="presentation" role="presentation">
+                    <a  href="{{order}}" target="_blank">我的订单</a>
+                </li>
+
+                <li class="presentation"  role="presentation">
+                    <a href="/index/inner/index" target="_blank">我的资产</a>
+                </li>
+
+                <li class="presentation khidden" role="presentation" ng-class="{kshow: 1==beshow}">
+                    <a href="{{logout}}" >注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</a>
+                </li>
+
+            </ul>
+        </li>
+
         <li class="sitenav">
-            <a role="menuitem" tabindex="-1" href="{{cart}}" target="_blank">
-                <i class=" fa-li fa fa-heart"></i>
+            <a tabindex="-1" href="{{cart}}" target="_blank">
+                <i class=" fa-li fa fa-shopping-cart"></i>
                 购物车
             </a>
             
         </li>
         <li class="sitenav">
             <a href="{{index}}" target="_blank">
-                <i class=" fa-li fa fa-qrcode"></i>进入商城
+                <i class=" fa-li fa fa-shopping-bag"></i>进入商城
             </a>
         </li>
     </ul>
@@ -63,17 +62,21 @@
 </div>
 <script>
     var app = angular.module('myApp', []);
+
     app.controller('topCtrl', function($scope, $http){
         $http.get('/index/index/topInfo')
         .then(function successCallback(response){
             $scope.top = response.data.left;
-            
-            $scope.logout = response.data.right.logout;
-            $scope.mobile = response.data.right.mobile;
-            $scope.order = response.data.right.order;
-            $scope.cart = response.data.right.cart;
-            $scope.user = response.data.right.user;
-            $scope.index = response.data.right.index;
+            if(response.data.show){
+                $scope.beshow = 1;
+                $scope.logout = response.data.right.logout.url
+            }
+
+            $scope.mobile = response.data.right.mobile.url;
+            $scope.order = response.data.right.order.url;
+            $scope.cart = response.data.right.cart.url;
+            $scope.user = response.data.right.user.url;
+            $scope.index = response.data.right.index.url;
 
         }, function errorCallback(response){
             console.log('失败');

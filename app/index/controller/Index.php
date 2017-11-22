@@ -18,6 +18,7 @@ class Index extends controller
             $gaode = new Gaode();
             $gaode->IPLocation();
         }
+        
 
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
@@ -46,14 +47,15 @@ class Index extends controller
     #======================================================angularjs的$http========================================================================
     public function topInfo(){
         $config = mallConfig();
+        
 
-        if(Session::get(Config::get('USER_ID'))){ //如果没有登录
+        if(Session::get(Config::get('USER_ID'))){ //如果登录了
             $user = decodeCookie('user');
+            
             $data = [
                 'left'=> [
-                    ['title'=>empty($user['realname'])?$user['name']:$user['realname'], 'url'=>'/index/order/index', 'iconfont'=>''],
+                    ['title'=>empty($user['nickname'])?$user['name']:$user['nickname'], 'url'=>'/index/order/index', 'iconfont'=>''],
                     ['title'=>session('LOCATION.CITY'), 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
-                    // ['title'=>'注销', 'url'=>'javascript: void(0);', 'iconfont'=>'']
                 ]
             ];
         }else{
@@ -66,15 +68,23 @@ class Index extends controller
                 ]
             ];
         }
+
         $data['right'] = [
-            'logout' => '/index/login/logout', // 注销
-            'mobile' => '/index/login/mobilemall',  // 手机商城
-            'order'=> '/index/order/index',  // 我的订单
-            'cart'=> '/index/cart/index', // 购物车
-            'user'=> '/index/order/index', // 
-            'index' => '/index/index/index'
+            'index'=>['name'=>'index', 'title'=>'进入商城','url' => '/index/index/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'],
+            'user'=>['name'=>'user', 'title'=>'会员中心','url'=> '/index/order/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'], // 
+            'cart'=>['name'=>'cart',  'title'=>'购物车','url'=> '/index/cart/index', 'iconfont'=>'fa-li fa fa-heart',  'target'=>'_blank'], // 购物车
+            'order'=>[ 'name'=>'order', 'title'=>'我的订单','url'=> '/index/order/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'],  // 我的订单
+            'mobile'=>['name'=>'mobile', 'title'=>'手机商城', 'url' => '/index/login/mobilemall', 'iconfont'=>'fa-li fa fa-qrcode',  'target'=>'_blank'],  // 手机商城
+            'logout'=>['name'=>'logout', 'title'=>'注销', 'url' => '/index/login/logout', 'iconfont'=>'fa-li fa fa-user', 'target'=>'']
         ];
 
+        if(Session::get(Config::get('USER_ID'))){ //登录
+            $data['show'] = true;
+        }else{
+            $data['show'] = false;
+        }
+        $data['right'] = array_reverse($data['right']);
+        
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 

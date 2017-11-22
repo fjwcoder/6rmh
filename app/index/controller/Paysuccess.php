@@ -108,8 +108,8 @@ class Paysuccess extends controller
             'type'=>1, 'remark'=>'交易获得余额【'.$order['balance'].'】，订单号：'.$order['order_id']];
             # 3. 删除inner_shop 信息
             Db::name('inner_shop') -> where(['order_id'=>$order['order_id']]) -> delete();
-            # 4. 修改inner_log 状态
-            Db::name('inner_log') -> where(['order_id'=>$order['order_id'], 'status'=>1, 'pay_status'=>0]) -> update([
+            # 4. 修改inner_order 状态
+            Db::name('inner_order') -> where(['order_id'=>$order['order_id'], 'status'=>1, 'pay_status'=>0]) -> update([
                 'status'=>2, 'pay_status'=>1, 'paytime'=>time(), 'remark'=>'订单完成']); 
 
             Db::name($order['name'].'_log') -> insertAll($goods); //商品日志

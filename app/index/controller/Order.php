@@ -14,6 +14,7 @@ class Order extends Common
 
     #订单列表页
     public function index(){
+
         $status = input('status', 0, 'intval');
         // echo $status;
         $order = [];
@@ -26,9 +27,11 @@ class Order extends Common
             ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
                 'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
             ->where($where) ->order('a.add_time desc') -> paginate();
-
+ 
+// return dump($data);
         if(!empty($data)){
             foreach($data as $k=>$v){
+
                 if(!array_key_exists($v['order_id'], $order)){
                     $order[$v['order_id']]['order'] = ['order_id'=>$v['order_id'], 'userid'=>$v['userid'], 'status'=>$v['status'], 
                         'pay_status'=>$v['pay_status'], 'balance'=>$v['balance'], 'money'=>$v['money'], 'baits'=>$v['baits'], 
@@ -234,6 +237,7 @@ class Order extends Common
         $order_id = input('id', '', 'htmlspecialchars,trim');
 
         return $order_id;
+        return $this->fetch('detail');
     }
     
 

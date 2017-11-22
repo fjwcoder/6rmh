@@ -18,7 +18,7 @@ class Inner extends Common
         //查询用户信息
         $userinfo = db('users', [], false) ->where(array('id'=>$id)) ->find();  
         //查询购买记录表
-        $log = db('inner_log', [], false) ->alias('a')
+        $order = db('inner_order', [], false) ->alias('a')
             ->join('inner_goods b', 'a.type=b.id', 'LEFT')
             ->where(['userid'=>$id])
             ->order('addtime DESC') ->paginate();
@@ -27,7 +27,7 @@ class Inner extends Common
             ]);
         $this->assign('list', $list);
         $this->assign('userinfo', $userinfo);
-        $this->assign('log', $log);
+        $this->assign('log', $order);
         return $this->fetch();
     }
     //出售
@@ -172,7 +172,7 @@ class Inner extends Common
             }
             $log['addtime'] = time();
             $log['remark'] = '生成订单，等待支付';
-            $insert = Db::name('inner_log') -> insert($log);
+            $insert = Db::name('inner_order') -> insert($log);
             if($insert){
                 if($log['money'] != 0){ //微信支付
                     return $this->redirect('Index/Wxpay/index',  ['id'=>$log['order_id'], 
