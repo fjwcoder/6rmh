@@ -3400,4 +3400,28 @@ class WxPayBizPayUrl extends WxPayDataBase
 	{
 		return array_key_exists('is_subscribe', $this->values);
 	}
+
+}
+
+/**
+* 
+* 企业付款
+* @author widyhu
+*
+*/
+class PayToUser extends WxPayDataBase{
+
+	public function SetValues($param, $value){
+		$this->values[$param] = $value;
+	}
+
+	public function GetParamValues($param){
+		return $this->values[$param];
+	}
+
+	public function QueryValues($param){
+		return array_key_exists($param, $this->values);
+	}
+
+
 }

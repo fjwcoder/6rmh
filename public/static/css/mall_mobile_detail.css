@@ -50,7 +50,7 @@ li{
 }
 .shop_car{
     text-align: center;
-    background-color: #6ad4c9;
+    background-color: #e92563;
     color: #fff;
     line-height: 2.4em;
     font-size: 2em;
@@ -188,4 +188,7 @@ s{
 .add_car:active{
     color: #fff;
     background: #458b83;
+}
+.comment{
+    min-height: 30em;
 }

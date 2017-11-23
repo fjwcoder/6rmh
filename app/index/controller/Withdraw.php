@@ -3,7 +3,7 @@ namespace app\index\controller;
 vendor('wxpay.WxPay#JsApiPay');
 use app\common\controller\Common; 
 use app\admin\controller\Wechat as Wechat;
-use app\extend\controller\Mall as Mall;
+// use app\extend\controller\Mall as Mall;
 
 use think\Controller;
 use think\Config;
@@ -24,9 +24,17 @@ class Withdraw extends Common
 		$uid = session(config('USER_ID'));
 		$wxconf = getWxConf();
 		
+		$input = new \PayToUser();
+		$input -> SetValues('partner_trade_no', ''); // 企业付款单号
+		$input -> SetValues('enc_bank_no', ''); //收款方银行卡号
+		$input -> SetValues('enc_true_name', ''); //开户人姓名
+		$input -> SetValues('bank_code', ''); // 开户行
+		$input -> SetValues('amount', ''); // 付款金额
+		$input -> SetValues('desc', ''); //付款说明
 
+		$order = \WxPayApi::payToBank($input);
 
-
+		return dump($order);
 	}
 
 

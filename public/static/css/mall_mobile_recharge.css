@@ -1,0 +1,33 @@
+.re_form{
+	text-align: center;
+	margin: 1em auto;
+}
+.form_submit{
+	color: #fff;
+	background-color: #6ad4c9;
+	border: none;
+}
+.sign{
+	background-color: #fff;
+}
+#recharge_amount{
+	border:1px 0px solid #ccc;
+}
+#recharge_amount:focus{
+	border: 1px solid #6ad4c9!important;
+}
+.panel-heading{
+	color: rgb(117,117,117);
+	text-align: center;
+	font-weight: bold;
+}
+.list_content{
+	font-size: 0.5em;
+}
+.page_footer{
+	text-align: center;
+}
+.active span{
+	border-color: #6ad4c9!important;
+	background-color: #6ad4c9!important;
+}

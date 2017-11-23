@@ -39,10 +39,13 @@
                         <{else}>
                         <{volist name="bank" id="vo"}>
                         <div class="withdraw-record f_l wp_100">
-                            <span class="f_l t_c withdraw-title wp_20" ng-class="{choseSpec: <{$vo.id}>==isChose}" data-ng-click="specSelect(<{$vo.id}>)"><{$vo.banktype}></span>
-                            <span class="f_l o_h withdraw-content wp_75">
-                                <{$vo.accountholder}>&nbsp;&nbsp;&nbsp;
-                                <{$vo.accountbank}>&nbsp;
+                            <span class="f_l t_c withdraw-title wp_20"
+                                data-container="body" title="开户人：<{$vo.accountholder}> " data-toggle="popover"
+                                data-placement="top" data-content="开户行：<{$vo.accountbank}>"
+                             ng-class="{choseSpec: <{$vo.id}>==isChose}" data-ng-click="specSelect(<{$vo.id}>)"><{$vo.banktype}></span>
+                            <span class="f_l o_h withdraw-content wp_50" ><{$vo.cartnumber}>&nbsp;&nbsp;&nbsp;<{$vo.accountholder}></span>
+                            <span class="f_l o_h withdraw-content wp_10" title="修改银行信息">
+                                <a href="/index/bank/edit/id/<{$vo.id}>">修改</a>   
                             </span>
                         </div>
                         <{/volist}>
@@ -53,7 +56,11 @@
             <div class="wp_100 m_t l_h_50">
                 <span class="wp_20 f_l t_r main_font_color f_c">交易密码：</span>
                 <span class="wp_5 f_l t_r main_font_color f_c">&nbsp;</span>
-                <span class="wp_75 f_l t_l main_font_color"><input class="w280 h30 main_font_color input_border" type="text" name="pay_code" value=""  required></span>   
+                <span class="wp_50 f_l t_l main_font_color"><input class="w280 h30 main_font_color input_border" maxlength="6" type="password" name="pay_code" value=""  required></span>   
+
+                <span class="wp_20 f_l t_l main_font_color f_c" title="修改交易密码">
+                    <a href="index/user/passcode">修改密码</a>   
+                </span>
             </div>
         </div>
         <div class="wp_10  f_l"></div>

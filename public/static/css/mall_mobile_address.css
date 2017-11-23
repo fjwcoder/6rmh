@@ -1,0 +1,71 @@
+html{
+	padding-bottom: 6em!important;
+}
+.address-title{
+	margin: 1em 0;
+	text-align: center;
+	color: #6ad4c9;
+	font-size: 1em;
+	font-weight: bold;
+}
+.fone-color{
+	color: #f00;
+}
+.withdraw{
+	margin: 0.5em;
+	border-radius: 0.5em;
+	box-shadow: 0em 0em 0.5em #ccc;
+	padding: 0.5em;
+	height: 12em;
+}
+.address{
+	display: inline-block;
+}
+.address a{
+	color: #999;
+	text-decoration: none;
+	font-weight: bold;
+}
+.edit_button{
+	color: #6ad4c9!important;
+}
+.top-title{
+	position: relative;
+	margin-bottom: 0.5em;
+}
+.top-title a{
+	color: #6ad4c9;
+	text-decoration: none;
+}
+.add_address{
+    text-align: center;
+    background-color: #6ad4c9;
+    color: #fff;
+    line-height: 2.4em;
+    font-size: 2em;
+    box-shadow: 0px 5px 8px #ccc;
+    position: fixed;
+    right: 0.5em;
+    top: 78%;
+    width:2.4em;
+    height: 2.4em;
+    border-radius: 1.2em;
+    z-index: 10;
+    transition: background-color 0.5s, box-shadow 0.5s, transform 0.5s;
+}
+.add_address:active{
+    transform:scale(0.95,0.95);
+    background-color: #458b83;
+    box-shadow: 0px 1px 2px #bbb;
+}
+.form-submit{
+	color: #fff;
+	background-color: #6ad4c9;
+}
+
+input:focus{
+	border: 1px solid #6ad4c9!important;
+}
+label,h4{
+	color: #999;
+}

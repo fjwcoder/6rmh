@@ -78,7 +78,7 @@
             <{/volist}>
         </div>
         <div class="foot-info-navbar">
-            <a class="btn btn-block" href="/index/order/preview/id_list/{{cart_list}}" title="结算选中商品">去结算</a>
+            <a class="btn btn-block" href="/index/order/preview/id_list/{{cart_list}}" title="结算选中商品">结算</a>
         </div>
     </div>
     <{include file="public/footer"/}>
@@ -123,14 +123,8 @@
             $(this).parent().nextAll('.good-option').fadeIn(100);
             event.stopPropagation();
         });
-       /* $('.goods-detail').click(function(){
-            $(this).next().fadeOut(100);
-            $(this).parent().animate({
-                left: '0em'
-            },100);
-        });*/
-        $('.edit').parent().siblings().click(function(){
-            $(this).nextAll('.good-option').fadeOut(100);
+        $('.edit').parent().parent().children().click(function(){
+            $('.good-option').fadeOut(100);
             $(this).parents().animate({
                 left:'0em'
             },100);

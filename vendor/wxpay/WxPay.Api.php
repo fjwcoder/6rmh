@@ -14,7 +14,7 @@ class WxPayApi
 {
 
 	/**
-	 * 
+	 *  6rmh 统一下单调用
 	 * 统一下单，WxPayUnifiedOrder中out_trade_no、body、total_fee、trade_type必填
 	 * appid、mchid、spbill_create_ip、nonce_str不需要填入
 	 * @param WxPayUnifiedOrder $inputObj
@@ -188,9 +188,52 @@ class WxPayApi
         return $values;
     }
 	
+	/**
+	 * 企业付款到银行卡
+	 * 企业付款，WxPayUnifiedOrder中   必填
+	 * appid、mchid、spbill_create_ip、nonce_str不需要填入
+	 * @param WxPayUnifiedOrder $inputObj
+	 * @param int $timeOut
+	 * @throws WxPayException
+	 * @return 成功时返回，其他抛异常
+	 */
+	public static function payToBank($inputObj, $timeOut = 6)
+	{
+		$url = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
+		//检测必填参数
+		if(!$inputObj->QueryValues('partner_trade_no')) {
+			throw new WxPayException("缺少统一支付接口必填参数partner_trade_no！");
+		}else if(!$inputObj->QueryValues('enc_bank_no')){
+			throw new WxPayException("缺少统一支付接口必填参数enc_bank_no！");
+		}else if(!$inputObj->QueryValues('enc_true_name')) {
+			throw new WxPayException("缺少统一支付接口必填参数enc_true_name！");
+		}else if(!$inputObj->QueryValues('bank_code')) {
+			throw new WxPayException("缺少统一支付接口必填参数bank_code！");
+		}else if(!$inputObj->QueryValues('amount')){
+			throw new WxPayException("缺少统一支付接口必填参数amount！");
+		}else if(!$inputObj->QueryValues('desc')){
+			throw new WxPayException("缺少统一支付接口必填参数desc！");
+		}
+		
+		$inputObj->SetValues('mch_id', WxPayConfig::MCHID);//商户号
+		$inputObj->SetValues('nonce_str', self::getNonceStr());//随机字符串
+
+		//签名
+		$inputObj->SetSign();
+		$xml = $inputObj->ToXml();
+		echo 'xml'; die;
+		$startTimeStamp = self::getMillisecond();//请求开始时间
+		
+		$response = self::postXmlCurl($xml, $url, true, $timeOut);//这一行出错，修改了postXmlCurl函数后运行正常
+		
+		$result = WxPayResults::Init($response);
+
+		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
+		return $result;
+	}
 	
 	/**
-	 * 
+	 * 企业付款到微信钱包
 	 * 企业付款，WxPayUnifiedOrder中   必填
 	 * appid、mchid、spbill_create_ip、nonce_str不需要填入
 	 * @param WxPayUnifiedOrder $inputObj

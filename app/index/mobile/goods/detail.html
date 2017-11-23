@@ -24,7 +24,31 @@
     <div class="choice_size btn btn-block">
         选择规格
     </div>
-    <div class="swiper-container-contant" data-ng-controller="goodsCtrl">
+    <div class="size" data-ng-controller="goodsCtrl">
+        <div class="close"></div><!--黑色部分-->
+        <div class="size-content">
+        <img src="<{$goods.img}>" alt="商品图片" rel="<{$goods.img}>">
+        <span class="item-title">重量：</span>
+        <{$goods.weight}>kg
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+        <{if $goods.free_shipping ==1}>
+            免运费 
+        <{/if}>
+        <li><span class="item-title">选择规格：</span></li>
+        <{volist name="$goods.spec" id="vo"}>
+            <li class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
+        <{/volist}>
+         <span class="end_count item-title">库存：<{$goods.amount}></span>
+        <div class="buy_count input-group">
+            <div class="input-group-addon" ng-click="redNum()">-</div>
+            <input id="buy-number"  ng-model="buy_number" title="填写购买数量"/>
+            <div class="input-group-addon" ng-click="addNum()">+</div>
+        </div>
+        <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">加入购物车</a>
+        </div>
+    </div>
+    <div class="swiper-container-contant" >
         <div class="swiper-wrapper">
             <div class="product_info swiper-slide">
                 <!--banner区-->
@@ -65,31 +89,6 @@
                             来源不明
                         <{/if}>
                     </p>
-                </div>
-              
-                <div class="size">
-                    <div class="close"></div><!--黑色部分-->
-                    <div class="size-content">
-                    <img src="<{$goods.img}>" alt="商品图片" rel="<{$goods.img}>">
-                    <span class="item-title">重量：</span>
-                    <{$goods.weight}>kg
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    
-                    <{if $goods.free_shipping ==1}>
-                        免运费 
-                    <{/if}>
-                    <li><span class="item-title">选择规格：</span></li>
-                    <{volist name="$goods.spec" id="vo"}>
-                        <li class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
-                    <{/volist}>
-                     <span class="end_count item-title">库存：<{$goods.amount}></span>
-                    <div class="buy_count input-group">
-                        <div class="input-group-addon" ng-click="redNum()">-</div>
-                        <input id="buy-number"  ng-model="buy_number" title="填写购买数量"/>
-                        <div class="input-group-addon" ng-click="addNum()">+</div>
-                    </div>
-                    <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">加入购物车</a>
-                </div>
                 </div>
             </div>
             <!--详情页-->
