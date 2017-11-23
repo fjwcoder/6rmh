@@ -3425,3 +3425,27 @@ class PayToUser extends WxPayDataBase{
 
 
 }
+
+/**
+* 
+* 企业付款
+* @author widyhu
+*
+*/
+class GetRSAKEY extends WxPayDataBase{
+
+	public function SetValues($param, $value){
+		$this->values[$param] = $value;
+	}
+
+	public function GetParamValues($param){
+		return $this->values[$param];
+	}
+
+	public function QueryValues($param){
+		return array_key_exists($param, $this->values);
+	}
+
+
+}
+

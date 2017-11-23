@@ -236,7 +236,7 @@ class Wxpay extends Common
             $sign = $this->getSign($str_appid, $str_mch_id, $str_product, $str_stamp, $wxconf['PAYSECRET']['value']); 
             
             $qr_str = "weixin://wxpay/bizpayurl?";
-            $qr_str .= "sign=".$sign['sigh']."&"; //签名 String(32)
+            $qr_str .= "sign=".$sign['sign']."&"; //签名 String(32)
             $qr_str .= $str_appid.$str_mch_id.$str_product.$str_stamp;
             $qr_str .= "&nonce_str=".$sign['noncestr']; // 随机字符串 String(32)
 
@@ -257,7 +257,7 @@ class Wxpay extends Common
         $stringA = $str_appid.$str_mch_id.'&nonce_str='.$nonce_str.$str_product.$str_stamp;
         $stringSignTemp = $stringA."&key=".$key;
         $sign = strtoupper(MD5($stringSignTemp));
-        return ['noncestr'=>$nonce_str, 'sigh'=>$sign];
+        return ['noncestr'=>$nonce_str, 'sign'=>$sign];
      }
 
 

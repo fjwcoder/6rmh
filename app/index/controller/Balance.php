@@ -60,15 +60,21 @@ class Balance extends Common
             }else{
                 $money['type'] = 1;
             }
+            $money['order_id'] = 'P2B'.time();
+            $money['accountholder'] = $user['accountholder'];
+            $money['accountbank'] = $user['accountbank'];
+            $money['cartnumber'] = $user['cartnumber'];
+            $money['bank_code'] = $user['bank_code'];
             $money['terminal'] = clientIP();
-        
+            $money['remark'] = '申请提现';
+
             $result = db('withdraw', [], false) -> insert($money);
             if($result){
                 # 判断是否自动提现
                 $mallconfig = mallConfig();
                 if($mallconfig['auto_pay']['value'] == 1){ //自动提现
                     $widthdraw = new Widthdraw();
-                    $pay_status = $widthdraw->payToBank();
+                    $pay_status = $widthdraw->payToBank($money['order_id'], $money);
                     if($pay_status){
                         return $this->success('提现成功', 'Balance/withdraw');
                     }else{

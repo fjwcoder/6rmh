@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',//'127.0.0.1',
+    'hostname'        => '47.93.17.8',//'127.0.0.1',
     // 数据库名
     'database'        => 'sixer',
     // 用户名
-    'username'        => 'user',
+    'username'        => 'root',
     // 密码
-    'password'        => '123456',//'root',
+    'password'        => 'qiandaozg',//'19920104',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

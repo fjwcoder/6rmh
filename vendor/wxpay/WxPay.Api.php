@@ -231,6 +231,36 @@ class WxPayApi
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
 		return $result;
 	}
+
+	/*获取RSA加密公钥*/
+	public static function getRSAKey($inputObj, $timeOut=6){
+		$url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
+
+		if(!$inputObj->QueryValues('mch_id')) {
+			throw new WxPayException("缺少统一支付接口必填参数mch_id");
+		}else if(!$inputObj->QueryValues('nonce_str')){
+			throw new WxPayException("缺少统一支付接口必填参数nonce_str！");
+		}else if(!$inputObj->QueryValues('sign')) {
+			throw new WxPayException("缺少统一支付接口必填参数sign！");
+		}else if(!$inputObj->QueryValues('sign_type')) {
+			throw new WxPayException("缺少统一支付接口必填参数sign_type！");
+		}
+		
+
+		var_dump($inputObj); die;
+
+		$xml = $inputObj->ToXml();
+
+		$startTimeStamp = self::getMillisecond();//请求开始时间
+
+		$response = self::postXmlCurl($xml, $url, true, $timeOut);//这一行出错，修改了postXmlCurl函数后运行正常
+		
+		$result = WxPayResults::Init($response);
+
+		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
+		var_export($result); die;
+		return $result;
+	}
 	
 	/**
 	 * 企业付款到微信钱包
