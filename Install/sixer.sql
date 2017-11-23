@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Localhost
-Source Server Version : 50553
-Source Host           : localhost:3306
+Source Server         : My ECS
+Source Server Version : 50635
+Source Host           : 47.95.204.225:3306
 Source Database       : sixer
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2017-09-01 21:54:39
+Date: 2017-10-18 15:28:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -82,9 +82,9 @@ CREATE TABLE `keep_admin_member` (
 -- ----------------------------
 -- Records of keep_admin_member
 -- ----------------------------
-INSERT INTO `keep_admin_member` VALUES ('1', 'admin', 'lsWezqE=', '2123', '超级管理员', '0', '0', '272@qq.com', '1495092506', 'fjwcoder', '0', '0', '127.0.0.1', '1', '__STATIC__\\upload\\images\\headimg\\20170830\\8a9f9e5a4f1efd19af91b7a231f50862.jpg');
+INSERT INTO `keep_admin_member` VALUES ('1', 'admin', 'lsWezqE=', '2123', '超级管理员', '0', '0', '272@qq.co', '1495092506', 'fjwcoder', '0', '0', '127.0.0.1', '1', '__STATIC__\\upload\\images\\headimg\\20170919\\423766483257b34bbf7792ae059d98e0.png');
 INSERT INTO `keep_admin_member` VALUES ('2', 'admin1', 'YW9tk2ljYmk=', 'b165', '冯建文0', '0', '3', '22@qq.com', '1502692147', 'admin', '1', '0', '', '1', '__STATIC__\\upload\\images\\headimg\\20170830\\024ec2a1a8af45322de53ef886174f72.jpg');
-INSERT INTO `keep_admin_member` VALUES ('3', 'admin2', 'YW9tk2ljYmk=', 'b165', '冯建文', '1', '3', '33@qq.com', '1502692147', 'admin', '0', '0', '', '1', '');
+INSERT INTO `keep_admin_member` VALUES ('3', 'admin2', 'YW9tk2ljYmk=', 'b165', '冯建文', '1', '3', '33@qq.com', '1502692147', 'admin', '0', '0', '', '1', '__STATIC__\\upload\\images\\headimg\\20170921\\22868fa88e87a61927d034b24b36dafd.png');
 INSERT INTO `keep_admin_member` VALUES ('4', 'admin3', 'YW9tk2ljYmk=', 'b165', '李敏', '3', '2', '2222@qq.com', '1502871785', 'admin', '0', '0', '', '1', null);
 INSERT INTO `keep_admin_member` VALUES ('5', 'admin4', 'YW9tk2ljYmk=', 'b165', '王五', '1', '2', '222@qq.com', '1502871810', 'admin', '0', '0', '', '2', null);
 
@@ -107,7 +107,7 @@ CREATE TABLE `keep_admin_menu` (
   `status` int(1) unsigned NOT NULL COMMENT '状态',
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of keep_admin_menu
@@ -116,34 +116,34 @@ INSERT INTO `keep_admin_menu` VALUES ('24', 'NAV_ADMIN_MENU', '菜单管理', '5
 INSERT INTO `keep_admin_menu` VALUES ('36', 'MALL_NAV_LOGISTICS', '物流公司', '35', '26,35,36', '1', '3', '99', '/admin/logistics/index/navid/36', 'glyphicon-road', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('14', 'NAV_WELCOME_ANNOUNCE', '系统公告', '4', '1,4,14', '1', '3', '99', '', null, '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('1', 'CMS_WELCOME', '欢迎登录', '0', '1', '1', '1', '99', null, 'glyphicon-home', '4', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('23', 'NAV_WX_CONFIG', '配置信息', '20', '3,20,23', '3', '3', '0', '/admin/wechat/config/navid/23', 'glyphicon-cog', '0', '2', null);
+INSERT INTO `keep_admin_menu` VALUES ('23', 'NAV_WX_CONFIG', '配置信息', '20', '3,20,23', '3', '3', '0', '/admin/wxconfig/index/navid/23', 'glyphicon-cog', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('8', 'NAV_ADMIN_MANAGE', '用户列表', '7', '2,7,8', '1', '3', '0', '/admin/member/index/navid/8', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('37', 'MALL_NAV_DELIVERY', '配送方式', '35', '26,35,37', '2', '3', '99', '/admin/delivery/index/navid/37', 'glyphicon-road', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('2', 'CMS_SYSTEM', '系统设置', '0', '2', '2', '1', '0', null, 'glyphicon-cog', '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('9', 'NAV_ADMIN_INFO', '我的信息', '7', '2,7,9', '2', '3', '99', '/admin/member/edit/navid/9', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('6', 'NAV_SYSTEM_SET', '基本配置', '5', '2,5,6', '1', '3', '0', '/admin/system/index/navid/6', 'glyphicon-cog', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('21', 'NAV_WX_MENU', '自定义菜单', '20', '3,20,21', '1', '3', '0', '/admin/wechat/menu/navid/21', 'glyphicon-link', '0', '2', null);
+INSERT INTO `keep_admin_menu` VALUES ('21', 'NAV_WX_MENU', '自定义菜单', '20', '3,20,21', '1', '3', '0', '/admin/wechat/menu/navid/21', 'glyphicon-link', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('15', 'WEB_SET', '前台设置', '0', '15', '8', '1', '0', '', 'glyphicon-globe', '1', '2', null);
 INSERT INTO `keep_admin_menu` VALUES ('16', 'NAV_WEB_SEO', 'SEO设置', '5', '2,5,16', '98', '3', '0', '/admin/seo/index/navid/16', 'glyphicon-tags', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('26', 'MALL_GOODS', '商品管理', '0', '26', '4', '1', '99', null, 'glyphicon-th', '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('13', 'NAV_ADMIN_LEVEL', '级别管理', '11', '2,11,13', '2', '3', '0', '/admin/level/index/navid/13', 'glyphicon-user', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('17', 'WEB_EXT_SET', '基本设置', '15', '15,17', '1', '2', '0', '', '', '5', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('17', 'WEB_EXT_SET', '基本设置', '15', '15,17', '1', '2', '0', '', '', '5', '2', null);
 INSERT INTO `keep_admin_menu` VALUES ('10', 'NAV_ADMIN_PWD', '修改密码', '7', '2,7,10', '3', '3', '99', '/admin/member/passcode/navid/10', 'glyphicon-lock', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('12', 'NAV_ADMIN_BRANCH', '部门管理', '11', '2,11,12', '1', '3', '0', '/admin/branch/index/navid/12', 'glyphicon-user', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('27', 'MALL_ORDER', '订单管理', '0', '27', '5', '1', '99', null, 'glyphicon-list-alt', '1', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('4', 'NODE_WELCOME_ANNOUNC', '系统公告', '1', '1,4', '1', '2', '99', null, null, '1', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('34', 'MALL_NAV_BRAND', '品牌管理', '31', '26,31,34', '5', '3', '99', '/admin/brand/index/navid/34', 'glyphicon-bold', '0', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('20', 'NODE_WX_SET', '微信设置', '3', '3,20', '1', '2', '0', null, null, '3', '2', null);
-INSERT INTO `keep_admin_menu` VALUES ('18', 'WEB_SET_REGIST', '用户注册', '17', '15,17,18', '1', '3', '0', '/admin/web/regist/navid/18', 'glyphicon-thumbs-up', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('20', 'NODE_WX_SET', '微信设置', '3', '3,20', '1', '2', '0', null, null, '3', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('18', 'WEB_SET_REGIST', '用户注册', '17', '15,17,18', '1', '3', '0', '/admin/web/regist/navid/18', 'glyphicon-thumbs-up', '0', '2', null);
 INSERT INTO `keep_admin_menu` VALUES ('25', 'MALL_USER', '用户管理', '0', '25', '3', '1', '99', null, 'glyphicon-user', '1', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('5', 'NODE_SYSTEM_SET', '系统设置', '2', '2,5', '1', '2', '0', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('5', 'NODE_SYSTEM_SET', '系统设置', '2', '2,5', '1', '2', '0', null, null, '6', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('11', 'NODE_ADMIN_BELONG', '权限管理\r\n', '2', '2,11', '3', '2', '0', null, null, '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('28', 'MALL_STATISTIC', '数据统计', '0', '28', '6', '1', '99', null, 'glyphicon-stats', '1', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('35', 'MALL_NODE_SHIPPING', '配送管理', '26', '26,35', '3', '2', '99', null, null, '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('30', 'MALL_NAV_GOODS', '商品列表', '29', '26,29,30', '1', '3', '99', '/admin/goods/index/navid/30', 'glyphicon-th', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('31', 'MALL_NODE_CONFIG', '商品配置', '26', '26,31', '2', '2', '99', null, null, '5', '1', null);
-INSERT INTO `keep_admin_menu` VALUES ('22', 'NAV_WX_CUSTOM', '微信客服', '20', '3,20,22', '2', '3', '0', '/admin/wechat/custom/navid/22', 'glyphicon-user', '0', '2', null);
-INSERT INTO `keep_admin_menu` VALUES ('3', 'CMS_EXT', '扩展管理', '0', '3', '9', '1', '0', null, 'glyphicon-magnet', '2', '2', null);
+INSERT INTO `keep_admin_menu` VALUES ('22', 'NAV_WX_CUSTOM', '微信客服', '20', '3,20,22', '2', '3', '0', '/admin/wechat/custom/navid/22', 'glyphicon-user', '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('3', 'CMS_EXT', '扩展管理', '0', '3', '9', '1', '0', null, 'glyphicon-magnet', '2', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('7', 'NODE_ADMIN_MANAGE', '后台用户', '2', '2,7', '2', '2', '99', null, null, '3', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('33', 'MALL_NAV_SPECIFIC', '规格管理', '31', '26,31,33', '3', '3', '99', '/admin/specific/index/navid/33', 'glyphicon-paperclip', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('29', 'MALL_NODE_GOODS', '商品管理', '26', '26,29', '1', '2', '99', null, null, '2', '1', null);
@@ -153,6 +153,19 @@ INSERT INTO `keep_admin_menu` VALUES ('38', 'MALL_NAV_GOODS_ADD', '添加商品'
 INSERT INTO `keep_admin_menu` VALUES ('39', 'MALL_NAV_CAT_ADD', '添加分类', '31', '26,31,39', '2', '3', '99', '/admin/category/add/navid/32', 'glyphicon-paperclip', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('40', 'NAV_ADMIN_MALL', '商城配置', '5', '2,5,40', '2', '3', '0', '/admin/mall/index/navid/40', 'glyphicon-cog', '0', '1', null);
 INSERT INTO `keep_admin_menu` VALUES ('41', 'MALL_NAV_SERVICE', '服务管理', '31', '26,31,41', '4', '3', '99', '/admin/service/index/navid/41', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('42', 'MALL_NAV_WITHDRAW', '余额订单', '27', '27,42', '1', '2', '99', '', null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('43', 'MALL_BALANCE_WITHDRAW', '余额提现', '42', '27,42,43', '1', '3', '99', '/admin/balance/index/navid/43', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('44', 'NAV_ADMIN_TERM', '分期配置', '5', '2,5,44', '3', '3', '99', '/admin/term/index/navid/44', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('45', 'MALL_DETAILED', '明细管理', '28', '28,45', '1', '2', '2', null, null, '3', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('46', 'MALL_BAIT_LOG', '鱼饵明细', '45', '28,45,46', '1', '3', '99', '/admin/baitlog/index/navid/46', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('47', 'MALL_POINT_LOG', '积分明细', '45', '28,45,47', '2', '3', '99', '/admin/pointlog/index/navid/47', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('48', 'MALL_BALANCE_LOG', '余额明细', '45', '28,45,48', '3', '3', '99', '/admin/balancelog/index/navid/48', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('49', 'INNER_TRADE', '内部交易', '27', '27,49', '2', '2', '99', null, null, '2', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('50', 'INNER_SHOP', '交易大厅', '49', '27,49,50', '1', '3', '99', '/admin/innershop/index/navid/50', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('51', 'INNER_GOODS', '内部物品', '29', '26,29,51', '3', '3', '99', '/admin/innergoods/index/navid/51', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('52', 'INNER_LOG', '交易记录', '49', '27,49,52', '2', '3', '99', '/admin/innershop/innerlog/navid/52', null, '0', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('53', 'MALL_USER_NAV', '商城用户', '25', '25,53', '1', '2', '99', null, null, '1', '1', null);
+INSERT INTO `keep_admin_menu` VALUES ('54', 'MALL_USER_LIST', '用户列表', '53', '25,53,54', '1', '3', '99', '/admin/userlist/index/navid/54', null, '0', '1', null);
 
 -- ----------------------------
 -- Table structure for keep_admin_node
@@ -193,11 +206,70 @@ INSERT INTO `keep_admin_node` VALUES ('36', '0', '0', '2');
 INSERT INTO `keep_admin_node` VALUES ('37', '0', '0', '2');
 
 -- ----------------------------
+-- Table structure for keep_bait_log
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_bait_log`;
+CREATE TABLE `keep_bait_log` (
+  `userid` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `name` varchar(32) DEFAULT NULL COMMENT '用户名称',
+  `value` int(10) unsigned DEFAULT NULL COMMENT '鱼饵数量',
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1获得 2消耗',
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_bait_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for keep_balance_log
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_balance_log`;
+CREATE TABLE `keep_balance_log` (
+  `userid` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `name` varchar(32) DEFAULT NULL COMMENT '用户名称',
+  `value` float(10,2) unsigned DEFAULT NULL COMMENT '余额变动的金额',
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1获得 2消耗',
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_balance_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for keep_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_cart`;
+CREATE TABLE `keep_cart` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `buyer_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '推荐人ID',
+  `seller_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商家ID 默认是网站0',
+  `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
+  `price` float(8,2) NOT NULL,
+  `num` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '商品数量',
+  `spec` int(10) unsigned NOT NULL COMMENT '规格ID',
+  `addtime` int(10) unsigned NOT NULL,
+  `status` int(2) unsigned NOT NULL DEFAULT '1' COMMENT '购物车状态',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=268 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_cart
+-- ----------------------------
+INSERT INTO `keep_cart` VALUES ('267', '1', '0', '0', '5', '1000.00', '9', '1', '1504922853', '1');
+INSERT INTO `keep_cart` VALUES ('1', '1', '0', '0', '5', '1000.00', '25', '2', '1504594928', '1');
+
+-- ----------------------------
 -- Table structure for keep_goods
 -- ----------------------------
 DROP TABLE IF EXISTS `keep_goods`;
 CREATE TABLE `keep_goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `term` int(10) unsigned NOT NULL DEFAULT '0',
   `userid` int(10) unsigned DEFAULT '0' COMMENT '添加人',
   `catid` int(10) unsigned NOT NULL COMMENT '种类',
   `catid_list` varchar(255) NOT NULL COMMENT '种类id链',
@@ -206,13 +278,13 @@ CREATE TABLE `keep_goods` (
   `key_words` varchar(255) DEFAULT NULL COMMENT '关键字',
   `brand` int(10) unsigned DEFAULT NULL COMMENT '品牌',
   `service` varchar(255) DEFAULT NULL COMMENT '服务，存放服务ID',
-  `promotion` varchar(255) DEFAULT NULL COMMENT '促销',
+  `promotion` int(4) unsigned NOT NULL DEFAULT '0' COMMENT '促销',
   `price` float(10,2) unsigned NOT NULL DEFAULT '100.00' COMMENT '销售价格',
   `cost_price` float(10,2) unsigned DEFAULT NULL COMMENT '成本价格',
   `sell_price` float(10,2) unsigned DEFAULT NULL COMMENT '市场价',
   `amount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '库存数量',
-  `sell_amount` int(10) unsigned DEFAULT NULL COMMENT '市场价，单纯的显示用',
-  `img` text COMMENT '图片们,“；”分隔',
+  `sell_amount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '市场价，单纯的显示用',
+  `img` varchar(255) DEFAULT NULL COMMENT '六边形展示的图片',
   `panorama` varchar(255) DEFAULT NULL COMMENT '全景图片文件夹地址',
   `weight` float(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '重量（KG）',
   `bait` float(10,0) unsigned NOT NULL DEFAULT '10' COMMENT '每满多少钱，赠送一个鱼饵',
@@ -228,16 +300,18 @@ CREATE TABLE `keep_goods` (
   `low_comm` int(10) unsigned DEFAULT '0' COMMENT '差评',
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_goods
 -- ----------------------------
-INSERT INTO `keep_goods` VALUES ('1', '0', '8', '5,2,7,8', '测试产品一', '测试产品一副标题', '测试 产品 关键字', '1', null, null, '100.00', '50.00', '120.00', '0', null, '图片一;图片二;图片三;图片四', null, '0.00', '10', '100', '2', '1504079521', 'admin', '2017-09-01 11:15:23', '2', '测试描述', null, null, null, '测试备注');
-INSERT INTO `keep_goods` VALUES ('2', '0', '1', '1', '测试产品二', '测试产二副标题', '测试 产品 关键字', '1', '1;', null, '100.00', '50.00', '120.00', '0', null, 'pic1;pic2;pic', null, '0.00', '10', '100', '2', '1504159981', 'admin', '2017-09-01 18:26:09', '2', '测试描述', null, null, null, '测试描述');
-INSERT INTO `keep_goods` VALUES ('3', '0', '1', '1', 'IPHONE 6S PLUS', 'IPHONE 6S PLUS', 'IPHONE 6S PLUS', '1', '1;2;', null, '6000.00', '4000.00', '8000.00', '0', null, null, null, '1.00', '10', '600', '2', '1504261875', 'admin', '2017-09-01 19:41:10', '1', 'IPHONE 6S PLUS', '0', '0', '0', 'IPHONE 6S PLUS');
-INSERT INTO `keep_goods` VALUES ('4', '0', '7', '5,2,7', '苹果超级大', '苹果超级大', '苹果超级大', '1', '1;2;', null, '2333.00', '1333.00', '4333.00', '0', null, null, null, '1.00', '10', '2333', '2', '1504272158', 'admin', '2017-09-01 21:22:38', '2', '描述', '0', '0', '0', '描述');
-INSERT INTO `keep_goods` VALUES ('5', '0', '1', '1', '苹果超级大', '苹果超级大', '苹果超级大', '1', '1;2;', null, '2333.00', '1333.00', '4333.00', '0', null, null, null, '1.00', '10', '2333', '2', '1504272175', 'admin', '2017-09-01 21:32:56', '2', '描述', '0', '0', '0', '描述');
+INSERT INTO `keep_goods` VALUES ('1', '0', '0', '1', '1', 'Apple iPhone 8 (A1863) 64GB 金色 移动联通电信4G手机', '【iPhone新品上市】新一代iPhone，让智能看起来更不一样。', 'Apple 苹果 iPhone8 64GB 金色', '1', '1', '0', '5888.00', '5888.00', '5888.00', '90', '0', '__STATIC__\\upload\\goods\\image\\20171010\\fc3322664be1f653348b8f4b327cdfc1.jpg', null, '0.00', '588', '100', '1', '1504079521', 'admin', '2017-10-11 16:45:06', '1', '【iPhone新品上市】新一代iPhone，让智能看起来更不一样。', null, null, null, '测试产品');
+INSERT INTO `keep_goods` VALUES ('2', '0', '0', '1', '1', '测试产品二', '测试产二副标题', '测试 产品 关键字', '1', '0,1', '0', '100.00', '50.00', '120.00', '0', '0', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null, '0.00', '10', '100', '2', '1504159981', 'admin', '2017-09-23 16:15:15', '1', '测试描述', null, null, null, '测试描述');
+INSERT INTO `keep_goods` VALUES ('3', '0', '0', '1', '1', 'IPHONE 6S PLUS', 'IPHONE 6S PLUS', 'IPHONE 6S PLUS', '1', '0,1,2', '0', '6000.00', '4000.00', '8000.00', '0', '0', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null, '1.00', '10', '600', '2', '1504261875', 'admin', '2017-09-23 16:15:15', '1', 'IPHONE 6S PLUS', '0', '0', '0', 'IPHONE 6S PLUS');
+INSERT INTO `keep_goods` VALUES ('4', '0', '0', '7', '5,2,7', '苹果超级大', '苹果超级大', '苹果超级大', '1', '0,1,2', '1', '2333.00', '1333.00', '4333.00', '0', '0', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null, '1.00', '10', '2333', '2', '1504272158', 'admin', '2017-09-23 16:15:16', '1', '描述', '0', '0', '0', '描述');
+INSERT INTO `keep_goods` VALUES ('5', '0', '0', '1', '1', '索尼（SONY） DSC-RX100M5（RX100V）黑卡数码相机 等效24-70mm F1.8-2.8蔡司镜头（WIFI/NFC）', '苹果超级大', '苹果超级大', '1', '0,1,2', '1', '1000.00', '1333.00', '4333.00', '30', '0', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null, '1.00', '10', '2333', '1', '1504272175', 'admin', '2017-09-23 16:15:16', '1', '约0.05s超快对焦速度，315个自动对焦点，24张每秒高速连拍，4K视频录制，全新黑卡第五代，火热开抢', '0', '0', '0', '描述');
+INSERT INTO `keep_goods` VALUES ('6', '0', '0', '1', '1', '小强恢恢屋', '小强恢恢屋', '小强恢恢屋', '1', null, '0', '26.00', '40.00', '50.00', '0', '0', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null, '1.00', '2', '26', '1', '1505986303', 'admin', '2017-09-23 16:15:17', '1', '1212', '0', '0', '0', '121');
+INSERT INTO `keep_goods` VALUES ('7', '0', '0', '1', '1', 'Apple MacBook Pro 15.4英寸笔记本电脑 深空灰色（2017新Multi-Touch Bar/Core i7/16GB/512GB MPTT2CH/A）', 'Apple MacBook Pro', 'Apple MacBook Pro', '1', '', '0', '21888.00', '0.00', '0.00', '46', '0', '__STATIC__\\upload\\goods\\image\\20171011\\c64bd2e32dfb5c5a1d9023ca5e6ebe88.jpg', null, '2.50', '21', '21888', '1', '1507701239', 'admin', '2017-10-11 16:41:03', '1', '【2017新款登场】七代Intel处理器，配备multi-touch bar触控条，全新交互体验，专业、强大！', '0', '0', '0', '');
 
 -- ----------------------------
 -- Table structure for keep_goods_detail
@@ -252,10 +326,12 @@ CREATE TABLE `keep_goods_detail` (
 -- ----------------------------
 -- Records of keep_goods_detail
 -- ----------------------------
-INSERT INTO `keep_goods_detail` VALUES ('0', '1', '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;百度Ueditor，冯建文<br/></p><p>测试用的<br/></p>');
+INSERT INTO `keep_goods_detail` VALUES ('0', '1', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;https://img30.360buyimg.com/jgsq-productsoa/jfs/t9307/332/1187929069/366519/d59e5816/59b860b4N53f06414.jpg&quot;/&gt;&lt;/p&gt;');
 INSERT INTO `keep_goods_detail` VALUES ('0', '2', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170831/1504159953185165.jpg&quot; title=&quot;1504159953185165.jpg&quot; alt=&quot;random-avatar2.jpg&quot;/&gt;&lt;/p&gt;');
 INSERT INTO `keep_goods_detail` VALUES ('0', '3', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170901/1504268505589062.jpg&quot; title=&quot;1504268505589062.jpg&quot; alt=&quot;微信图片_20170824112810.jpg&quot;/&gt;&lt;/p&gt;');
-INSERT INTO `keep_goods_detail` VALUES ('0', '5', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170901/1504272110451704.png&quot; title=&quot;1504272110451704.png&quot; alt=&quot;well but die.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;我是超人，超人是我&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170901/1504272141335217.png&quot; title=&quot;1504272141335217.png&quot; alt=&quot;龙珠截图.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;底部信息&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;');
+INSERT INTO `keep_goods_detail` VALUES ('0', '5', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170902/1504339975135709.jpg&quot; title=&quot;1504339975135709.jpg&quot; alt=&quot;580730a6Ndd55bed8.jpg&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20170902/1504339985375667.jpg&quot; title=&quot;1504339985375667.jpg&quot; alt=&quot;580730adN04dbea83.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;我是超人，超人是我&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;底部信息&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;');
+INSERT INTO `keep_goods_detail` VALUES ('0', '6', '');
+INSERT INTO `keep_goods_detail` VALUES ('0', '7', '&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/static/upload/goods/detail/20171011/1507701223119219.jpg&quot; title=&quot;1507701223119219.jpg&quot; alt=&quot;593cfc6bN4319b389.jpg&quot;/&gt;&lt;img src=&quot;/static/upload/goods/detail/20171011/1507701235855902.jpg&quot; title=&quot;1507701235855902.jpg&quot; alt=&quot;593cfc66N70afa514.jpg&quot;/&gt;&lt;/p&gt;');
 
 -- ----------------------------
 -- Table structure for keep_goods_picture
@@ -266,15 +342,32 @@ CREATE TABLE `keep_goods_picture` (
   `gid` int(10) NOT NULL,
   `pic` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_goods_picture
 -- ----------------------------
-INSERT INTO `keep_goods_picture` VALUES ('4', '5', '__STATIC__\\upload\\goods\\image\\20170901\\62910e196ce94e63ae5016363e5c147a.png');
-INSERT INTO `keep_goods_picture` VALUES ('2', '5', '__STATIC__\\upload\\goods\\image\\20170901\\ac7f197bbfeaad77639762743e10e956.jpg');
-INSERT INTO `keep_goods_picture` VALUES ('3', '5', '__STATIC__\\upload\\goods\\image\\20170901\\e5afef76a648ea06c4b08a2541356b96.jpg');
-INSERT INTO `keep_goods_picture` VALUES ('5', '5', '__STATIC__\\upload\\goods\\image\\20170901\\ee087f58fa3deb1c80e45d501418a76d.png');
+INSERT INTO `keep_goods_picture` VALUES ('1', '5', '__STATIC__\\upload\\goods\\image\\20170902\\c1ed113b3cdb6238d6b38bc76a5610ae.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('2', '5', '__STATIC__\\upload\\goods\\image\\20170902\\f5f13d112ff076f00616b07a837a7caa.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('3', '5', '__STATIC__\\upload\\goods\\image\\20170902\\174cd97f76f85de0596809aab6601026.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('4', '5', '__STATIC__\\upload\\goods\\image\\20170902\\ecdf3c9e53de99c54cb243dc2c4c92f0.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('5', '4', '__STATIC__\\upload\\goods\\image\\20170902\\04fbd773f7e62f3df63f25a3c37d1176.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('50', '7', '__STATIC__\\upload\\goods\\image\\20171011\\2d3fd293fdec30c2d82ed32882e0564e.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('49', '7', '__STATIC__\\upload\\goods\\image\\20171011\\d092cd8875055fc1302e4942ab1cec9c.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('48', '1', '__STATIC__\\upload\\goods\\image\\20171010\\9a029ee17e2030dddab76b481922b208.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('9', '2', '__STATIC__\\upload\\goods\\image\\20170921\\2059671a04ce83e1b884a449950ac2a9.png');
+INSERT INTO `keep_goods_picture` VALUES ('10', '6', '__STATIC__\\upload\\goods\\image\\20170921\\12499c2c0c0f782ea8e1ee1f2718f815.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('11', '6', '__STATIC__\\upload\\goods\\image\\20170921\\a91eea4c54164ff1dd19f3cfc838687c.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('12', '6', '__STATIC__\\upload\\goods\\image\\20170921\\953eb800320edef6f26e924ed88d532c.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('13', '6', '__STATIC__\\upload\\goods\\image\\20170921\\fd03c3e8191d5e6e2763e67c4ef2eb15.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('14', '3', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('15', '3', '__STATIC__\\upload\\goods\\image\\20170921\\da0011f0dee86775e77760b03cec095b.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('16', '3', '__STATIC__\\upload\\goods\\image\\20170921\\92a085fc4818b9c1364fce8c615b123d.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('47', '1', '__STATIC__\\upload\\goods\\image\\20171010\\e820d1a5735de041c78baffab0e2695e.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('45', '1', '__STATIC__\\upload\\goods\\image\\20171010\\9ca877f2bcb2f90e6f86d411c053eec9.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('46', '1', '__STATIC__\\upload\\goods\\image\\20171010\\565433916a1a4cedf936bd89784b2bdf.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('44', '1', '__STATIC__\\upload\\goods\\image\\20171010\\2bd83276c7d500e7722d2b6ee11804a2.jpg');
+INSERT INTO `keep_goods_picture` VALUES ('51', '7', '__STATIC__\\upload\\goods\\image\\20171011\\9a4c7ac7c3781afb56933bc69c4a868f.jpg');
 
 -- ----------------------------
 -- Table structure for keep_goods_promotion
@@ -284,8 +377,9 @@ CREATE TABLE `keep_goods_promotion` (
   `id` int(10) NOT NULL,
   `pro_id` int(10) unsigned NOT NULL COMMENT '促销活动ID',
   `goods_id` int(10) unsigned DEFAULT NULL,
-  `cat_id` int(10) unsigned DEFAULT NULL,
+  `catid_list` int(10) unsigned DEFAULT NULL,
   `brand_id` int(10) DEFAULT NULL,
+  `type` int(4) unsigned NOT NULL DEFAULT '1' COMMENT '1商品促销 2种类促销 3品牌促销',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -298,13 +392,121 @@ CREATE TABLE `keep_goods_promotion` (
 -- ----------------------------
 DROP TABLE IF EXISTS `keep_goods_spec`;
 CREATE TABLE `keep_goods_spec` (
-  `gid` int(10) unsigned NOT NULL COMMENT '商品id',
-  `sid` int(10) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `gid` int(10) unsigned DEFAULT NULL COMMENT '商品ID',
+  `catid` int(10) unsigned DEFAULT NULL COMMENT '种类ID',
+  `spec` varchar(255) DEFAULT NULL,
+  `num` int(11) unsigned DEFAULT '0',
+  `price` float(10,2) unsigned DEFAULT NULL COMMENT '该规格的价格',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_goods_spec
 -- ----------------------------
+INSERT INTO `keep_goods_spec` VALUES ('1', '5', null, '蓝色 S', '10', null);
+INSERT INTO `keep_goods_spec` VALUES ('2', '5', null, '红色 M', '10', null);
+INSERT INTO `keep_goods_spec` VALUES ('3', '5', null, '蓝色 M', '10', null);
+INSERT INTO `keep_goods_spec` VALUES ('4', '4', null, '蓝色 MXL', '20', null);
+INSERT INTO `keep_goods_spec` VALUES ('5', '7', null, '红色 M', '10', '99.00');
+INSERT INTO `keep_goods_spec` VALUES ('6', '7', null, '黄色 XL', '11', '11.00');
+INSERT INTO `keep_goods_spec` VALUES ('7', '7', null, '黄色 XXXL', '12', '12.00');
+INSERT INTO `keep_goods_spec` VALUES ('9', '7', null, '蓝色 XXXL', '13', '13.00');
+INSERT INTO `keep_goods_spec` VALUES ('10', '1', null, '绿色 XXXL', '67', '99.00');
+INSERT INTO `keep_goods_spec` VALUES ('11', '1', null, '紫色 XL', '23', '99.00');
+
+-- ----------------------------
+-- Table structure for keep_inner_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_inner_goods`;
+CREATE TABLE `keep_inner_goods` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '唯一标识  内部商品id',
+  `name` varchar(50) NOT NULL COMMENT '商品交易名  如：point   bait',
+  `title` varchar(50) NOT NULL COMMENT '商品交易标题  如：积分   鱼饵',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1可交易 2关闭交易',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `pic` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_inner_goods
+-- ----------------------------
+INSERT INTO `keep_inner_goods` VALUES ('1', 'point', '积分', '1', '', '__STATIC__\\upload\\images\\pic\\20170927\\7f2ce1131f9dc71dea9620dbd63617d1.jpg');
+INSERT INTO `keep_inner_goods` VALUES ('2', 'bait', '鱼饵', '1', '', '__STATIC__\\upload\\images\\pic\\20170927\\37ece763b9465b5118621e2ac5bf7d5b.jpg');
+
+-- ----------------------------
+-- Table structure for keep_inner_log
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_inner_log`;
+CREATE TABLE `keep_inner_log` (
+  `userid` int(10) NOT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  `value` int(50) DEFAULT NULL COMMENT '积分  鱼饵  或其它',
+  `type` int(4) DEFAULT NULL COMMENT '1积分 2鱼饵',
+  `addtime` datetime DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `money` float(8,2) DEFAULT NULL,
+  `sellername` varchar(32) DEFAULT NULL COMMENT '买家姓名',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_inner_log
+-- ----------------------------
+INSERT INTO `keep_inner_log` VALUES ('1506579092', '冯建文', '12', '1', '2017-09-29 16:00:25', null, '12.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1506577752', '冯建文', '88', '2', '2017-09-29 16:15:46', null, '88.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1506512490', '冯建文', '66', '2', '2017-10-09 10:56:26', null, '666.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507618501', '冯建文', '10', '2', '2017-10-10 16:04:53', null, '10.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507618445', '冯建文', '9', '1', '2017-10-11 08:24:05', null, '9.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507875250', '冯建文', '4', '2', '2017-10-13 14:20:44', null, '4.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507875198', '冯建文', '4', '1', '2017-10-13 14:22:52', null, '4.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507618336', '冯建文', '9', '1', '2017-10-13 15:51:47', null, '9.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507880833', '冯建文', '7', '2', '2017-10-13 16:02:33', null, '7.00', '冯建文');
+INSERT INTO `keep_inner_log` VALUES ('1507618008', '冯建文', '8', '2', '2017-10-13 16:04:35', null, '8.00', '冯建文');
+
+-- ----------------------------
+-- Table structure for keep_inner_shop
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_inner_shop`;
+CREATE TABLE `keep_inner_shop` (
+  `orderid` int(25) NOT NULL COMMENT '订单ID',
+  `userid` int(10) NOT NULL COMMENT '用户id',
+  `value` int(10) NOT NULL COMMENT '交易积分或数量',
+  `money` float(8,2) NOT NULL COMMENT '交易金额',
+  `addtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint(1) DEFAULT '1' COMMENT '1可交易 2交易关闭',
+  `type` int(4) DEFAULT NULL COMMENT '1积分 2鱼饵',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `username` varchar(32) DEFAULT NULL COMMENT '卖家名字',
+  `selltime` int(2) NOT NULL DEFAULT '2' COMMENT '出售时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_inner_shop
+-- ----------------------------
+INSERT INTO `keep_inner_shop` VALUES ('1506494922', '1', '12', '23.00', '2017-09-27 14:48:42', '1', '1', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1506512490', '1', '66', '666.00', '2017-10-12 08:33:58', '1', '2', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1506512513', '1', '43', '99.00', '2017-09-27 19:41:53', '1', '1', null, '冯建文', '18');
+INSERT INTO `keep_inner_shop` VALUES ('1506577752', '1', '88', '88.00', '2017-10-12 08:34:00', '1', '2', null, '冯建文', '18');
+INSERT INTO `keep_inner_shop` VALUES ('1506577928', '1', '56', '56.00', '2017-09-28 13:52:08', '1', '1', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1506579092', '1', '12', '12.00', '2017-10-12 08:34:02', '1', '1', null, '冯建文', '10');
+INSERT INTO `keep_inner_shop` VALUES ('1506731310', '1', '55', '55.00', '2017-10-12 08:34:03', '1', '1', null, '冯建文', '10');
+INSERT INTO `keep_inner_shop` VALUES ('1507616531', '1', '9', '9.00', '2017-10-12 08:34:06', '1', '1', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1507616778', '1', '12', '12.00', '2017-10-12 08:34:08', '1', '2', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1507617479', '1', '8', '8.00', '2017-10-12 08:34:12', '1', '2', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1507617643', '1', '8', '8.00', '2017-10-12 08:34:10', '1', '2', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1507618008', '1', '8', '8.00', '2017-10-13 16:04:35', '2', '2', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1507618144', '1', '9', '9.00', '2017-10-12 08:34:16', '1', '1', null, '冯建文', '6');
+INSERT INTO `keep_inner_shop` VALUES ('1507618336', '1', '9', '9.00', '2017-10-13 15:51:47', '2', '1', null, '冯建文', '10');
+INSERT INTO `keep_inner_shop` VALUES ('1507618445', '1', '9', '9.00', '2017-10-11 08:24:05', '2', '1', null, '冯建文', '18');
+INSERT INTO `keep_inner_shop` VALUES ('1507817891', '1', '38', '38.00', '2017-10-12 22:18:11', '1', '1', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1507875198', '1', '4', '4.00', '2017-10-13 14:22:52', '2', '1', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1507875250', '1', '4', '4.00', '2017-10-13 14:20:44', '2', '2', null, '冯建文', '24');
+INSERT INTO `keep_inner_shop` VALUES ('1507876772', '1', '7', '7.00', '2017-10-13 14:39:32', '1', '1', null, '冯建文', '2');
+INSERT INTO `keep_inner_shop` VALUES ('1507880833', '1', '7', '7.00', '2017-10-13 16:02:33', '2', '2', null, '冯建文', '2');
+INSERT INTO `keep_inner_shop` VALUES ('1508291102', '1', '2', '2.00', '2017-10-18 09:45:02', '1', '1', null, '冯建文', '2');
+INSERT INTO `keep_inner_shop` VALUES ('1508310983', '1', '1', '2.00', '2017-10-18 15:16:23', '1', '1', null, '冯建文', '2');
 
 -- ----------------------------
 -- Table structure for keep_mall_brand
@@ -356,13 +558,13 @@ CREATE TABLE `keep_mall_category` (
 -- Records of keep_mall_category
 -- ----------------------------
 INSERT INTO `keep_mall_category` VALUES ('1', null, '本期直推', '0', '1', null, null, '1', '9', '0', '1', '本期直推，每期只推N件产品', null, '1503557053', 'admin', '本期直推，每期只推N件产品');
-INSERT INTO `keep_mall_category` VALUES ('2', null, '数码直推', '5', '5,2', null, null, '2', '1', '2', '1', '本期直推，数码直推', null, '1503558118', 'admin', '本期直推，数码直推');
+INSERT INTO `keep_mall_category` VALUES ('2', null, '数码直推', '5', '5,2', '2;', null, '2', '1', '2', '2', '本期直推，数码直推', null, '1503558118', 'admin', '本期直推，数码直推');
 INSERT INTO `keep_mall_category` VALUES ('3', null, '爆款洗护', '5', '5,3', null, null, '2', '2', '1', '1', '洗护直推', null, '1503558136', 'admin', '洗护直推');
 INSERT INTO `keep_mall_category` VALUES ('4', null, '黄吕洗发', '3', '5,3,4', null, null, '3', '1', '0', '1', '拉芳洗发', null, '1503558154', 'admin', '拉芳洗发');
-INSERT INTO `keep_mall_category` VALUES ('5', null, '爆款强推', '0', '5', null, null, '1', '7', '2', '1', '爆款强推', null, '1503558187', 'admin', '爆款强推');
-INSERT INTO `keep_mall_category` VALUES ('6', null, '鸭梨手机', '2', '5,2,6', null, null, '3', '1', '0', '1', '鸭梨手机', null, '1503564061', 'admin', '鸭梨手机');
-INSERT INTO `keep_mall_category` VALUES ('7', null, '苹果手机', '2', '5,2,7', null, null, '3', '2', '1', '1', '苹果手机', null, '1503564092', 'admin', '苹果手机');
-INSERT INTO `keep_mall_category` VALUES ('8', null, 'iphone 999', '7', '5,2,7,8', '1;', '1;2;', '4', '7', '0', '1', 'iphone 999', null, '1503564191', 'admin', 'iphone 999');
+INSERT INTO `keep_mall_category` VALUES ('5', null, '爆款强推', '0', '5', '1;', null, '1', '7', '2', '1', '爆款强推', null, '1503558187', 'admin', '爆款强推');
+INSERT INTO `keep_mall_category` VALUES ('6', null, '鸭梨手机', '2', '5,2,6', null, null, '3', '1', '0', '2', '鸭梨手机', null, '1503564061', 'admin', '鸭梨手机');
+INSERT INTO `keep_mall_category` VALUES ('7', null, '苹果手机', '2', '5,2,7', '1;2;', null, '3', '2', '1', '2', '苹果手机', null, '1503564092', 'admin', '苹果手机');
+INSERT INTO `keep_mall_category` VALUES ('8', null, 'iphone 999', '7', '5,2,7,8', '1;', '1;2;', '4', '7', '0', '2', 'iphone 999', null, '1503564191', 'admin', 'iphone 999');
 INSERT INTO `keep_mall_category` VALUES ('9', null, '测试', '0', '9', null, null, '1', '5', '1', '1', '测试', null, '1503989648', 'admin', '测试');
 INSERT INTO `keep_mall_category` VALUES ('10', null, '测试2', '51', '51,10', null, null, '2', '2', '0', '1', '测试1', null, '1503989679', 'admin', '测试1');
 
@@ -383,7 +585,7 @@ CREATE TABLE `keep_mall_config` (
 -- ----------------------------
 -- Records of keep_mall_config
 -- ----------------------------
-INSERT INTO `keep_mall_config` VALUES ('1', 'mall_template', '首页模板', 'index', '1', '首页模板');
+INSERT INTO `keep_mall_config` VALUES ('1', 'mall_template', '首页模板', 'special', '1', '首页模板');
 
 -- ----------------------------
 -- Table structure for keep_mall_delivery
@@ -432,8 +634,8 @@ CREATE TABLE `keep_mall_promotion` (
   `title` varchar(255) NOT NULL COMMENT '促销活动的中文名称',
   `type` int(4) unsigned NOT NULL DEFAULT '1' COMMENT '活动类型 1折扣 2满减 3增加鱼饵 4增加积分',
   `percent` float(8,2) unsigned NOT NULL DEFAULT '100.00' COMMENT '折扣比例',
-  `amount` float(8,2) unsigned DEFAULT '0.00' COMMENT '满额',
-  `money` float(8,2) unsigned DEFAULT '0.00' COMMENT '减少的金额',
+  `money_limit` float(8,2) unsigned DEFAULT '0.00' COMMENT '满额',
+  `money_sub` float(8,2) unsigned DEFAULT '0.00' COMMENT '减少的金额',
   `bait` int(8) unsigned DEFAULT '0' COMMENT '增加的鱼饵',
   `point` int(10) unsigned DEFAULT '0' COMMENT '积分',
   `begin_time` int(10) NOT NULL,
@@ -442,11 +644,12 @@ CREATE TABLE `keep_mall_promotion` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '状态，是否启用 默认不启用',
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_mall_promotion
 -- ----------------------------
+INSERT INTO `keep_mall_promotion` VALUES ('1', 'promotion0', '商品9折优惠', '1', '90.00', '0.00', '0.00', '0', '0', '1503244800', '1607745599', '折扣活动，打9折', '1', null);
 
 -- ----------------------------
 -- Table structure for keep_mall_service
@@ -456,6 +659,7 @@ CREATE TABLE `keep_mall_service` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
+  `money` float(8,2) unsigned DEFAULT '0.00' COMMENT '花费',
   `pic` varchar(255) DEFAULT NULL COMMENT '服务的图片标志',
   `status` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
@@ -465,8 +669,8 @@ CREATE TABLE `keep_mall_service` (
 -- ----------------------------
 -- Records of keep_mall_service
 -- ----------------------------
-INSERT INTO `keep_mall_service` VALUES ('1', '7天可退货', '7', null, '1', '测试haha');
-INSERT INTO `keep_mall_service` VALUES ('2', '半年保修', '180', null, '1', '测试haha');
+INSERT INTO `keep_mall_service` VALUES ('1', '7天可退货', '7', null, null, '1', '测试haha');
+INSERT INTO `keep_mall_service` VALUES ('2', '半年保修', '180', null, null, '1', '测试haha');
 
 -- ----------------------------
 -- Table structure for keep_mall_spec
@@ -474,24 +678,144 @@ INSERT INTO `keep_mall_service` VALUES ('2', '半年保修', '180', null, '1', '
 DROP TABLE IF EXISTS `keep_mall_spec`;
 CREATE TABLE `keep_mall_spec` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `value` text,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_mall_spec
 -- ----------------------------
+INSERT INTO `keep_mall_spec` VALUES ('1', 'color', '颜色', '各种东西的颜色', '1|红色;2|橙色;3|黄色;4|绿色;5|青色;6|蓝色;7|紫色', '1', null);
+INSERT INTO `keep_mall_spec` VALUES ('2', 'cloth_size', '衣服尺寸', '衣服尺寸', '1|S;2|M;3|L;4|XL;5|XXL;6|XXXL', '1', null);
 
 -- ----------------------------
--- Table structure for keep_orders
+-- Table structure for keep_order
 -- ----------------------------
-DROP TABLE IF EXISTS `keep_orders`;
-CREATE TABLE `keep_orders` (
+DROP TABLE IF EXISTS `keep_order`;
+CREATE TABLE `keep_order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`userid`)
+  `seller_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
+  `order_id` varchar(32) NOT NULL COMMENT '订单ID',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单状态 1待支付2待发货3已发货4收货5评价',
+  `pay_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '支付状态 0未支付 1支付成功 2支付失败',
+  `balance` float(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '余额支付金额',
+  `money` float(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订单总金额',
+  `baits` int(10) DEFAULT NULL,
+  `points` int(10) DEFAULT NULL,
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pay_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `ship_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '发货时间',
+  `confirm_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '收货时间',
+  `comm_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `payment_id` int(64) unsigned DEFAULT NULL COMMENT '支付方式',
+  `payment_name` varchar(32) DEFAULT NULL,
+  `shipping_id` int(4) unsigned DEFAULT NULL COMMENT '快递ID',
+  `shipping_name` varchar(64) DEFAULT NULL COMMENT '快递名称',
+  `shipping_no` varchar(64) DEFAULT NULL COMMENT '快递单号',
+  `user_name` varchar(64) NOT NULL COMMENT '收货人',
+  `user_address` varchar(255) NOT NULL,
+  `user_mobile` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_order
+-- ----------------------------
+INSERT INTO `keep_order` VALUES ('1', '1', '0', 'G915598743645908', '1', '0', '0.00', '0.01', '30', '6999', '2017-09-15 15:17:54', '0', '0', '0', '0', '1', '微信支付', '6', '哪儿都通', null, '小张', '山东省潍坊市奎文区新华路与玄武街交叉口盛海大厦18楼1802', '2147483647');
+INSERT INTO `keep_order` VALUES ('2', '1', '0', 'G915598743645909', '1', '0', '0.00', '0.01', '100', '23330', '2017-09-19 09:17:34', '0', '0', '0', '0', '1', '微信支付', '1', '默认物流', null, '墨渊1', '252501新华路与玄武街交叉口盛海大厦18楼1802室', '2147483647');
+
+-- ----------------------------
+-- Table structure for keep_order_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_order_detail`;
+CREATE TABLE `keep_order_detail` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(32) NOT NULL,
+  `buyer_id` int(11) DEFAULT NULL,
+  `gid` int(11) DEFAULT NULL,
+  `catid_list` varchar(255) DEFAULT NULL COMMENT '商品种类链',
+  `name` varchar(255) DEFAULT NULL,
+  `pic` varchar(255) DEFAULT NULL,
+  `price` float(8,2) DEFAULT NULL,
+  `num` int(11) DEFAULT NULL,
+  `point` int(10) DEFAULT NULL,
+  `bait` int(10) DEFAULT NULL,
+  `promotion_id` int(11) DEFAULT NULL,
+  `promotion` varchar(255) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `service` varchar(255) DEFAULT NULL,
+  `spec` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_order_detail
+-- ----------------------------
+INSERT INTO `keep_order_detail` VALUES ('1', 'G915598743645908', '1', '4', '5,2,7', '苹果超级大', '__STATIC__\\upload\\goods\\image\\20170902\\04fbd773f7e62f3df63f25a3c37d1176.jpg', '900.00', '1', '2333', '10', '1', '商品9折优惠', '2017-10-18 14:57:46', '0,1,2', '蓝色 S');
+INSERT INTO `keep_order_detail` VALUES ('2', 'G915598743645908', '1', '5', '1', '索尼（SONY） DSC-RX100M5（RX100V）黑卡数码相机 等效24-70mm F1.8-2.8蔡司镜头（WIFI/NFC）', '__STATIC__\\upload\\goods\\image\\20170902\\c1ed113b3cdb6238d6b38bc76a5610ae.jpg', '900.00', '2', '2333', '10', '1', '商品9折优惠', '2017-10-18 14:57:48', '0,1,2', '蓝色 S');
+INSERT INTO `keep_order_detail` VALUES ('3', 'G915598743645909', '1', '4', '5,2,7', '苹果超级大', '__STATIC__\\upload\\goods\\image\\20170902\\04fbd773f7e62f3df63f25a3c37d1176.jpg', '900.00', '2', '2333', '10', '1', '商品9折优惠', '2017-10-18 14:57:50', '0,1,2', '蓝色 MXL');
+INSERT INTO `keep_order_detail` VALUES ('4', 'G915598743645909', '1', '5', '1', '索尼（SONY） DSC-RX100M5（RX100V）黑卡数码相机 等效24-70mm F1.8-2.8蔡司镜头（WIFI/NFC）', '__STATIC__\\upload\\goods\\image\\20170902\\c1ed113b3cdb6238d6b38bc76a5610ae.jpg', '900.00', '8', '2333', '10', '1', '商品9折优惠', '2017-10-18 14:57:52', '0,1,2', '蓝色 M');
+
+-- ----------------------------
+-- Table structure for keep_point_log
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_point_log`;
+CREATE TABLE `keep_point_log` (
+  `userid` int(10) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `value` int(10) unsigned DEFAULT NULL COMMENT '积分',
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1获得积分 2消耗积分',
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of keep_orders
+-- Records of keep_point_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for keep_recharge//暂时没啥用
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_recharge//暂时没啥用`;
+CREATE TABLE `keep_recharge//暂时没啥用` (
+  `id` int(10) NOT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `value` float(10,2) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1申请提现 2提现成功',
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1电脑端 2移动端',
+  `terminal` varchar(15) DEFAULT NULL COMMENT '终端IP',
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_recharge//暂时没啥用
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for keep_redpacket_log
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_redpacket_log`;
+CREATE TABLE `keep_redpacket_log` (
+  `userid` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `name` varchar(32) DEFAULT NULL COMMENT '用户名称',
+  `value` float(3,2) unsigned NOT NULL COMMENT '红包金额数量',
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1电脑端 2移动端',
+  `addtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `terminal` varchar(15) DEFAULT NULL COMMENT '终端IP',
+  `remark` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_redpacket_log
 -- ----------------------------
 
 -- ----------------------------
@@ -564,7 +888,7 @@ INSERT INTO `keep_region` VALUES ('48', '3', '铜陵', '2', '0');
 INSERT INTO `keep_region` VALUES ('49', '3', '芜湖', '2', '0');
 INSERT INTO `keep_region` VALUES ('50', '3', '宣城', '2', '0');
 INSERT INTO `keep_region` VALUES ('51', '3', '亳州', '2', '0');
-INSERT INTO `keep_region` VALUES ('52', '2', '北京', '2', '0');
+INSERT INTO `keep_region` VALUES ('52', '2', '北京市', '2', '0');
 INSERT INTO `keep_region` VALUES ('53', '4', '福州', '2', '0');
 INSERT INTO `keep_region` VALUES ('54', '4', '龙岩', '2', '0');
 INSERT INTO `keep_region` VALUES ('55', '4', '南平', '2', '0');
@@ -833,7 +1157,7 @@ INSERT INTO `keep_region` VALUES ('317', '24', '渭南', '2', '0');
 INSERT INTO `keep_region` VALUES ('318', '24', '咸阳', '2', '0');
 INSERT INTO `keep_region` VALUES ('319', '24', '延安', '2', '0');
 INSERT INTO `keep_region` VALUES ('320', '24', '榆林', '2', '0');
-INSERT INTO `keep_region` VALUES ('321', '25', '上海', '2', '0');
+INSERT INTO `keep_region` VALUES ('321', '25', '上海市', '2', '0');
 INSERT INTO `keep_region` VALUES ('322', '26', '成都', '2', '0');
 INSERT INTO `keep_region` VALUES ('323', '26', '绵阳', '2', '0');
 INSERT INTO `keep_region` VALUES ('324', '26', '阿坝', '2', '0');
@@ -855,7 +1179,7 @@ INSERT INTO `keep_region` VALUES ('339', '26', '宜宾', '2', '0');
 INSERT INTO `keep_region` VALUES ('340', '26', '资阳', '2', '0');
 INSERT INTO `keep_region` VALUES ('341', '26', '自贡', '2', '0');
 INSERT INTO `keep_region` VALUES ('342', '26', '泸州', '2', '0');
-INSERT INTO `keep_region` VALUES ('343', '27', '天津', '2', '0');
+INSERT INTO `keep_region` VALUES ('343', '27', '天津市', '2', '0');
 INSERT INTO `keep_region` VALUES ('344', '28', '拉萨', '2', '0');
 INSERT INTO `keep_region` VALUES ('345', '28', '阿里', '2', '0');
 INSERT INTO `keep_region` VALUES ('346', '28', '昌都', '2', '0');
@@ -906,7 +1230,7 @@ INSERT INTO `keep_region` VALUES ('390', '31', '台州', '2', '0');
 INSERT INTO `keep_region` VALUES ('391', '31', '温州', '2', '0');
 INSERT INTO `keep_region` VALUES ('392', '31', '舟山', '2', '0');
 INSERT INTO `keep_region` VALUES ('393', '31', '衢州', '2', '0');
-INSERT INTO `keep_region` VALUES ('394', '32', '重庆', '2', '0');
+INSERT INTO `keep_region` VALUES ('394', '32', '重庆市', '2', '0');
 INSERT INTO `keep_region` VALUES ('395', '33', '香港', '2', '0');
 INSERT INTO `keep_region` VALUES ('396', '34', '澳门', '2', '0');
 INSERT INTO `keep_region` VALUES ('397', '35', '台湾', '2', '0');
@@ -3936,36 +4260,48 @@ CREATE TABLE `keep_setmeal` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for keep_users
+-- Table structure for keep_term
 -- ----------------------------
-DROP TABLE IF EXISTS `keep_users`;
-CREATE TABLE `keep_users` (
+DROP TABLE IF EXISTS `keep_term`;
+CREATE TABLE `keep_term` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `pid` int(10) unsigned DEFAULT '0' COMMENT '推荐人id',
-  `name` varchar(32) NOT NULL,
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `encrypt` char(4) DEFAULT NULL COMMENT '加密秘钥',
-  `realname` varchar(64) DEFAULT NULL COMMENT '真实姓名',
-  `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
-  `mobile` varchar(11) DEFAULT NULL COMMENT '联系方式',
-  `qq` varchar(20) DEFAULT NULL COMMENT 'QQ号',
-  `email` varchar(64) DEFAULT NULL COMMENT '电子邮箱',
-  `money` float(8,2) unsigned DEFAULT NULL COMMENT '余额',
-  `point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
-  `headimg` varchar(255) DEFAULT NULL COMMENT '头像',
-  `id_list` varchar(255) DEFAULT NULL COMMENT 'id链',
-  `regtime` int(10) NOT NULL,
-  `logintime` int(10) DEFAULT NULL,
-  `loginip` varchar(32) DEFAULT NULL,
-  `status` tinyint(1) unsigned DEFAULT NULL,
+  `name` varchar(128) DEFAULT '',
+  `title` varchar(128) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `addtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `addname` varchar(64) DEFAULT NULL,
+  `begintime` int(11) unsigned DEFAULT NULL,
+  `endtime` int(11) unsigned DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `pic` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of keep_users
+-- Records of keep_term
 -- ----------------------------
-INSERT INTO `keep_users` VALUES ('1', '0', 'fjw', 'nqGw', '278e', '冯建文', '1', '18706681210', '870552919', 'fjwcoder@gmail.com', '99.99', '999', null, '1', '0', '0', '', '1', null);
+INSERT INTO `keep_term` VALUES ('1', '', '第一期', '第一期产品，测试产品', '2017-09-27 10:07:33', 'admin', '1506355200', '1509465599', '1', '__STATIC__\\upload\\goods\\image\\20170921\\2059671a04ce83e1b884a449950ac2a9.png', null);
+INSERT INTO `keep_term` VALUES ('2', '', '第二期', '第二期产品，测试产品', '2017-09-27 10:05:59', 'admin', '1509465600', '1512057599', '1', '__STATIC__\\upload\\goods\\image\\20170921\\bcdd7bc5646182ab5725e9a004dcfdfe.jpg', null);
+
+-- ----------------------------
+-- Table structure for keep_term_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_term_goods`;
+CREATE TABLE `keep_term_goods` (
+  `term` int(10) unsigned DEFAULT NULL COMMENT '期数',
+  `gid` int(10) unsigned DEFAULT NULL COMMENT '商品ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_term_goods
+-- ----------------------------
+INSERT INTO `keep_term_goods` VALUES ('1', '1');
+INSERT INTO `keep_term_goods` VALUES ('1', '2');
+INSERT INTO `keep_term_goods` VALUES ('1', '7');
+INSERT INTO `keep_term_goods` VALUES ('1', '4');
+INSERT INTO `keep_term_goods` VALUES ('1', '5');
+INSERT INTO `keep_term_goods` VALUES ('1', '6');
 
 -- ----------------------------
 -- Table structure for keep_user_address
@@ -3974,15 +4310,79 @@ DROP TABLE IF EXISTS `keep_user_address`;
 CREATE TABLE `keep_user_address` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL,
-  `realname` varchar(32) NOT NULL COMMENT '收货人',
-  `area` varchar(255) DEFAULT NULL COMMENT '所在地区',
-  `address` varchar(255) DEFAULT NULL COMMENT '详细地址',
+  `province` int(10) DEFAULT NULL,
+  `city` int(10) DEFAULT NULL,
+  `area` int(10) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `zipcode` int(10) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `mobile` varchar(11) NOT NULL COMMENT '联系电话',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1默认地址  0  不默认',
+  `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of keep_user_address
 -- ----------------------------
+INSERT INTO `keep_user_address` VALUES ('10', '1', '2', '52', '501', '新华路与玄武街交叉口盛海大厦18楼1802室', '274500', '墨渊1', '17686523831', '1', null);
+INSERT INTO `keep_user_address` VALUES ('11', '1', '2', '52', '503', '人民路666号', '234589', '光伏', '17866669999', '0', null);
+
+-- ----------------------------
+-- Table structure for keep_users
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_users`;
+CREATE TABLE `keep_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '推荐人id',
+  `name` varchar(64) NOT NULL,
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `encrypt` char(4) NOT NULL COMMENT '加密秘钥',
+  `realname` varchar(64) DEFAULT NULL COMMENT '真实姓名',
+  `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
+  `money` float(8,2) unsigned DEFAULT NULL COMMENT '余额',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '联系方式',
+  `bait` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '鱼饵',
+  `point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
+  `qq` varchar(20) DEFAULT NULL COMMENT 'QQ号',
+  `email` varchar(64) DEFAULT NULL COMMENT '电子邮箱',
+  `pay_code` varchar(32) DEFAULT NULL COMMENT '余额支付密码（长度6位）',
+  `paycrypt` char(4) DEFAULT NULL,
+  `id_num` varchar(32) DEFAULT NULL COMMENT '身份证号码',
+  `id_card_path` varchar(255) DEFAULT NULL COMMENT '身份证路径',
+  `headimgurl` varchar(255) DEFAULT NULL COMMENT '头像',
+  `id_list` varchar(255) DEFAULT NULL COMMENT 'id链',
+  `regtime` int(10) NOT NULL,
+  `logintime` int(10) DEFAULT NULL,
+  `loginip` varchar(32) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `remark` varchar(255) DEFAULT NULL,
+  `subscribe` tinyint(1) unsigned NOT NULL DEFAULT '2',
+  `openid` varchar(32) DEFAULT NULL,
+  `nickname` varchar(64) DEFAULT NULL,
+  `language` varchar(16) DEFAULT NULL,
+  `city` varchar(32) DEFAULT NULL,
+  `province` varchar(32) DEFAULT NULL,
+  `country` varchar(32) DEFAULT NULL,
+  `subscribe_time` int(10) DEFAULT NULL,
+  `unionid` varchar(64) DEFAULT NULL,
+  `groupid` int(10) DEFAULT NULL,
+  `tagid_list` varchar(255) DEFAULT NULL,
+  `qr_code` varchar(255) DEFAULT NULL,
+  `qr_seconds` int(10) DEFAULT NULL,
+  `qr_ticket` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_users
+-- ----------------------------
+INSERT INTO `keep_users` VALUES ('1', '0', 'fjw', 'nqGw', '278e', '冯建文', '1', '99.99', '21474836471', '0', '996', '870552919', 'fjwcoder@gmail.com', 'ZmhrZ25o', 'f379', null, null, 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM5NukTS0rb5Lzaic9OicyKCEmEUdRTiaFic9WiaFDzEV76H16CEB2FVohc0ndYtb0BTjDCtt017yZdIqJQ/0', '1', '0', '0', '', '1', '', '1', 'ooktzs1xmFTMcPQ8__S45Z49ZUgs', '9：30', 'zh_CN', '青岛', '山东', '中国', '1508225934', null, '0', null, 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQE38TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAya3NYQ285eWI5UFAxMi1VZE5xY1cAAgSOs_VZAwQwhScA', '1510815934', 'gQE38TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAya3NYQ285eWI5UFAxMi1VZE5xY1cAAgSOs_VZAwQwhScA');
+INSERT INTO `keep_users` VALUES ('12', '0', '1508138975', 'YZmcaXBs', '9d0e', null, '1', null, '1508138975', '0', '0', null, null, null, null, null, null, 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0', '12', '1508138975', null, null, '1', '', '1', '', '9：30', 'zh_CN', '青岛', '山东', '中国', '1508138975', null, '0', null, 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQH-7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkd5ZmRuZ0JkNTQxY2ZCYjFxY3AAAgTfX_RZAwQwhScA', '1510728975', 'gQH-7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkd5ZmRuZ0JkNTQxY2ZCYjFxY3AAAgTfX_RZAwQwhScA');
+INSERT INTO `keep_users` VALUES ('15', '14', '1508143600', 'lmWWamGT', 'd8d9', null, '1', null, '1508143600', '0', '0', null, null, null, null, null, null, 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0', '1,14,15', '1508143600', null, null, '1', '', '1', '', '9：30', 'zh_CN', '青岛', '山东', '中国', '1508143600', null, '0', null, 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQG37zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyOGx1RWNzZ0JkNTQxY3dUYmhxY1EAAgTwceRZAwQwhScA', '1510733600', 'gQG37zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyOGx1RWNzZ0JkNTQxY3dUYmhxY1EAAgTwceRZAwQwhScA');
+INSERT INTO `keep_users` VALUES ('14', '1', '1508143488', 'ZGeVaJxx', '6bfc', null, '1', null, '1508143488', '0', '0', null, null, null, null, null, null, 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0', '1,14', '1508143488', null, null, '1', '', '1', '', '9：30', 'zh_CN', '青岛', '山东', '中国', '1508143488', null, '0', null, 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGt8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyajhCU2RKZ0JkNTQxZU1TYjFxY3oAAgSAceRZAwQwhScA', '1510733488', 'gQGt8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyajhCU2RKZ0JkNTQxZU1TYjFxY3oAAgSAceRZAwQwhScA');
+INSERT INTO `keep_users` VALUES ('16', '0', '17616711978', 'ZWJomWls', 'e10a', null, '0', null, '17616711978', '0', '0', null, null, null, null, null, null, null, null, '1508200012', null, null, '1', null, '2', null, '17616711978', null, null, null, null, null, null, null, null, '', '0', '');
+INSERT INTO `keep_users` VALUES ('17', '0', '17616711978', 'ZWJomWls', 'e10a', null, '0', null, '17616711978', '0', '0', null, null, null, null, null, null, null, null, '1508200305', null, null, '2', null, '2', null, '17616711978', null, null, null, null, null, null, null, null, '', '0', '');
 
 -- ----------------------------
 -- Table structure for keep_web_config
@@ -4094,12 +4494,97 @@ CREATE TABLE `keep_wechat_config` (
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
   `value` text,
   `exprire` varchar(16) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `show` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '说明',
+  `adduser` varchar(64) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL,
+  `edituser` varchar(64) DEFAULT NULL,
+  `edittime` int(10) DEFAULT NULL,
+  `endtime` int(10) unsigned DEFAULT NULL COMMENT 'access_token的结束时间',
+  `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of keep_wechat_config
 -- ----------------------------
-INSERT INTO `keep_wechat_config` VALUES ('1', 'ACCESS_TOKEN', '微信ACCESS_TOKEN', '{\"access_token\":\"adMecI7xJfyyrfS_leI0FjQlvv1dxYGOZrcpC4znmPLV1c1Dhj-R_e7bMBDtKBFx-7u1T51ZotTRDF4cJ8DhwleOq_XC8M2YzVbrs5qFgzgUOSfAHAICG\",\"stop_time\":1497251800}', null, '');
+INSERT INTO `keep_wechat_config` VALUES ('1', 'ACCESS_TOKEN', '微信ACCESS_TOKEN', 'oN43sQnZhAJDLYDpgtx0ExoW96U2NWMObwQ5d2Xr3BGGOmGFvdfycxl9r7qWf8X3spi7GlkfTvGNeAhxh_6xf3hYCtdn4QBl_b8xA6d_sJIRHMaAEAUKP', '7100', '1', '0', '', '', '1507858147', '', '1508305216', '1508312316', null);
+INSERT INTO `keep_wechat_config` VALUES ('2', 'APPID', '公众号APPID', 'wxc7db069fb239b27e', null, '1', '1', '', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('3', 'APPSECRET', '公众号秘钥', 'd92ad54b4ef111ce1df66237a81fe1c9', null, '1', '1', '', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('4', 'USER_BASEINFO', '获取用户信息', 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=', null, '1', '1', '', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('5', 'MENU_CREATE_URL', '设置自定义菜单', 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=', null, '1', '1', '自定义菜单创建，请求方式POST', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('6', 'WEB_ACCESS_TOKEN', '网页授权获取ACCESS_TOKEN', 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=', null, '1', '1', '', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('7', 'WEB_USERINFO', '手动授权拉取用户信息', 'https://api.weixin.qq.com/sns/userinfo?access_token=', null, '1', '1', '网页授权拉取用户信息，拉取用户信息(需scope为 snsapi_userinfo)', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('8', 'JSAPI_URL', 'jsapi ticket', 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=', null, '1', '1', '', '', '0', '', null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('9', 'TOKEN', '公众号TOKEN', 'sixer', null, '1', '1', '公众号开发者模式验证时的TOKEN', 'admin', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('10', 'MENU_GET_URL', '查询自定义菜单', 'https://api.weixin.qq.com/cgi-bin/menu/get?access_token=', null, '1', '1', '自定义菜单创建，请求方式GET', 'admin', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('11', 'MENU_VIEW_URL', '自定义菜单跳转链接/网页授权', 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=', null, '1', '1', '根据scope参数区别静默授权还是手动授权', '', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('12', 'ACCESS_TOKEN_URL', '获取access_token的url', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=', null, '1', '1', '', '', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('13', 'QRCODE', '公众号的二维码', 'http://weixin.qq.com/r/Bj-54Z-EgML-rduC92oU', null, '1', '1', '公众号二维码，不带参数', '', '1507858147', null, null, null, 'http://weixin.qq.com/r/Bj-54Z-EgML-rduC92oU');
+INSERT INTO `keep_wechat_config` VALUES ('14', 'PARAM_QRCODE', '带场景值的二维码', 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=', null, '1', '1', '生成带场景值的二维码', '', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('15', 'SHOW_QRCODE', 'ticket换取二维码', 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=', null, '1', '1', '', '', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('16', 'MCHID', '微信支付平台商户号', '1265602401', null, '1', '1', '', '', '1507858147', null, null, null, null);
+INSERT INTO `keep_wechat_config` VALUES ('17', 'PAYSECRET', '支付平台秘钥', 'X2m5c0TMoh0vrhMrKanQvhWhpd08n6ji', null, '1', '1', '', '', '0', null, null, null, null);
+
+-- ----------------------------
+-- Table structure for keep_wechat_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_wechat_menu`;
+CREATE TABLE `keep_wechat_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(128) DEFAULT NULL COMMENT '标识',
+  `title` varchar(64) NOT NULL COMMENT '标识',
+  `pid` int(10) unsigned DEFAULT NULL,
+  `id_list` text,
+  `sort` int(4) unsigned NOT NULL COMMENT '级别',
+  `deep` int(4) unsigned NOT NULL COMMENT '等级，从1开始',
+  `level` int(4) unsigned DEFAULT '99' COMMENT '级别',
+  `url` varchar(255) DEFAULT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `isnode` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是不是一个父节点',
+  `status` int(1) unsigned NOT NULL COMMENT '状态',
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of keep_wechat_menu
+-- ----------------------------
+INSERT INTO `keep_wechat_menu` VALUES ('1', 'LOGIN_MALL', '进入商城', '0', '1', '1', '1', '99', 'http://www.6rmh.com/index/login/login?redirect=index', 'view', '0', '1', null);
+INSERT INTO `keep_wechat_menu` VALUES ('2', 'USER_CENTER', '用户中心', '0', '2', '2', '1', '99', 'http://www.6rmh.com/index/login/login?redirect=order', 'view', '2', '1', null);
+INSERT INTO `keep_wechat_menu` VALUES ('3', 'ABOUT_US', '关于我们', '0', '2', '2', '1', '99', 'http://www.6rmh.com/index/login/login?redirect=index', 'view', '0', '1', null);
+INSERT INTO `keep_wechat_menu` VALUES ('4', 'USER_ORDER', '我的订单', '2', '2,4', '1', '2', '99', 'http://www.6rmh.com/index/login/login?redirect=order', 'view', '0', '1', null);
+INSERT INTO `keep_wechat_menu` VALUES ('5', 'TRATE_CENTER', '交易大厅', '2', '2,5', '2', '2', '99', 'http://www.6rmh.com/index/login/login?redirect=inner', 'view', '0', '1', null);
+
+-- ----------------------------
+-- Table structure for keep_withdraw
+-- ----------------------------
+DROP TABLE IF EXISTS `keep_withdraw`;
+CREATE TABLE `keep_withdraw` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `value` float(10,2) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1申请提现 2提现成功 3驳回',
+  `addtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `type` tinyint(1) unsigned DEFAULT NULL COMMENT '1电脑端 2移动端',
+  `terminal` varchar(15) DEFAULT NULL COMMENT '终端IP',
+  `remark` varchar(255) DEFAULT NULL COMMENT '操作原因',
+  `optime` int(10) unsigned DEFAULT NULL COMMENT '操作时间（转账/驳回）',
+  `opname` varchar(32) DEFAULT NULL COMMENT '记录操作人（后台管理员）',
+  `opreason` varchar(255) DEFAULT NULL COMMENT '驳回理由',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keep_withdraw
+-- ----------------------------
+INSERT INTO `keep_withdraw` VALUES ('1', '1', '冯建文', '666.00', '3', '2017-09-23 09:20:53', '1', '127.0.0.1', '', null, 'admin', '驳回理由');
+INSERT INTO `keep_withdraw` VALUES ('2', '1', '冯建文', '9999.00', '3', '2017-09-22 15:12:39', '1', '127.0.0.1', null, null, null, null);
+INSERT INTO `keep_withdraw` VALUES ('3', '1', '冯建文', '1029.00', '3', '2017-09-22 10:26:27', '1', '127.0.0.1', null, null, null, null);
+INSERT INTO `keep_withdraw` VALUES ('4', '1', '冯建文', '7554.00', '1', '2017-09-22 10:25:48', '2', '127.0.0.1', null, null, null, null);
+INSERT INTO `keep_withdraw` VALUES ('5', '1', '冯建文', '89.00', '2', '2017-09-22 09:25:59', '1', '127.0.0.1', null, null, null, null);
+INSERT INTO `keep_withdraw` VALUES ('6', '1', '冯建文', '888.00', '2', '2017-09-22 14:46:40', '1', '127.0.0.1', null, null, null, null);
+INSERT INTO `keep_withdraw` VALUES ('7', '1', '冯建文', '888.00', '2', '2017-09-22 14:47:30', '1', '127.0.0.1', null, null, null, null);
