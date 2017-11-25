@@ -42,6 +42,8 @@ class WxPayConfig
 	const SSLCERT_PATH = "H:/PHP_Develop/WWW/sixer/vendor/wxcert/apiclient_cert.pem";
 	const SSLKEY_PATH = 'H:/PHP_Develop/WWW/sixer/vendor/wxcert/apiclient_key.pem';
 	const CAINFO_PATH = 'H:/PHP_Develop/WWW/sixer/vendor/wxcert/rootca.pem';
+
+	const RSAPUBLIC_PATH = 'H:/PHP_Develop/WWW/sixer/vendor/wxcert/rsa_public_cert.pem';
 	
 	
 	

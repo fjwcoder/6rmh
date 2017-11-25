@@ -66,27 +66,40 @@ class Balance extends Common
             $money['cartnumber'] = $user['cartnumber'];
             $money['bank_code'] = $user['bank_code'];
             $money['terminal'] = clientIP();
-            $money['remark'] = '申请提现';
+            $money['remark'] = '提现申请中';
+            # 减少用户资金
+            $setDec = Db::name('users') -> where(['id'=>$id, 'status'=>1]) -> setDec('money', $money['value']);
+            if($setDec){
+                $money['opreason'] = '已扣余额';
+                $result = db('withdraw', [], false) -> insert($money);
+                if($result){
+                    
+                    # 判断是否自动提现
+                    $mallconfig = mallConfig();
+                    if($mallconfig['auto_pay']['value'] == 1){ //自动提现
 
-            $result = db('withdraw', [], false) -> insert($money);
-            if($result){
-                # 判断是否自动提现
-                $mallconfig = mallConfig();
-                if($mallconfig['auto_pay']['value'] == 1){ //自动提现
-                    $widthdraw = new Widthdraw();
-                    $pay_status = $widthdraw->payToBank($money['order_id'], $money);
-                    if($pay_status){
-                        return $this->success('提现成功', 'Balance/withdraw');
-                    }else{
+                        $withdraw = new Withdraw();
+                        $pay_status = $withdraw->payToBank($money['order_id'], 'auto');
+
+
+                        if($pay_status['status']){
+                            return $this->success($pay_status['content'], 'Balance/withdraw');
+                        }else{
+                            return $this->success('申请提现成功');
+                        }
+                    }else{ // 手动提现
                         return $this->success('申请提现成功');
                     }
-                }else{ // 手动提现
-                    return $this->success('申请提现成功');
-                }
-                
+                    
+                }else{
+                    Db::name('withdraw_log') -> insert(['userid'=>$id, 'remark'=>'申请提现失败，已扣余额'.$money['value']]); 
+                    return $this->error('申请提现失败');
+                } 
+
             }else{
                 return $this->error('申请提现失败');
-            }   
+            }
+            
         }else{
             return $this->error('密码错误');
         }

@@ -1,0 +1,67 @@
+<{extend name="./public/announce"/}>
+<{block name="content"}>
+<style>
+    .announce-left{width:150px; margin-top:20px;}
+    .announce_center{border: 1px solid #E0E0E0;overflow: hidden;}
+    .announce{height: 50px;line-height: 50px;color: #666;text-align: center;border-bottom: 1px solid #E0E0E0;background: #F5F5F5;font-size: 18px;}
+    .anomenu{width:150px;margin:0 auto;}
+    ul,li{list-style: none;}
+    ul.anomenu li{cursor: pointer;height:40px;line-height:40px;text-align:center;border-bottom:1px dashed #E0E0E0;color:#666;font-size:14px;}
+    ul.anomenu li:hover{background:#f5f5f5;}
+    ul.anomenu li:last-child{border-bottom:none;}
+    .color{background: #f5f5f5;}
+    .help-panel{float: left;padding: 20px;width: 1050px;}
+    .help-info{border:1px solid #E0E0E0;padding: 10px;}
+    .help-title{height:50px;line-height:40px;font-size:18px;text-align:center;border-bottom:1px solid #E0E0E0;}
+    .help-detail{padding:20px 20px;overflow:hidden;}
+</style>
+<div class="f_l announce-left">
+    <div class="announce_center">
+        <div class="announce">历史记录</div>
+        <ul class="anomenu">
+            <{volist name="announce" id="vo"}>
+            <{if $vo.type==1 && $vo.status ==1}>
+            <li id="<{$vo.id}>" class="announceli"><{$vo.title}></li> 
+            <{/if}>
+            <{/volist}>   
+        </ul>
+    </div>
+</div>
+<div  class="help-panel" >
+    <div class="help-info">
+        <div class="help-title">
+            <{$default.title}>
+        </div>
+        <div class="help-detail">
+            <p>
+                <{$default.content}>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".anomenu li").eq(0).click().addClass("color");
+        $(".anomenu li").click(function(){
+            $(this).addClass("color").siblings().removeClass("color");
+            var id = $(this).attr("id");
+            $.ajax({
+                type: "get",
+                url:  "/index/announce/detail",
+                data: {id: id},
+                success:function(res){
+                    // 将json转换为对象
+                    var arr=JSON.parse(res);
+                    $('.help-title').empty().append(arr[0].title);
+                    $('.help-detail').empty().append(arr[0].content);
+                    
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+        });
+    });
+</script>
+
+<{/block}>

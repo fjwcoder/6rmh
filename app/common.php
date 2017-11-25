@@ -422,7 +422,7 @@ function getAdminLevel(){
 #多图片上传
 function uploadImg($dir='', $param=''){
     $static = DS.'upload'.DS.$dir.DS;
-    $upurl = ROOT_PATH.'public'.DS.'static'.$static;
+    $upurl = $_SERVER['DOCUMENT_ROOT'].DS.'static'.$static;
     
     if (! file_exists ( $upurl )) {
         mkdir ( "$upurl", 0777, true );
@@ -452,7 +452,7 @@ function uploadImg($dir='', $param=''){
 #头像上传
 function uploadHeadImg($dir='', $param = ''){
     $static = DS.'upload'.DS.$dir.DS;
-    $upurl = ROOT_PATH.'public'.DS.'static'.$static;
+    $upurl = $_SERVER['DOCUMENT_ROOT'].DS.'static'.$static;
     
     if (! file_exists ( $upurl )) {
         mkdir ( "$upurl", 0777, true );

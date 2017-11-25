@@ -220,13 +220,15 @@ class WxPayApi
 
 		//签名
 		$inputObj->SetSign();
+
+
 		$xml = $inputObj->ToXml();
-		echo 'xml'; die;
+		
 		$startTimeStamp = self::getMillisecond();//请求开始时间
 		
 		$response = self::postXmlCurl($xml, $url, true, $timeOut);//这一行出错，修改了postXmlCurl函数后运行正常
 		
-		$result = WxPayResults::Init($response);
+		$result = WxPayResults::Init($response, false);
 
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
 		return $result;
@@ -238,27 +240,31 @@ class WxPayApi
 
 		if(!$inputObj->QueryValues('mch_id')) {
 			throw new WxPayException("缺少统一支付接口必填参数mch_id");
-		}else if(!$inputObj->QueryValues('nonce_str')){
-			throw new WxPayException("缺少统一支付接口必填参数nonce_str！");
-		}else if(!$inputObj->QueryValues('sign')) {
-			throw new WxPayException("缺少统一支付接口必填参数sign！");
-		}else if(!$inputObj->QueryValues('sign_type')) {
+		}
+		// else if(!$inputObj->QueryValues('nonce_str')){
+		// 	throw new WxPayException("缺少统一支付接口必填参数nonce_str！");
+		// }
+		// else if(!$inputObj->QueryValues('sign')) {
+		// 	throw new WxPayException("缺少统一支付接口必填参数sign！");
+		// }
+		else if(!$inputObj->QueryValues('sign_type')) {
 			throw new WxPayException("缺少统一支付接口必填参数sign_type！");
 		}
-		
+		$inputObj -> SetValues('nonce_str', self::getNonceStr());
 
-		var_dump($inputObj); die;
+		//签名
+		$inputObj->SetSign();
 
-		$xml = $inputObj->ToXml();
+		$xml = $inputObj->ToXml(); 
 
 		$startTimeStamp = self::getMillisecond();//请求开始时间
 
 		$response = self::postXmlCurl($xml, $url, true, $timeOut);//这一行出错，修改了postXmlCurl函数后运行正常
-		
-		$result = WxPayResults::Init($response);
+
+		$result = WxPayResults::Init($response, false);
 
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间 
-		var_export($result); die;
+
 		return $result;
 	}
 	

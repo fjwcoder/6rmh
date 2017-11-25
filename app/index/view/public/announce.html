@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <title><{$config.page_title}></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--加载swiper的css-->
+    <link rel="stylesheet" href="__CSS__/mall_default_layout.css" type="text/css"/>
+
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+    <script src="__JS__/plugin/laydate/laydate.js"></script> <!--引入日期插件 -->
+    <script src="__JS__/mall/mall_default_layout.js"></script>
+</head>
+<body data-ng-app="myApp" class="web-body" >
+    <header class=" web-top  wp_100 ">
+        <{include file="./public/top"/}>
+    </header>
+    
+
+    <!--主要内容页面-->
+    <div class="web-content wp_100 f_l ">
+        <div class="content-panel">
+            <!--公共功能栏-->
+            <{block name="content"}>
+                内容
+            <{/block}>
+        </div>
+        
+    </div>
+        
+
+    <div class="web-footer wp_100 f_l">
+        <{include file="./public/footer"/}>
+    </div>
+</body>
+</html>

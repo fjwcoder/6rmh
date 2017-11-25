@@ -9,9 +9,15 @@ use think\Db;
 
 class User extends Common
 {
-
-
     public function index(){
+
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>'用户中心', 'template'=>$config['mall_template']['value'] 
+            ]);
+        return $this->fetch();
+    }
+
+    public function userinfo(){
         $id = session(config('USER_ID'));
         
         if(Session::get(Config::get('USER_ID'))){
@@ -19,7 +25,7 @@ class User extends Common
         }
         
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>'用户中心', 'template'=>$config['mall_template']['value'] 
+        $this->assign('config', ['page_title'=>'用户信息', 'template'=>$config['mall_template']['value'] 
             ]);
 
         $users = Db::name('users') ->where(['id' =>$id]) ->find();
@@ -30,7 +36,28 @@ class User extends Common
         return $this->fetch();
     }
 
-    //修改用户信息
+
+    # |------------------------------------
+    # | 重新加载用户头像
+    # |
+    # |
+    # |------------------------------------
+    public function headimgurl(){
+        $id = session(config('USER_ID'));
+
+        $user = Db::name('users') -> where(['id'=>$id, 'status'=>1]) -> find();
+        unset($user['password'], $user['encrypt'], $user['money'], $user['bait'], 
+                    $user['point'], $user['pay_code'], $user['paycrypt']);
+        encodeCookie($user, 'user'); //设置加密cookie
+
+        return $this->redirect('/index/user/index');
+    }
+    # |------------------------------------
+    # | 修改用户信息模块
+    # |
+    # |
+    # |------------------------------------
+
     public function editor(){
         $id = input('id',0,'intval');
         $data['name'] = input('name','','htmlspecialchars,trim');
@@ -56,6 +83,13 @@ class User extends Common
             return $this->error('修改失败');
         }
     }
+
+
+    # |------------------------------------
+    # | 修改密码模块
+    # |
+    # |
+    # |------------------------------------
 
     public function passcode(){
         
@@ -142,14 +176,14 @@ class User extends Common
         }
     }
 
-    public function refreshQRCode(){
-        $get = request() ->get();
-        return dump($get);
-    }
+    // public function refreshQRCode(){
+    //     $get = request() ->get();
+    //     return dump($get);
+    // }
 
-    public function refreshWechat(){
-        $get = request() ->get();
-        return dump($get);
-    }
+    // public function refreshWechat(){
+    //     $get = request() ->get();
+    //     return dump($get);
+    // }
 
 }

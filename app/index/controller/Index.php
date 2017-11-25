@@ -10,10 +10,11 @@ use think\Db;
 
 class Index extends controller
 {
-
+	
+	
     public function index(){
         
-
+		
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
             $gaode->IPLocation();
@@ -100,5 +101,12 @@ class Index extends controller
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
+	
+	
+	public function wktest(){
+		$postStr = file_get_contents('php://input');
+		
+		return $postStr;
 
+	}
 }

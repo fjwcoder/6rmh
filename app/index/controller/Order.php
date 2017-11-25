@@ -14,7 +14,6 @@ class Order extends Common
 
     #订单列表页
     public function index(){
-
         $status = input('status', 0, 'intval');
         // echo $status;
         $order = [];
@@ -27,11 +26,9 @@ class Order extends Common
             ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
                 'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
             ->where($where) ->order('a.add_time desc') -> paginate();
- 
-// return dump($data);
+
         if(!empty($data)){
             foreach($data as $k=>$v){
-
                 if(!array_key_exists($v['order_id'], $order)){
                     $order[$v['order_id']]['order'] = ['order_id'=>$v['order_id'], 'userid'=>$v['userid'], 'status'=>$v['status'], 
                         'pay_status'=>$v['pay_status'], 'balance'=>$v['balance'], 'money'=>$v['money'], 'baits'=>$v['baits'], 
@@ -197,7 +194,7 @@ class Order extends Common
                 }else{//余额不够的时候
 
                 }
-                return dump($user);
+                // return dump($user);
             }
 
             $data = ['userid'=>session(config('USER_iD')), 'order_id'=>$order_id, 
@@ -235,11 +232,81 @@ class Order extends Common
     # 订单详情页
     public function orderDetail(){
         $order_id = input('id', '', 'htmlspecialchars,trim');
+        $user = decodeCookie('user');
+        $order = db('order', [], false) ->where(array('order_id'=>$order_id)) ->find();
 
-        return $order_id;
+        #商品详情
+        $orderdetail = Db::name('order_detail') ->alias('a') 
+            -> join('goods b', 'a.gid=b.id', 'LEFT') 
+            -> join('goods_after c', 'a.order_id=c.order_id and a.gid=c.gid', 'LEFT')
+            -> field('a.*,b.description,b.sub_name, c.opreason')    
+            -> where(array('a.order_id'=>$order_id)) 
+            -> select(); 
+        // return dump($orderdetail);
+        #驳回申请原因
+        // $opreason = Db::name('order_detail') ->alias('a') 
+        //     -> join('goods_after b', 'a.order_id=b.order_id', 'LEFT') 
+        //     -> field('b.opreason')
+        //     -> where(array('b.order_id'=>$order_id)) 
+        //     -> find();
+    
+        $config = mallConfig();
+        // $this->assign('opreason', $opreason);
+        $this->assign('order', $order);
+        $this->assign('orderdetail', $orderdetail);
+        $this->assign('config', ['page_title'=>'订单详情', 'template'=>$config['mall_template']['value'] ]);
         return $this->fetch('detail');
     }
-    
+
+    #退货
+    public function returnGoods(){
+        $order_id = input('id', '', 'htmlspecialchars,trim');
+        $gid = input('gid', 0, 'intval');
+        // 商品信息
+        $orderinfo = db('order', [], false) -> where(array('order_id'=>$order_id)) ->find();
+        if($gid == 0){
+            $comment = db('order_detail', [], false) -> where(array('order_id'=>$order_id)) ->select();
+        }else{
+            $spec = input('spec', '', 'htmlspecialchars,trim');
+            $comment = db('order_detail', [], false) -> where(array('order_id'=>$order_id, 'gid'=>$gid, 'spec'=>$spec)) ->select();
+        }
+        $this->assign('orderinfo', $orderinfo);
+        $this->assign('comment', $comment);
+
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>'售后服务', 'template'=>$config['mall_template']['value'] ]);
+        return $this->fetch();
+    }
+
+    #退货原因
+    public function returnreason(){
+        $order_id = input('order_id', '', 'htmlspecialchars,trim');
+        $reason = input('comment', '', 'htmlspecialchars,trim');
+        $gid = input('gid', 0, 'intval');
+        $num = input('num', 0, 'intval');
+        $number = input('number', 0, 'intval');
+        $type = input('type', 0, 'intval');//1退货 2 换货
+        if($number > $num){
+            return $this->error('输入数量超过购买数量');
+        }
+        $data = Db::name('order_detail') ->field('order_id,gid,name,pic,price,spec')->where(array('order_id'=>$order_id,'gid'=>$gid))->find();
+        $data['addtime'] = time();
+        $data['type'] = $type;
+        $data['num'] = $number;
+        $lis['type'] = 2;
+        $lis['number'] = $number;
+        if($reason != ''){
+            $data['reason'] = $reason;
+            $res = Db::name('goods_after') ->insert($data);
+        }      
+        if($res){
+            $result = db('order_detail', [], false) -> where(array('order_id'=>$order_id,'gid'=>$gid)) ->update($lis);            
+            return $this->success('退货申请提交成功', 'Order/index');
+        }else{
+            return $this->error('提交申请失败');
+        }
+        
+    }
 
     #设置默认地址
     public function defAddr(){

@@ -149,6 +149,28 @@ class Paysuccess extends controller
         }
     }
 
+    # 企业付款到银行卡
+    public function payToBank($resArr, $opname){
+        
+        $order = Db::name('withdraw') -> where(['order_id'=>$resArr['partner_trade_no'], 
+            'status'=>1, 'pay_status'=>0]) -> find();
+        if(!empty($order)){
+
+            $update = ['status'=>2, 'pay_status'=>1, 'paytime'=>time(), 'optime'=>time(), 'opname'=>$opname, 
+                'error_reason'=>$resArr['err_code_des']];
+            $res = Db::name('withdraw') -> where(['order_id'=>$resArr['partner_trade_no'], 
+            'status'=>1, 'pay_status'=>0]) -> update($update);
+            if($res){
+                return ['status'=>true, 'content'=>'提现订单完成'];
+            }else{
+                return ['status'=>false, 'content'=>'付款完成，订单状态修改失败', 'id'=>$resArr['partner_trade_no']];
+            }
+        }else{
+            return ['status'=>false, 'content'=>'付款完成，回调订单未查询到', 'id'=>$resArr['partner_trade_no']];
+        }
+        
+    }
+
 
 
 }

@@ -1,0 +1,18 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{:url('rejectionreason')}>">
+        <input type="hidden" name="id" value="<{$id}>"/>
+        <div class="form-group">
+            <label for="opreason" class="col-sm-3 control-label">驳回理由：</label>
+            <div class="col-sm-5">
+                <textarea id="opreason"  class="form-control" name="opreason" rows=5></textarea>
+            </div>
+        </div>
+        
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>

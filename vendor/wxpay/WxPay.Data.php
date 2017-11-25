@@ -162,6 +162,7 @@ class WxPayDataBase
 	 */
 	public function MakeSign()
 	{
+
 		//签名步骤一：按字典序排序参数
 		ksort($this->values);
 		$string = $this->ToUrlParams();
@@ -251,7 +252,7 @@ class WxPayResults extends WxPayDataBase
      * @param string $xml
      * @throws WxPayException
      */
-	public static function Init($xml)
+	public static function Init($xml, $checksign=true)
 	{	
 		$obj = new self();
 		$obj->FromXml($xml);
@@ -259,7 +260,10 @@ class WxPayResults extends WxPayDataBase
 		if($obj->values['return_code'] != 'SUCCESS'){
 			 return $obj->GetValues();
 		}
-		$obj->CheckSign();
+		if($checksign){//fix 增加是否验证sign by fjw  2017-11-25
+			$obj->CheckSign();
+		}
+		
         return $obj->GetValues();
 	}
 }
@@ -3424,6 +3428,7 @@ class PayToUser extends WxPayDataBase{
 	}
 
 
+
 }
 
 /**
@@ -3445,6 +3450,7 @@ class GetRSAKEY extends WxPayDataBase{
 	public function QueryValues($param){
 		return array_key_exists($param, $this->values);
 	}
+
 
 
 }

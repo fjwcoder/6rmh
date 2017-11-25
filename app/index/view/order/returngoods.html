@@ -1,0 +1,101 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+    .reason-info{background-color: #FAFAFA;}
+    .shenqing{background: #E0E0E0;margin:0px 0px 20px 0px;height: 46px;min-width: 120px;font-size: 20px;font-weight: 700;border: 0;color: white;margin-left: 20px;}
+    .shenqing:hover{background: #C1C1C1;}
+    .o-num{padding-top:10px;color:#999;}
+    .o-num-input{width:32px;border:none;background:#FAFAFA;}
+</style>
+<link rel="stylesheet" href="__CSS__/mall_default_comment.css" type="text/css"/>
+<div data-ng-controller="cartCtrl"  class="web-content wp_100 f_l ">
+    <div class="content-panel">
+        <div class="t_c wp_100 goods-comment">
+            <h3 class="o-title"><{$config.page_title}></h3>
+            <div class="o-info">
+                <span class="m_r20 o-info">
+                    订单号：
+                    <a class="o-number fz_15" href="" target="_blank"><{$orderinfo.order_id}></a>
+                </span>
+                <span class="o-info"><{$orderinfo.add_time}></span>
+            </div>       
+        </div>                                                        
+        <{volist name="comment" id="vo" key="ids"}>
+        <{if $vo.type ==1}>
+        <form class="form-horizontal" method="post" role="form" action="<{:url('returnreason')}>">
+        <div class="wp_100 o_h reason-info">
+            <div class="wp_25  f_l com-goods o_h">
+                <div class="wp_100 h100 o_h t_c">
+                    <a href="" target="_blank">
+                        <img class="w100 h100" src="<{$vo.pic}>" alt="" />
+                    </a>
+                </div>
+                <div class="p-name wp_100 o_h t_c">
+                    <a href="" target="_blank"><{$vo.name}></a>
+                </div>
+                <div class="p-price t_c wp_100">
+                    <strong>¥<{$vo.price}></strong>
+                </div>
+                <div class="o-info wp_100 t_c o_h"><{$vo.spec}> </div>
+                <div class="o-num wp_100 t_c o_h">数量&nbsp;<input class="o-num-input" name="num" value="<{$vo.num}>" readonly="readonly"> </div>
+                <!-- <div class="o-num wp_100 t_c o_h">数量&nbsp;<{$vo.num}> </div> -->
+            </div>
+            <div class="wp_75  f_l o-operate o_h">
+                <div class="h60">
+                    <div class="starbox">
+                        <span class="s_name">售后类型</span>
+                        <input type="radio" name="type" value="1" checked/>&nbsp;退货&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="type" value="2" />&nbsp;换货
+                    </div>
+                </div>
+                <div class="h60">
+                    <div class="starbox">
+                        <span class="s_name">数量</span>
+                        <input class="number" type="text" name="number" placeholder="请输入退\换货数量" required/>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <div>
+                    <span class="item-title f_l">原因</span>
+                    <div class="o-main f_l">
+                        <div class="o-textarea h100">
+                            <textarea id="TextArea<{$ids}>" class="text"  name="comment" required placeholder="请您在此描述问题"></textarea>
+                            <span class="o-info">还可输入<font id="textCount<{$ids}>" class="count">500</font>字</span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="order_id" value="<{$orderinfo.order_id}>" />
+                    <input type="hidden" name="gid" value="<{$vo.gid}>" />
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <!-- <div class="more-info-navbar wp_100"> -->
+            <a class="" href="javascript: void(0);" title="申请">
+                <button class="shenqing pull-right">申请</button>
+            </a>
+        <!-- </div> -->
+    </form>
+    <{/if}>
+    <{/volist}>
+    <!-- <div style="width:100%;height:50px;line-height:50px;border:1px solid red;text-align:center;">1</div> -->
+    
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.text').keyup(function(){
+            var text = $(this).attr('id');
+            var curLength=$('#'+text).val().length;
+            var count = $(this).next().children().attr('id');
+            if(curLength>500){
+                var num=$('#'+text).val().substr(0,500);
+                $('#'+text).val(num);
+                alert("超过字数限制，多出的字将被截断！" );
+            }else{
+                $('#'+count).text(500-$('#'+text).val().length);
+            }
+        }); 
+        
+    });
+</script>
+<{/block}>

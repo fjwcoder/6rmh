@@ -1,0 +1,83 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{$header.form}>">
+        <div class="form-group">
+            <label for="idname" class="col-sm-3 control-label">发布者：</label>
+            <div class="col-sm-5">  
+                <input id="idname" type="text" class="form-control" name="idname" <{if $header.form=="add"}>value=""<{else}>value="<{$result.idname}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">标题：</label>
+            <div class="col-sm-5">  
+                <input id="title" type="text" class="form-control" name="title" <{if $header.form=="add"}>value=""<{else}>value="<{$result.title}>" <{/if}>required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="content" class="col-sm-3 control-label">内容：</label>
+            <div class="col-sm-5">
+                <textarea id="content" class="form-control" name="content" rows="8" required><{if $header.form != "add"}><{$result.content}><{/if}></textarea>
+            </div>
+        </div>
+        <{if $header.form=="edit"}>
+        <div class="form-group">
+            <label for="addtime" class="col-sm-3 control-label">发布时间：</label>
+            <div class="col-sm-5 ">
+                <{$result.addtime | date='Y-m-d h:i:s',###}>
+            </div>
+        </div>
+        <{/if}>
+        <div class="form-group">
+            <label for="type" class="col-sm-3 control-label">类型：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="type" value="1" checked/>前台
+                <input type="radio" class="radio-inline" name="type" value="2"/>后台
+                <{else}>
+                    <{if $result.type==1}>
+                    <input type="radio" class="radio-inline" name="type" value="1" checked/>前台
+                    <input type="radio" class="radio-inline" name="type" value="2"/>后台
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="type" value="1" />前台
+                    <input type="radio" class="radio-inline" name="type" value="2" checked/>后台
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status" class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-5">
+                <{if $header.form=="add"}>
+                <input type="radio" class="radio-inline" name="status" value="1" checked/>开启
+                <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                <{else}>
+                    <{if $result.status==1}>
+                    <input type="radio" class="radio-inline" name="status" value="1" checked/>开启
+                    <input type="radio" class="radio-inline" name="status" value="2"/>禁用
+                    <{else}>
+                    <input type="radio" class="radio-inline" name="status" value="1" />开启
+                    <input type="radio" class="radio-inline" name="status" value="2" checked/>禁用
+                    <{/if}>
+
+                <{/if}>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">  
+                <input id="remark" type="text" class="form-control" name="remark" <{if $header.form=="add"}>value=""<{else}>value="<{$result.remark}>" <{/if}>/>
+            </div>
+        </div>
+
+        <{if $header.form=="edit"}>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <{/if}>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>
