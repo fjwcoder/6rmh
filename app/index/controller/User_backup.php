@@ -9,35 +9,7 @@ use think\Db;
 
 class User extends Common
 {
-    protected function _initialize(){
-        if(empty(session('LOCATION'))){
-            $gaode = new Gaode();
-            $gaode->IPLocation();
-        }
-
-        #是否登录
-        if( Session::get(Config::get('USER_ID')) ){
-            //登陆后，每次跳转，都设置一下session，保持登录状态
-            Session::set(Config::get('USER_ID'), Session::get(Config::get('USER_ID')));
-
-            $id = session(config('USER_ID'));
-            $user = Db::name('users') ->where(['id' =>$id]) ->find();
-            
-            unset($user['password'], $user['encrypt'], $user['pay_code'], $user['paycrypt']);
-
-            encodeCookie($user, 'user'); //设置加密cookie
-            $this->assign('cookie', decodecookie('user'));
-        }else{
-            session(null);
-            return $this->redirect('/index/login/index');
-            exit;
-        }
-
-    }
-
     public function index(){
-        
-
 
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'用户中心', 'template'=>$config['mall_template']['value'] 

@@ -33,7 +33,6 @@ class Goods extends controller
         }else{
 
         }
-    
     }
 
     public function zan(){

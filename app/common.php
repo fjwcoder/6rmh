@@ -287,6 +287,25 @@ function authCode($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
 // }
 
 function encodeCookie($array, $key){
+    if(isset($array['level'])){
+        switch($array['level']){
+            case 1:
+                $array['levelname'] = 'FRESHMAN-VIP';
+            break;
+            case 2:
+                $array['levelname'] = 'SOPHOMORE-VIP';
+            break;
+            case 3:
+                $array['levelname'] = 'JUNIOR-VIP';
+            break;
+            case 4:
+                $array['levelname'] = 'SENIOR-VIP';
+            break;
+            default:
+                $array['levelname'] = 'TOP-VIP';
+            break;
+        }
+    }
     foreach($array as $k=>$v){
         $array[$k] = authCode($v, 'ENCODE', $k);
     }

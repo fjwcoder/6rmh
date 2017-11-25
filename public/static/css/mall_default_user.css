@@ -4,7 +4,11 @@
     -moz-box-shadow: -3px 0px 10px #6ad4c9;
     -webkit-box-shadow: -3px 0px 10px #6ad4c9; 
     box-shadow: -3px 0px 10px #6ad4c9;
-    height: 120px; width: 120px;
+    /*-moz-box-shadow: -3px 0px 10px rgba(224, 183, 18, 1);
+    -webkit-box-shadow: -3px 0px 10px rgba(224, 183, 18, 1); 
+    box-shadow: -3px 0px 10px rgba(224, 183, 18, 1);*/
+    height: 100px; width: 100px;
+    margin-top: 7%; margin-left: 9%;
 }
 
 #my-qrcode{
@@ -12,6 +16,41 @@
     -webkit-box-shadow: 3px 0px 10px #6ad4c9; 
     box-shadow: 3px 0px 10px #6ad4c9;
     height: 120px; width: 120px;
+    margin-top: 2%; margin-right: 4%;
+}
+div.user-headinfo-panel{  height: 150px; margin-top: 20px; }
+div.headinfo-left-panel{width: 30%; background: white; 
+    border-top-left-radius: 80px;border-bottom-left-radius: 80px;}
+div.headinfo-right-panel{
+    width: 70%; 
+    background: url('/static/images/mall/user_head_left.png') no-repeat;
+    background-size: 100% 100%;
+}
+div.headinfo-left-panel div.left-panel-info{ width: 210px;}
+.left-panel-info .vip-info{
+    margin-top: 14%; margin-left: 5%;
+    color: rgba(224, 183, 18, 1); font-size: 1.5em;
+}
+
+.headinfo-right-panel .right-panel-info-1{ margin-left: 6%;
+    width: 280px; margin-top: 2%; border-right: 1px dashed #e0e0e0; 
+}
+
+.right-panel-info-1 .right-info-1-btn{ cursor: pointer;
+    width: 60px; height: 55px; border-radius: 50%; 
+    text-align: center; color: #6ad4c9;
+    margin-left: 17%; margin-top: 3%;
+}
+
+.right-panel-info-1 .right-info-1-btn i{
+    font-size: 24px;
+}
+
+.headinfo-right-panel .right-panel-info-2{
+    width: 300px; margin-top: 2%; margin-left: 2%; 
+}
+.headinfo-right-panel .right-panel-info-2 .right-info-p{
+    margin-top: 5%; font-size: 15px; padding-left: 20%; color: rgba(224, 183, 18, 1);
 }
 
 

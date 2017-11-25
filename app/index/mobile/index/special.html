@@ -7,13 +7,8 @@
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!--加载swiper的css-->
-    <link rel="stylesheet" href="__CSS__/swiper-3.4.2.min.css" type="text/css"/>
     <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
-
-
-    <link rel="stylesheet" type="text/css" href="__STATIC__/css/hexagon/mobile_hexagons.css">
-
-
+    <link rel="stylesheet" type="text/css" href="__CSS__/mall_mobile_special.css">
     <link rel="stylesheet" href="__CSS__/mall_mobile_layout.css" type="text/css"/>
 	<link rel="stylesheet" href="__CSS__/plugin/mall_mobile_footer.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -29,37 +24,26 @@
 </head>
     <body id="index-body">
         <img style="height: 140px; width: 90%; margin: 10% 5%;" class="" src="__STATIC__/images/mall/index_font.png" />
-
-        <div class="htmleaf-container" style="margin-top: 5%; margin-bottom: 100px;">
-			<ul id="hexGrid" >
-					<{volist name="goods" id="vo"  empty="暂时没有数据"}>
-					<li class="hex-li">
-						<a href="<{:url('goods/detail', ['id'=>$vo.id])}>">
-							<div class="hex">
-								<div class="hexIn">
-									<img src="<{$vo.img}>" alt="" />
-								</div>
-							</div>
-							<div class="hex-info wp_50" >
-								<span class="product_name"><{$vo.name}></span>
-								<br>
-								<span class="product_des"><{$vo.description}></span>
-							</div>
-						</a>
-					</li>
-						
-
-
-
-						
-					<{/volist}>
-					
-
-			</ul>
-		</div>
-
-
-
+        <div class="pro_con">
+        <{volist name="goods" id="vo"  empty="暂时没有数据"}>
+        <a class="product_show" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
+           <div class="left">
+              <img src="<{$vo.img}>" alt="" />
+           </div>
+           <div class="right">
+              <div class="product_name"><{$vo.name}></div>
+              <div class="product_content">
+                  <div class="description">
+                     <{$vo.description}>
+                  </div>
+                  <div class="price">
+                    <span class="fa fa-rmb" ></span>&nbsp;&nbsp;<span class="price_num"><{$vo.price}></span>
+                  </div>
+              </div>
+           </div>
+        </a>                  
+      <{/volist}>
+     </div>
 <{include file="public/footer"/}>
     </body>
     <script>

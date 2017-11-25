@@ -43,7 +43,9 @@ div.web-login-div .glyphicon{color: #6ad4c9;}
 div.web-login-div button{width: 260px; height: 36px;}
 /*==================================Mall顶部=========================================*/
     header.web-top{position: fixed; top: 0; height: 26px; margin: 0; background: #f0f0f0; z-index: 999;}
-div.content-panel{width: 1200px; margin: 0 auto; }
+div.content-panel{width: 1200px; margin: 0 auto; 
+/*height: 1000px;*/
+}
 
 .web-top li{font-size: 14px; text-align: center; }
 .web-top ul.pull-left li{float: left!important; margin-right: 32px;} 
@@ -89,10 +91,10 @@ div.navbar-panel ul li a:hover{color: #6ad4c9;}
 li.li-split{color: #8e8e8e;}
 /*special.html*/
 .product_show{
+    /*width: 100vw;*/
+    width: 100%;
+    /*position: absolute; top: 26px;*/
     background: url('/static/images/mall/bg.jpg') no-repeat;
-    /*background-size: 100%;  
-    -moz-background-size: 100%;  
-    -webkit-background-size: 100%;  */
     background-position: center;
 }
 .title_img{
@@ -102,7 +104,8 @@ li.li-split{color: #8e8e8e;}
 }
 #product_show{
     background-color: #6ad4c9;
-    padding-top: 2em;
+    /*padding-top: 2em;*/
+    min-height: 959px;
 }
 .up2pro{
     display: block;

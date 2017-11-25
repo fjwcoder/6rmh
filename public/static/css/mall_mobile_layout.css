@@ -1,6 +1,6 @@
 @import "keep_base.css";/*公共css*/
 
-#index-body{
+#index-body{ position: absolute; top: 0; bottom: 0; left: 0; right: 0;
     background: url(../images/mall/m_index_bg.jpg) no-repeat center; 
     background-size: 100%; 
     background-attachment: fixed;

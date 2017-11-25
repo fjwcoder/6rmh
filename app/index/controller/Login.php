@@ -81,8 +81,7 @@ class Login extends controller
                 $user = $check['user'];
                 
                 Session::set(Config::get('USER_ID'), $user['id']);
-                unset($user['password'], $user['encrypt'], $user['money'], $user['bait'], 
-                    $user['point'], $user['pay_code'], $user['paycrypt']);
+                unset($user['password'], $user['encrypt'], $user['pay_code'], $user['paycrypt']);
                 encodeCookie($user, 'user'); //设置加密cookie
                 #验证成功后，跳转
                 return $this->redirect('/index/index/index');

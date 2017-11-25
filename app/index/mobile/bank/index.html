@@ -18,51 +18,43 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="ModalLabel">新增收货地址</h4>
+		        <h4 class="modal-title" id="ModalLabel">新增银行卡</h4>
 		      </div>
 		      <div class="modal-body">
 		        <form class="form-horizontal" method="post" name="form" id="myform" action="<{:url('add')}>">
-		          <div class="form-group">
-		            	<label for="name" class="col-xs-4 control-label">收货人：</label>
-						<div class="col-xs-8">
-	  						<input type="text"  name="name" class="form-control verify" id="name" placeholder="请输入姓名..." aria-describedby="helpBlock1">
-						</div>
-		          </div>
 		        	<div class="form-group">
-		        		<label for="province" class="col-xs-4 control-label">所在地区：</label>
+		        		<label for="province" class="col-xs-4 control-label">银行类型：</label>
 						<div class="col-xs-8">
-	  						<select class="form-control" id="province" name="province">
+	  						<select class="form-control" name="banktype">
 	  						  	<option value=""  selected>选择</option>
-	  						  	<{volist name="province" id="vo"}>
-	  						   	<option value="<{$vo.id}>"><{$vo.name}></option>
+	  						  	<{volist name="banktype" id="vo"}>
+	  						   	<option value="<{$vo.bankid}>"><{$vo.bankname}></option>
 					   			<{/volist}>
 	  						</select>
 						</div>
-						<div class="col-xs-4 col-xs-offset-4">
-							<select class="form-control" id="city" name="city">
-							</select>
-						</div>
-						<div class="col-xs-4">
-							<select class="form-control" id="area" name="area">
-							</select>
-						</div>
 		        	</div>
 		          <div class="form-group">
-		            <label for="address" class="col-xs-4 control-label">地址：</label>
+		            	<label for="name" class="col-xs-4 control-label">开户行：</label>
 						<div class="col-xs-8">
-	  						<input type="text" name="address" class="form-control verify" id="address" placeholder="请输入详细地址">
+	  						<input type="text"  name="accountbank" class="form-control verify" id="name" placeholder="请输入开户行..." aria-describedby="helpBlock1">
+						</div>
+		          </div>
+		          <div class="form-group">
+		            <label for="address" class="col-xs-4 control-label">开户人：</label>
+						<div class="col-xs-8">
+	  						<input type="text" name="accountolder" class="form-control verify" id="address" placeholder="请输入开户人">
 						</div>
 		          </div>
 		           <div class="form-group">
-		            <label for="phone" class="col-xs-4 control-label">手机：</label>
+		            <label for="phone" class="col-xs-4 control-label">卡号：</label>
 						<div class="col-xs-8">
-	  						<input type="text" name="mobile" class="form-control verify" id="mobile" placeholder="请输入电话...">
+	  						<input type="text" name="cartnumber" class="form-control verify"   pattern='^\d{19}$' placeholder="请输入银行卡号...">
 						</div>
 		          </div>
 		           <div class="form-group">
-		            <label for="zipcode" class="col-xs-4 control-label">邮编：</label>
+		            <label for="zipcode" class="col-xs-4 control-label">手机号：</label>
 						<div class="col-xs-8">
-	  						<input type="text" name="zipcode" class="form-control" id="zipcode">
+	  						<input type="text" name="mobile" id="mobile" class="form-control" id="zipcode">
 						</div>
 		          </div>
 		        </form>
@@ -74,37 +66,41 @@
 		    </div>
 		  </div>
     </div>
-	<div class="address-title">　您已创建<span class="fone-color"><{$count}></span>个收货地址，最多可创建<span class="fone-color">10</span>个</div>
-	<{volist name="address" id="vo"}>
+	<div class="address-title">　您已创建<span class="fone-color"><{$count}></span>个账户，最多可创建<span class="fone-color">5</span>个</div>
+	<{volist name="bank" id="vo"}>
 	<div class="withdraw">
 		<div class="row top-title">
-			<div class="col-xs-5">
-				 <{if $vo.type == 1}>
-                    <span class="hint-int" style="color: #f00;">默认地址</span>
-                <{else}>
-                    <a href="<{:url('defAddr', ['id'=> $vo['id']])}>"><span class="ctrl-option">设为默认</span></a>
-                <{/if}>
-			</div>
+			<{if $vo.status != 1}>
+              <div class="col-xs-7">银行卡不可用</div>
+          <{else}>
+          		<{if $vo.type == 1}>
+          		    <div class="col-xs-7" style="color: #f00">默认银行卡</div>
+          		<{else}>
+					<div class="col-xs-5">
+						<a href="<{:url('defBank', ['id'=> $vo['id']])}>">设为默认</a>
+					</div>
+				<{/if}>
+			<{/if}>
 		</div>
 		<div class="row">
-			<div class="col-xs-3 address">收货人：</div>
-			<div class="col-xs-7 address"><{$vo.name}></div>
+			<div class="col-xs-4 address">银行类型：</div>
+			<div class="col-xs-7 address"><{$vo.banktype}></div>
 		</div>
 		<div class="row">
-			<div class="col-xs-3 address ">所在地区</div>
-			<div class="col-xs-7 address "><{$vo.addr}></div>
+			<div class="col-xs-3 address ">开户行：</div>
+			<div class="col-xs-7 address "><{$vo.accountbank}></div>
 		</div>
 		<div class="row">
-			<div class="col-xs-3 address ">地址：</div>
-			<div class="col-xs-7 address "><{$vo.address}></div>
+			<div class="col-xs-3 address ">开户人：</div>
+			<div class="col-xs-7 address "><{$vo.accountholder}></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-3 address ">卡号：</div>
+			<div class="col-xs-7 address "><{$vo.cartnumber}></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-3 address ">手机：</div>
 			<div class="col-xs-7 address "><{$vo.mobile}></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-3 address ">邮编：</div>
-			<div class="col-xs-7 address "><{$vo.zipcode}></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-8 address"></div>
@@ -116,28 +112,6 @@
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="__STATIC__/js/bootstrap.min.js"></script>
 	<script>
-    	$('#province').change(function(){
-    		var city = $(this).val();
-			$.getJSON("/index/address/city?id="+city, function(re){
-		     	var optionstring = "";
-		     	$.each(re, function(i,item){
-		         optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
-		     	});
-		     	$("#city").html('<option value="">请选择</option>'+optionstring);
-			});
-			$("#area").html('<option value="">请选择</option>');
-    	});
-    	$('#city').change(function(){
-    		var area = $('#city').val();
-    		console.log(area);
-			$.getJSON("/index/address/area?id="+area, function(re){
-		     	var optionstring = "";
-		     	$.each(re, function(i,item){
-		         optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
-		     	});
-		     	$("#area").html('<option value="">请选择</option>'+optionstring);
-		});
-    	});
     	$('.verify').change(function(event) {
     		if($(this).val()==''){
     			$(this).parent().removeClass('has-success');

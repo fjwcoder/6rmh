@@ -25,26 +25,13 @@
     <script src="__JS__/plugin/laydate/laydate.js"></script> <!--引入日期插件 -->
     <script src="__JS__/mall/mall_default_layout.js"></script>
 </head>
-<body data-ng-app="myApp" class="web-body" >
+<body data-ng-app="myApp" class="web-body" style="background-color: rgba(245, 245, 245, 1);" >
     <header class=" web-top  wp_100 ">
         <{include file="./public/top"/}>
     </header>
     
-    <!--显示头像和二维码-->
-    <div class="content-panel" style="height: 120px; margin-top: 20px; padding: 0 2%;">
-        
-        <a href="/index/user/headimgurl" title="点击更新头像">
-            <img id="top-headimgurl" class="f_l"  src="<{$cookie.headimgurl}>"/>
-        </a>
-        
-        <a href="javascript: void(0);" title="点击更新二维码">
-            <img id="my-qrcode" class="f_r " data-container="body" title=<{if $cookie.openid != ''}>"我的推广二维码"<{else}>"微信扫描二维码绑定"<{/if}> 
-                data-toggle="popover"data-placement="left" 
-             src="<{$cookie.qr_code}>" data-content=<{if $cookie.openid != ''}>"分享该二维码，关注得好礼"<{else}>"请用微信扫描二维码，绑定微信号"<{/if}> />
-        </a>
-
-
-    </div>
+    <!--用户信息-->
+    <{include file="./user/headinfo"/}>
 
     <!--主要内容页面-->
     <div class="web-content wp_100 f_l ">

@@ -1,0 +1,62 @@
+    <div class="content-panel user-headinfo-panel">
+        
+        <div class="headinfo-left-panel hp_100 f_l">
+            <a href="/index/user/headimgurl" title="点击更新头像">
+                <img id="top-headimgurl" class="f_l" src="<{$cookie.headimgurl}>"/>
+            </a>
+
+            <div class="left-panel-info hp_100 f_r o_h">
+                <a href="/index/user/userinfo">
+                    <p class="vip-info"><{$cookie.nickname}></p><!--昵称-->
+                </a>
+                <p class="vip-info"><{$cookie.levelname}></p><!--VIP 等级-->
+            </div>
+        </div>
+
+        <div class="headinfo-right-panel hp_100 f_l">
+            <div class="right-panel-info right-panel-info-1  hp_80 f_l">
+                <a href="/index/order/index">
+                    <div class="right-info-1-btn f_l">
+                        <i class="fa fa-file-text"></i><br>我的订单
+                    </div>
+                </a>
+                <a href="/index/cart/index">
+                    <div class="right-info-1-btn f_l">
+                        <i class="fa fa-shopping-cart"></i><br>购物车
+                    </div>
+                </a>
+                <a href="/index/purchase/index">
+                    <div class="right-info-1-btn f_l">
+                        <i class="fa fa-bank"></i> <br>我的出售
+                    </div>
+                </a>
+
+                <a href="/index/inner/index">
+                    <div class="right-info-1-btn f_l">
+                        <i class="fa fa-database"></i> <br>我的资产
+                    </div>
+                </a>
+                
+            </div>
+
+            <div class="right-panel-info right-panel-info-2  hp_80 f_l">
+                <p class="right-info-p">余额：&nbsp;&nbsp;<{$cookie.money}></p>
+                <p class="right-info-p">鱼饵：&nbsp;&nbsp;<{$cookie.bait}></p>
+                <p class="right-info-p">积分：&nbsp;&nbsp;<{$cookie.point}></p>
+
+            </div>
+
+            <a href="javascript: void(0);" title="点击更新二维码">
+                <img id="my-qrcode" class="f_r " data-container="body" title=<{if $cookie.openid != ''}>"我的推广二维码"<{else}>"微信扫描二维码绑定"<{/if}> 
+                    data-toggle="popover"data-placement="left" 
+                src="<{$cookie.qr_code}>" data-content=<{if $cookie.openid != ''}>"分享该二维码，关注得好礼"<{else}>"请用微信扫描二维码，绑定微信号"<{/if}> />
+            </a>
+        </div>
+        
+
+
+    </div>
+
+
+
+

@@ -18,7 +18,6 @@ use think\Cache;
 class Common extends Controller
 {
     protected function _initialize(){
-        // Session::set(Config::get('USER_ID'), 1);//测试账号
         
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
@@ -26,7 +25,6 @@ class Common extends Controller
         }
 
         #是否登录
-        // if(!Authority::isLogin()){
         if( Session::get(Config::get('USER_ID')) ){
             //登陆后，每次跳转，都设置一下session，保持登录状态
             Session::set(Config::get('USER_ID'), Session::get(Config::get('USER_ID')));
