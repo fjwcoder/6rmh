@@ -24,17 +24,14 @@ class Index extends controller
         if(Session::get(Config::get('USER_ID'))){
             $user = decodeCookie('user');
         }
-        $term = getTerm();
-
-        $goods = Db::name('term_goods') -> alias('a') 
-            -> join('goods b', 'a.gid=b.id', 'LEFT') 
-            -> field(['b.id, b.name', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
-            -> where(['a.term'=>$term['id']]) -> select();
-        if($goods){
-            $this->assign('goods', $goods);
+        
+        $goods = $this->termGoods();
+        if($goods['status']){
+            $this->assign('goods', $goods['goods']);
         }else{
-            return '商品报错';
+            return $goods['goods']; exit;
         }
+        
         
 
         $config = mallConfig();
@@ -43,7 +40,19 @@ class Index extends controller
         return $this->fetch($config['mall_template']['value']);
     }
 
+    public function termGoods(){
+        $term = getTerm();
 
+        $goods = Db::name('term_goods') -> alias('a') 
+            -> join('goods b', 'a.gid=b.id', 'LEFT') 
+            -> field(['b.id, b.name', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
+            -> where(['a.term'=>$term['id']]) -> select();
+        if($goods){
+            return ['status'=>true, 'goods'=>$goods];
+        }else{
+            return ['status'=>false, 'goods'=>'空空如也'];
+        }
+    }
     
     #======================================================angularjs的$http========================================================================
     public function topInfo(){
@@ -55,7 +64,7 @@ class Index extends controller
             
             $data = [
                 'left'=> [
-                    ['title'=>empty($user['nickname'])?$user['name']:$user['nickname'], 'url'=>'/index/order/index', 'iconfont'=>''],
+                    ['title'=>empty($user['nickname'])?$user['name']:$user['nickname'], 'url'=>'/index/user/index', 'iconfont'=>''],
                     ['title'=>session('LOCATION.CITY'), 'url'=>'javascript: void(0);', 'iconfont'=>'fa-li fa fa-map-marker'],
                 ]
             ];
@@ -72,7 +81,7 @@ class Index extends controller
 
         $data['right'] = [
             'index'=>['name'=>'index', 'title'=>'进入商城','url' => '/index/index/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'],
-            'user'=>['name'=>'user', 'title'=>'会员中心','url'=> '/index/order/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'], // 
+            'user'=>['name'=>'user', 'title'=>'会员中心','url'=> '/index/user/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'], // 
             'cart'=>['name'=>'cart',  'title'=>'购物车','url'=> '/index/cart/index', 'iconfont'=>'fa-li fa fa-heart',  'target'=>'_blank'], // 购物车
             'order'=>[ 'name'=>'order', 'title'=>'我的订单','url'=> '/index/order/index', 'iconfont'=>'fa-li fa fa-user',  'target'=>'_blank'],  // 我的订单
             'mobile'=>['name'=>'mobile', 'title'=>'手机商城', 'url' => '/index/login/mobilemall', 'iconfont'=>'fa-li fa fa-qrcode',  'target'=>'_blank'],  // 手机商城

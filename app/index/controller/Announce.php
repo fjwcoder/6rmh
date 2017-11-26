@@ -14,15 +14,19 @@ class Announce extends controller
     public function index(){
 
         $announce = Db::name('announce')->order('addtime DESC') ->select();
-        $default = Db::name('announce')->where(array('type'=>1,'status'=>1))->order('addtime DESC') ->limit(1)->find();
         
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'系统公告', 'template'=>$config['mall_template']['value'] 
             ]);
         $this->assign('announce', $announce);
-        $this->assign('default', $default);
+        $this->assign('default', $this->defaultAnnounce());
         return $this->fetch();
 
+    }
+
+    public function defaultAnnounce(){
+        $default = Db::name('announce')->where(array('type'=>1,'status'=>1))->order('addtime DESC') ->limit(1)->find();
+        return $default;
     }
 
     public function detail(){

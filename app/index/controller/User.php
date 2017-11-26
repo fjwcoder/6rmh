@@ -1,7 +1,10 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-// use app\common\controller\Mall as Mall;
+use app\index\controller\Order as Order;
+use app\index\controller\Announce as Announce;
+use app\index\controller\Index as Index;
+// use app\index\controller\Announce as Announce;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -36,6 +39,25 @@ class User extends Common
     }
 
     public function index(){
+        
+        # 获取订单
+        $orderObj = new Order();
+        $where['a.userid'] = session(config('USER_ID'));
+        $this->assign('order', $orderObj->getOrder($where, 0, 4));
+
+        # 获取公告
+        $announce = new Announce();
+        $this->assign('announce', $announce->defaultAnnounce());
+        // return dump($announce->defaultAnnounce());
+
+        $index = new Index();
+        $goods = $index->termGoods();
+        $this->assign('goods', $goods);
+        // if($goods['status']){
+        //     $this->assign('goods', $goods['goods']);
+        // }else{
+            
+        // }
         
 
 

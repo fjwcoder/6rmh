@@ -16,16 +16,28 @@ class Order extends Common
     public function index(){
         $status = input('status', 0, 'intval');
         // echo $status;
-        $order = [];
+        
         $where['a.userid'] = session(config('USER_ID'));
         if($status !== 0 ){
             $where['status'] = $status;
         }
+        
+        $order = $this->getOrder($where, 0, 16); //获取订单信息
+        $this->assign('order', $order);
+        
+
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>'我的订单', 'template'=>$config['mall_template']['value'] ]);
+        return $this->fetch();
+    }
+
+    public function getOrder($where, $from, $to){
+        $order = [];
         $data = Db::name('order') ->alias('a')
             ->join('order_detail b', 'a.order_id=b.order_id') 
             ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
                 'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
-            ->where($where) ->order('a.add_time desc') -> paginate();
+            ->where($where) ->order('a.add_time desc') ->limit($from, $to) -> select();
 
         if(!empty($data)){
             foreach($data as $k=>$v){
@@ -41,16 +53,13 @@ class Order extends Common
                 ];
 
             }
-            // return dump($order);
-            $this->assign('order', $order);
-        }else{
-            $this->assign('order', []);
-        }
-        
 
-        $config = mallConfig();
-        $this->assign('config', ['page_title'=>'我的订单', 'template'=>$config['mall_template']['value'] ]);
-        return $this->fetch();
+            // $this->assign('order', $order);
+            return $order;
+        }else{
+            // $this->assign('order', []);
+            return [];
+        }
     }
 
     #生成订单预览

@@ -1,7 +1,103 @@
 <{extend name="./public/user"/}>
 <{block name="content"}>
+<style>
+    .more-info {background: white; margin-top: 5px;}
+    .ucenter-info-navbar {background: white; height: 40px; padding: 10px 20px 0 20px; 
+        margin-bottom: 10px; border-bottom: 1px dashed #e0e0e0;}
+    .ucenter-info-navbar ul li{margin: 13px 10px 0 10px; float: left;}
+    .ucenter-order-content{background-color: white; margin: 10px 0;}
+    .color-8e{color: #8e8e8e}
+    .pd-top-3{padding-top: 3%;}
+    .more-info-mar{margin-top: 2.5%;}
+    div.ucenter-goods{margin:0 0 20px 10px; border: 1px dashed #e0e0e0;}
+</style>
 <div  class=" user-panel order-preview-html " >
-    用户中心
+    <!--我的订单-->
+    <div class="more-info wp_74 f_l">
+        <div class="ucenter-info-navbar wp_100 ">
+            <a class="f_l" href="/index/order/index">我的订单</a>
+
+            <a class="f_r" href="/index/order/index">查看全部 >></a>
+        </div>
+        <{volist name="order" id="vo"}>
+            <div class="ucenter-info-content wp_100 ">
+                <div class="ucenter-order-content h80 o_h f_l wp_40">
+                    <{volist name="vo.detail" id="v"}>
+                        <img class="ucenter-goods-pic h80 w80 f_l" src="<{$v.pic}>"/>
+                    <{/volist}>
+                </div>
+                <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_15">
+                    <{$vo.order.user_name}>
+                </div>
+                <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_15">
+                    ￥<{$vo.order.money}>
+                </div>
+                <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_15">
+                    <{$vo.order.addtime}>
+                </div>
+                
+                <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_15">
+                    <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">
+                    <{switch name="vo.order.status"}>
+                        <{case value="1"}>待支付<{/case}>
+                        <{case value="2"}>待发货<{/case}>
+                        <{case value="3"}>待收货<{/case}>
+                        <{case value="4"}>待评价<{/case}>
+                        <{case value="5"}>订单完成<{/case}>
+                        <{default/}>其他
+                    <{/switch}>
+                    </a>
+                </div>
+            </div>
+        <{/volist}>
+    </div>
+
+    <div class="more-info wp_25 f_l" style="margin-left: 1%;">
+        <div class="ucenter-info-navbar wp_100 ">
+            <a class="f_l" href="/index/announce/index">公告：<{$announce.title}></a>
+            <a class="f_r" href="/index/announce/index">全部公告 >></a>
+        </div>
+        <div class="ucenter-info-content wp_100 o_h" style="height: 300px; padding: 0 20px;">
+            <{$announce.content}>
+        </div>
+    </div>
+
+    <div class="more-info more-info-mar wp_49 f_l" >
+        <div class="ucenter-info-navbar wp_100 ">
+            <a class="f_l" href="/index/announce/index">我的出售</a>
+            <a class="f_r" href="/index/announce/index">交易大厅 >></a>
+        </div>
+        <div class="ucenter-info-content t_c wp_100 o_h" >
+            <a href="/index/inner/purchase">空空如也</a>
+        </div>
+    </div>
+
+    <div class="more-info more-info-mar wp_49 f_l" style="margin-left: 2%;">
+        <div class="ucenter-info-navbar wp_100 ">
+            <a class="f_l" href="/index/announce/index">热卖商品</a>
+            <a class="f_r" href="/index/announce/index">前往商城 >></a>
+        </div>
+        <div class="ucenter-info-content wp_100 o_h" >
+            <{if $goods.status}>
+                <{volist name="$goods.goods" id="vo"}>
+                <a href="/index/goods/detail/id/<{$vo.id}>">
+                    <div class="ucenter-goods t_c wp_30 f_l">
+                        <img class="w120 h120 " src="<{$vo.img}>"/>
+                        <div class="h40 o_h"><{$vo.name}></div>
+                    </div>
+                </a>
+                
+                <{/volist}>
+            <{else}>
+                <{$goods.goods}>
+            <{/if}>
+
+
+        </div>
+    </div>
+
+
+
 
 </div>
 <{/block}>
