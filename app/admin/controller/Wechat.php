@@ -141,6 +141,7 @@ class Wechat extends Controller
                 $user_res = httpsGet($user_url);
                 $user_arr = json_decode($user_res, true);//获取到的用户信息
                 $content .= "欢迎关注 亿签网络旗下六耳猕猴商城\n";
+				// file_put_contents('eventkey.txt', json_encode($object->EventKey));
                 if(empty($object->EventKey)){ //不带场景值,直接注册 或者 重新关注
 
                     $regist = $register->subscribe($user_arr); //参数为用户数据
@@ -150,13 +151,16 @@ class Wechat extends Controller
                     #判断绑定 or 推荐
                     $scene = explode('_', $object->EventKey);
                     unset($scene[0]);
-                    foreach($scene as $k=>$v){
-                        $scene[$k] = explode('=', $v);
-                        $param[$scene[$k][0]] = $scene[$k][1];
+                    if(count($scene) == 1){
+                        $param['uid'] = $scene[1];
+                    }else{
+                        foreach($scene as $k=>$v){
+                            $scene[$k] = explode('=', $v);
+                            $param[$scene[$k][0]] = $scene[$k][1];
+                        }
                     }
                     
-                    // file_put_contents('user.txt', json_encode($user_arr));
-                    // file_put_contents('param.txt', json_encode($param));
+                    
                     $regist = $register->scanQRCode($user_arr, $param);
                     $content .= $regist['content'];
 
@@ -396,7 +400,7 @@ class Wechat extends Controller
             $url = $wxconf['PARAM_QRCODE']['value'].$this->access_token();
             $response = httpsPost($url, json_encode($scene));
             $result = json_decode($response, true);
-            return dump($result);
+            // return dump($result);
             $data = ['qr_code'=>$wxconf['SHOW_QRCODE']['value'].urlencode($result['ticket']), 
                 'qr_seconds'=>intval(time())+intval($result['expire_seconds']), 
                 'qr_ticket'=>$result['ticket']];

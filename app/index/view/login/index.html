@@ -11,7 +11,12 @@
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+    <style>
+        .have-account{margin-top:50px; margin-right: 35px;}
+    </style>
+    
     </head>
+    
     <body data-ng-app="myApp" data-ng-controller="loginCtrl" class="login-body abs"  style="background: url(<{$header.loginbg}>);">
         <div class="login-header wp_100 abs h100">
             <div class="login-header-panel hp_100">
@@ -20,6 +25,12 @@
                 </a>
                 
                 <div class="login-title text-center pull-left">欢迎登录</div>
+                <div class="have-account f_r">
+                    <a class="fz_16 " href="/index/index/index">进入商城</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="color:#999;font-size:16px;">没有账号？</span>
+                    <a class="fz_16" href="/index/register/index">注册</a>
+                </div>
                 <!--<div class="login-icons pull-right text-center">
 
                 </div>-->

@@ -25,13 +25,10 @@ class Login extends controller
     }
 
     public function login(){
-        
-        $wxcode = input('get.code', '', 'htmlspecialchars,trim');
-        if(!empty($wxcode)){ 
-            
-            $redirect = input('get.redirect', '', 'htmlspecialchars,trim');
 
-            // return $redirect;
+        $wxcode = input('get.code', '', 'htmlspecialchars,trim');
+        if(!empty($wxcode)){        
+            $redirect = input('get.redirect', '', 'htmlspecialchars,trim');
             #微信登录
             $wechat = new Wechat();
             $wxconf = getWxConf();
@@ -60,37 +57,40 @@ class Login extends controller
 
 
         }else{
-
-
-            #账号登录
             $login['name'] = input('post.login.name', '', 'htmlspecialchars,trim'); //input = I;
             $login['password'] = input('post.login.password', '', 'htmlspecialchars,trim'); //input = I;
-            if(empty($login['name'])){
-                return $this->error('账号不可为空'); exit;
-            }
-            if(empty($login['password'])){
-                return $this->error('密码不可为空'); exit;
-            }
+            $this->loginByNP($login['name'], $login['password']); //调用账号密码登录；注册完成后也会调用这个方法
+        }
+    }
 
+    // 账号密码登录
+    // 账号密码登录调用；注册成功后重定向到这里
+    public function loginByNP($name, $password){
 
-            $check = $this->checkUser('', $login);
-
-            if(!$check['status']){
-                return $this->error($check['content']); exit;
-            }else{
-                $user = $check['user'];
-                
-                Session::set(Config::get('USER_ID'), $user['id']);
-                unset($user['password'], $user['encrypt'], $user['pay_code'], $user['paycrypt']);
-                encodeCookie($user, 'user'); //设置加密cookie
-                #验证成功后，跳转
-                return $this->redirect('/index/index/index');
-            }
+        #账号登录
+        $login['name'] = $name;
+        $login['password'] = $password;
+        if(empty($login['name'])){
+            return $this->error('账号不可为空'); exit;
+        }
+        if(empty($login['password'])){
+            return $this->error('密码不可为空'); exit;
         }
 
-        
+        // $login : 登录信息
+        $check = $this->checkUser('', $login);
 
-
+        if(!$check['status']){
+            return $this->error($check['content']); exit;
+        }else{
+            $user = $check['user'];
+            
+            Session::set(Config::get('USER_ID'), $user['id']);
+            unset($user['password'], $user['encrypt'], $user['pay_code'], $user['paycrypt']);
+            encodeCookie($user, 'user'); //设置加密cookie
+            #验证成功后，跳转
+            return $this->redirect('/index/index/index');
+        }
     }
 
     # +-------------------------------------------------------------
@@ -98,6 +98,7 @@ class Login extends controller
     # | 验证用户信息:
     # | 首先通过用户名查找记录，如果存在，就用encrypt对密码进行解密
     # | 密码匹配，则登录成功
+    # | @param $login: 登录信息，账号密码
     # +-------------------------------------------------------------
     private function checkUser($openid='',  $login=[] ){
         if(!empty($login)){
@@ -116,6 +117,7 @@ class Login extends controller
             if($type==='login'){
                 $password = cryptCode($login['password'], 'ENCODE', substr(md5($login['password']), 0, 4));
                 if($password === $user['password']){
+
                     #验证用户的时效性信息(用户带场景值二维码)
                     $user = $wechat -> sceneQRCode($user['id'], $user);// 获取检测带场景值二维码后的用户信息
 
@@ -138,6 +140,8 @@ class Login extends controller
     public function mobileMall(){
         $this->assign('header', ['title'=>'手机商城', 'loginbg'=>'']);
         return $this->fetch('mobilemall');
+
+        
     }
 
     #登出
