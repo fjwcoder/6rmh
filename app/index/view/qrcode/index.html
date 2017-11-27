@@ -4,8 +4,8 @@
     .qrcode{margin-top:50px;box-shadow: 0 3px 10px #949894;}
     .m_t{margin:30px 0px;}
     .l_h_45{line-height: 45px;}
+    .qrcode-tips{margin:36px 0px 12px 0px;box-shadow: 0 1px 2px #949894;color:#999;line-height:26px;padding:5px 8px;}
 </style>
-
 <div class="user-panel address">
     <div class="more-info-navbar wp_100 ">
         <ul  >
@@ -14,19 +14,35 @@
             </li>
         </ul>
     </div>
-    <div class="wp_100">
+    <div class="wp_100 o_h">
         <div class="wp_35 f_l">&nbsp;</div>
         <div class="wp_30 f_l">
-            <div class="w300  qrcode">
-                <{if $qrcode.openid == ''}>
-                微信扫描二维码，绑定微信
-                <{else}>
-                我的推广二维码，点击“下载”或“右键图片另存为”保存图片
-                <{/if}>
-            </div>
+            
             <div class="w300 h300 qrcode">
                 <img class="hp_100 wp_100 o_h" src="<{$qrcode.qr_code}>" alt="二维码未显示">
             </div>
+        </div>
+        <div class="wp_35 f_l">&nbsp;</div>
+    </div>
+    <div class="wp_100 o_h">
+        <div class="wp_25 f_l">&nbsp;</div>
+        <div class="wp_50 f_l qrcode-tips t_c">
+
+                <{if $qrcode.openid === ''}>
+                <strong>微信扫描二维码，绑定微信<br>才能进行【二维码推广】以及能够【收到红包】</strong>
+                <{else}>
+                <strong>新用户通过微信扫描该“推广二维码”注册，会成为您的粉丝</strong>
+                <br>
+                右键图片另存为”保存图片我的推广二维码<br>点击“下载”或“右键图片另存为”保存图片
+                <{/if}>
+
+            
+        </div>
+        <div class="wp_25 f_l">&nbsp;</div>
+    </div>
+    <div class="wp_100 o_h">
+        <div class="wp_35 f_l">&nbsp;</div>
+        <div class="wp_30 f_l">
             <div class="f_l m_t">
                 <a href="<{$qrcode.qr_code}>" title="下载">
                     <button class="submit-btn-default">下载</button>
@@ -37,7 +53,6 @@
                     <button class="submit-btn-default">更新</button>
                 </a>
             </div>
-            
         </div>
         <div class="wp_35 f_l">&nbsp;</div>
     </div>

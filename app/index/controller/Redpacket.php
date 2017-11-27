@@ -31,7 +31,7 @@ class Redpacket extends controller
     }
 
     public function getPacketMoney(){
-        $clear = 1;
+        $clear = 1; //红包是否存在
         # 计算比率
         $rand = rand(1, 1000);
         if($rand <= 841){ //1-10 841个
@@ -50,7 +50,7 @@ class Redpacket extends controller
 
         # 优化查询红包  
         $redpacket = Db::name('redpacket') -> where("type='level' and num>0 and level<=".$where['level']) -> order('level desc') -> find();
-
+        
         # 以备不时之需
         if(empty($redpacket)){
             return ['status'=>false, 'money'=>1 ]; exit;
@@ -71,7 +71,9 @@ class Redpacket extends controller
         }else{
             if($redpacket['num'] > 1){
                 $sub_num = Db::name('redpacket') -> where(['type'=>'level', 'level'=>$redpacket['level']]) -> setDec('num', 1); // 该档红包数量-1
+                
                 $sub_total_money = Db::name('redpacket') -> where(['name'=>'TOTAL_NUM']) -> setDec('num', 1); // 总数量-1
+                
             }else{
                 $clear = 2;
             }

@@ -70,12 +70,6 @@ function getClickPosition(event){
                 $("#fish-finish").fadeIn();
             }, qiandao.fishing_time);
         }, 500);
-        
-
-
-
-        
-
 
     }
 }
@@ -91,14 +85,24 @@ function getFishingResult(){
         success: function(response){
             cleanCanvas();
             console.log(response);
-            // if(response['status']){
-            //     console.log(response['content']);
+            if(response['status']){
+                $('#fishing-panel').css({'background':'url(../../static/images/mall/'+response.type+'.png) no-repeat',
+                     'display':'block'});
+                
+                $('#fishing-panel-content').html(response.content);
+                
+                qiandao.bait -= response.bait;
+                qiandao.point -= response.point;
+                if(response.type == 'point'){
+                    qiandao.point += response.value;
+                }
+
+                refreshProperty();
 
 
-
-            // }else{
-            //     showInfo(response['status'], '温馨提示', response['content']);
-            // }
+            }else{
+                showInfo(response['status'], '温馨提示', response['content']);
+            }
 
             qiandao.isfishing = false;
         },
@@ -111,17 +115,23 @@ function getFishingResult(){
     
 }
 
+function refreshProperty(){
+    $('#bait').html(qiandao.bait);
+    $('#point').html(qiandao.point);
+}
 
 // 脱钩后执行的方法方法
 function loseFish(){
     $.ajax({
         type: 'POST',
-        url: '',
+        url: '/Index/Fishing/loseFish',
         success: function(response){
-
+            qiandao.bait -= response.bait;
+            qiandao.point -= response.point;
+            refreshProperty();
         },
         error: function(e){
-
+            console.log(e);
         }
 
     });
@@ -138,13 +148,14 @@ function showInfo(status, title, content){
         $('.info-panel-title').html(title);
         $('.info-panel-content').html(content);
         $('#info-panel').fadeIn();
-        $('#fish-finish').fadeOut();
+        // $('#fish-finish').fadeOut();
     }else{
         $('.info-panel-title').html(title);
         $('.info-panel-content').html(content);
         $('#info-panel').fadeIn();
-        $('#fish-finish').fadeOut();
+        
     }
+    $('#fish-finish').fadeOut();
 }
 
 
@@ -185,15 +196,15 @@ $(document).ready(function(){
         if(!qiandao.isfishing){
             
             if(qiandao.bait < 1){
-
-                showInfo(false, '温馨提示', '鱼饵不足');
+                var str = '鱼饵不足'; //<br><a href="#">前往获取</a>';
+                showInfo(false, '温馨提示', str);
 
             }else if(qiandao.point < 20){
-
-                showInfo(false, '温馨提示', '积分不足');
+                var str = '积分不足'; //<br><a href="#">前往获取</a>';
+                showInfo(false, '温馨提示', str);
 
             }else{
-                console.log('1.点击河面开始钓鱼');
+
                 qiandao.isfishing = true;
                 qiandao.context.clearRect(0, 0, qiandao.river_width, qiandao.river_height);//清空画布
                 getClickPosition(event);
@@ -237,6 +248,6 @@ function cleanCanvas(){
 		height: "0px",
 	}, 300, function(){$("#fish-float").css({"display":"none", "height": qiandao.float_height+"px"}); });
     qiandao.context.clearRect(0, 0, qiandao.canvas.width, qiandao.canvas.height);
-
+    $('#fish-finish').fadeOut();
 
 }

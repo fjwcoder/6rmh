@@ -103,11 +103,14 @@ li.li-split{color: #8e8e8e;}
     top: 13em;
 }
 #product_show{
-    /*background-color: #6ad4c9;*/
+    
     background: url('/static/images/mall/product_bg.jpg') no-repeat;
     background-size: 100% 100%;
     background-position: center;
     min-height: 959px;
+    -moz-box-shadow: 0px -60px 300px #6ad4c9;
+    -webkit-box-shadow: 0px -60px 300px #6ad4c9; 
+    box-shadow: 0px -60px 300px rgba(66, 191, 172, 1);
 }
 .up2pro{
     display: block;

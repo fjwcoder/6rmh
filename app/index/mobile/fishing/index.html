@@ -17,10 +17,10 @@
 
 
             <!--用户信息-->
-            <div class="user-property abs">
+            <div class="user-property abs o_h">
                 <span class="property-title">鱼饵: </span>
                 <span id="bait" class="property-value"><{$user.bait}> </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;
                 <span class="property-title">积分: </span>
                 <span id="point" class="property-value"><{$user.point}></span>
 
@@ -30,10 +30,15 @@
 
 
             <div id="info-panel" class="info-panel top-panel">
-                <div class="info-panel-title">温馨提示</div>
-                <div class="info-panel-content"></div>
+                <div id="info-panel-content" class="info-panel-content "></div>
             </div>
-            <div id="fishing-panel" class="fishing-panel top-panel"></div>
+
+            <div id="fishing-panel" class="fishing-panel redpacket-panel top-panel">
+                <div id="fishing-panel-content" class="fishing-panel-content ">
+                    
+                </div>
+            </div>
+
             <div id="fish-float" class="fish-float top-panel"></div><!--鱼漂-->
 
             <img id="fish-finish" class="fish-finish abs" src="__STATIC__/images/mall/fish_finish.png"/>

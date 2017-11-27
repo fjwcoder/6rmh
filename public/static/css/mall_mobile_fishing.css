@@ -5,16 +5,17 @@
 	background-position: center;
 	}
 .abs{position: absolute;}
-.user-property{top: 0.5em; left: 0.5em; right: 5em;
+.user-property{top: 0.5em; left: 0.5em; right: 4em;
 	background: url(../images/opacity/white50.png) no-repeat center ; 
 	border-radius: 10px;
-	padding: 0.5em; font-size: 1.5em;
+	padding: 0.5em; font-size: 1.3em;
 }
 .property-title{
 	color: red;
 }
 .property-value{
-	color: white;
+	color: rgba(224, 183, 18, 1);
+	/*color: rgba(228, 184, 3, 1);*/
 }
 .headimgurl{
 	height: 4em; width: 4em; 
@@ -50,14 +51,22 @@ display: none;
 right: 5%;
 }
 
-.info-panel{height: 40%; width: 80%; top: 25%;  background: red; display: none;}
-.info-panel div{width: 100%; text-align: center;}
-.info-panel-title{height: 20%; margin: 5% 0; font-size: 2em;}
-.info-panel-content{height: 70%; font-size: 1.5em;}
+.info-panel{height: 40%; width: 80%; top: 25%;  
+	background: url(../images/mall/info_hint.png) no-repeat;
+	background-size: 100% 100%;
+	display: none; }
+.info-panel-content{width: 70%; margin-left: 15%; margin-top: 43%; text-align: center;
+	height: 35%; font-size: 1.6em; color: rgba(191, 4, 23, 1); }
 
 
 
-.fishing-panel{height: 45%; width: 80%; top: 20%; display: none;}
+.fishing-panel{height: 45%; width: 80%; top: 20%; display: block;
+ background-size: 100% 100%; 
+/*background: url(../images/mall/point.png) no-repeat;*/
+}
+.fishing-panel-content{ color: red;
+	width: 70%; margin-left: 15%; margin-top: 70%; height: 20%; font-size: 1.5em; text-align: center;
+}
 
 #fish-float{background: url(../images/mall/fishfloat.png) no-repeat;
 height: 60px; width: 0.1em; display: none;}
