@@ -77,6 +77,7 @@ class Inner extends Common
     public function purchase(){
         $id = session(config('USER_ID'));
         $title = input('title', '', 'htmlspecialchars,trim');
+        $myid = input('myid', 0, 'intval');
         if(!empty($_POST)){
             $title = input('title', '', 'htmlspecialchars,trim');
             $begintime = input('begintime', '', 'htmlspecialchars,trim');
@@ -115,17 +116,27 @@ class Inner extends Common
         }
         # 过滤时间
         $where .= "  ";
+        
     // echo $where; die;
-        $list = Db::name('inner_shop') ->alias('a')
-        ->join('inner_goods b', 'a.type=b.id', 'LEFT')
-        ->field('a.*, b.pic, b.title')
-        ->where($where)
-        ->order('addtime DESC')
-        ->paginate();
-
+        if($myid == 0){
+            $list = Db::name('inner_shop') ->alias('a')
+            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+            ->field('a.*, b.pic, b.title')
+            ->where($where)
+            ->order('addtime DESC')
+            ->paginate();
+        }else{
+            $where .= " and userid = '{$myid}'";
+            $list = Db::name('inner_shop') ->alias('a')
+            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+            ->field('a.*, b.pic, b.title')
+            ->where($where)
+            ->order('addtime DESC')
+            ->paginate();
+        }
         $title = Db::name('inner_goods') -> field('title') ->select();
         $this->assign('title', $title);
-        
+        $this->assign('id', $id);
         $this->assign('list', $list);
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'交易平台', 'template'=>$config['mall_template']['value'] ]);  

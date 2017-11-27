@@ -1,0 +1,47 @@
+<{extend name="./public/user"/}>
+<{block name="content"}>
+<style>
+    .qrcode{margin-top:50px;box-shadow: 0 3px 10px #949894;}
+    .m_t{margin:30px 0px;}
+    .l_h_45{line-height: 45px;}
+</style>
+
+<div class="user-panel address">
+    <div class="more-info-navbar wp_100 ">
+        <ul  >
+            <li>
+                <a href="javascript: void(0);">二维码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="wp_100">
+        <div class="wp_35 f_l">&nbsp;</div>
+        <div class="wp_30 f_l">
+            <div class="w300  qrcode">
+                <{if $qrcode.openid == ''}>
+                微信扫描二维码，绑定微信
+                <{else}>
+                我的推广二维码，点击“下载”或“右键图片另存为”保存图片
+                <{/if}>
+            </div>
+            <div class="w300 h300 qrcode">
+                <img class="hp_100 wp_100 o_h" src="<{$qrcode.qr_code}>" alt="二维码未显示">
+            </div>
+            <div class="f_l m_t">
+                <a href="<{$qrcode.qr_code}>" title="下载">
+                    <button class="submit-btn-default">下载</button>
+                </a>
+            </div>
+            <div class="f_l m_t">
+                <a href="/index/qrcode/editqrcode" title="更新">
+                    <button class="submit-btn-default">更新</button>
+                </a>
+            </div>
+            
+        </div>
+        <div class="wp_35 f_l">&nbsp;</div>
+    </div>
+</div>
+<!--</form>-->
+
+<{/block}>

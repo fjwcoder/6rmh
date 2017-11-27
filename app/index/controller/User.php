@@ -53,12 +53,21 @@ class User extends Common
         $index = new Index();
         $goods = $index->termGoods();
         $this->assign('goods', $goods);
-        // if($goods['status']){
-        //     $this->assign('goods', $goods['goods']);
-        // }else{
-            
-        // }
-        
+
+        # 获取我的出售
+        $mysell =  Db::name('inner_shop') ->alias('a')
+            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+            ->field('a.*, b.pic, b.title')
+            ->where($where)
+            ->order('addtime DESC')
+            ->limit(3)
+            ->select();
+
+        if(!empty($mysell)){
+            $this->assign('mysell', ['status'=>true, 'mysell'=>$mysell]);
+        }else{
+            $this->assign('mysell', ['status'=>false, 'mysell'=>'空空如也']);
+        }
 
 
         $config = mallConfig();
@@ -88,8 +97,8 @@ class User extends Common
 
 
     # |------------------------------------
-    # | 重新加载用户头像
-    # |
+    # | 重新加载用户信息，进入用户中心
+    # | 
     # |
     # |------------------------------------
     public function headimgurl(){
@@ -109,12 +118,16 @@ class User extends Common
     # |------------------------------------
 
     public function editor(){
+        // return dump(request()->post());
         $id = input('id',0,'intval');
-        $data['name'] = input('name','','htmlspecialchars,trim');
+        $data['nickname'] = input('nickname','','htmlspecialchars,trim');
+        $data['realname'] = input('realname','','htmlspecialchars,trim');
         $data['sex'] = input('sex',0,'intval');
         $data['mobile'] = input('mobile','','htmlspecialchars,trim');
         $data['qq'] = input('qq',0,'intval');
         $data['email'] = input('email','','htmlspecialchars,trim');
+        $data['id_num'] = input('id_num','','htmlspecialchars,trim');
+        $data['birthday'] = input('birthday','','htmlspecialchars,trim');
         #头像上传
         if(!empty($_FILES['headimg']['name'])){
             $upload = uploadHeadImg('images'.DS.'headimage');
@@ -127,7 +140,7 @@ class User extends Common
 
         $res = Db::name('users') ->where(['id'=>$id]) ->update($data);
         if($res){
-            return $this->redirect('user/index');
+            return $this->redirect('user/userinfo');
             // return $this->success('修改成功', 'User/index');    
         }else{
             return $this->error('修改失败');

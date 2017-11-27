@@ -4,8 +4,8 @@ function initFileInput(ctrlName, uploadUrl) {
     var control = $('#' + ctrlName); 
     control.fileinput({ 
         resizeImage : true, 
-        maxImageWidth : 200, 
-        maxImageHeight : 200, 
+        // maxImageWidth : 200, 
+        // maxImageHeight : 200, 
         resizePreference : 'width', 
         language : 'zh', //设置语言 
         uploadUrl : uploadUrl, 
@@ -14,7 +14,8 @@ function initFileInput(ctrlName, uploadUrl) {
         showUpload : false, //是否显示上传按钮 
         showCaption : false,//是否显示输入框
         browseClass : "btn btn-default", //按钮样式 
-        previewFileIcon : "<i class='glyphicon glyphicon-king'></i>", 
+        dropZoneEnabled: false,
+        // previewFileIcon : "<i class='glyphicon glyphicon-king'></i>", 
         enctype: 'multipart/form-data',
         validateInitialCount:true,
 

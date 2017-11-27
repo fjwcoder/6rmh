@@ -103,8 +103,8 @@ li.li-split{color: #8e8e8e;}
     top: 13em;
 }
 #product_show{
-    background-color: #6ad4c9;
-    /*padding-top: 2em;*/
+    /*background-color: #6ad4c9;*/
+    background: url('/static/images/opacity/black50.png');
     min-height: 959px;
 }
 .up2pro{

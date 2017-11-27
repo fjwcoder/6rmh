@@ -33,7 +33,11 @@ class Register extends controller
             #返回注册成功
             $encrypt = substr(md5($password), 0, 4);
             $password=cryptCode($password,'ENCODE',  $encrypt);
+            $paycode = '123456';
+            $paycrypt = substr(md5($paycode), 0, 4);
+            $paycode = cryptCode($paycode,'ENCODE',  $paycrypt);
             $data = ['pid'=>$pid, 'name' => $phone,'mobile' => $phone, 'password' => $password, 'encrypt'=>$encrypt, 'regtime'=>time(),
+                'pay_code'=>$paycode, 'paycrypt'=>$paycrypt,
                 'nickname'=>$phone, 'subscribe' =>2, 'qr_code'=>'', 'qr_seconds'=>0, 'qr_ticket'=>'', 'headimgurl'=>'__STATIC__\images\mall\default_headimg.png'
 
             ]; //修改 by fjw: 增加注册时间和个人二维码等字段
@@ -122,7 +126,12 @@ class Register extends controller
                 $user['encrypt'] = substr(md5($password), 0, 4);
                 $user['password'] = cryptCode($password, 'ENCODE',  $user['encrypt']);
                 $user['regtime'] = intval($user['name']);
-                
+                $paycode = '123456';
+                $paycrypt = substr(md5($paycode), 0, 4);
+                $paycode = cryptCode($paycode,'ENCODE',  $paycrypt);
+                $user['pay_code'] = $paycode;
+                $user['paycrypt'] = $paycrypt;
+
                 $add = Db::name('users') -> insert($user);
                 $uid = Db::name('users') ->getLastInsID();
                 if($uid>0){

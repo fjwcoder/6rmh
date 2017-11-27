@@ -68,7 +68,29 @@
             <a class="f_r" href="/index/announce/index">交易大厅 >></a>
         </div>
         <div class="ucenter-info-content t_c wp_100 o_h" >
-            <a href="/index/inner/purchase">空空如也</a>
+            <{if $mysell.status}>
+                <{volist name="$mysell.mysell" id="vo"}>
+                    <div class="ucenter-info-content wp_100 ">
+                        <div class="ucenter-order-content h80 o_h f_l wp_20">
+                            <img class="ucenter-goods-pic h80 w80 f_l" style="margin-left: 5px;" src="<{$vo.pic}>"/>
+                        </div>
+                        <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_20">
+                            <{$vo.username}>
+                        </div>
+                        <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_20">
+                            ￥<{$vo.value}>
+                        </div>
+                        <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_20">
+                            <{$vo.money}>
+                        </div>
+                        <div class="ucenter-order-content h80 o_h t_c color-8e pd-top-3 f_l wp_20">
+                            <{$vo.addtime}>
+                        </div>
+                    </div>
+                <{/volist}>
+            <{else}>
+                <a href="/index/inner/purchase"><{$mysell.mysell}></a>
+            <{/if}>
         </div>
     </div>
 
