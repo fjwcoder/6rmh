@@ -4,7 +4,7 @@ use app\common\controller\Common;
 use app\index\controller\Order as Order;
 use app\index\controller\Announce as Announce;
 use app\index\controller\Index as Index;
-// use app\index\controller\Announce as Announce;
+use app\extend\controller\Gaode as Gaode;
 use think\Controller;
 use think\Config;
 use think\Session;

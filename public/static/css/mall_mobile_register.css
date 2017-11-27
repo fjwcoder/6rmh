@@ -1,6 +1,15 @@
 body{
-    background-color: #002240;
+    background: url(/static/images/mall/login.jpg) no-repeat;
+    background-origin: center;
+    background-size: 100% auto;
     text-align: center;
+}
+.back{
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 0.5em;
+    padding: 1em;
+    margin: 2em 1em;
+    height: 100%;
 }
 .register_logo{
     font-size: 10em;
@@ -8,7 +17,7 @@ body{
     margin: 26% auto auto auto;
 }
 .logo_title{
-    color: #ccc;
+    color: #fff;
     font-weight: bold;
 }
 .input-group{
@@ -16,9 +25,14 @@ body{
 }
 .reg_form input, .reg_form span{
     color: #fff;
-    background-color:#002240;
+    background-color:rgba(0,0,0,0);
     border: none;
     border-bottom-right-radius: 0px!important;
+}
+.send_sms{
+    background-color: #6ad4c9!important;
+    color:#fff;
+    border:none;
 }
 .send_msm:active{
     color: #fff;

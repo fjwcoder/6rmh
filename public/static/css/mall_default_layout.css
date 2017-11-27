@@ -104,7 +104,9 @@ li.li-split{color: #8e8e8e;}
 }
 #product_show{
     /*background-color: #6ad4c9;*/
-    background: url('/static/images/opacity/black50.png');
+    background: url('/static/images/mall/product_bg.jpg') no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
     min-height: 959px;
 }
 .up2pro{
