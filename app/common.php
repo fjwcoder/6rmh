@@ -268,23 +268,25 @@ function authCode($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
 	}
 }
 
-// function ksetcookie($array, $key){
-//     foreach($array as $k=>$v){
-//         $array[$k] = authCode($v, 'ENCODE');
-//     }
-//     cookie($key, $array);
-//     return true;
-// }
+//后台设置cookie
+function ksetcookie($array, $key){
+    foreach($array as $k=>$v){
+        $array[$k] = authCode($v, 'ENCODE');
+    }
+    cookie($key, $array);
+    return true;
+}
 
-// function kgetcookie($key){
-//     $cookie = cookie($key);
-//     dump($cookie);
-//     foreach($cookie as $k=>$v){
-//         $cookie[$k] = authCode($v, 'DECODE');
-//     }
-//     dump($cookie);
-//     return $cookie;
-// }
+//后台获取cookie
+function kgetcookie($key){
+    $cookie = cookie($key);
+
+    foreach($cookie as $k=>$v){
+        $cookie[$k] = authCode($v, 'DECODE');
+    }
+
+    return $cookie;
+}
 
 function encodeCookie($array, $key){
     if(isset($array['level'])){

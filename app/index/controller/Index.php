@@ -29,7 +29,7 @@ class Index extends controller
         if($goods['status']){
             $this->assign('goods', $goods['goods']);
         }else{
-            return $goods['goods']; exit;
+            $this->assign('goods', []); 
         }
         
         

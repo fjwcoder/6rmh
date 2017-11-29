@@ -24,8 +24,9 @@ class Log extends Manage
     {   
         $navid = input('navid', 0, 'intval');
         $nav = adminNav();
+        // return dump($nav);
         $key = input('post.keyword', '', 'htmlspecialchars,trim');
-        $type = input('post.type', 'point', 'htmlspecialchars,trim');
+        $type = input('type', 'point', 'htmlspecialchars,trim');
 
         $list = db($type.'_log', [], false) -> paginate();
         $this->assign('list', $list);  

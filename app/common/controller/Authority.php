@@ -41,9 +41,9 @@ class Authority extends Controller
             Session::set(Config::get('ADMIN_AUTH_LEVEL'), $admin['level']);
         }
         
-        if($type){
-            ksetcookie([$id, $admin['name']]); //设置cooke
-        }     
+        // if($type){
+        //     ksetcookie([$id, $admin['name']]); //设置cooke
+        // }     
         
     }
 

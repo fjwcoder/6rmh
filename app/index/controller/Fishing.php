@@ -27,16 +27,14 @@ class Fishing extends controller
 {
     public function index(){
 
-        // $user = decodeCookie('user');
-        // if(empty($user)){
-        //     $user = ['headimgurl'=>'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0'];
-        // }
         $uid = session(config('USER_ID'));
         if(isset($uid)){
             $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) -> find();
+            $this->assign('login', true);
         }else{
-            $user = ['headimgurl'=>'http://wx.qlogo.cn/mmopen/Q3auHgzwzM4Ziaqw4Uibblzz9FiaogAGs0kTPEw3IsYGrwibfcrXe6TAH2UJut54PAlbJWJsicl17ylCC4ZQDkC3wibA/0', 
+            $user = ['headimgurl'=>'__STATIC__/images/mall/default_headimg.png', 
                 'bait'=>999, 'point'=>999];
+            $this->assign('login', false);
         }
         $this->assign('user', $user);
 
@@ -46,13 +44,10 @@ class Fishing extends controller
 
     public function fishing(){
         header('Content-type: application/json, charset=utf-8');
-        // $uid = session(config('USER_ID'));
-        $uid = 1;
-
-        // sleep(3); //睡眠一段时间
+        $uid = session(config('USER_ID'));
 
         if(empty($uid)){
-            echo json_encode(array('status'=>false, 'content'=>'没有登录'), JSON_UNESCAPED_UNICODE); exit;
+            echo json_encode(array('status'=>false, 'content'=>'请先登录<br><small><a class="redirect-a" href="/index/login/index">点击登录</a></small>'), JSON_UNESCAPED_UNICODE); exit;
         }else{
             $mallConf = mallConfig();
             #获取用户的鱼饵和积分

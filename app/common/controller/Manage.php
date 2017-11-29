@@ -17,7 +17,7 @@ class Manage extends Authority
     //权限验证
     public function _initialize(){ //构造函数内无法返回值，无法die/exit；
 
-        Session::set(Config::get('USER_KEY'), 1);//测试账号
+        // Session::set(Config::get('USER_KEY'), 1);//测试账号
         #是否登录
         // if(!Authority::isLogin()){
         if( Session::get(Config::get('USER_KEY')) ){

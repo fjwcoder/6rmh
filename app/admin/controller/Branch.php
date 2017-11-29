@@ -94,7 +94,7 @@ class Branch extends Manage
         
         if($result){
             session('user', null);
-            return $this->success('成功', "request()->controller()/index");
+            return $this->success('成功', request()->controller()."/index");
         }else{
             return $this->error('失败');
         }

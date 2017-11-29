@@ -102,7 +102,8 @@ class Login extends controller
     # +-------------------------------------------------------------
     private function checkUser($openid='',  $login=[] ){
         if(!empty($login)){
-            $user = db('users', [], false) -> where(array('name'=>$login['name'])) -> find();
+            // 用户名、手机号 登录
+            $user = Db::name('users') -> where('name|mobile', '=', $login['name']) -> find();
             $type = 'login';
         }else{
             $user = db('users', [], false) -> where(['openid'=>$openid]) -> find();

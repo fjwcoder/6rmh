@@ -42,7 +42,7 @@
                     <s >六儿价:<span ng-bind="{{price}}"></span></s>
 
                     <{else}>
-                    <span class="item-title">六 儿 价：</span>
+                    <span class="item-title">价格：</span>
                     <span class="font-color-sub_main">¥</span>
                     <span class=" price" ng-bind="{{price}}"></span>
                     <{/if}>
@@ -58,17 +58,19 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <{/if}>
                     <span class="item-title">购买可获得：</span>
-                    购买可获得 <{$goods.bait}> 鱼饵 + <{$goods.point}> 积分
+                    <span class="font-color-sub_main"><{$goods.bait}> 鱼饵 + <{$goods.point}> 积分</span>
                     
                 </p>
                 
                 <p>
                     <span class="item-title">来 源：</span>
+                    <span class="font-color-sub_main">
                     <{if $goods.userid == 0}>
-                        六儿官方
+                        六耳猕猴官方商城
                     <{else}>
                         来源不明
                     <{/if}>
+                    </span>
                 </p>
             </div>
             
@@ -92,12 +94,15 @@
             
             <div class="amount-number wp_100">
                 <p style="line-height: 45px;"><span class="item-title">库存：</span><{$goods.amount}>
-                <!--<i class="deal-num-fa fa fa-plus-square-o"></i>-->
-                <input id="buy-number" ng-model="buy_number" title="填写购买数量"/>
-                <!--<i class="deal-num-fa fa fa-minus-square-o"></i>-->
-
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span >
+                        <a href="javascript: void(0);" ng-click="subNumber(1);" title="减少数量">-</a>
+                        <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
+                        
+                        <a href="javascript: void(0);" ng-click="addNumber(1);" title="增加数量">+</a>
+                    </span>
                 </p>
-                
+
             </div>
             <div class="goods-buy wp_100">
                 <!--立即购买-->
@@ -135,14 +140,14 @@
                         <a href="javascript: void(0);" ng-click="barSelect(0);">商品详情</a>
                     </li>
                     <li class="li-split">/</li>
-                    <li   >
+                    <!--<li   >
                         <a href="javascript: void(0);"  ng-click="barSelect(1);">规格与包装</a>
                     </li>
                     <li class="li-split" >/</li>
                     <li  >
                         <a href="javascript: void(0);"  ng-click="barSelect(2);">售后保障</a>
                     </li>
-                    <li class="li-split" >/</li>
+                    <li class="li-split" >/</li>-->
                     <li  >
                         <a href="javascript: void(0);"  ng-click="barSelect(3);">商品评论</a>
                     </li>
@@ -349,17 +354,12 @@
                             <div class="wp_20 f_l">
 								<img src="<{$vo.headimgurl}>" class="w30 h30 o_h head-img" />
 								<span class="liu"><{$vo.nickname}></span><br />
-								<!-- <span class="ba">PLUS会员</span> -->
 							</div>
 							<div class="wp_80 f_r" >
                                     <{if $vo.comment_star == 1}>
                                     <span><img src="__STATIC__/images/comment/onestar.png"></span>
                                     <{/if}>
                                 <div><{$vo.comment}></div>
-                                <!-- 遍历评论显示的图片 -->
-								<!-- <div>
-									<img src="" class="w50 h50"/>
-								</div> -->
 								<div>
 									<div class="f_l" >
                                         <span class="ba"><{$vo.spec}></span>&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -419,7 +419,17 @@
             $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
         <{/if}>
         $scope.buy_number = 1; //购买数量初始化
-
+        $scope.addNumber = function($num){
+            $scope.buy_number += $num;
+        }
+        $scope.subNumber = function($num){
+            if($scope.buy_number == 1){
+                $scope.buy_number = 1;
+            }else{
+                $scope.buy_number -= $num;
+            }
+            
+        }
         //商品详情
         $scope.choseBar = 0;
         $scope.barSelect = function($id){
@@ -431,10 +441,15 @@
             $scope.choseBare = $id;
         }
 
+        // 默认选中第一个规格
+        $scope.isChose = <{$goods.spec.0.id}>;
+        $scope.specValue = <{$goods.spec.0.id}>; 
         $scope.specSelect = function($id) {
             $scope.specValue = $id; 
             $scope.isChose = $id;
         }
+
+
     });
 
 

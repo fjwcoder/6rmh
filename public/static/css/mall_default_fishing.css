@@ -1,0 +1,78 @@
+/*@import "keep_base.css";公共css*/
+.container{top: 0; bottom: 0; left: 0; right: 0; 
+	background: url(../images/mall/fishing_bgs.jpg) no-repeat;
+	background-size: 100%;
+	background-position: center;
+	}
+.abs{position: absolute;}
+.user-property-div{
+	top: 0.5em; left: 70%; right: 4em; border-radius: 10px; padding: 0.5em; font-size: 1.3em;
+	height: 28px;
+}
+.user-property-bg{
+	background-color: white; opacity: 0.8;
+}
+.property-title{
+	color: red;
+}
+.property-value{
+	color: rgba(224, 183, 18, 1);
+	/*color: rgba(228, 184, 3, 1);*/
+}
+.headimgurl{
+	height: 4em; width: 4em; 
+	border-radius: 50%; 
+	right: 0.5em; top: 0.5em;
+	
+}
+#river-canvas{
+	position: absolute;
+	left: 29%;
+	bottom: 0%;
+	width: 46%;
+	height: 63%;
+	/*background: red;
+	opacity: 0.5;*/
+}
+#river-panel{
+	left: 29%;
+	bottom: 0%;
+	width: 46%;
+	height: 47.8%;
+}
+
+.top-panel{z-index: 999; position: fixed; left: 10%;}
+.mask{ width: 100%; height: 100%; bottom: 0; display: none;
+z-index: 998;}
+
+#fish-finish{ height: 10em; width: 10em; 
+bottom: 2.5em; z-index: 999; 
+display: none; right: 5%;
+}
+
+.info-panel{margin-left: 27%; height: 40%; width: 25%; top: 25%;  
+	background: url(../images/mall/info_hint.png) no-repeat;
+	background-size: 100% 100%;
+	display: none; }
+.info-panel-content{width: 70%; margin-left: 15%; margin-top: 35%; text-align: center;
+	height: 35%; font-size: 1.6em; color: rgba(191, 4, 23, 1); }
+
+
+
+.fishing-panel{margin-left: 27%; height: 50%; width: 25%; top: 25%; display: none;
+ background-size: 100% 100%; 
+/*background: url(../images/mall/point.png) no-repeat;*/
+}
+.fishing-panel-content{ color: red;
+	width: 70%; margin-left: 15%; margin-top: 65%; height: 20%; font-size: 1.5em; text-align: center;
+}
+
+#fish-float{background: url(../images/mall/fishfloat.png) no-repeat;
+height: 60px; width: 0.1em; display: none;}
+
+.redirect-a{color: #a23400; text-decoration:none;}
+.redirect-a:hover{text-decoration:none;}
+li{list-style-type:none};
+.back-btn{position: absolute; top: 0.5em; left: 2em;
+height: 50px; width: 50px; background: white; opacity: 0.9; border-radius: 50%;}
+.fa-arrow-left{left: -0.3em!important; top:0.3em; font-size: 2em; color: #6ad4c9;}

@@ -42,7 +42,7 @@
         <div class="form-group">
             <label for="key_words" class="col-sm-3 control-label">关键字：</label>
             <div class="col-sm-9">  
-                <input id="name" type="text" class="form-control" name="key_words" <{if $header.form == "edit"}>value="<{$result.key_words}>" <{else}>value=""<{/if}>/>
+                <input id="name" type="text" class="form-control" name="key_words" placeholder="可不填" <{if $header.form == "edit"}>value="<{$result.key_words}>" <{else}> value=""<{/if}>/>
             </div>
         </div>
 
@@ -57,17 +57,18 @@
             <div class="col-sm-2">  
                 <input id="price" type="text" class="form-control" name="amount" <{if $header.form == "edit"}>value="<{$result.amount}>" <{else}>value="99"<{/if}> placeholder="必填" required/>
             </div>
+            <p class="help-block title-0">根据规格设置库存后，该库存累加为规格库存</p>
         </div>
         
         <div class="form-group">
             <label for="cost_price" class="col-sm-3 control-label">成本价：</label>
             <div class="col-sm-2">  
-                <input id="cost_price" type="text" class="form-control" name="cost_price" <{if $header.form == "edit"}>value="<{$result.cost_price}>" <{else}>value=""<{/if}>/>
+                <input id="cost_price" type="text" class="form-control" name="cost_price" placeholder="可不填" <{if $header.form == "edit"}>value="<{$result.cost_price}>" <{else}>value=""<{/if}>/>
             </div>
 
             <label for="sell_price" class="col-sm-2 control-label">市场价：</label>
             <div class="col-sm-2">  
-                <input id="sell_price" type="text" class="form-control" name="sell_price" <{if $header.form == "edit"}>value="<{$result.sell_price}>" <{else}>value=""<{/if}>/>
+                <input id="sell_price" type="text" class="form-control" name="sell_price" placeholder="可不填" <{if $header.form == "edit"}>value="<{$result.sell_price}>" <{else}>value=""<{/if}>/>
             </div>
         </div>
 
@@ -150,7 +151,7 @@
             
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label for="promotion" class="col-sm-3 control-label">促销活动：</label>
             <div class="col-sm-5 panel panel-default">
                 <div class="panel-body">
@@ -190,7 +191,7 @@
                     <{/volist}>
                 </select>
             </div>
-        </div>
+        </div>-->
 
 
 
@@ -250,7 +251,7 @@
             <label for="pic" class="col-sm-3 control-label">上传展示：</label>
             <div class="col-sm-9">
                 <input id="advimg" type="file" multiple accept="image/*" class="form-control fileinput" name="advimg[]" upurl=""/>
-                <span class="help-block">如果不设置展示图片，则会使用详情图片</span>
+                <span class="help-block">如果不设置展示图片，默认使用第一张详情图片</span>
             </div>
             
             <script>
@@ -286,7 +287,7 @@
         <div class="form-group">
             <label for="decription" class="col-sm-3 control-label">描述：</label>
             <div class="col-sm-5">
-                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$result.description}><{/if}></textarea>
+                <textarea id="decription" class="form-control" name="description" rows="8" required><{if $header.form != "add"}><{$result.description}><{else}>六耳猕猴官方商城<{/if}></textarea>
             </div>
         </div>
 
@@ -349,8 +350,8 @@
                 html += '<input type="hidden" name="specs['+max+'][id]" value="0"/>';
                 html += '<input class="pull-left spec-value o_h wp_45" name="specs['+max+'][spec]" value="'+val+'" title="'+val+'" required/>';
                 
-                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][num]" value="0" placeholder="数量" required/>';
-                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][price]" value="99" placeholder="价格" />';
+                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][num]" value="" placeholder="数量" required/>';
+                html += '<input class="pull-left spec-num wp_20" name="specs['+max+'][price]" value="" placeholder="价格" />';
                 html += '<span class="glyphicon glyphicon-remove pull-right" onClick="delSpec('+max+');" title="删除该规格"></span></li>';
                 $('#specul').append(html);
             }

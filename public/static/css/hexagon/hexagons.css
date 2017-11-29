@@ -37,8 +37,8 @@
     left:-1%; /* prevent line on the right where background doesn't cover image */
     padding: 5%;
     box-sizing:border-box;
-    background-color: rgba(248,248,255, 0.8);
-    /*background-color: white;*/
+    /*background-color: rgba(248,248,255, 1);*/
+    background-color: rgba(255,255,255, 1);
     font-weight: 300;
     -webkit-transition:  -webkit-transform .2s ease-out, opacity .3s ease-out;
             transition:          transform .2s ease-out, opacity .3s ease-out;
@@ -48,6 +48,7 @@
     padding-top:50%;
     font-size: 1.5em;
     z-index: 1;
+    color: #207d78;
     -webkit-transform:translateY(-100%) translatez(-1px);
         -ms-transform:translateY(-100%) translatez(-1px);
             transform:translateY(-100%) translatez(-1px);

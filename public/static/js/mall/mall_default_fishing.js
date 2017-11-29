@@ -18,24 +18,28 @@ var qiandao = {
 //获取点击坐标, 并开始钓鱼动画
 function getClickPosition(event){
     console.log('2.获取点击坐标点，出现鱼漂');
-    if(event.originalEvent.targetTouches.length == 1){
+    console.log(event);
+    // if(event.originalEvent.targetTouches.length == 1){
         event.preventDefault();// 阻止浏览器默认事件 important
-        var touch = event.originalEvent.targetTouches[0];
+        var touch = event;
         var mapx = parseInt(touch.pageX); //页面的X点
         var mapy = parseInt(touch.pageY); //页面的Y点
-        var pointx = mapx; // 点击坐标的x点
+        var pointx = mapx-qiandao.canvas.left; // 点击坐标的x点
         var pointy = mapy-qiandao.canvas.top; // 点击坐标的y点
 
-
+        console.log(pointx);
+        console.log(pointy);
         // 画鱼线===============================================
         qiandao.context.beginPath();
         qiandao.context.lineWidth=1;
         with(qiandao.context){
             moveTo(qiandao.bar_left, qiandao.bar_top);
+            // lineTo(pointx, pointy);
+
             if(pointx < qiandao.bar_left-40){
-                quadraticCurveTo(qiandao.bar_left, pointy, pointx+20, pointy-qiandao.bar_top);
+                quadraticCurveTo(qiandao.bar_left, pointy, pointx+40, pointy-qiandao.bar_top);
             }else if(pointx > qiandao.bar_left+30){
-                quadraticCurveTo(qiandao.bar_left, pointy, pointx-20, pointy-qiandao.bar_top);
+                quadraticCurveTo(qiandao.bar_left, pointy, pointx-40, pointy-qiandao.bar_top);
             }else{
                 quadraticCurveTo(qiandao.bar_left, pointy, pointx, pointy-qiandao.bar_top);
             }
@@ -44,7 +48,7 @@ function getClickPosition(event){
         qiandao.context.stroke();
         // =====================================================
 
-        $("#fish-float").css({"position":"absolute" ,"display":"block", "top":mapy-qiandao.float_height, "left": pointx});
+        $("#fish-float").css({"position":"absolute" ,"display":"block", "top":mapy-qiandao.float_height, "left": mapx});
         setTimeout(function(){
             $("#fish-float").animate({
                 top: '+='+parseInt(qiandao.float_height/3)+'px',
@@ -71,7 +75,7 @@ function getClickPosition(event){
             }, qiandao.fishing_time);
         }, 500);
 
-    }
+    // }
 }
 
 // 钓鱼执行的方法
@@ -175,21 +179,26 @@ $(document).ready(function(){
     qiandao.canvas.height = $('#river-canvas').height(); // 水面的高度
     qiandao.canvas.left = $('#river-canvas').offset().left; //画布的左顶点
     qiandao.canvas.top = $('#river-canvas').offset().top; //画布的上顶点
-
-
     qiandao.float_height = $('#fish-float').height(); //获取鱼漂的高度
 
     //获取鱼竿顶端的位置
-    qiandao.bar_left = qiandao.canvas.width*0.625;
+    qiandao.bar_left = qiandao.canvas.width*0.71;
     qiandao.bar_top = 0; //qiandao.canvas.height*0.064;
 
+    //钓鱼时禁止 F5 刷新页面
+    $(document).bind("keydown", function(e) {
+        if(qiandao.isfishing){
+            e = window.event || e;
+            if (e.keyCode == 116) {
+                e.keyCode = 0;
+                alert('正在钓鱼，不可刷新页面');
+                return false;
+            }
+        }
+        
+    });
     
-    // console.log(qiandao);
-    
-    
-
-    // $("#river-canvas").bind('touchstart', function(event){
-    $("#river-panel").bind('touchstart', function(event){
+    $("#river-panel").bind('click', function(event){
         
         
             

@@ -49,16 +49,19 @@ class Mall extends controller //需要继承该类，否则无法使用
         $field = ['a.id', 'a.userid', 'a.catid', 'a.catid_list', 'a.name', 'a.sub_name', 'a.key_words', 'a.service', 'a.img',
             'a.price', 'a.cost_price', 'a.sell_price', 'a.amount', 'a.sell_amount', 'a.weight', 'a.bait', 'a.promotion',
             'a.point', 'a.free_shipping', 'a.description', 'a.high_comm', 'a.low_comm', 'a.low_comm', 
-            'a.remark', 'b.detail', 'c.title as brand_title', 'c.logo as brand_logo', 'c.description as brand_description'
+            'a.remark', 'b.detail'
+            , 'c.title as brand_title', 'c.logo as brand_logo', 'c.description as brand_description'
         ];
         // 以后加上关联商家
         $goods = Db::name('goods') -> alias('a') 
             -> join('goods_detail b', 'a.id=b.gid', 'LEFT')  //商品详情
             -> join('mall_brand c', 'a.brand=c.id', 'LEFT') //品牌
             -> field($field) 
-            -> where(['a.id'=>$id, 'a.status'=>1, 'c.status'=>1 ]) 
+            -> where(['a.id'=>$id, 'a.status'=>1
+            // , 'c.status'=>1  
+            ]) 
             -> find();
-        
+        // return dump($goods);
         if(!empty($goods)){
             #查出图片
             $picture = $this->getGoodsImg($id);

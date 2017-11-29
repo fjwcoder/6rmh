@@ -81,7 +81,7 @@ class Login extends Controller
     }
 
     #登出
-    public function loginout(){
+    public function logout(){
         session(null);
         return $this->redirect('/admin/login/index');
     }

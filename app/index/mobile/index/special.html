@@ -25,7 +25,7 @@
     <body id="index-body">
         <img style="height: 140px; width: 90%; margin: 10% 5%;" class="" src="__STATIC__/images/mall/index_font.png" />
         <div class="pro_con">
-        <{volist name="goods" id="vo"  empty="暂时没有数据"}>
+        <{volist name="goods" id="vo"  empty="不好意思，备货中~"}>
         <a class="product_show" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
            <div class="left">
               <img src="<{$vo.img}>" alt="" />
@@ -42,8 +42,8 @@
               </div>
            </div>
         </a>                  
-      <{/volist}>
-     </div>
+        <{/volist}>
+        </div>
 <{include file="public/footer"/}>
     </body>
     <script>

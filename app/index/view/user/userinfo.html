@@ -11,6 +11,7 @@
     .users-panels{width:42%;float:left;margin-top:30px;padding:15px;}
     .users-panels-right{width:42%;float:right;margin-top:30px;padding:15px;}
     .m_b40{margin-bottom:40px;}
+    .w150{width: 150px;}
 </style>
 <form class="form-horizontal" method="post" role="form" action="<{:url('editor')}>" enctype="multipart/form-data">
 <div class="user-panel address">
@@ -22,32 +23,25 @@
         </ul>
     </div>
     <div class="wp_100">
-        <div class="wp_10  f_l">&nbsp;</div>
-        <div class="wp_40  f_l">
+        <div class="wp_5  f_l">&nbsp;</div>
+        <div class="wp_50  f_l">
             <input type="hidden" name="id" value="<{$users.id}>"/>
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">昵称：</span>
+            <div class="wp_100 m_t20 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">昵称：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l"><input id="shows" class="w250 h30 input_border" type="text" name="nickname" value="<{$users.nickname}>" required></span>
-                
+                <span class="wp_35 f_l t_l"><input id="shows" class="w150 h30 input_border" type="text" name="nickname" value="<{$users.nickname}>" required></span>
+                 <span class="wp_40 f_l t_l f_color"> * 绑定微信，使用微信昵称</span> 
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 l_h_40">
-                <span class="wp_25 f_l t_r f_c">真实姓名：</span>
+            <div class="wp_100 l_h_40 f_l o_h">
+                <span class="wp_15 f_l t_r f_c">真实姓名：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color"><input id="shows" class="w250 h30 input_border" type="text" name="realname" value="<{$users.realname}>" required></span>
+                <span class="wp_35 f_l t_l f_color"><input id="shows" class="w150 h30 input_border" type="text" name="realname" value="<{$users.realname}>" required></span>
+                <span class="wp_40 f_l t_l f_color o_h"> * 务必填写本人真实姓名</span>
             </div>
-            <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：务必填写真实姓名</span>
-            </div>
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">性别：</span>
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">性别：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_c">
+                <span class="wp_35 f_l t_l f_c">
                     <{if $users.sex==1}>
                     <input type="radio" name="sex" value="1" checked/>&nbsp;<span class="f_color">男</span>&nbsp;&nbsp;
                     <input type="radio" name="sex" value="0" />&nbsp;<span class="f_color">女</span>
@@ -56,64 +50,41 @@
                     <input type="radio" name="sex" value="0" checked/>&nbsp;<span class="f_color">女</span>
                     <{/if}>
                 </span>
+                <!-- <span class="wp_40 f_l t_l f_color">备注：</span> -->
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">手机号：</span>
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">手机号：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l"><input id="mobile" class="w250 h30 input_border" type="text" name="mobile" value="<{$users.mobile}>" pattern='^\d{11}$'></span>
-                
+                <span class="wp_35 f_l t_l"><input id="mobile" class="w150 h30 input_border" type="text" name="mobile" value="<{$users.mobile}>" pattern='^\d{11}$'></span>   
+                 <span class="wp_45 f_l t_l f_color"> * 绑定手机号，使用手机号码登录</span> 
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">QQ：</span>
+            
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">QQ：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l"><input id="qq" class="w250 h30 input_border" type="text" name="qq" value="<{$users.qq}>"></span>
-                
+                <span class="wp_35 f_l t_l"><input id="qq" class="w150 h30 input_border" type="text" name="qq" value="<{$users.qq}>"></span>               
+                <!-- <span class="wp_40 f_l t_l f_color">备注：</span>  -->
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">邮箱：</span>
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">邮箱：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <!-- 正则邮箱验证 pattern='/^[_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,3}$/' -->
-                <span class="wp_60 f_l t_l"><input id="email" class="w250 h30 input_border" type="text" name="email" value="<{$users.email}>" ></span>
-                
+                <span class="wp_35 f_l t_l"><input id="email" class="w150 h30 input_border" type="text" name="email" value="<{$users.email}>" ></span>               
+                <!-- <span class="wp_40 f_l t_l f_color">备注：</span> -->
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">身份证号：</span>
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">身份证号：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l"><input id="id_num" class="w250 h30 input_border" type="text" name="id_num" value="<{$users.id_num}>" pattern='^\d{18}$'></span>
-                
+                <span class="wp_35 f_l t_l"><input id="id_num" class="w150 h30 input_border" type="text" name="id_num" value="<{$users.id_num}>" pattern='^\d{18}$'></span>
+                <!-- <span class="wp_40 f_l t_l f_color">备注：</span> -->
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
-            <div class="wp_100 m_t20 l_h_40">
-                <span class="wp_25 f_l t_r f_c">生日：</span>
+            <div class="wp_100 l_h_40 f_l">
+                <span class="wp_15 f_l t_r f_c">生日：</span>
                 <span class="wp_5 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l"><input id="birthday" class="w250 h30 input_border" type="text" name="birthday" readonly="readonly" value="<{$users.birthday|date='Y-m-d',###}>"></span>
-                
+                <span class="wp_35 f_l t_l"><input id="birthday" class="w150 h30 input_border" type="text" name="birthday" readonly="readonly" value="<{$users.birthday|date='Y-m-d',###}>"></span>
+                <!-- <span class="wp_40 f_l t_l f_color">备注：</span> -->
             </div>
-            <!-- <div class="wp_100 l_h_40">
-                <span class="wp_30 f_l t_r f_c">&nbsp;</span>
-                <span class="wp_60 f_l t_l f_color">备注：用来显示昵称</span>
-            </div> -->
         </div>
-        <div class="wp_10  f_l">&nbsp;</div>
+        <div class="wp_5  f_l">&nbsp;</div>
         <div class="wp_30  f_l">
             <div class="w300 h300 user_headimg">
                 <img class="hp_100 wp_100 o_h" src="<{$users.headimgurl}>" alt="用户头像未显示">
@@ -139,12 +110,6 @@
             </a>
         </div>
 </div>
-<!-- <div class="clear"></div> -->
-<!-- <div class="more-info-navbar wp_100">
-    <a class="pull-right" href="javascript: void(0);" title="提交">
-        <button class="submit-btn-default ">提交</button>
-    </a>
-</div> -->
 </form>
 
 <form class="form-horizontal" method="post" role="form" action="<{:url('password')}>" enctype="multipart/form-data">
@@ -159,18 +124,30 @@
         <div class="wp_100">
             <div class="wp_10  f_l">&nbsp;</div>
             <div class="wp_80  f_l m_t50 m_b40">
-                <div class="wp_100 m_t l_h_50">
+                <div class="wp_100 m_t l_h_50 o_h">
                     <span class="wp_20 f_l t_r f_c">原密码：</span>
                     <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="oldpassword" value=""></span>   
                 </div>
-                <div class="wp_100 m_t l_h_50">
+                <!-- <div class="wp_100 m_t l_h_50 o_h">
+                    <span class="wp_20 f_l t_r f_c">&nbsp;</span>
+                    <span class="wp_80 f_l t_l f_c">备注：用来输入原密码</span>   
+                </div> -->
+                <div class="wp_100 m_t l_h_50 o_h">
                     <span class="wp_20 f_l t_r f_c">新密码：</span>
-                    <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="pass" value=""></span>   
+                    <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="password" name="pass" value=""></span>   
                 </div>
-                <div class="wp_100 m_t l_h_50">
+                <!-- <div class="wp_100 m_t l_h_50 o_h">
+                    <span class="wp_20 f_l t_r f_c">&nbsp;</span>
+                    <span class="wp_80 f_l t_l f_c">备注：用来输入原密码</span>   
+                </div> -->
+                <div class="wp_100 m_t l_h_50 o_h">
                     <span class="wp_20 f_l t_r f_c">重复密码：</span>
-                    <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="repass" value=""></span>   
+                    <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="password" name="repass" value=""></span>   
                 </div>
+                <!-- <div class="wp_100 m_t l_h_50 o_h">
+                    <span class="wp_20 f_l t_r f_c">&nbsp;</span>
+                    <span class="wp_80 f_l t_l f_c">备注：用来输入原密码</span>   
+                </div> -->
             </div>
             <div class="wp_10  f_l"></div>
         </div><div class="clear"></div>
@@ -193,18 +170,24 @@
     <div class="wp_100">
         <div class="wp_10  f_l">&nbsp;</div>
         <div class="wp_80  f_l m_t50 m_b40">
-            <div class="wp_100 m_t l_h_50">
+            <div class="wp_100 m_t l_h_50 o_h">
                 <span class="wp_20 f_l t_r f_c">原密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="oldpassword" value=""></span>   
+                <span class="wp_30 f_l t_l f_c"><input class="w100 h30 input_border" type="text" name="oldpassword" value=""></span>  
+                <span class="wp_50 f_l t_l f_c"> * 默认为123456</span>    
             </div>
-            <div class="wp_100 m_t l_h_50">
+
+            <div class="wp_100 m_t l_h_50 o_h">
                 <span class="wp_20 f_l t_r f_c">新密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="pass" value=""></span>   
+                <span class="wp_30 f_l t_l f_c"><input class="w100 h30 input_border" type="password" name="pass" value=""></span>  
+                <span class="wp_50 f_l t_l f_c"> * 填写6位数字</span>    
             </div>
-            <div class="wp_100 m_t l_h_50">
+
+            <div class="wp_100 m_t l_h_50 o_h">
                 <span class="wp_20 f_l t_r f_c">重复密码：</span>
-                <span class="wp_80 f_l t_l f_c"><input class="w280 h30 input_border" type="text" name="repass" value=""></span>   
+                <span class="wp_30 f_l t_l f_c"><input class="w100 h30 input_border" type="password" name="repass" value=""></span>   
+                <span class="wp_50 f_l t_l f_c"> * 重复密码</span>   
             </div>
+
         </div>
         <div class="wp_10  f_l"></div>
     </div><div class="clear"></div>

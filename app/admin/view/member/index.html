@@ -69,9 +69,9 @@
                     <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="详情/编辑"></span></a>
                     <{if $vo.id>1}>
                         <{if $vo.status == 1}>
-                        <a href="javascript: void(0);"><span class="glyphicon glyphicon-eye-close " title="锁定"></a>
-                        <{else}>
                         <a href="javascript: void(0);"><span class="glyphicon glyphicon-eye-open " title="启用"></a>
+                        <{else}>
+                        <a href="javascript: void(0);"><span class="glyphicon glyphicon-eye-close " title="锁定"></a>
                         <{/if}>
                         	
                     <a href="<{:url('/admin/node/index', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-filter data-delete" title="权限"></span></a>

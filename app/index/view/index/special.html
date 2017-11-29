@@ -21,7 +21,8 @@
 					<!--直推产品-->
 					<div class="htmleaf-container" >
 					<ul id="hexGrid" >
-							<{volist name="goods" id="vo" offset="0" length='3' empty="暂时没有数据"}>
+
+							<{volist name="goods" id="vo" offset="0" length='3' empty="不好意思~"}>
 								<li class="hex">
 
 									<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
@@ -34,13 +35,13 @@
 							
 							<li class="hex">
 								<a class="hexIn" href="/index/fishing/index">
-									<img src="__STATIC__/css/hexagon/img/7.jpg" alt="" />
+									<img src="__STATIC__/images/mall/go_fishing.jpg" alt="" />
 									<!--<h1>进入钓鱼游戏</h1>
 									<p>商品详情：价格 促销等</p>-->
 								</a>
 							</li>
 
-							<{volist name="goods" id="vo" offset="3" length='3' empty="暂时没有数据"}>
+							<{volist name="goods" id="vo" offset="3" length='3' empty="正在为您备货~"}>
 								<li class="hex">
 									<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
 										<img src="<{$vo.img}>" alt="" />
