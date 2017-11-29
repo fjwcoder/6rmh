@@ -5,17 +5,38 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<title><{$config.page_title}></title>
-	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_user.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_user.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 	<div class="head">
-		<span class="setting fa fa-user" aria-hidden="true"></span>
+		
+		<div class="user-info-panel">
+			<div class="user-name"><{$cookie.nickname}></div>
+			<div class="user-property">
+				<ul>
+					<li><div><span><{$cookie.money}></span><br>余额</div></li>
+					<li><div><span><{$cookie.bait}></span><br>鱼饵</div></li>
+					<li><div><span><{$cookie.point}></span><br>积分</div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="vip-level-panel">
+			<span><{$cookie.levelname}></span></div>
+		<img class="setting" aria-hidden="true" src="<{$cookie.headimgurl}>"/>
 	</div>
+	<!--<div class="link-btn-container">
+		<div class="link-btn "></div>
+		<div class="link-btn"></div>
+		<div class="link-btn"></div>
+	</div>-->
 	<div class="body">
+		
+		
+
 		<li class="menu">
 			<div class="link ck">
 				<span class="fa fa-pie-chart" aria-hidden="true"></span>订单管理
@@ -25,6 +46,8 @@
 				<li><i class="fa fa-thumb-tack" aria-hidden="true"></i><a href="/index/order" title="">我的订单</a></li>
 			</ul>
 		</li>
+
+
 		<li class="menu">
 			<div class="link ck">
 				<span class="fa fa-pie-chart" aria-hidden="true"></span>资产明细
@@ -69,10 +92,11 @@
 		</li>
 		<li class="menu">
 			<div class="link ck">
-				<span class="fa fa-map-signs" aria-hidden="true"></span>帮助中心
+				<span class="fa fa-map-signs" aria-hidden="true"></span>商城信息
 				<div class="ripple-wrapper"></div>
 			</div>
 			<ul class="desc">
+				<li><i class="fa fa-map-signs" aria-hidden="true"></i><a href="/index/announce/index" title="">商城公告</a></li>
 				<li><i class="fa fa-map-signs" aria-hidden="true"></i><a href="/index/help/index" title="">帮助中心</a></li>
 			</ul>		
 		</li>
@@ -84,39 +108,39 @@
 				<div>
 					<span class="left">昵称：</span>
 					<span class="right">
-						<input type="hidden" name="id" value="<{$users.id}>"/>
-						<input type="text" name="name" value="<{$users.name}>">
+						<input type="hidden" name="id" value="<{$cookie.id}>"/>
+						<input type="text" name="name" value="<{$cookie.name}>">
 					</span>
 				</div>
 				<div>
 					<span class="left">真实姓名：</span>
 					<span class="right">
-						<{$users.realname}>
+						<{$cookie.realname}>
 					</span>
 				</div>
 				<div>
 					<span class="left">性别：</span>
 					<span class="right sex">
-						<input type="radio" name="sex" value="1" <{if $users.sex==1}>checked<{/if}>/>&nbsp;男&nbsp;&nbsp;
-						<input type="radio" name="sex" value="0" <{if $users.sex==0}>checked<{/if}> />&nbsp;女
+						<input type="radio" name="sex" value="1" <{if $cookie.sex==1}>checked<{/if}>/>&nbsp;男&nbsp;&nbsp;
+						<input type="radio" name="sex" value="0" <{if $cookie.sex==0}>checked<{/if}> />&nbsp;女
 					</span>
 				</div>
 				<div>
 					<span class="left">手机号：</span>
 					<span class="right">
-						<input type="text" name="mobile" value="<{$users.mobile}>">
+						<input type="text" name="mobile" value="<{$cookie.mobile}>">
 					</span>
 				</div>
 				<div>
 					<span class="left">QQ：</span>
 					<span class="right">
-						<input type="text" name="qq" value="<{$users.qq}>">
+						<input type="text" name="qq" value="<{$cookie.qq}>">
 					</span>
 				</div>
 				<div>
 					<span class="left">邮箱：</span>
 					<span class="right">
-						<input type="text" name="email" value="<{$users.email}>">
+						<input type="text" name="email" value="<{$cookie.email}>">
 					</span>
 				</div>
 				<div>

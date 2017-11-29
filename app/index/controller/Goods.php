@@ -24,34 +24,62 @@ class Goods extends controller
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
         // return dump($goods);
-        $comment = db('goods_comment', [], false) ->order('addtime DESC') ->select();
+        $comment = db('goods_comment', [], false)->where('gid='.$id)->order('addtime DESC') ->select();
         if($goods['status']){
             // return dump($goods);
             $this->assign('goods', $goods['data']);
-            $this ->assign('comment', $comment);
+            $this ->assign('comment', json_encode($comment));
             return $this->fetch('detail');
         }else{
 
         }
     }
 
+    public function comment(){
+        $gid = input('goods_id');
+        $comment_id = input('comment_id');
+        switch ($comment_id) {
+            case '1':
+                $comment = db('goods_comment',[], false)->where('comment_star >= 4 and gid='.$gid)->order('addtime DESC')->select();
+                break;
+            case '2':
+                $comment = db('goods_comment',[], false)->where('comment_star < 4 and comment_star >= 2 and gid='.$gid)->order('addtime DESC')->select();
+                break;
+            case '3':
+                $comment = db('goods_comment',[], false)->where('comment_star < 2 and gid='.$gid)->order('addtime DESC')->select();
+                break;
+            default:
+                $comment = db('goods_comment', [], false)->where('gid='.$gid)->order('addtime DESC') ->select();
+                break;
+        }
+        $comment=json_encode($comment);
+        return $comment;
+    }
+
     public function zan(){
         $id = session(config('USER_ID'));
-        $com['agree'] = input('agree', 0, 'intval');
-        $gid = input('gid', 0, 'intval');
-        $com['terminal'] = clientIP();//获取IP
+        if ($id!="") {
+            $gid = input('gid', 0, 'intval');
+            $com['terminal'] = clientIP();//获取IP
+            $com['agree'] = 1;
 
-        $list = db('goods_comment', [], false)->field('terminal') -> where(array('gid'=>$gid,'uid'=>$id)) ->find();
-        
-        if($list['terminal'] == NULL){
-            $list = db('goods_comment', [], false) -> where(array('gid'=>$gid)) ->update($com);        
-            $data['info'] = "ok";
-            $data['status'] = 1;
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            $list = db('goods_comment', [], false)->field('terminal') -> where(array('gid'=>$gid,'uid'=>$id)) ->find();
+                    
+            if($list['terminal'] == NULL){
+                $list = db('goods_comment', [], false) -> where(array('gid'=>$gid)) ->update($com);        
+                $data['info'] = "ok";
+                $data['status'] = 1;
+                echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            }else{
+                $data['info'] = "fail";
+                $data['status'] = 0;
+                echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            }
+            
         }else{
-            $data['info'] = "fail";
-            $data['status'] = 0;
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+             $data['info'] = "fail";
+             $data['status'] = 2;
+             echo json_encode($data, JSON_UNESCAPED_UNICODE);
         }
         
     }

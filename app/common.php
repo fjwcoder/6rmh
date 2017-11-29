@@ -337,7 +337,7 @@ function mallConfig(){
         $config = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
         $config = getField($config);
         $config = array_merge(webConfig(), $config);
-        // cache('MALL_CONFIG', $config); 缓存注释
+        cache('MALL_CONFIG', $config); //缓存注释
     }
 
     return $config;
@@ -350,7 +350,7 @@ function webConfig($type = 0){
     }else{
         $config = db('web_config', [], false) -> where(array('status'=>1)) -> select();
         $config = getField($config);
-        // cache('WEB_CONFIG', $config); 缓存注释
+        cache('WEB_CONFIG', $config); //缓存注释
     }
     return $config;
 }

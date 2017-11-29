@@ -4,67 +4,67 @@ body{
 	overflow-y: auto;
 	/* background:url("/static/images/background/bg.jpg"); */
 }
-
+.body{	margin: auto; }
+li{	list-style: none;}
+ul{	padding: 0;}
 .head{
 	width: 100%;
-	text-align: center;
-	height: 12em;
+	height: 15em;
 	margin-bottom: 1em;
-	background: url("/static/images/mall/menu_head.jpg");
-	background-repeat:no-repeat; 
+	background: url("/static/images/mall/menu_head.jpg") no-repeat;
 	background-size:100% 100%;
 	-moz-background-size:100% auto;
 	position: relative;
-	box-shadow: 0em 0.25em 0.25em #ccc;
-	margin-bottom: 3em;
+
+
 }
+.user-info-panel, .vip-level-panel{
+	position: relative;
+	width: 90%;
+	left: 5%;
+	border-radius: 1em;
+	
+}
+.user-info-panel{background: white;top: 4em; z-index: 9; height: 7em;}
+.vip-level-panel{background: black; height: 5.5em; z-index: 6; box-shadow: 0em 0.25em 0.25em #ccc;
+	color: rgba(224, 183, 18, 1); font-size: 1.3em; line-height: 8.5em; 
+}
+.vip-level-panel span{margin-left: 1em;}
+.user-name{padding: 0.5em 0 0 4.5em; color: rgba(224, 183, 18, 1); font-size: 1.5em;}
+.user-property{ height: 3em; width: 100%; }
+.user-property li{float: left;}
+.user-property li div{margin: 0 ; width: 6em;text-align: center; color: #8e8e8e;}
+.user-property li div span{color: black; font-size: 1.1em;}
+
+
+
+
+
+
+
+
+
+
+
 
 .back_home, .setting{
 	position: absolute;
 	color: #fff;
 }
-.back_home{
-	top: 1em;
-	left: 1em;
-}
-.setting{
-	position:absolute;
-	width: 3em;
-	height: 3em;
-	line-height: 3em!important;
-	border-radius: 1.5em;
-	background-color: #e92563;
-	bottom: -1.5em;
-	left: 1em;
-	font-size: 1.5em!important;
-	color: #fff;
-	padding: auto;
-	box-shadow: 0em 0.5em 0.8em #ccc;
-	transition: all 0.5s;
+
+
+
+.back_home{top: 1em;left: 1em;}
+.setting{	position:absolute;	width: 2.5em; z-index: 99;
+	height: 2.5em;	line-height: 3em!important;
+	border-radius: 1.5em;	top: 1.5em;	left: 1.5em;
+	font-size: 1.5em!important;	padding: auto;	transition: all 0.5s;
 }
 .setting:hover{
 	box-shadow: 0em 0.8em 1em #ccc;
 }
 
-.body{
-	margin: auto;
-}
-li{
-	list-style: none;
-}
-/* input{
-	border: none;
-	border-bottom:2px solid #ccc;
-	transition: all 0.5s;
-}
-input:focus{
-	outline: 0;
-	border-bottom:2px solid #6ad4c9;
-} */
-/*start*/
-ul{
-	padding: 0;
-}
+
  .body .link{
  	height: 3em;
  	line-height: 3em;
@@ -127,6 +127,7 @@ ul{
 	color: #666;
 	opacity:'0';
 	overflow: hidden;
+	z-index: 10;
 }
 .setting-header{
 	/* background: url("/static/images/mall/menu_head.jpg"); */
@@ -203,23 +204,11 @@ ul{
 	line-height: 3em;
 	text-align: center;
 }
-.setting-content span{
-	display: inline-block;
-}
-.setting-content div{
-	padding:0.25em;
-	margin: 0.25em 0;
-}
-.left{
-	width: 30%;
-	text-align: right;
-}
-.right{
-	width: 60%;
-}
-.qr{
-	text-align: center;
-}
+.setting-content span{	display: inline-block;}
+.setting-content div{	padding:0.25em;	margin: 0.25em 0;}
+.left{	width: 30%;	text-align: right;}
+.right{width: 60%;}
+
 input{
 	width: 100%;
 	outline: none;
@@ -229,15 +218,9 @@ input{
 input:focus{
 	border-bottom: 1px solid #6ad4c9;
 }
-.headimg{
-	border: none;
-}
-.sex input{
-	width: auto;
-}
-.qr a{
-	padding:0;
-}
+.headimg{border: none;}
+.sex input{width: auto;}
+.qr a{	padding:0;}
 #currency_bu{
 	width: 50%;
 	height:15em;
@@ -250,3 +233,49 @@ input:focus{
 
 	margin-bottom: 1em;
 }
+/*add by fjw*/
+
+.link-btn-container{
+  display: -webkit-box;  /* 老版本语法: Safari,  iOS, Android browser, older WebKit browsers.  */
+  display: -moz-box;    /* 老版本语法: Firefox (buggy) */ 
+  display: -ms-flexbox;  /* 混合版本语法: IE 10 */
+  display: -webkit-flex;  /* 新版本语法： Chrome 21+ */
+  display: flex;       /* 新版本语法： Opera 12.1, Firefox 22+ */
+
+  /*垂直居中*/	
+  /*老版本语法*/
+  -webkit-box-align: center; 
+  -moz-box-align: center;
+  /*混合版本语法*/
+  -ms-flex-align: center; 
+  /*新版本语法*/
+  -webkit-align-items: center;
+  align-items: center;
+
+  /*水平居中*/
+  /*老版本语法*/
+  -webkit-box-pack: center; 
+  -moz-box-pack: center; 
+  /*混合版本语法*/
+  -ms-flex-pack: center; 
+  /*新版本语法*/
+  -webkit-justify-content: center;
+  justify-content: center;
+
+  margin: 0;
+  height: 100%;
+  width: 100% /* needed for Firefox */
+}
+/* >=iphone6 */
+/*iphone 6*/
+@media  (min-width:370px) {
+	.user-property li div{margin: 0 ; width: 7em;text-align: center; color: #8e8e8e;}
+}
+
+/*iphone 6p*/
+@media  (min-width:414px) {
+	.user-property li div{margin: 0 ; width: 7.5em;text-align: center; color: #8e8e8e;}
+}
+
+
+/*over by fjw*/

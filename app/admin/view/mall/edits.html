@@ -1,0 +1,36 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+
+    <form class="form-horizontal" method="post" role="form" action="<{:url('editors')}>">
+		<div class="form-group">
+            <label for="name" class="col-sm-3 control-label">标识：</label>
+            <div class="col-sm-5">  
+                <input id="name" type="text" class="form-control" name="name" value="<{$result.name}>" placeholder="english_name" disabled/>
+            </div>
+        </div>
+		<div class="form-group">
+            <label for="title" class="col-sm-3 control-label">名称：</label>
+            <div class="col-sm-5">  
+                <input id="title" type="text" class="form-control" name="title"  value="<{$result.title}>" placeholder="中文名称" required/>
+            </div>
+        </div>
+		<div class="form-group">
+            <label for="value" class="col-sm-3 control-label">值：</label>
+            <div class="col-sm-5">  
+                <input id="value" type="text" class="form-control" name="value" value="<{$result.value}>" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="remark" class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-5">  
+                <input id="remark" type="text" class="form-control" value="<{$result.remark}>" name="remark" />
+            </div>
+        </div>
+        <input type="hidden" name="id" value="<{$result.id}>"/>
+        <!--引入提交-->
+        <{include file="iframe/submit"}>
+    </form>
+
+
+<{/block}>

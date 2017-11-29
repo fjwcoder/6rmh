@@ -13,6 +13,8 @@ class Index extends controller
 	
 	
     public function index(){
+
+        // return dump(mallconfig());
         
 		
         if(empty(session('LOCATION'))){

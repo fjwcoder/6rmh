@@ -1,6 +1,6 @@
 <?php
 # +-------------------------------------------------------------
-# | CREATE by FJW IN 2017-5-17.
+# | CREATE by   ZMX IN 2017-11-28.
 # | 前台商城配置控制器
 # |
 # | email: fjwcoder@gmail.com
@@ -17,7 +17,7 @@ use think\Db;
 use think\Cache;
 
 
-class Mall extends Manage
+class Redpacket extends Manage
 {
     // dump(request()->module());//模块
     // dump(request()->controller()); //控制器
@@ -32,13 +32,13 @@ class Mall extends Manage
 
     public function index()
     {   
-        $navid = input('navid', 40, 'intval');
-        $conf = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
+        $navid = input('navid', 59, 'intval');
+        $conf = db('redpacket', [], false) -> select();
         
         $config = mallConfig();
         $this->assign('config', $config);
         $this->assign('conf', $conf);
-        $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->商城配置', 
+        $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->红包配置', 
         'form'=>'index', 'navid'=>$navid]);
         return $this->fetch();
     }
@@ -55,20 +55,21 @@ class Mall extends Manage
         $post['doc_root'] = ROOT_PATH?ROOT_PATH:$_SERVER['DOCUMENT_ROOT'];
         $list = array();
         foreach($post as $k=>$v){
-            $list[] = ['name'=>$k, 'value'=>$v];
+            $list[] = ['name'=>$k, 'num'=>$v];
         }
         
         foreach($list as $data){
-            $update = Db::table('keep_mall_config') -> where(array('name'=>$data['name'])) -> update($data);
+            $update = Db::table('keep_redpacket') -> where(array('name'=>$data['name'])) -> update($data);
             if($update > 0){
                 $flag = true;
             }
         }
         
         if($flag){
-            Cache::rm('MALL_CONFIG'); // 删除mall_config 的缓存
-            mallConfig(); // 重新设置mall_config 的缓存
-
+            Cache::rm('WEB_CONFIG');
+            session('ADMIN_NAVBAR', null);
+            // Cache::rm('ADMIN_NAVBAR');
+            // Cache::rm('ADMIN_MODULE');
             return $this->success('更新成功', request()->controller()."/index");
         }else{
             return $this->error('无更新项');
@@ -77,39 +78,32 @@ class Mall extends Manage
     }
 
     public function add(){
-        $navid = input('navid', 40, 'intval');
+        $navid = input('navid', 59, 'intval');
         $this->assign('header', ['icon'=>'glyphicon-cog','title'=>'系统配置->系统配置->添加配置', 
         'form'=>'add', 'navid'=>$navid]);
         return $this->fetch();
     }
 
     public function editor(){
-        $name = input('name', '', 'htmlspecialchars,trim');
+        $data['name'] = input('name', '', 'htmlspecialchars,trim');
         $data['title'] = input('title', '', 'htmlspecialchars,trim');
-        $data['value'] = input('value', '', 'htmlspecialchars,trim');
-        $data['remark'] = input('remark', '', 'htmlspecialchars,trim');
-        $data['name'] = strtoupper($name);
-        $list = db('mall_config', [], false) ->field('name') -> select();
-        foreach($list as $k => $v){
-            $das[] = $v['name'];
-        }
-        if(in_array($data['name'],$das)){
-            return $this->error('此标识已经存在');
+        $data['num'] = input('num', '', 'htmlspecialchars,trim');
+        $data['min_val'] = input('min_val', 0, 'intval');
+        $data['max_val'] = input('max_val', 0, 'intval');
+        
+        $res = db('redpacket', [], false) -> insert($data);
+        if($res){
+            return $this->success('添加成功', "Redpacket/index");
         }else{
-            
-            $res = db('mall_config', [], false) -> insert($data);
-            if($res){
-                return $this->success('添加成功', "Mall/index");
-            }else{
-                return $this->error('添加失败');
-            }
+            return $this->error('添加失败');
         }
+        
     }
 
     public function edits(){
         $navid = input('navid', 0, 'intval');
-        $id = input('id', 40, 'intval');
-        $result = db('mall_config', [], false) -> where(array('id'=>$id)) -> find();
+        $id = input('id', 59, 'intval');
+        $result = db('redpacket', [], false) -> where(array('id'=>$id)) -> find();
         
         $this->assign('result', $result);
         $nav = adminNav();
@@ -121,12 +115,13 @@ class Mall extends Manage
         $id = input('id', 0, 'intval');
         $data['name'] = input('name', '', 'htmlspecialchars,trim');
         $data['title'] = input('title', '', 'htmlspecialchars,trim');
-        $data['value'] = input('value', '', 'htmlspecialchars,trim');
-        $data['remark'] = input('remark', '', 'htmlspecialchars,trim');
+        $data['num'] = input('num', '', 'htmlspecialchars,trim');
+        $data['min_val'] = input('min_val', 0, 'intval');
+        $data['max_val'] = input('max_val', 0, 'intval');
         
-        $result = db('mall_config', [], false) -> where(array('id'=>$id)) ->update($data);
+        $result = db('redpacket', [], false) -> where(array('id'=>$id)) ->update($data);
         if($result){
-            return $this->success('修改成功', "Mall/index");
+            return $this->success('修改成功', "Redpacket/index");
         }else{
             return $this->error('修改失败');
         }

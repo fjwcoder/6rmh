@@ -1,0 +1,24 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<form class="form-horizontal" method="post" role="form" action="<{:url('edit')}>">
+    <div class=" row wp_100 ">
+        <{volist name="conf" id="vo"}>
+            <div class="form-group">
+                <label for="id_<{$vo.name}>" class="col-sm-3 control-label"><{$vo.title}></label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="id_<{$vo.name}>" name="<{$vo.name}>" value="<{$vo.num}>">
+                </div>
+                <a style="line-height:32px;" title="编辑" href="<{:url('edits', ['navid'=>$header.navid, 'id'=>$vo.id])}>">编辑</a>
+            </div>
+        <{/volist}>
+        <div class="form-group">
+            <label for="submit-btn" class="col-sm-4 control-label"></label>
+            <div class="col-sm-6">
+                <button type="submit" id="submit-btn" class="admin-submit-btn">提交</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+    
+<{/block}>
