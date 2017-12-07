@@ -22,7 +22,7 @@ class Address extends Common
             ->join('region c', 'a.city=c.id', 'LEFT')
             ->join('region d', 'a.area=d.id', 'LEFT')
             ->field(['a.id', 'b.name as province', 'c.name as city', 'd.name as area', 'a.address', 'a.zipcode', 'a.name', 'a.mobile', 'a.type']) 
-            ->where(['a.userid'=>$userid]) -> select();
+            ->where(['a.userid'=>$userid]) -> order('type desc') -> select();
         
         foreach($address as $k=>$v){
             $address[$k]['addr'] = $v['province'].$v['city'].$v['area'];

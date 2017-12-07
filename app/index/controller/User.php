@@ -42,35 +42,39 @@ class User extends Common
         
         // return dump(decodecookie('user'));
 
-        # 获取订单
-        $orderObj = new Order();
-        $where['a.userid'] = session(config('USER_ID'));
-        $this->assign('order', $orderObj->getOrder($where, 0, 4));
+        if(isMobile() == false){
 
-        # 获取公告
-        $announce = new Announce();
-        $this->assign('announce', $announce->defaultAnnounce());
-        // return dump($announce->defaultAnnounce());
+            # 获取订单
+            $orderObj = new Order();
+            $where['a.userid'] = session(config('USER_ID'));
+            $order_arr = $orderObj->getOrder($where, 0, 4);
+            // return dump($order_arr);
+            $this->assign('order', $order_arr);
 
-        $index = new Index();
-        $goods = $index->termGoods();
-        $this->assign('goods', $goods);
+            # 获取公告
+            $announce = new Announce();
+            $this->assign('announce', $announce->defaultAnnounce());
+            // return dump($announce->defaultAnnounce());
 
-        # 获取我的出售
-        $mysell =  Db::name('inner_shop') ->alias('a')
-            ->join('inner_goods b', 'a.type=b.id', 'LEFT')
-            ->field('a.*, b.pic, b.title')
-            ->where($where)
-            ->order('addtime DESC')
-            ->limit(3)
-            ->select();
+            $index = new Index();
+            $goods = $index->termGoods();
+            $this->assign('goods', $goods);
 
-        if(!empty($mysell)){
-            $this->assign('mysell', ['status'=>true, 'mysell'=>$mysell]);
-        }else{
-            $this->assign('mysell', ['status'=>false, 'mysell'=>'空空如也']);
+            # 获取我的出售
+            $mysell =  Db::name('inner_shop') ->alias('a')
+                ->join('inner_goods b', 'a.type=b.id', 'LEFT')
+                ->field('a.*, b.pic, b.title')
+                ->where($where)
+                ->order('addtime DESC')
+                ->limit(3)
+                ->select();
+
+            if(!empty($mysell)){
+                $this->assign('mysell', ['status'=>true, 'mysell'=>$mysell]);
+            }else{
+                $this->assign('mysell', ['status'=>false, 'mysell'=>'空空如也']);
+            }
         }
-
 
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'用户中心', 'template'=>$config['mall_template']['value'] 
@@ -99,7 +103,7 @@ class User extends Common
 
 
     # |------------------------------------
-    # | 重新加载用户信息，进入用户中心
+    # | 用户中心中，点击头像，重新加载用户信息，进入用户中心
     # | 
     # |
     # |------------------------------------

@@ -11,13 +11,13 @@ use think\Db;
 class Bank extends Common
 {
     public function index(){
-        // $userid = input('userid', 0, 'intval');
         $userid = session(config('USER_ID'));
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
+        $this->assign('config', ['page_title'=>'银行信息', 'template'=>$config['mall_template']['value']
             ]);
 
-        $bank = Db::name('user_bank') ->where(['userid'=>$userid]) -> select();
+        $bank = Db::name('user_bank') ->where(['userid'=>$userid, 'status'=>1]) -> 
+            order('type desc') -> select();
         
         $count = count($bank);
         $this->assign('count', $count);
@@ -61,7 +61,7 @@ class Bank extends Common
     public function edit(){
         $id = input('id',0,'intval');
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
+        $this->assign('config', ['page_title'=>'编辑银行信息', 'template'=>$config['mall_template']['value']
             ]);
         $bank = Db::name('user_bank') ->where(['id'=>$id]) ->find();
         #查出银行类型，assign到前台

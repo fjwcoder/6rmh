@@ -15,9 +15,7 @@
 </head>
 <body data-ng-app="myApp">
     <div  class="content-panel" data-ng-controller="cartCtrl">
-        <div class="more-info-navbar">
-            购物车
-        </div>
+            <{include file="public/header"/}>
         <div class="more-info-top">
             <input id="chose_all" data-ng-model="allChecked"  data-ng-click="checkAllCart($event);" type="checkbox"/>
             <label for="chose_all"></label>
