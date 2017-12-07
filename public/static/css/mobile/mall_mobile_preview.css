@@ -8,7 +8,7 @@ li{
 
 /*公共样式*/
 .paper{
-    font-size: 0.8em;
+    font-size: 1.2em;
     background: #fff;
     width: auto;
     padding: 0.5em 0.5em;
@@ -36,21 +36,24 @@ li{
     margin: 0.5em auto;
     padding: 0.1em;
     border-radius: 5px;
+    /*font-size: 1.2em;*/
 }
 .connect_info span{
     text-align: left;
-    font-size: 0.8em;
+    font-size: 1em;
 }
 .address span{
-    font-size: 0.8em;
+    font-size: 1em;
 }
 .info_footer{
+    margin-top: 0.5em;
     text-decoration: none;
     text-align: right;
 }
 .footer_edit, .footer_right{
     position: relative;
-    right: 2em;
+    right: 1em;
+    margin: 0 0.5em;
 }
 .footer_right{
     text-align: right;
@@ -80,31 +83,38 @@ li{
 .choseAddr a{
     color: #fff!important;
 }
-.address-default{
-    color: #fff;
+.panel-body .address-default{
+    color: #8e8e8e;
 }
+.default-address{
+    background-color: #6ad4c9!important;
+    color: white!important;
+}
+.default-address .info_footer a{color: white; }
+.panel-body .info_footer a{color: #8e8e8e;}
 .goods_details{
     line-height: 100%;   
     border-top: 1px solid #6ad4c9;
     margin: 0.25em 0em;
 }
-.goods_left,.goods_center,.goods_right{
+.goods_details p{margin: 0.5em 1em 0 0; text-align: right;}
+.goods_left,.goods_center{
     display: inline-block;
     text-align: center;
 }
 .goods_left{
-    width: 20%;
+    width: 20%; float: left;
 }
 .goods_left img{
     width: 100%;
-    margin: 0 auto;
+    margin: 1em 0 0 0;
 }
 .goods_right{
     color: #f00;
 }
 .goods_center{
     text-align: left;
-    width: 50%;
+    width: 80%;
     font-size: 0.8em;
     overflow: hidden;
     text-overflow:ellipsis;
@@ -118,12 +128,13 @@ li{
 }
 .goods_center li{
     margin: 0.5em;
+    font-size: 1.2em;
 }
 .pay{
     position: fixed;
     bottom: 3em;
     right: 1em;
-    background: #e92563;
+    background: #6ad4c9;
     color: #fff;
     width: 4em;
     height: 4em;

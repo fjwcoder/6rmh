@@ -51,7 +51,7 @@ class Cart extends Common
         }else{
             $flag = false;
         }
-        
+        // dump($cart);
         $this->assign('carts', $cart);
         $this->assign('flag', $flag);
         $this->assign('all_cart', isset($all_cart)?$all_cart:'');
@@ -63,10 +63,33 @@ class Cart extends Common
         return $this->fetch();
     }
 
-    #数量增加
+    # 移动端数量增加 ajax
     public function setInc(){
         $id = input('id', 0, 'intval');
-        $num = input('num', 0, 'intval');
+        $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
+        if($inc){
+            return json_encode(['num'=>1]);
+        }else{
+            return json_encode(['num'=>0]);
+        }
+
+    }
+
+    # 移动端数量减少 ajax
+    public function setDec(){
+        $id = input('id', 0, 'intval');
+        $inc = Db::name('cart') -> where(['id'=>$id]) -> setDec('num', 1);
+        if($inc){
+            return json_encode(['num'=>1]);
+        }else{
+            return json_encode(['num'=>0]);
+        }
+    }
+
+    # 没别的想法，就是特么的为了省事儿，不想动PC端！！！
+    # PC端数量增加 刷新页面
+    public function setIncPC(){
+        $id = input('id', 0, 'intval');
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
         if($inc){
             return $this->redirect('index'); exit;
@@ -74,22 +97,21 @@ class Cart extends Common
             return $this->error('修改失败');
         }
 
-
-
     }
-
-    #数量减少
-    public function setDec(){
+    
+    # 没别的想法，就是特么的为了省事儿，不想动PC端！！！
+    # PC端数量减少 刷新页面
+    public function setDecPC(){
         $id = input('id', 0, 'intval');
-        $num = input('num', 0, 'intval');
+        // $num = input('num', 0, 'intval');
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setDec('num', 1);
         if($inc){
+            // return json_encode(['num'=>1]);
             return $this->redirect('index'); exit;
         }else{
+            // return json_encode(['num'=>0]);
             return $this->error('修改失败');
         }
-
-
     }
 
     #手动修改数量

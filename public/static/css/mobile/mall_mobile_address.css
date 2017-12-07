@@ -48,8 +48,8 @@ html{
     right: 0.5em;
     /*top: 78%;*/
 	bottom: 1.5em;
-    width:2.4em;
-    height: 2.4em;
+    width:2.2em;
+    height: 2.2em;
     border-radius: 1.2em;
     z-index: 10;
     transition: background-color 0.5s, box-shadow 0.5s, transform 0.5s;

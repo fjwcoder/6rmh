@@ -4,17 +4,17 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <link rel="stylesheet" href="__STATIC__/css/mall_mobile_order.css">
-    <link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_order.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<title>我的订单</title>
-	<link rel="stylesheet" href="">
+	<!--<link rel="stylesheet" href="">-->
 </head>
 <body>
-    <div class="head-title">
+    <!--<div class="head-title">
         我的订单
-    </div>
+    </div>-->
     <div class="cate">
         <a  class="all" href="<{:url('index')}>" >全部订单</a>
         <span class="split">/</span>
@@ -24,45 +24,41 @@
         <span class="split">/</span>
         <a  class="r_recive" href="<{:url('index', ['status'=>3])}>" >待收货</a>
         <span class="split">/</span>
-        <a  class="finished" href="<{:url('index', ['status'=>4])}>" >已完成</a>
-        <span class="split">/</span>
-        <a class="cancel" href="javascript: void(0);" >已取消</a>
+        <a  class="finished" href="<{:url('index', ['status'=>4])}>" >待评价</a>
+        <!--<span class="split">/</span>
+        <a class="cancel" href="javascript: void(0);" >已取消</a>-->
     </div>
 	<{volist name="order" id="vo"}>
        <div class="order_info">
             <div class="order_title">
-                <span class="add_time"><{$vo.order.addtime}>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span class="">订单号：<{$vo.order.order_id}></span>
+                <span class="add_time"><{$vo.order.addtime}></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="order-no">
+                    <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单号：<{$vo.order.order_id}></a>
+                </span>
             </div>
-            <{volist name="vo.detail" id="v"}>
-            <div class="order_detail">
-                <img src="<{$v.pic}>" alt="图片不见了">
-                <div><{$v.goods_name}></div>
-                <div class="spac"><{$v.spec}> * <{$v.num}></div>
-                <{if $v.promotion != ''}>
-                    <div>
-                        <span class="promotion"><{$v.promotion}></span>
-                    </div>
-                <{/if}>
+            <div class="goods-container" >
+                <{volist name="vo.detail" id="v"}>
+                <div class="order_detail">
+                    <img src="<{$v.pic}>" alt="图片不见了">
+                    <div class="goods-info-div goods-name"><{$v.goods_name}></div>
+                    <div class="goods-info-div spac"><{$v.spec}> * <{$v.num}></div>
+                    <{if $v.promotion != ''}>
+                        <div class="goods-info-div"><span class="promotion"><{$v.promotion}></span></div>
+                    <{/if}>
+                </div>
+                <{/volist}>
             </div>
-            <{/volist}>
+            
             <div class="order_footer">
                 <span class="user_info">
                     <span class="fa fa-user-circle-o" aria-hidden="true"></span>
                     <span class="">&nbsp;<{$vo.order.user_name}></span>
                 </span>
-                <span class="price">
-                    ￥<{$vo.order.money}>
+                <span class="price" style="color: #6ad4c9;">￥<{$vo.order.money}> </span>
+                <span class="go-detail">
+                    <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单详情</a>
                 </span>
-                <span class="status">
-                    <{switch name="vo.order.status"}>
-                        <{case value="1"}>待支付<{/case}>
-                        <{case value="2"}>待发货<{/case}>
-                        <{case value="3"}>待收货<{/case}>
-                        <{case value="4"}>已完成<{/case}>
-                        <{default/}>其他
-                    <{/switch}>
-                </span>
+                
                 <span class="option">
                     <{switch name="vo.order.status"}>
                         <{case value="1"}>
@@ -71,46 +67,57 @@
                             </a>
                         <{/case}>
                         <{case value="2"}>
-                            提醒发货
+                            <a href="javascript: void(0); ">
+                                提醒发货
+                            </a>
                         <{/case}>
                         <{case value="3"}>
-                            确认收货
+                            <a href="/index/order/getgoods?id=<{$vo.order.order_id}> ">
+                                确认收货
+                            </a>
                         <{/case}>
                         <{case value="4"}>
-                            评价
+                            <a href="javascript: void(0); ">
+                                评价
+                            </a>
+                            
                         <{/case}>
                         <{default/}>其他
                     <{/switch}>
                 </span>
+                <{if $vo.order.status >= 4}>
+                <span class="after-sell">
+                    <a href="/index/order/returnGoods?id=<{$vo.order.order_id}>  ">售后</a>
+                </span>
+                <{/if}>
             </div>  
        </div>
 	<{/volist}>
     <{include file="public/footer"/}>
     <script>
-        $('.order_info').each(function(){
-           var dewidth = $(this).width()/$(this).children('.order_detail').length;
-           $(this).children('.order_detail').width(dewidth);
-           $(this).click(function(event){
-                $(this).children('.order_detail').width(dewidth/2);
-                $(this).children('.order_detail').css('box-shadow','none');
-           });
-           $(this).children('.order_detail').click(function(event) {
-               /* Act on the event */
-               $(this).width('50%');
-               $(this).css('box-shadow', '0.25em 0em 1em #ccc');
-               $(this).css('z-index', '10');
+        // $('.order_info').each(function(){
+        //    $(this).children('.goods-container').children('.order_detail').click(function(event) {
+        //        /* Act on the event */
+        //        $(this).width('50%');
+        //        $(this).css({'box-shadow':'0.25em 0em 1em #ccc', 'z-index': '10'});
 
-               $(this).siblings().width(dewidth/2);
-               $(this).siblings().css('box-shadow', 'none');
-               $(this).siblings().css('z-index','0');
+        //        // 图片变形
+        //        $(this).children('img').css({'height':'3em', 'width': '3em'});
+        //        // 显示名称
+        //        $(this).children('.goods-name').css('display', 'block');
+        //        // 显示规格
+        //        $(this).children('.spac').css('display', 'block');
+        //     //    $(this).siblings().width(dewidth/2);
+        //        $(this).siblings().css({'box-shadow':'none', 'z-index': '0'});
 
-               $(this).siblings('.order_title').width('100%');
-              $(this).siblings('.order_footer').width('100%');
-              $(this).siblings('.order_title').css('box-shadow','none');
-              $(this).siblings('.order_footer').css('box-shadow','none');
-               event.stopPropagation();
-           }); 
-        });
+
+        //        $(this).siblings('.order_title').width('100%');
+        //       $(this).siblings('.order_footer').width('100%');
+        //       $(this).siblings('.order_title').css('box-shadow','none');
+        //       $(this).siblings('.order_footer').css('box-shadow','none');
+        //        event.stopPropagation();
+        //    }); 
+        // });
        
         var url = window.location.href.split("/").pop().split('.');
         url.pop();

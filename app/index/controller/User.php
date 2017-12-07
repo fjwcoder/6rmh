@@ -40,6 +40,8 @@ class User extends Common
 
     public function index(){
         
+        // return dump(decodecookie('user'));
+
         # 获取订单
         $orderObj = new Order();
         $where['a.userid'] = session(config('USER_ID'));
@@ -137,10 +139,16 @@ class User extends Common
                 return $this->error('头像上传失败');
             }
         }
-
+        // echo $id;
+        // return dump($data);
         $res = Db::name('users') ->where(['id'=>$id]) ->update($data);
         if($res){
-            return $this->redirect('user/userinfo');
+            if(isMobile()){
+                return $this->redirect('user/index');
+            }else{
+                return $this->redirect('user/userinfo');
+            }
+            
             // return $this->success('修改成功', 'User/index');    
         }else{
             return $this->error('修改失败');

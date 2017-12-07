@@ -4,10 +4,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-	<title></title>
-	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_inner.css">
+	<title>我的资产</title>
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_inner.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
@@ -30,34 +30,43 @@
 		<{/volist}>
 	</div>
 	<div class="content">
-		<li class="record">购买记录</li>
-		<li class="head-title">
-			<span>时间</span>
-			<span>名称</span>
-			<span>数量</span>
-			<span>价格</span>
-			<span>类型</span>
-			<span>卖家名称</span>
-		</li>
+		<div class="record record-title">我的购买记录</div>
+		<div class="head-title">
+			<span class="wp_15">商品</span>
+			<span  class="wp_15">单价</span>
+			<span  class="wp_15">数量</span>
+			<span class="wp_25">卖家</span>
+			<span class="wp_30">时间</span>
+			
+		</div>
+		<div class="record-container">
 		<{volist name="log" id="vo"}>
-		<li class="data-content">
-			<span><{$vo.addtime}></span>
-			<span><{$vo.username}></span>
-			<span><{$vo.value}></span>
-			<span><{$vo.money}></span>
-			<span>
-				<{if $vo.type == 1}>
-				积分
-				<{else}>
-				鱼饵
-				<{/if}>
-			</span>
-			<span><{$vo.sellername}></span>
-		</li>
+		
+			<div class="data-content">
+				<span class="wp_15">
+					<{if $vo.type == 1}>
+					积分
+					<{else}>
+					鱼饵
+					<{/if}>
+				</span>
+				<span class="wp_15"><{$vo.money}></span>
+				<span class="wp_15"><{$vo.value}></span>
+				<span class="wp_25"><{$vo.sellername}></span>
+				<span class="wp_30"><{$vo.addtime | date='Y-m-d',###}></span>
+				<!--<span><{$vo.username}></span>-->
+				
+				
+				
+				
+			</div>
+		
+		
 		<{/volist}>
-		<li class="data-foot">
+		</div>
+		<!--<li class="data-foot">
 			所有
-		</li>
+		</li>-->
 	</div>
 	<div class="moudle">
 		<div class="other-top"></div>

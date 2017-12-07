@@ -1,4 +1,4 @@
-<!-- <h1 style="text-align: center;color: #6ad4c9;">添加成功!</h1><script>setTimeout(history.go(-1),5000);</script> -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,45 +6,58 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>状态</title>
 	<style>
+		.abs{position: absolute;}
+		.bg-container{
+			position: absolute; top: 0; bottom: 0; left: 0; right: 0; 
+		background: url(/static/images/mall/mobile_bg_01.jpg) no-repeat;
+		}
+		.status-head{ top: 0.5em; left: 5%; height: 2em; width: 90%; 
+		font-size: 4em; padding-top: 0.5em;  
+		/*border: 1px solid #8e8e8e;*/
+		}
+		.footer{
+			bottom: 0.5em;left: 5%; height: 3em; width: 90%;font-size: 2em; padding-top: 0.5em;  border: 1px solid #e0e0e0;
+			text-align: center; color: #8e8e8e;
+		}
 		.ftx-02{
-			background: #6ad4c9;
-			color: #fff;
-			width: 100%;
-			font-size: 2em;
-			height: 10em;
-			line-height: 10em;
-			text-align: center;
+			top: 8em; left: 10%; width: 80%;	font-size: 2em;	height: 20em; background: white;
+			line-height: 10em;	text-align: center;	box-shadow: 0em 0em 1em #bebebe;
 		}
-
-		a{
-			text-decoration: none;
-			display: inline-block;
-			color: #6ad4c9;
-			font-size: 1em;
+		.ftx-03{ background: white;
+			bottom: 35em; left: 10%; width: 80%; height: 10em; box-shadow: 0em 0em 1em #bebebe; text-align: center;
+			padding-top: 5em;
 		}
-		.button{
-			position: relative;
-			bottom: 4em;
-		}
-		.show_detail{
-			text-align: left;
-		}
-		.go-cart{
-			text-align: right;
-		}
+		.success-hint, .false-hint{font-size: 2em; margin-top: 2em;}
+		.ftx-03 a{ text-decoration: none; margin: 0 1em;}
+		.go-detail{color: #8e8e8e; font-size: 2.2em;}
+		.go-cart{color: rgba(2, 179, 64, 1); font-size: 3.2em;}
 	</style>
 </head>
-<body>
-    <div class="ftx-02">
-        <{if $result.status}>
-        		<div>商品已成功加入购物车！</div>
-				<div class="button">
-					<a href="/index/goods/detail/id/<{$result.goods.id}>" ><div class="show-detail">查看商品详情</div></a>
-					<a href="/index/cart/index" ><div class="go-cart">去购物车结算</div></a>
-				</div>	
-        <{else}>
-
-        <{/if}>
-    </div>
+<body >
+	<div class="bg-container" >
+		<div class="status-head abs">
+			<!--六耳猕猴-->
+		</div>
+		<div class="ftx-02 abs">
+			<{if $result.status}>
+				<div class="success-hint" style="color: rgba(2, 179, 64, 1);">
+					商品已成功加入购物车！
+				</div>
+			<{else}>
+				<div class="false-hint" style="color: red;">
+					商品加入购物车失败！
+				</div>
+			<{/if}>
+		</div>
+		<div class="ftx-03 abs">
+			<a href="/index/goods/detail/id/<{$result.goods.id}>" class="go-detail">查看商品详情</a>
+			<a href="/index/cart/index" class="go-cart">去购物车结算</a>
+		</div>
+		<div class="footer abs">
+			亿签网络科技有限公司 2014 ALL RIGHTS RESERVED.<br>
+			鲁ICP备15006893号-6
+		</div>
+	</div>
+	
 </body>
 </html>

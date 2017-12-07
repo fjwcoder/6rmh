@@ -8,10 +8,12 @@
 	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_user.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="container-body">
 	<div class="head">
 		
 		<div class="user-info-panel">
@@ -26,27 +28,61 @@
 		</div>
 		<div class="vip-level-panel">
 			<span><{$cookie.levelname}></span></div>
-		<img class="setting" aria-hidden="true" src="<{$cookie.headimgurl}>"/>
+		<a href="/index/user/headimgurl"><img class="setting" aria-hidden="true" src="<{$cookie.headimgurl}>"/></a>
+		
+		<!---->
 	</div>
-	<!--<div class="link-btn-container">
-		<div class="link-btn "></div>
-		<div class="link-btn"></div>
-		<div class="link-btn"></div>
-	</div>-->
+
+	<div class="my-service" > 服务中心 </div>
+	<div class="link-btn-container">
+		<div class="link-btn">
+			<a href="/index/order/index/status/1">
+				<span class="fa fa-credit-card "></span>	<br>待支付
+			</a>	
+		</div>
+		<div class="link-btn">
+			<a href="/index/order/index/status/3">
+				<span class="fa fa fa-inbox "></span>	<br>待收货
+			</a>
+		</div>
+		<div class="link-btn">
+			<a href="/index/order/index/status/4">
+				<span class="fa fa-comments-o"></span><br>待评价
+			</a>
+		</div>
+		<div class="link-btn right-border-left">
+			<a href="/index/order/index">
+				<span class="fa fa-file-text"></span><br>我的订单
+			</a>
+		</div>
+	</div>
+	<div class="link-btn-container link-btn-container-1">
+		
+		<div class="link-btn">
+			<a href="/index/inner/purchase">
+				<span class="fa fa fa-bank "></span>	<br>交易大厅
+			</a>
+		</div>
+		<div class="link-btn">
+			<a href="/index/inner/index">
+				<span class="fa fa-database "></span><br>我的资产
+			</a>
+		</div>
+		
+		<div class="link-btn">
+			<span class="myInfo">
+				<span class="fa fa fa-id-card-o"></span>	<br>我的资料
+			</span>	
+		</div>
+		<div class="link-btn right-border-left">
+			<span  data-toggle="modal" data-target="#myQrcode">
+				<span class="fa fa-qrcode"></span><br>我的推广
+			</span>
+		</div>
+	</div>
+
 	<div class="body">
 		
-		
-
-		<li class="menu">
-			<div class="link ck">
-				<span class="fa fa-pie-chart" aria-hidden="true"></span>订单管理
-				<div class="ripple-wrapper"></div>
-			</div>
-			<ul class="desc">
-				<li><i class="fa fa-thumb-tack" aria-hidden="true"></i><a href="/index/order" title="">我的订单</a></li>
-			</ul>
-		</li>
-
 
 		<li class="menu">
 			<div class="link ck">
@@ -54,10 +90,10 @@
 				<div class="ripple-wrapper"></div>
 			</div>
 			<ul class="desc">
-				<li><i class="fa fa-pie-chart" aria-hidden="true"></i><a href="/index/inner" title="">我的资产</a></li>
+				<li><i class="fa fa-credit-card" aria-hidden="true"></i><a href="/index/Log/index/type/balance" >余额明细</a></li>
 				<li><i class="fa fa-tags" aria-hidden="true"></i><a href="/index/Log/index/type/bait" title="">鱼饵明细</a></li>
 				<li><i class="fa fa-ticket" aria-hidden="true"></i><a href="/index/Log/index/type/point" >积分明细</a></li>
-				<li><i class="fa fa-credit-card" aria-hidden="true"></i><a href="/index/Log/index/type/balance" >余额明细</a></li>
+				
 			</ul>		
 		</li>
 		<li class="menu">
@@ -66,28 +102,21 @@
 				<div class="ripple-wrapper"></div>
 			</div>
 			<ul class="desc">
-				<li><i class="fa fa-paper-plane" aria-hidden="true"></i><a href="/index/balance/recharge" >余额充值</a></li>
-				<li><i class="fa fa-paper-plane" aria-hidden="true"></i><a href="/index/balance/withdraw">余额提现</a></li>
+				<li><i class="fa fa fa-credit-card" aria-hidden="true"></i><a href="/index/balance/recharge" >余额充值</a></li>
+				<li><i class="fa fa fa-rmb" aria-hidden="true"></i><a href="/index/balance/withdraw">余额提现</a></li>
 			</ul>		
 		</li>
+
 		<li class="menu">
 			<div class="link ck">
-				<span class="fa fa-random" aria-hidden="true"></span>交易大厅
-				<div class="ripple-wrapper"></div>
-			</div>
-			<ul class="desc">
-				<li><i class="fa fa-random" aria-hidden="true"></i><a href="/index/inner/purchase" >交易大厅</a></li>
-			</ul>		
-		</li>
-		<li class="menu">
-			<div class="link ck">
-				<span class="fa fa-user" aria-hidden="true"></span>账号管理
+				<span class="fa fa-user" aria-hidden="true"></span>账号信息
 				<div class="ripple-wrapper"></div>
 			</div>
 			<ul class="desc">
 				<li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="/index/address/index" title="">收货地址</a></li>
-				<li><i class="fa fa-pencil" aria-hidden="true"></i><a href="/index/user/passcode" title="">修改密码</a></li>
+				
 				<li><i class="fa fa-bank" aria-hidden="true"></i><a href="/index/bank/index" title="">银行信息</a></li>
+				<li><i class="fa fa-pencil" aria-hidden="true"></i><a href="/index/user/passcode" title="">修改密码</a></li>
 			</ul>		
 		</li>
 		<li class="menu">
@@ -102,20 +131,19 @@
 		</li>
 	</div>
 	<div class="setting-content">
-		
 		<li>
 			<form method="post" action="<{:url('editor')}>" enctype="multipart/form-data" accept-charset="utf-8">
 				<div>
 					<span class="left">昵称：</span>
 					<span class="right">
 						<input type="hidden" name="id" value="<{$cookie.id}>"/>
-						<input type="text" name="name" value="<{$cookie.name}>">
+						<input type="text" name="nickname" value="<{$cookie.nickname}>">
 					</span>
 				</div>
 				<div>
 					<span class="left">真实姓名：</span>
 					<span class="right">
-						<{$cookie.realname}>
+						<input type="text" name="realname" value="<{$cookie.realname}>">
 					</span>
 				</div>
 				<div>
@@ -130,6 +158,7 @@
 					<span class="right">
 						<input type="text" name="mobile" value="<{$cookie.mobile}>">
 					</span>
+					<!--绑定手机号，使用手机号码登录-->
 				</div>
 				<div>
 					<span class="left">QQ：</span>
@@ -144,6 +173,12 @@
 					</span>
 				</div>
 				<div>
+					<span class="left">身份证：</span>
+					<span class="right">
+						<input type="text" name="id_num" value="<{$cookie.id_num}>">
+					</span>
+				</div>
+				<div>
 					<span class="left">头像：</span>
 					<span class="right">
 						<input class="headimg" type="file" name="headimg" accept="image/*">
@@ -153,43 +188,74 @@
 			</form>
 		</li>
 	</div>
+
+	<!--二维码信息-->
+	<div class="modal fade" id="myQrcode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">我的二维码</h4>
+				</div>
+				<div class="modal-body">
+					<img class="my-qrcode" src="<{$cookie.qr_code}>"/>
+					<p class="my-qrcode-hint">
+					<{if $cookie.openid != ''}>
+					分享该二维码，关注得好礼
+					<{else}>	
+					微信扫描二维码，绑定微信
+					<{/if}>	
+					</p>		
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<!--<button type="button" class="btn btn-primary">提交更改</button>-->
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<{include file="public/footer"/}>
 </body>
 <script>
-	$('.setting').click(function(event) {
-		$('.setting').animate({
-			width:'0',
-			height:'0',
-			opacity:'0',
-		}, 200);
+	$('.myInfo').click(function(event) {
+		$('.overflow').css('display','block');
 		$('.setting-content').animate({
 			width:"80%",
 			left:"10%",
 			top:'5em',
-			height:'20em',
+			height:'30em',
 			opacity:'1',
+			padding: '2em 0 0 0',
+			z_index: '99',
 		},500);
-		$('.setting-content').siblings().click(function(event) {
+		$('.overflow').click(function(event) {
 			$('.setting-content').animate({
 				width:"0",
 				height:'0',
 				opacity:'0',
 				top
 			}, 500);
-			$('.setting').animate({
-				width:'3em',
-				height:'3em',
-				opacity:'1',
-			})
 			$('.setting-content').siblings().unbind('click');
+			$(this).css('display', 'none');
 		});
-/*		$('.setting-content').css('display','block');*/
+		// $('.setting-content').siblings().click(function(event) {
+		// 	$('.setting-content').animate({
+		// 		width:"0",
+		// 		height:'0',
+		// 		opacity:'0',
+		// 		top
+		// 	}, 500);
+		// 	$('.setting-content').siblings().unbind('click');
+		// });
 		event.stopPropagation();
 	});
+
 	$('.submit-button').click(function(event) {
 		$('form').submit();
 	});
 	$(function(){
+
 		var PutDown = function(el,tag){
 			var _this_ = this
 			this.el = el || {};
@@ -200,12 +266,12 @@
 		}
 		PutDown.prototype = {
 			dropDown:function(e){
-				console.log('bbb')
+				// console.log('bbb')
 				var $el = e.data.el,
 					$tag = e.data.tag,
 					$this = $(this),
 					$next = $this.next();
-					console.log($next)
+					// console.log($next)
 
 				$next.slideToggle();
 				$this.parent().toggleClass('open');

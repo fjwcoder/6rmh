@@ -7,8 +7,8 @@
 	<title></title>
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
-	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_recharge.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_recharge.css">
 </head>
 <body>
 	<div class="container">
@@ -31,29 +31,29 @@
 			    <tr class="list_content">
 			    	<td>订单号</td>
 			    	<td>时间</td>
-			    	<td>名字</td>
+			    	<!--<td>名字</td>-->
 			    	<td>金额</td>
-			    	<td>方式</td>
+			    	<!--<td>方式</td>-->
 			    	<td>状态</td>
 			    </tr>
 			    <{volist name="list" id="vo"}>
 			    	<tr class="list_content">
 			    		<td><{$vo.order_id}></td>
-			    		<td><{$vo.addtime|date='Y-m-d H:i:s',###}></td>
-			    		<td><{$vo.name}></td>
+			    		<td><{$vo.addtime|date='Y-m-d',###}></td>
+			    		<!--<td><{$vo.name}></td>-->
 			    		<td>¥ <{$vo.money}></td>
-						<td>
+						<!--<td>
 							<{if $vo.type == 1}>
 							电脑端
 							<{else}>
 							手机端
 							<{/if}>
-						</td>
+						</td>-->
 						<td>
 							<{if $vo.status == 1}>
-							申请充值
+							申请中
 							<{elseif $vo.status == 2}>
-							充值成功
+							成功
 							<{else}>
 							驳回
 							<{/if}>

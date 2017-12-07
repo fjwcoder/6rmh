@@ -7,7 +7,8 @@
     <title><{$config.page_title}></title>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="__STATIC__/css/mall_mobile_detail.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_detail.css">
+    <link rel="stylesheet" href="__CSS__/mobile/mall_mobile_footer.css">
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper-3.4.2.min.css">
 </head>
 <body data-ng-app="myApp">
@@ -20,10 +21,7 @@
     <!--购物车-->
     <div class="shop_car glyphicon glyphicon-shopping-cart" onclick="location='/index/cart'">
     </div>
-    <!--规格-->
-    <div class="choice_size btn btn-block">
-        选择规格
-    </div>
+    
     <div class="size" data-ng-controller="goodsCtrl">
         <div class="close"></div><!--黑色部分-->
         <div class="size-content">
@@ -37,7 +35,7 @@
         <{/if}>
         <li><span class="item-title">选择规格：</span></li>
         <{volist name="$goods.spec" id="vo"}>
-            <li class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
+            <li id="spec-<{$vo.id}>" class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
         <{/volist}>
          <span class="end_count item-title">库存：<{$goods.amount}></span>
         <div class="buy_count input-group">
@@ -66,7 +64,8 @@
                 <div class="price_con" >
                     <span class="product_name"><{$goods.name}></span>
                     <span class="product_description" title="<{$goods.description}>"><{$goods.description}></span>
-                    六 儿 价：
+                    <!--价格：-->
+                    <span class="money-mark">￥</span>
                     <{if $goods.promotion.type == 1}>
                     <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}">
                     </span>
@@ -75,21 +74,41 @@
                     <{else}>
                     <span class="price" ng-bind="{{price}}"></span>
                     <{/if}>
-                    <p>
-                        <span class="item-title">促 销：</span>
-                        <span class="goods-promotion " title="<{$goods.promotion.description}>">
-                        <{$goods.promotion.title}>
-                        </span>
-                    </p>
-                    <p>
-                        <span class="item-title">来 源：</span>
-                        <{if $goods.userid == 0}>
-                            官方
-                        <{else}>
-                            来源不明
-                        <{/if}>
-                    </p>
+
+                    
+
+                    <{if $goods.promotion.title != ''}>
+                        <p>
+                            <span class="item-title">促 销：</span>
+                            <span class="goods-promotion " title="<{$goods.promotion.description}>">
+                            <{$goods.promotion.title}>
+                            </span>
+                        </p>
+                    <{/if}>
+
+                    
+                    
                 </div>
+                <!--规格-->
+                <p class="goods-item choice_size" style="font-size: 1.2em; color: #6ad4c9;"> 
+                    <span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;选择规格 
+                    <span class="spec-des pull-right" ></span>
+                </p>
+                
+                <!--商品来源-->
+                <p class="goods-item ">
+                    重量：<{$goods.weight}> kg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    免邮费<br>
+                    <span class="item-title">来 源：</span>
+                    <{if $goods.userid == 0}>
+                        六耳猕猴官方商城
+                    <{else}>
+                        入驻商家
+                    <{/if}>
+                    
+                    
+                </p>
+
             </div>
             <!--详情页-->
             <div class="details swiper-slide">
@@ -97,70 +116,84 @@
             </div>
             <!--评价-->
             <div class="comment swiper-slide">
-                <li class="material-li material-content">
+                <!--<li class="material-li material-content">
                     好评度 <span class="good-rate">100</span>%
-                </li>
-                <li class="material-li">
+                </li>-->
+                <li class="material-li material-bar">
                     <a href="javascript:void(0);" ng-click="barSelected(0);">全部评论</a>
+                    <span>/</span>
                     <a href="javascript:void(0);" ng-click="barSelected(1);">好评</a>
+                    <span>/</span>
                     <a href="javascript:void(0);" ng-click="barSelected(2);">中评</a>
+                    <span>/</span>
                     <a href="javascript:void(0);" ng-click="barSelected(3);">差评</a>
                 </li>
                 <!--全部评论-->
-               
                 <div class="comment_con" ng-repeat="value in comment">
-                    <span class="comment_head">
-                        <span ng-if="value.comment_star == '0'">
-                        </span>
-                        <span ng-if="value.comment_star == '1'">
-                            <span class="fa fa-heart"></span>
-                        </span>
-                        <span ng-if="value.comment_star == '2'">
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                        </span>
-                        <span ng-if="value.comment_star == '3'">
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                        </span>
-                        <span ng-if="value.comment_star == '4'">
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                        </span>
-                        <span ng-if="value.comment_star == '5'">
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                            <span class="fa fa-heart"></span>
-                        </span>
-                    </span>
-                    <div style="width: 100%">
-                        <span class="head_img">
-                            <img src="{{value.headimgurl}}"/>
-                            <span>{{value.nickname}}</span>
-                        </span>
-                        <span class="comment_li">{{value.comment}}</span>
+                    <img class="head_img" src="{{value.headimgurl}}"/>
+                    <div class="comment_head">
+                        <span class="nickname">{{value.nickname}}</span>
+                        <p>
+                            <span style="float: left;">
+                                <span ng-if="value.comment_star == '0'">
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </span>
+                                <span ng-if="value.comment_star == '1'">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </span>
+                                <span ng-if="value.comment_star == '2'">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </span>
+                                <span ng-if="value.comment_star == '3'">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </span>
+                                <span ng-if="value.comment_star == '4'">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </span>
+                                <span ng-if="value.comment_star == '5'">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </span>
+                            </span>
+                            <span class="addtime">{{value.addtime | date:'yyyy-MM-dd'}}</span>
+                        </p>
+                        
                     </div>
-                    <span class="comment_footer">
-                        <span class="comment_spac">{{value.spec}}</span>
-                        <span class="comment_agree" ng-click="zan(<{$goods.id}>)">
-                            <span class="fa fa-thumbs-up" ></span>
-                            {{value.agree}}
-                        </span>
-                    </span>
+                    <div class="comment-content">{{value.comment}}</div>
+                    <p class="order-info">{{value.spec}}</p>
                 </div>
             </div>
         </div>
     </div>
+    
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="__STATIC__/js/plugin/swiper3/swiper-3.4.2.jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
-
+    <{include file="public/footer"/}>
     <script>
         var app = angular.module('myApp', []);
         app.controller('goodsCtrl', function($scope,$http) {
@@ -174,34 +207,41 @@
             $scope.choseBare = 0;
             $scope.comment=<{$comment}>;
             $scope.barSelected = function($id){
+                
                 $scope.choseBare = $id;
                 var url="/index/goods/comment/"+"comment_id/"+$id+"/goods_id/"+<{$goods.id}>;
                 $http.get(url).success( function(data) {
                     $scope.comment=data; 
                 });
             }
-            $scope.zan = function($gid){
-                var url="/index/goods/zan/gid/"+$gid;
-                $http.get(url).success( function(data){
-                    if (data.status == '0') {
-                        alert('点赞成功！');
-                    }
-                    if (data.status == '1') {
-                        alert("一个人只能点赞一次！");
-                    }
-                    if (data.status == '2') {
-                        alert("请登录后点赞!");
-                    }
-                });
-            }
 
+            // $scope.zan = function($gid){
+            //     var url="/index/goods/zan/gid/"+$gid;
+            //     $http.get(url).success( function(data){
+            //         if (data.status == '0') {
+            //             alert('点赞成功！');
+            //         }
+            //         if (data.status == '1') {
+            //             alert("一个人只能点赞一次！");
+            //         }
+            //         if (data.status == '2') {
+            //             alert("请登录后点赞!");
+            //         }
+            //     });
+            // }
+
+            // 默认选中第一个规格
+            $scope.isChose = <{$goods.spec.0.id}>;
+            $scope.specValue = <{$goods.spec.0.id}>; 
+            $('.spec-des').html('已选：<{$goods.spec.0.spec}>'); //需要修改成angularjs
             $scope.specSelect = function($id) {
                 $scope.specValue = $id; 
                 $scope.isChose = $id;
+                $('.spec-des').html('已选：'+angular.element('#spec-'+$id).html()); //需要修改成angularjs
             }
 
             $scope.redNum = function(){
-                ($scope.buy_number - 1 < 0) ? $scope.buy_number = 0 : $scope.buy_number--;
+                ($scope.buy_number - 1 <= 0) ? $scope.buy_number = 1 : $scope.buy_number--;
             }
             $scope.addNum = function(){
                 $scope.buy_number++;
@@ -272,5 +312,6 @@
             $('.shop_car').css('display','block');
         });
       </script>
+      
 </body>
 </html>

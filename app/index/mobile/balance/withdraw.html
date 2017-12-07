@@ -8,8 +8,8 @@
 	
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
-	<link rel="stylesheet" type="text/css" href="__STATIC__/css/plugin/mall_balance.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/mobile/mall_mobile_widthdraw.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
 	<div class="head-content">
 		<form method="post" id="form" role="form" action="<{:url('opwithdraw')}>">
 
-			<span class="content-top"><div class="back_home fa fa-long-arrow-left fa-1x" onclick="location.assign('/')"></div>申请提现</span>
+			<!--<span class="content-top"><div class="back_home fa fa-long-arrow-left fa-1x" onclick="location.assign('/')"></div>申请提现</span>-->
 				<span>
 					<div class="col-xs-2"></div>
 					<div class="col-xs-8">
@@ -35,12 +35,12 @@
 		</form>
 		<span><button onclick="javascript:submit();">提现</button><button onclick="slide()">取消</button></span>
 	</div>
-	<div class="topp fa fa-arrow-up" aria-hidden="true">申请提现</div>
+	<div class="topp fa fa-chevron-up" aria-hidden="true"> &nbsp;&nbsp;申请提现</div>
 
 </div>
 <!-- 顶部提现表单结束 -->
 <div class="body">
-	<span class="withdraw-span"><span>提现记录</span></span>
+	<!--<span class="withdraw-span"><span>提现记录</span></span>-->
 	<{volist name="list" id="vo"}>
 		<div class="withdraw row">
 			<div class="col-xs-7"><{$vo.addtime}></div>

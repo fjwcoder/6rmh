@@ -3,11 +3,12 @@ body{
 	background: #efefef;
 }
 .cate{
-	padding: 0 0.5em;
+	padding: 0 0.5em; margin-top: 1em;
+	/*background: white;*/
 }
 .cate a{
 	color: #666;
-	font-size: 0.8em;
+	font-size: 1em;
 	display: inline-block;
 	-webkit-transform: skew(-15deg); 
 	-moz-transform: skew(-15deg); 
@@ -21,31 +22,42 @@ body{
 .split{
 	color: #6ad4c9;
 }
+
 .order_info{
 	height: 11em;
-	margin: 0 auto;
+
 	overflow: hidden;
 	border-radius: 0.5em;
 	box-shadow: 0.5em 0.5em 1em #ccc;
-	margin: 0.5em auto;
+	margin: 1em auto;
 	padding: 0 1px 1px 1px;
 	background-color: #fff;
-	text-align: center;
+	/*text-align: center;*/
 	position: relative;
 }
+div.goods-container{
+	overflow: scroll; height: 6em;
+}
 .order_detail{
-	height: 8em;
+	height: 6em; width: 100%;
 	float: left;
 	transition: all 0.5s;
-	text-align: center;
+	/*text-align: center;*/
 	background-color: #fff;
+	/*background-color: #e0e0e0;;*/
 	overflow: hidden;
-}
-.order_detail div{
-	font-size: 0.5em;
-	border-radius: 5px;
+	/*border-bottom: 1px solid white;*/
 }
 
+.order_detail div{
+	font-size: 1em;
+	text-align: left; margin-top: 0.5em;
+	 float: left; width: 8em;
+}
+div.goods-name{
+	height: 2.8em; overflow: hidden;
+	 width: 16em!important;
+}
 .head-title{
 	height: 3em;
 	line-height: 3em;
@@ -55,12 +67,12 @@ body{
 	margin-bottom: 1em;
 }
 .spac{
-	margin-top: 0.5em;
-	color: #6ad4c9;
+
+	color: #6ad4c9; height: 1.2em;
 }
 img{
-	height: 3em;
-	width: 3em; 
+	height: 5em; float: left;
+	width: 5em; margin: 0.5em 0.5em 0 0;
 	cursor: pointer;
 }
 .promotion{
@@ -72,21 +84,23 @@ img{
 }
 .order_title{
 	color: #fff;
-	font-size: 0.8em;
-}
-.order_title {
+	font-size: 1em;
 	background: #6ad4c9;
+	padding: 0.2em 0;
+	margin-bottom: 0.5em;
 }
+
 .clear{
 	clear: both;
 }
 .order_footer{
-	font-size: 0.8em;
+	font-size: 1em;
 	color: #999;
 	clear: both;
 	width: 100%;
-	line-height: 2em;
+	line-height: 3em;
 	text-align: left;
+	height: 3em;
 }
 .order_footer span{
 	display: inline-block;
@@ -96,7 +110,7 @@ img{
 	width: 20%;
 }
 .price{
-	width: 40%;
+	width: 20%;
 }
 .option a{
 
@@ -104,11 +118,12 @@ img{
 	font-weight: bold;
 	text-decoration: none;
 }
-.status{
-	width: 15%
-}
+.go-detail{width: 20%}
+.after-sell{width: 15%;}
+.go-detail a, .after-sell a {color: #999; text-decoration: none;}
+.order-no a{color: white; text-decoration: none;}
 .option{
-	width: auto;
+	width: 20%; 
 }
 #current{
 	background: #6ad4c9;

@@ -5,52 +5,169 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="__STATIC__/css/mall_mobile_preview.css">
-    <link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
-    <title>订单页</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_address.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_preview.css">
+    <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+    <title>订单预览</title>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body data-ng-app="myApp">
+    <!-- 模态框（Modal）修改收货地址 -->
+    <div class="modal fade modal-show" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formLabel">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="ModalLabel">新增收货地址</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form class="form-horizontal" method="post" name="form" id="myform" action="<{:url('order/addAddr')}>">
+		          <div class="form-group">
+		            	<label for="name" class="col-xs-4 control-label">收货人：</label>
+						<div class="col-xs-8">
+	  						<input type="text"  name="name" class="form-control verify" id="name" placeholder="请输入姓名..." aria-describedby="helpBlock1">
+						</div>
+		          </div>
+                    <div class="form-group">
+                        <label for="province" class="col-xs-4 control-label">所在地区：</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" id="province" name="province">
+                                <option value=""  selected>选择</option>
+                                <{volist name="province" id="vo"}>
+                                <option value="<{$vo.id}>"><{$vo.name}></option>
+                                <{/volist}>
+                            </select>
+                        </div>
+                        <div class="col-xs-4 col-xs-offset-4">
+                            <select class="form-control" id="city" name="city">
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="form-control" id="area" name="area">
+                            </select>
+                        </div>
+                    </div>
+		          <div class="form-group">
+		            <label for="address" class="col-xs-4 control-label">地址：</label>
+						<div class="col-xs-8">
+	  						<input type="text" name="address" class="form-control verify" id="address" placeholder="请输入详细地址">
+						</div>
+		          </div>
+		           <div class="form-group">
+		            <label for="phone" class="col-xs-4 control-label">手机：</label>
+						<div class="col-xs-8">
+	  						<input type="text" name="mobile" class="form-control verify" id="mobile" placeholder="请输入电话...">
+						</div>
+		          </div>
+		           <div class="form-group">
+		            <label for="zipcode" class="col-xs-4 control-label">邮编：</label>
+						<div class="col-xs-8">
+	  						<input type="text" name="zipcode" class="form-control" id="zipcode">
+						</div>
+		          </div>
+                  <input type="hidden" name="id_list" value="<{$id_list}>"/><!--商品列表ID-->
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn form-submit">确认</button>
+		      </div>
+		    </div>
+		  </div>
+    </div>
+
     <form action="<{:url('order/create')}>" method="post">
     <div ng-controller="previewCtrl">
-        <div class="more-info-navbar">
-            订单
-        </div>
+
         <div class="info paper">
+            
            <{if $address != null}>
-                 <{volist name="address" id="vo"}>
-                    <div class="address_info" ng-class="{choseAddr: <{$vo.id}>==addrID}" data-ng-click="selectAddr(<{$vo.id}>)">
-                        <div class="connect_info">
-                            <span>联系人：<{$vo.name}></span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span>联系电话:<{$vo.mobile|substr=0,3}>****<{$vo.mobile|substr=7}></span>
+            <div class="footer_right" >
+                <span style="color: #8e8e8e;"><{$addcount}>/10</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript: void(0);" data-toggle="modal" data-target="#formModal" title="">新增地址</a>
+            </div>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <{volist name="address" id="vo" offset="0" length='1'}>
+                            <div class="panel-heading default-address" >
+                                <div class="connect_info">
+                                    <span>收货人：<{$vo.name}></span><br>
+                                    <span>电&nbsp;&nbsp;&nbsp;话：<{$vo.mobile|substr=0,3}>****<{$vo.mobile|substr=7}></span>
+                                </div>
+                                <div class="address">
+                                    地&nbsp;&nbsp;&nbsp;址：
+                                    <span>
+                                        <{$vo.province}>&nbsp;
+                                        <{$vo.city}>&nbsp;
+                                        <{$vo.area}>&nbsp;
+                                        <{$vo.address}>
+                                    </span>
+                                </div>
+                                <div class="info_footer">
+                                    <{if $vo.type==1}>
+                                        <a class="footer_edit">
+                                            <span class="fa fa-location-arrow address-default"></span>
+                                            <span class="address-default">默认地址</span>
+                                        </a>
+                                    <{else}>
+                                        <a class="footer_edit" href="/index/order/defaddr/id_list/<{$id_list}>/id/<{$vo.id}>">
+                                            <span class="fa fa-location-arrow address-default"></span>
+                                            <span class="address-default">设为默认</span>
+                                        </a>
+                                    <{/if}>
+                                    <!--<a class="footer_edit" href="javascript: void(0);" title="">编辑</a>-->
+                                    <a class="footer_edit" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" title="">
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        <{/volist}>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <{volist name="address" id="vo" offset="1"}>
+                                <div class="panel-body">
+                                    <div class="connect_info">
+                                        <span>收货人：<{$vo.name}></span><br>
+                                        <span>电&nbsp;&nbsp;&nbsp;话：<{$vo.mobile|substr=0,3}>****<{$vo.mobile|substr=7}></span>
+                                    </div>
+                                    <div class="address">
+                                        地&nbsp;&nbsp;&nbsp;址：
+                                        <span>
+                                            <{$vo.province}>&nbsp;
+                                            <{$vo.city}>&nbsp;
+                                            <{$vo.area}>&nbsp;
+                                            <{$vo.address}>
+                                        </span>
+                                    </div>
+                                    <div class="info_footer">
+                                        <{if $vo.type==1}>
+                                            <a class="footer_edit">
+                                                <span class="fa fa-location-arrow address-default"></span>
+                                                <span class="address-default">默认地址</span>
+                                            </a>
+                                        <{else}>
+                                            <a class="footer_edit" href="/index/order/defaddr/id_list/<{$id_list}>/id/<{$vo.id}>">
+                                                <span class="fa fa-location-arrow address-default"></span>
+                                                <span class="address-default">设为默认</span>
+                                            </a>
+                                        <{/if}>
+                                        <!--<a class="footer_edit" href="javascript: void(0);" title="">编辑</a>-->
+                                        <a class="footer_edit" href="/index/order/preview/id_list/<{$id_list}>/addrid/<{$vo.id}>"  title="">
+                                            选择
+                                        </a>
+                                    </div>
+                                </div>
+                            <{/volist}>
                         </div>
-                        <div class="address">
-                            <{if $vo.type==1}>
-                                <span class="fa fa-location-arrow address-default"></span>
-                                <span class="address-default">默认地址:</span>
-                            <{/if}>
-                            <span>
-                                <{$vo.province}>&nbsp;
-                                <{$vo.city}>&nbsp;
-                                <{$vo.area}>&nbsp;
-                                <{$vo.address}>
-                            </span>
-                        </div>
-                        <br>
-                        <div class="info_footer">
-                            <a class="footer_edit" href="/index/address/edit/id/<{$vo.id}>" title="">编辑</a>
-                        </div>
-                    </div> 
-                 <{/volist}>
+                    </div>
+                </div>
            <{else}>
-                <a href="/index/address/index" title="">+添加收货地址</a>
+                <a href="/index/address/index" title="">+添加收货地址</a> &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #8e8e8e;"><{$addcount}>/10</span>
            <{/if}> 
-           <div class="footer_right" >
-                <a href="/index/address/index" title="">新增</a>
-           </div>
+           
         </div>
         <div class="paper pay_way">
             <div>
@@ -68,7 +185,7 @@
         </div>
         <div class="goods_info paper">
             <div>
-                应付总额：¥<{$count.prices}>
+                应付总额：<span style="color: red; font-size: 1.5em;">¥<{$count.prices}></span>
             </div>
             <{volist name="carts" id="vo"}>
             <div class="goods_details">
@@ -78,27 +195,29 @@
                 <span class="goods_center">
                     <li><{$vo.name}></li>
                     <li>规格：<{$vo.spec}></li>
-                    <li>单价: ￥<{$vo.price}></li>
-                    <li>数量：<{$vo.num}></li>
+                    <li>单价: ￥<{$vo.price}>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数量：<{$vo.num}></li>
                      <{if $vo.promotion != ''}>
                         <li class="promotion">
                      <{$vo.promotion}>
                         </li>
                      <{/if}>
-                    <li> 赠送鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;获得积分：<{$vo.point*$vo.num}></li>
+                    <li>鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;积分：<{$vo.point*$vo.num}></li>
                 </span>
-                <span class="goods_right">小计:¥<{$vo.price*$vo.num}></span>
+                <p>
+                    <span class="goods_right">小计:¥<{$vo.price*$vo.num}></span>
+                </p>
+                
             </div>
             <{/volist}>
         </div>
         <div>
            <input type="hidden" name="id_list" value="<{$id_list}>"/><!--商品列表ID-->
            <input type="hidden" name="pay" value="{{isChose}}"/><!--支付方式-->
-           <input type="hidden" name="addr" value="{{addrID}}"/><!--收货地址-->
+           <input type="hidden" name="addr" value="<{$address[0]['id']}>"/><!--收货地址-->
            <input type="hidden" name="delivery" value="{{delivery}}"/><!--配送方式--> 
         </div>
         <div class="pay">
-            <div>支付</div>
+            <div>确定</div>
         </div>
     </div>
     <{include file="public/footer"/}>
@@ -107,17 +226,17 @@
         var app = angular.module('myApp', []);
         app.controller('previewCtrl', function($scope) {
             $scope.isChose = 1;
-            <{if $address != null}>
-                $scope.addrID = <{$address[0]['id']}>;                
-            <{/if}>
+            // <{if $address != null}>
+            //     $scope.addrID = <{$address[0]['id']}>;                
+            // <{/if}>
             //默认是默认地址的ID
             $scope.delivery = 1;
             $scope.paySelect = function($id) {
                 $scope.isChose = $id;
             }
-            $scope.selectAddr = function($id){
-                $scope.addrID = $id;
-            }
+            // $scope.selectAddr = function($id){
+            //     $scope.addrID = $id;
+            // }
             $scope.deliverySelect = function($id){
                 $scope.delivery = $id;
             }
@@ -125,6 +244,62 @@
         $('.pay').click(function(){
             $('form').submit();
         });
+    </script>
+    <script>
+    	$('#province').change(function(){
+    		var city = $(this).val();
+			$.getJSON("/index/address/city?id="+city, function(re){
+		     	var optionstring = "";
+		     	$.each(re, function(i,item){
+		         optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
+		     	});
+		     	$("#city").html('<option value="">请选择</option>'+optionstring);
+			});
+			$("#area").html('<option value="">请选择</option>');
+    	});
+    	$('#city').change(function(){
+    		var area = $('#city').val();
+    		console.log(area);
+			$.getJSON("/index/address/area?id="+area, function(re){
+		     	var optionstring = "";
+		     	$.each(re, function(i,item){
+		         optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
+		     	});
+		     	$("#area").html('<option value="">请选择</option>'+optionstring);
+		});
+    	});
+    	$('.verify').change(function(event) {
+    		if($(this).val()==''){
+    			$(this).parent().removeClass('has-success');
+    			$(this).parent().addClass('has-error');
+    			$(this).removeClass('true');
+    		}else{
+    			$(this).addClass("true");
+    			$(this).parent().removeClass('has-error');
+    			$(this).parent().addClass('has-success');
+    		}
+    	});
+    	$('.form-submit').click(function(){
+    		if($('#name').val()!=''&&$('#address').val()!=""&&$('#mobile').val()!=''){
+    			var phone = $("#mobile").val();  
+    			var reg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;         
+    			if(!reg.test(phone)){  
+    				$('#mobile').parent().addClass('has-error');
+    			    alert("请输入有效的手机号码！");
+    			    return false;  
+    			}else{
+    				$('#myform').submit();
+    			} 
+    		}else{
+    			$(".verify").each(function(){
+    			    if ($(this).val()=='') {
+    			    	$(this).parent().addClass('has-error');
+    			    }
+    			  });
+    			alert("请输入必要的内容");
+    			return false;
+    		}
+    	});
     </script>
 </body>
 </html>

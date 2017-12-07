@@ -53,9 +53,11 @@ class Goods extends controller
                 break;
         }
         $comment=json_encode($comment);
+        // $comment = json_encode([]);
         return $comment;
     }
 
+    // 这个方法有问题，逻辑问题
     public function zan(){
         $id = session(config('USER_ID'));
         if ($id!="") {

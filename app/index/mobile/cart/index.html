@@ -23,34 +23,35 @@
             <label for="chose_all"></label>
             全选
             <span class="pull-right">
-                <a href="/index/cart/delete/id_list/{{cart_list}}" >删除选中商品</a>
-                <a href="<{:url('cart/delate')}>" >清理下架商品</a>
+                <a href="/index/cart/delete/id_list/{{cart_list}}" >删除</a>
+                <!--<a href="<{:url('cart/delete')}>" >清理下架商品</a>-->
             </span>
         </div>
         <div class="more-info-detail" >
             <{volist name="carts" id="vo"}>
-                <div class="cart-goods-record">
-                    <div class="head-title">
+                <div id="cart-goods-record-<{$vo.cart_id}>"  class="cart-goods-record">
+                    <div class="head-title" ng-click="slideCover(<{$vo.cart_id}>);">
                         <span>
                             <input id="<{$vo.cart_id}>" data-ng-checked="allChecked" data-ng-click="checkCart($event, <{$vo.cart_id}>);" type="checkbox"/>
                             <label for="<{$vo.cart_id}>">
                                 <span class="fa fa-check" aria-hidden="true"></span>
                             </label>
                         </span>
-                        <span class="pull-right edit" >编辑</span>
+                        <span class="pull-right edit edit-btn" >
+                            <span class="fa fa-edit"></span>
+                        </span>
                     </div>
-                    <div class="good-left">
+                    <div class="good-left" >
                         <img title="<{$vo.sub_name}>" class="" src="<{$vo.pic}>"/>
                     </div>
-                    <div class="goods-detail">
+                    <div class="goods-detail" ng-click="slideCover(<{$vo.cart_id}>);">
                         <li class="name-title" title="<{$vo.description}>"><{$vo.name}></li>
                         <li class="good-info">
                             规格：<{$vo.spec}>
                         </li>
-                        <li>
-                            数量：<{$vo.num}>
-                        </li>
                         <li class="">
+                            数量：<span id="goods-num-<{$vo.cart_id}>"><{$vo.num}></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             单价：¥<{$vo.price}>
                             <{if $vo.promotion != ''}>
                             <span class="goods-promotion" >
@@ -58,20 +59,20 @@
                             </span>
                             <{/if}>        
                         </li>
-                        <li class="given-info" href="javascript: void(0);">赠送鱼饵<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;获得<{$vo.point}>积分
-                        </li>
+                        <li class="given-info" href="javascript: void(0);">赠送鱼饵<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;获得<{$vo.point}>积分</li>
                     </div>
-                    <div class="good-option">
-                         <li class="option-title">编辑</li>
+                    <div id="goods-option-<{$vo.cart_id}>"  class="good-option">
+                         <li class="option-title" ng-click="slideCover(<{$vo.cart_id}>);"> </li>
                          <li class="changeNum">
-                            <a class="number-change" href="/index/cart/setDec/id/<{$vo.cart_id}>/num/<{$vo.num}>" title="数量减1">-</a>
-                            <input class="cart-goods-num" name="number" value="<{$vo.num}>"/>
-                            <a class="number-change" href="/index/cart/setInc/id/<{$vo.cart_id}>/num/<{$vo.num}>" title="数量加1">+</a>
+                            <{if $vo.num > 1}>
+                            <span class="number-change"  ng-click="subnum(<{$vo.cart_id}>);" title="数量减1">-</span>
+                            <{/if}>
+                            <input id="cart-goods-num-<{$vo.cart_id}>" class="cart-goods-num" name="number" value="<{$vo.num}>"/>
+                            <span class="number-change"  ng-click="addnum(<{$vo.cart_id}>);" title="数量加1">+</span>
                         </li>
                         <li>
-                            <a class="btn"href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">
-                            删除</a>
-                            <a class="btn" href="" title="">完成</a>
+                            <a class="btn"href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">删除</a>
+                            <a class="btn " href="javascript: void(0);" ng-click="slideCover(<{$vo.cart_id}>);" title="">完成</a>
                         </li>
                     </div>
                 </div>
@@ -84,11 +85,9 @@
     <{include file="public/footer"/}>
     <script>
         var app = angular.module('myApp', []);
-        app.controller('cartCtrl', function($scope) {
+        app.controller('cartCtrl', function($scope, $http) {
             var all_cart = <{$all_cart}>; //获取全部的购物车ID
-            //console.log(all_cart);
             var check_list = []; //选中的ID
-
             $scope.cart_list = ''; //初始化
             $scope.checkAllCart = function($event){
                 var checkbox = $event.target;
@@ -115,7 +114,33 @@
                 }
                 $scope.cart_list = check_list.join();
             }
+
+            $scope.addnum = function($id){
+                var curr_num = angular.element('#cart-goods-num-'+$id).val();
+                $http.post("/index/cart/setInc/id/"+$id).success( function(data) {
+                    angular.element('#cart-goods-num-'+$id).val(parseInt(curr_num)+parseInt(data.num));
+                    angular.element('#goods-num-'+$id).html(parseInt(curr_num)+parseInt(data.num));
+                });
+            }
+
+            $scope.subnum = function ($id, $num){
+                var curr_num = angular.element('#cart-goods-num-'+$id).val();
+                $http.post("/index/cart/setDec/id/"+$id).success( function(data) {
+                    angular.element('#cart-goods-num-'+$id).val(parseInt(curr_num)-parseInt(data.num));
+                    angular.element('#goods-num-'+$id).html(parseInt(curr_num)-parseInt(data.num));
+                });
+            }
+            
+            $scope.slideCover = function($id){
+                $('#goods-option-'+$id).fadeOut(100);
+                $('#cart-goods-record-'+$id).animate({
+                    left:'0em'
+                },100);
+            }
+
         });
+
+        // 显示
         $('.edit').click(function(event){
             $(this).parent().parent().animate({
                 left: '-10em'
@@ -123,12 +148,7 @@
             $(this).parent().nextAll('.good-option').fadeIn(100);
             event.stopPropagation();
         });
-        $('.edit').parent().parent().children().click(function(){
-            $('.good-option').fadeOut(100);
-            $(this).parents().animate({
-                left:'0em'
-            },100);
-        });
+
     </script>
 </body>
 </html>

@@ -129,7 +129,6 @@
     	});
     	$('#city').change(function(){
     		var area = $('#city').val();
-    		console.log(area);
 			$.getJSON("/index/address/area?id="+area, function(re){
 		     	var optionstring = "";
 		     	$.each(re, function(i,item){

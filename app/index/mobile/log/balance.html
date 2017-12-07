@@ -4,10 +4,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-	<title></title>
-	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_bait.css">
+	<title>余额明细</title>
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_bait.css">
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
@@ -15,28 +15,28 @@
 </head>
 <body>
 	<div class="head">
-		<div>余额明细</div>
+		<!--<div>余额明细</div>-->
 		<div class="head-content">
 			 <form  method="post" role="form" action="<{:url('index', ['type'=>'balance'])}>" onsubmit="return check(this)">
-				<li>开始时间：&nbsp<input id="endtime" class="layui-input begintime" type="text" name="endtime" <{if $time.status }>value="<{$time.endtime}>"<{/if}> readonly="readonly"></li>
-				<li>结束时间：&nbsp<input id="begintime" class="layui-input begintime" type="text" name="begintime" <{if $time.status }>value="<{$time.begintime}>"<{/if}> readonly="readonly"></li>
-				<li class="submit">搜索</li>
+				<div class="times">开始：&nbsp<input id="endtime" class="layui-input begintime" type="text" name="endtime" <{if $time.status }>value="<{$time.endtime}>"<{/if}> readonly="readonly"></div>
+				<div class="times">结束：&nbsp<input id="begintime" class="layui-input begintime" type="text" name="begintime" <{if $time.status }>value="<{$time.begintime}>"<{/if}> readonly="readonly"></div>
+				<div class="submit">搜索</div>
 			</form>
 		</div>
 	</div>
 	<div class="data-content">
 		<li class="content-head">
-			<span>时间</span>
-			<span>名字</span>
-			<span>变动金额</span>
-			<span>类型</span>
+			<span class="wp_45">时间</span>
+			<!--<span>名字</span>-->
+			<span class="wp_25">金额￥</span>
+			<span class="wp_25">类型</span>
 		</li>
 		<{volist name="list" id="vo"}>
 		<li class="content-body">
-			<span><{$vo.addtime}></span>
-			<span><{$vo.name}></span>
-			<span><{$vo.value}></span>
-			<span>
+			<span class="wp_45"><{$vo.addtime}></span>
+			<!--<span class="wp_25"><{$vo.name}></span>-->
+			<span class="wp_25"><{$vo.value}></span>
+			<span class="wp_25">
 				<{if $vo.type == 1}>
 				转入
 				<{else}>

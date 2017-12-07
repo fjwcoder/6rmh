@@ -1,0 +1,56 @@
+li{
+	list-style: none;
+}
+input{
+	background-color: #efefef;
+	border: none; width: 70%;
+	border-bottom: 1px solid #6ad4c9;
+}
+.head{
+	width: 100%;
+	height: 4em;
+	background-color: #efefef;
+	text-align: center;
+	padding: 0.5em;
+	color: #666;
+}
+.head-content{
+	text-align: left;
+}
+/*.head-content div{
+	
+}*/
+.head-content .times{
+	width: 70%; height: 2em;float: left;
+}
+
+.content-head{
+	margin-top: 1em; height: 2em;
+	border-bottom: 2px solid #6ad4c9;
+}
+
+/*.content-body{
+	border-bottom: 1px solid #8e8e8e;
+}*/
+
+.content-head span, .content-body span{
+	color: #666;
+	display: inline-block; text-align: center;
+	line-height: auto;
+}
+.content-body span{
+	min-height: 2em;
+	/*min-height: 42px; line-height: 42px;*/
+}
+.submit{
+	margin: -1em 0 0 0;
+	background-color: #6ad4c9;
+	color: #fff;
+	width: 25%; float: left;
+	text-align: center;
+	height: 2em; line-height: 2em;
+	border-radius: 0.25em;
+	box-shadow: 0.1em 0.1em 0.5em #ccc;
+}
+.wp_25{width: 25%;}
+.wp_45{width: 45%;}

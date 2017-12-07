@@ -1,4 +1,8 @@
 <?php
+# ==========================================
+# 处理用户二维码
+# 
+# ==========================================
 namespace app\index\controller;
 use app\common\controller\Common; 
 use app\admin\controller\Wechat as Wechat;

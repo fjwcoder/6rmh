@@ -1,8 +1,13 @@
 
 .head-content{
 	width: 100%;
-	height: 12rem;
-	background: #6ad4c9;
+	height: 12rem; padding-top: 1.5em;
+	/*background: #6ad4c9;*/
+	background: linear-gradient(to top right, #779ad9, 50%, #6ad4c9);
+	background: -o-linear-gradient(to top right, #779ad9, 50%, #6ad4c9); 
+	background: -moz-linear-gradient(to top right, #779ad9, 50%, #6ad4c9); 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#779ad9), to(#6ad4c9));
+	box-shadow: 0px 1px 1px #ccc;
 	z-index: 9999;
 }
 .head-title{
@@ -52,9 +57,9 @@ select{
 	color: #000;
 }
 .topp{
-	padding: 0em;
+	/*padding: 0em;*/
 	line-height: 2em;
-	width: 100%;
+	width: 100%; font-size: 1.5em;
 	height: 2em;
 	text-align: center;
 	color: #6ad4c9;
@@ -75,14 +80,14 @@ select{
 }
 .withdraw-span{
 	border-bottom: 2px solid #6ad4c9;
-	color:#fff;
+	color:#8e8e8e;
 	float: left;
-	width: 100%;
+	width: 100%; text-align: right;
 	font-size: 18px;
 }
 .withdraw-span span{
-	background: #6ad4c9;
-	border-bottom: 5px solid #6ad4c9;
+	/*background: #6ad4c9;*/
+	/*border-bottom: 5px solid #6ad4c9;*/
 }
 .address{
 	font-size: 12px;

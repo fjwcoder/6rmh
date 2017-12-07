@@ -4,19 +4,53 @@ body{
 	overflow-y: auto;
 	/* background:url("/static/images/background/bg.jpg"); */
 }
-.body{	margin: auto; }
+a:visited{text-decoration: none;}
+.container-body{
+	position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f0f0f0;
+}
+.body{	margin: 1em 0 0 0; float: left; width: 100%;
+	margin-bottom: 5em;
+
+}
 li{	list-style: none;}
 ul{	padding: 0;}
 .head{
 	width: 100%;
-	height: 15em;
+	height: 17em;
 	margin-bottom: 1em;
 	background: url("/static/images/mall/menu_head.jpg") no-repeat;
 	background-size:100% 100%;
 	-moz-background-size:100% auto;
-	position: relative;
+	/*position: relative;*/
+	float: left;
+	/*box-shadow: 0px 5px 15px #ccc;*/
+}
+.my-service{
+	height: 2em; width: 100%; float: left; line-height: 2em; color: #666; padding: 0 1em;
+	font-size: 1.2em;
+	 background-color: #fff; box-shadow: 0px -5px 15px #ccc;
+}
+.my-qrcode{width: 100%;}
+.my-qrcode-hint{
+	text-align: center; font-size: 1.5em; color: #666
+}
 
-
+.link-btn-container{
+	width: 100%; float: left; 
+	background-color: #fff; border-top: 1px solid #e0e0e0;
+}
+.link-btn-container{
+	box-shadow: 0px 5px 15px #ccc;
+}
+.link-btn-container .link-btn{ float: left; 
+	width: 20%; margin: 0.4em 2.5%; min-height: 64px;
+	text-align: center;
+}
+.link-btn-container .link-btn a, .link-btn-container .link-btn span{
+	color: #8e8e8e;
+}
+.link-btn-container .link-btn span.fa{
+	color: #6ad4c9; font-size: 2em; margin-top: 15%; margin-bottom: 10%
 }
 .user-info-panel, .vip-level-panel{
 	position: relative;
@@ -25,7 +59,7 @@ ul{	padding: 0;}
 	border-radius: 1em;
 	
 }
-.user-info-panel{background: white;top: 4em; z-index: 9; height: 7em;}
+.user-info-panel{background: white;top: 4em; z-index: 9; height: 8em;}
 .vip-level-panel{background: black; height: 5.5em; z-index: 6; box-shadow: 0em 0.25em 0.25em #ccc;
 	color: rgba(224, 183, 18, 1); font-size: 1.3em; line-height: 8.5em; 
 }
@@ -37,7 +71,10 @@ ul{	padding: 0;}
 .user-property li div span{color: black; font-size: 1.1em;}
 
 
-
+.right-border-left{
+	background: url('/static/images/mall/border_left_0.png') no-repeat;
+	background-position: left;
+}
 
 
 
@@ -55,8 +92,8 @@ ul{	padding: 0;}
 
 
 .back_home{top: 1em;left: 1em;}
-.setting{	position:absolute;	width: 2.5em; z-index: 99;
-	height: 2.5em;	line-height: 3em!important;
+.setting{	position:absolute;	width: 2.9em; z-index: 99;
+	height: 2.9em;	line-height: 3em!important;
 	border-radius: 1.5em;	top: 1.5em;	left: 1.5em;
 	font-size: 1.5em!important;	padding: auto;	transition: all 0.5s;
 }
@@ -64,13 +101,15 @@ ul{	padding: 0;}
 	box-shadow: 0em 0.8em 1em #ccc;
 }
 
-
+.body{
+	background-color: #fff;
+}
  .body .link{
- 	height: 3em;
- 	line-height: 3em;
+ 	height: 2.8em;
+ 	line-height: 2.8em;
  	cursor: pointer;
  	color: #666;
- 	font-size:1em;
+ 	font-size:1.2em;
  	-webkit-transition: all 0.4s ease;
 	-o-transition: all 0.4s ease;
 	transition: all 0.4s ease;
@@ -92,14 +131,14 @@ ul{	padding: 0;}
 
 .desc{
  	background: #fff;
- 	font-size: 1em;
+ 	font-size: 1.1em;
  	display: none;
  }
  .desc li{
 	color: #666;
 	padding-left: 4.5em;
-	height: 3em;
-	line-height: 3em;
+	height: 2.8em;
+	line-height: 2.8em;
  }
  .desc i{
 	width: 3em;
@@ -127,7 +166,8 @@ ul{	padding: 0;}
 	color: #666;
 	opacity:'0';
 	overflow: hidden;
-	z-index: 10;
+	z-index: 10; 
+	/*padding-top: 2em;*/
 }
 .setting-header{
 	/* background: url("/static/images/mall/menu_head.jpg"); */
@@ -201,11 +241,11 @@ ul{	padding: 0;}
 	background-color: #6ad4c9;
 	color: #fff;
 	height: 3em;
-	line-height: 3em;
+	line-height: 2em;
 	text-align: center;
 }
 .setting-content span{	display: inline-block;}
-.setting-content div{	padding:0.25em;	margin: 0.25em 0;}
+.setting-content div{	padding:0.5em;	margin: 0.25em 0;}
 .left{	width: 30%;	text-align: right;}
 .right{width: 60%;}
 
@@ -235,46 +275,18 @@ input:focus{
 }
 /*add by fjw*/
 
-.link-btn-container{
-  display: -webkit-box;  /* 老版本语法: Safari,  iOS, Android browser, older WebKit browsers.  */
-  display: -moz-box;    /* 老版本语法: Firefox (buggy) */ 
-  display: -ms-flexbox;  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;  /* 新版本语法： Chrome 21+ */
-  display: flex;       /* 新版本语法： Opera 12.1, Firefox 22+ */
 
-  /*垂直居中*/	
-  /*老版本语法*/
-  -webkit-box-align: center; 
-  -moz-box-align: center;
-  /*混合版本语法*/
-  -ms-flex-align: center; 
-  /*新版本语法*/
-  -webkit-align-items: center;
-  align-items: center;
-
-  /*水平居中*/
-  /*老版本语法*/
-  -webkit-box-pack: center; 
-  -moz-box-pack: center; 
-  /*混合版本语法*/
-  -ms-flex-pack: center; 
-  /*新版本语法*/
-  -webkit-justify-content: center;
-  justify-content: center;
-
-  margin: 0;
-  height: 100%;
-  width: 100% /* needed for Firefox */
-}
 /* >=iphone6 */
 /*iphone 6*/
 @media  (min-width:370px) {
-	.user-property li div{margin: 0 ; width: 7em;text-align: center; color: #8e8e8e;}
+	.user-property li div{margin: 0 ; width: 8em;text-align: center; color: #8e8e8e;}
+	.link-btn-container .link-btn{min-height: 75px;}
 }
 
 /*iphone 6p*/
 @media  (min-width:414px) {
-	.user-property li div{margin: 0 ; width: 7.5em;text-align: center; color: #8e8e8e;}
+	.user-property li div{margin: 0 ; width: 8.8em;text-align: center; color: #8e8e8e;}
+	.link-btn-container .link-btn{min-height: 83px;}
 }
 
 

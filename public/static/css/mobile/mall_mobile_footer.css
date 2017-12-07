@@ -18,12 +18,13 @@ hr{margin: 2px 0;background-color: #ccc;border: none;height: 1px;}
 	padding: 0em 1.5em 0em 1.5em;
 }
 .footer .top{
-	padding: 0.5em;
-	line-height: 1.5em;
+	padding: 0;
+	line-height: 35px;
 	width: 100%;
-	height: 2.5em;
+	height: 35px;
 	text-align: center;
 	color: #6ad4c9;
+	font-size: 2.2em;
 }
 .footer li{
 	text-align: center;
@@ -58,3 +59,23 @@ hr{margin: 2px 0;background-color: #ccc;border: none;height: 1px;}
 	bottom: 0em;
 	display: none;
 }
+
+/*add by fjw*/
+
+
+/* >=iphone6 */
+/*iphone 6*/
+@media  (min-width:320px) {
+	.footer li{
+		text-align: center;
+		display: inline-block;
+		height: 5em;
+		line-height: 5em;
+		width: 23%;
+	}
+}
+
+
+
+
+/*over by fjw*/

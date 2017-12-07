@@ -4,6 +4,7 @@ use app\common\controller\Common;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Address as Address; 
 use app\index\controller\Cart as Cart; 
+
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -70,6 +71,7 @@ class Order extends Common
                 return $this->error('请选择商品'); exit;
             }
         }
+        $addrID = input('addrid', 0, 'intval'); 
         $user = decodeCookie('user');
         $mallObj = new Mall();
         // 查出订单预览信息，包括
@@ -109,7 +111,16 @@ class Order extends Common
             }
 
             # 收货地址
-            $this->assign('address', $this->getAddress());
+            if($addrID === 0){
+                $curr_address = $this->getAddress();
+            }else{
+                $curr_address = $this->choseAddr($addrID);
+            }
+            $this->assign('addcount', count($curr_address));
+            $this->assign('address', $curr_address);
+            # 省份
+            $addrObj = new Address();
+            $this->assign('province', $addrObj->getProvince());
             # 支付方式
             $this->assign('pay_way', $this->getPayWay());
             # 配送方式
@@ -129,7 +140,7 @@ class Order extends Common
         return $this->fetch();
     }
 
-
+    
 
     #创建订单
     public function create(){
@@ -243,7 +254,7 @@ class Order extends Common
         $order_id = input('id', '', 'htmlspecialchars,trim');
         $user = decodeCookie('user');
         $order = db('order', [], false) ->where(array('order_id'=>$order_id)) ->find();
-
+        // return dump($order);
         #商品详情
         $orderdetail = Db::name('order_detail') ->alias('a') 
             -> join('goods b', 'a.gid=b.id', 'LEFT') 
@@ -317,6 +328,33 @@ class Order extends Common
         
     }
 
+    public function addAddr(){
+        $userid = session(config('USER_ID'));
+        $id_list = input('id_list', 0, 'intval');
+        $data['name'] = input('name','','htmlspecialchars,trim');
+        $data["province"] = input('province',0,'intval');
+        $data["city"] = input('city',0,'intval');
+        $data["area"] = input('area',0,'intval');
+        $data['address'] = input('address','','htmlspecialchars,trim');
+        $data['mobile'] = input('mobile','','htmlspecialchars,trim');
+        $data['zipcode'] = input('zipcode','','htmlspecialchars,trim');
+        $data['userid'] = session(config('USER_ID'));
+
+        $count = Db::name('user_address') -> where(['userid'=>$userid])-> count();
+        if($count >=10){
+            return $this->error('地址数量已达上限');
+        }else{
+            $a = Db::name('user_address') ->insert($data);
+
+            if($a){  
+                return $this->redirect('preview', ['id_list'=>$id_list]);  
+            }else{
+                return $this->error('添加失败');
+            }
+        }  
+    }
+    
+
     #设置默认地址
     public function defAddr(){
         $cart_list = input('id_list', '', 'htmlspecialchars,trim');
@@ -328,6 +366,26 @@ class Order extends Common
             return '修改失败';
         }
 
+    }
+
+    # 选择该地址
+    public function choseAddr($addrID){
+        $address = Db::name('user_address') -> where(['userid'=>session(config('USER_ID'))]) ->order('type desc') -> select();
+        $temp_arr = [];
+        $region = getRegion();
+        foreach($address as $k=>$v){
+            if($v['id'] == $addrID){ //找到选择的地址
+                $temp_arr = $v; //当前地址
+                $address[$k] = $address[0]; //默认地址
+                $address[0] = $temp_arr;
+            }
+        }
+        foreach($address as $k=>$v){
+            $address[$k]['province'] = empty($region[$v['province']]['name'])?'':$region[$v['province']]['name'];
+            $address[$k]['city'] = empty($region[$v['city']]['name'])?'':$region[$v['city']]['name'];
+            $address[$k]['area'] = empty($region[$v['area']]['name'])?'':$region[$v['area']]['name'];
+        }
+        return $address;
     }
 
     #删除地址
@@ -352,7 +410,7 @@ class Order extends Common
             $address[$k]['area'] = empty($region[$v['area']]['name'])?'':$region[$v['area']]['name'];
 
         }
-        
+        // return dump($address);
         return $address;
     }
 

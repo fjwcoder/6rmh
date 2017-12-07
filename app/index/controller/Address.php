@@ -11,7 +11,7 @@ use think\Db;
 class Address extends Common
 {
     public function index(){
-        // $userid = input('userid', 0, 'intval');
+
         $userid = session(config('USER_ID'));
         $config = mallConfig();
         $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
@@ -31,8 +31,7 @@ class Address extends Common
         $count = count($address);
         $this->assign('count', $count);
         if($count < 10){
-            #查出省份，assign到前台
-            $province = Db::name('region') ->where(['type'=>1]) ->order('id') ->select();
+            $province = $this->getProvince();
             
             $this->assign('province', $province);
         }
@@ -40,8 +39,17 @@ class Address extends Common
         return $this->fetch();
     }
 
+    public function getProvince(){
+        $province = Db::name('region') ->where(['type'=>1]) ->order('id') ->select();
+        if(!empty($province)){
+            return $province;
+        }else{
+            return [];
+        }
+    }
+
     public function add(){
-        
+        $userid = session(config('USER_ID'));
         $data['name'] = input('name','','htmlspecialchars,trim');
         $data["province"] = input('province',0,'intval');
         $data["city"] = input('city',0,'intval');
@@ -51,20 +59,18 @@ class Address extends Common
         $data['zipcode'] = input('zipcode','','htmlspecialchars,trim');
         $data['userid'] = session(config('USER_ID'));
 
-        // if(!checkPost($data)){
-        //     return '参数错误'; exit;
-        // }
-
-
-        $a = Db::name('user_address') ->insert($data);
-
-        if($a){  
-            return $this->redirect('index');  
+        $count = Db::name('user_address') -> where(['userid'=>$userid])-> count();
+        if($count >=10){
+            return $this->error('地址数量已达上限');
         }else{
-            return $this->error('添加失败');
-        }
-        
-        
+            $a = Db::name('user_address') ->insert($data);
+
+            if($a){  
+                return $this->redirect('index');  
+            }else{
+                return $this->error('添加失败');
+            }
+        }  
     }
 
     public function edit(){
@@ -154,11 +160,13 @@ class Address extends Common
             }else{
                 return $this->redirect("Address/index");
                 // return $this->success('设置成功', "Address/index");
-            }
-            
+            } 
         }
-        
-        
     }
+
+
+
+
+
 
 }
