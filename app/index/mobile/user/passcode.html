@@ -12,20 +12,20 @@
 </head>
 <body>
 	<div class="change_con up">
-		<form class="login_form" method="post" role="form" action="<{:url('password')}>" enctype="multipart/form-data">
+		<form class="login_form" method="post" role="form" action="<{:url('password')}>" >
 		<div class="change_title">修改登录密码</div>
-		<li><span class="left-side">原密码：</span><span><input type="text" name="old-password" value=""></span></li>
-		<li><span class="left-side">新密码：</span><span><input type="text" name="pass" value=""></span></li>
-		<li><span class="left-side">重复密码：</span><span><input type="text" name="repass" value=""></span></li>
+		<li><span class="left-side">原密码：</span><span><input type="text" name="oldpassword" value=""></span></li>
+		<li><span class="left-side">新密码：</span><span><input type="password" name="pass" value=""></span></li>
+		<li><span class="left-side">重复密码：</span><span><input type="password" name="repass" value=""></span></li>
 		<li class="login_submit">修改</li>
 		</form>
 	</div>
 	<div class="change_con down">
-		<form class="pay_form" method="post" role="form" action="<{:url('payword')}>" enctype="multipart/form-data">
+		<form class="pay_form" method="post" role="form" action="<{:url('payword')}>" >
 		<div class="change_title">修改付款密码</div>
-		<li><span class="left-side">原密码：</span><span><input type="text" name="old-password" value=""></span></li>
-		<li><span class="left-side">新密码：</span><span><input type="text" name="pass" value=""></span></li>
-		<li><span class="left-side">重复密码：</span><span><input type="text" name="repass" value=""></span></li>
+		<li><span class="left-side">原密码：</span><span><input type="text" name="oldpassword" value=""></span></li>
+		<li><span class="left-side">新密码：</span><span><input type="password" name="pass" value=""></span></li>
+		<li><span class="left-side">重复密码：</span><span><input type="password" name="repass" value=""></span></li>
 		<li class="pay_submit">修改</li>
 		</form>
 	</div>

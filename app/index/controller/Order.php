@@ -25,21 +25,28 @@ class Order extends Common
         
         $order = $this->getOrder($where, 0, 16); //获取订单信息
         $this->assign('order', $order);
-        
-
+        $this->assign('status', $status);
+        $page_title = $this->orderStatus($status);
+        // return $page_title;
         $config = mallConfig();
-        $this->assign('config', ['page_title'=>'我的订单', 'template'=>$config['mall_template']['value'] ]);
+
+        $this->assign('config', ['page_title'=>$page_title, 'template'=>$config['mall_template']['value'] ]);
         return $this->fetch();
     }
 
-    public function getOrder($where, $from, $to){
+    public static function orderStatus($status){
+        $array = ['全部订单', '待支付订单', '待发货订单', '待收货订单', '待评价订单', '已完成订单'];
+        return $array[$status];
+    }
+
+    public function getOrder($where, $from=0, $to=4){
         $order = [];
         $data = Db::name('order') ->alias('a')
-            ->join('order_detail b', 'a.order_id=b.order_id') 
+            ->join('order_detail b', 'a.order_id=b.order_id', 'LEFT') 
             ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
                 'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
             ->where($where) ->order('a.add_time desc') ->limit($from, $to) -> select();
-
+        // return dump($data);
         if(!empty($data)){
             foreach($data as $k=>$v){
                 if(!array_key_exists($v['order_id'], $order)){

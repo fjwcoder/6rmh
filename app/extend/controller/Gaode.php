@@ -26,7 +26,7 @@ class Gaode extends controller
     
 	public function IPLocation(){
 		$ip = clientIP();
-		if($ip == '127.0.0.1'){
+		if($ip == '127.0.0.1'|| $ip=='::1' ){
 			$ip = CURRENT_IP;
 		}
 		$url = IP_LOCATION.$ip.'&output=JSON&key='.API_KEY;

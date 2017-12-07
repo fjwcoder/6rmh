@@ -2,15 +2,7 @@ li{
     list-style-type: none;
 }
 a:visited{text-decoration: none}
-.more-info-navbar{
-    background: #6ad4c9;
-    color: #fff;
-    text-align: center;
-    font-size: 1.5em;
-    height: 2.5em;
-    line-height: 2.5em;
-    box-shadow: 0px 3px 5px #ccc;
-}
+
 .more-info-top{
     padding-right: 1em;
     font-size: 1.25em;
