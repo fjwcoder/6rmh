@@ -52,11 +52,11 @@ div.goods-container{
 .order_detail div{
 	font-size: 1em;
 	text-align: left; margin-top: 0.5em;
-	 float: left; width: 8em;
+	 float: left; width: 15em;
 }
 div.goods-name{
 	height: 2.8em; overflow: hidden;
-	 width: 16em!important;
+	 width: 75%;;
 }
 .head-title{
 	height: 3em;
@@ -71,8 +71,8 @@ div.goods-name{
 	color: #6ad4c9; height: 1.2em;
 }
 img{
-	height: 5em; float: left;
-	width: 5em; margin: 0.5em 0.5em 0 0;
+	 float: left;
+	width: 20%; margin: 0.5em 0.5em 0 0;
 	cursor: pointer;
 }
 .promotion{
@@ -103,28 +103,31 @@ img{
 	height: 3em;
 }
 .order_footer span{
-	display: inline-block;
-	text-align: center;
+	/*display: inline-block;*/
+	float: left;
+	text-align: center; 
 }
-.user_info{
-	width: 20%;
+.user_info{width: 20%;}
+.price{	width: 20%;}
+.option{	width: 21%; }
+.go-detail{width: 21%; margin-right: 2%;}
+.after-sell{width: 15%;}
+
+.user_info .fa-user-circle-o{
+	margin-top: 1em;
 }
-.price{
-	width: 20%;
-}
+
 .option a{
 
 	color: #6ad4c9;
 	font-weight: bold;
 	text-decoration: none;
 }
-.go-detail{width: 20%}
-.after-sell{width: 15%;}
+
+
 .go-detail a, .after-sell a {color: #999; text-decoration: none;}
 .order-no a{color: white; text-decoration: none;}
-.option{
-	width: 20%; 
-}
+
 #current{
 	background: #6ad4c9;
 	color: #fff;

@@ -155,6 +155,7 @@ class Inner extends Common
         $order = Db::name('inner_shop') ->alias('a')
             ->join('inner_goods b', 'a.type=b.id', 'LEFT')
             -> where(['order_id'=>$order_id]) -> find();
+            // return dump($order);
         if($order['status'] == 1){
             
             $upd = Db::name('inner_shop') ->where(array('order_id'=>$order_id)) ->update(['status'=>2, 'uptime'=>time()]);

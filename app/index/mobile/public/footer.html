@@ -1,9 +1,8 @@
 <!--底部-->
-<div class="overflow">
-    
-</div>
+<div class="overflow"></div>
+<div class="mask"></div>
 <div class="footer">
-        <div class="top foot-upslide fa fa-angle-double-up" aria-hidden="true"></div>
+        <div id="footer-top-btn" class="top foot-upslide fa fa-angle-double-up" aria-hidden="true"></div>
         <div class="footer_content">
             <li><a href="/"><span class="fa fa-home" aria-hidden="true"></span>首页</a></li>
             <li><a href="/index/fishing"><span class="fa fa-gamepad" aria-hidden="true"></span>游戏</a></li>
@@ -12,14 +11,28 @@
         </div>
 </div>
 <script>
-    $('.top').click(function(event) {
+    var footershow = false;
+    $('.top, .overflow').click(function(event) {
       $('.footer_content').slideToggle(200);
       $('.overflow').slideToggle(200);
+      if(footershow){ //要关闭
+        $('#footer-top-btn').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
+        footershow = false;
+      }else{ // 要弹出
+        $('#footer-top-btn').removeClass('fa-angle-double-up').addClass('fa-angle-double-down');
+        footershow = true;
+      }
+      
     });
-     $('.footer').siblings().click(function(event) {
-         /* Act on the event */
-          $('.overflow').slideUp(200);
-         $('.footer_content').slideUp(200);
-     });
+    // $('.overflow').click(function() {
+
+    //     $('.footer_content').slideToggle(200);
+    //     $(this).slideToggle(200);
+    //     $('#footer-top-btn').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
+    //     footershow = false;
+      
+
+    // });
+
 </script>
 <!--底部结束-->

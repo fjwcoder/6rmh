@@ -28,10 +28,13 @@
             <input id="endtime" class="layui-input f_r begintime" type="text" name="endtime" placeholder="结束时间" readonly="readonly" <{if $time.status }>value="<{$time.endtime}>"<{/if}>>
             <span class="f_r span">——</span>
             <input id="begintime" class="layui-input f_r begintime" type="text" name="begintime" placeholder="开始时间" readonly="readonly" <{if $time.status }>value="<{$time.begintime}>"<{/if}>>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="value" placeholder="数量" <{if $sum.status }>value="<{$sum.value}>"<{/if}>>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="maxprice" placeholder="最高价" <{if $times.status }>value="<{$times.maxprice}>"<{/if}>>
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" 
+                class="search_input f_r input_border" type="text" name="value" placeholder="数量" <{if $sum.status }>value="<{$sum.value}>"<{/if}>>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" 
+                class="search_input f_r input_border" type="text" name="maxprice" placeholder="最高价" <{if $times.status }>value="<{$times.maxprice}>"<{/if}>>
             <span class="f_r span">—</span>                           
-            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="search_input f_r input_border" type="text" name="minprice" placeholder="最低价" <{if $times.status }>value="<{$times.minprice}>"<{/if}>>                           
+            <input  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" 
+                class="search_input f_r input_border" type="text" name="minprice" placeholder="最低价" <{if $times.status }>value="<{$times.minprice}>"<{/if}>>                           
             <select class="f_r search_input input_border" name="title">
                 <{if $timer.status}>
                     <{volist name="title" id="vo"}>
@@ -53,7 +56,6 @@
             <div class="t_c  wp_10">数量</div>
             <div class="t_c  wp_10">单价</div>
             <div class="t_c  wp_15">总价</div>
-            <!--<div class="t_c  wp_10">出售时间段</div>-->
             <div class="t_c  wp_20">卖家姓名</div>
             <div class="t_c  wp_20">操作</div>
         </div>
@@ -66,7 +68,6 @@
                 <div class="record-info wp_10 t_c f_l"><{$vo.value}></div>
                 <div class="record-info wp_10 t_c f_l"><{$vo.money}></div>
                 <div class="record-info wp_15 t_c f_l"><{$vo.value*$vo.money}></div>
-                <!--<div class="record-info wp_10 t_c f_l"><{$vo.selltime}></div>-->
                 <div class="record-info wp_20 t_c f_l"><{$vo.username}></div>
                 <div class="record-info wp_20 t_c f_l">
                     
@@ -121,21 +122,15 @@
       elem: '#endtime', //指定元素
       type: 'datetime'
     });
-</script>
-<script>
     $(document).ready(function() {
         $(".buy-operation").click(function() {
             var order_id = $(this).attr('rel');
-            console.log(order_id);
             $("#hid").val(order_id);
             $("#Modal").modal();
         });
     });
-</script>
-<script>
     document.getElementById('checked').onclick = function() {
         var a = this.parentNode.getElementsByTagName('p')[0];
-        // console.log(a);
         if (this.checked){
             a.innerHTML = '<input class="w80 h30 main_font_color" type="password" name="pass" autofocus placeholder="支付密码" maxlength="6"/>';
             a.innerHTML += '<br><span style="color: red;">* 交易密码为空则默认不使用余额</span>';

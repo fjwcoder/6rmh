@@ -34,9 +34,12 @@ class Help extends controller
             $html .= '';
             $this->assign('list_tree', $html);
         }
+        // 查出默认一条
+        $default = Db::name('help_center')->where(array('id' =>6))->find();
         $this->assign('header', [ 'form'=>'user', 'id'=>$id ]);
         
         $this->assign('users', $users);
+        $this->assign('default', $default);
         return $this->fetch();
     }
 
@@ -54,7 +57,8 @@ class Help extends controller
                     
                 }else{                    
                     $html .= '<li onClick="licolor(this)" class="licolor" id="'.$show_list[$i]['id'].'">';
-                    $html .= '<a href="'.$show_list[$i]['url'].'"><span>'.$show_list[$i]['title'].'</span></a>';    
+                    $html .= '<span>'.$show_list[$i]['title'].'</span>';    
+                    // $html .= '<a href="'.$show_list[$i]['url'].'"><span>'.$show_list[$i]['title'].'</span></a>';    
                     $html .= '</li>';  
                 }
                 $this->listBuilder($show_list[$i]['id']);

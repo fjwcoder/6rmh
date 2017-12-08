@@ -1,1 +1,13 @@
-<div class="mobile-head-navbar">顶部导航</div>
+<div class="mobile-head-navbar">
+    <a href="/index/user/index">
+        <span class="fa fa-user-circle "></span>
+    </a>
+    <span class="page_title">
+        <{if $config.page_title != ''}>
+        <{$config.page_title}>
+        <{else}>
+            顶部导航
+        <{/if}>
+    </span>
+    
+</div>

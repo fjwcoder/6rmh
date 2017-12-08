@@ -12,11 +12,10 @@
 	<!--<link rel="stylesheet" href="">-->
 </head>
 <body>
-    <!--<div class="head-title">
-        我的订单
-    </div>-->
+<{include file="public/header"/}>
+<span class=" header-right-btn fa fa-search"></span>
     <div class="cate">
-        <a  class="all" href="<{:url('index')}>" >全部订单</a>
+        <a  class="all" href="<{:url('index')}>" >全部</a>
         <span class="split">/</span>
         <a  class="r_pay" href="<{:url('index', ['status'=>1])}>"  >待支付</a>
         <span class="split">/</span>
@@ -31,7 +30,7 @@
 	<{volist name="order" id="vo"}>
        <div class="order_info">
             <div class="order_title">
-                <span class="add_time"><{$vo.order.addtime}></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <!--<span class="add_time"><{$vo.order.addtime}></span>-->&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="order-no">
                     <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单号：<{$vo.order.order_id}></a>
                 </span>
@@ -41,18 +40,20 @@
                 <div class="order_detail">
                     <img src="<{$v.pic}>" alt="图片不见了">
                     <div class="goods-info-div goods-name"><{$v.goods_name}></div>
-                    <div class="goods-info-div spac"><{$v.spec}> * <{$v.num}></div>
-                    <{if $v.promotion != ''}>
-                        <div class="goods-info-div"><span class="promotion"><{$v.promotion}></span></div>
-                    <{/if}>
+                    <div class="goods-info-div spac"><{$v.spec}> * <{$v.num}>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <{if $v.promotion != ''}>
+                            <span class="promotion"><{$v.promotion}></span>
+                        <{/if}>
+                    </div>
+                    
                 </div>
                 <{/volist}>
             </div>
             
             <div class="order_footer">
                 <span class="user_info">
-                    <span class="fa fa-user-circle-o" aria-hidden="true"></span>
-                    <span class="">&nbsp;<{$vo.order.user_name}></span>
+                    <span style="width: 100%; overflow: hidden">&nbsp;<{$vo.order.user_name}></span>
                 </span>
                 <span class="price" style="color: #6ad4c9;">￥<{$vo.order.money}> </span>
                 <span class="go-detail">
@@ -95,33 +96,6 @@
 	<{/volist}>
     <{include file="public/footer"/}>
     <script>
-        // $('.order_info').each(function(){
-        //    $(this).children('.goods-container').children('.order_detail').click(function(event) {
-        //        /* Act on the event */
-        //        $(this).width('50%');
-        //        $(this).css({'box-shadow':'0.25em 0em 1em #ccc', 'z-index': '10'});
-
-        //        // 图片变形
-        //        $(this).children('img').css({'height':'3em', 'width': '3em'});
-        //        // 显示名称
-        //        $(this).children('.goods-name').css('display', 'block');
-        //        // 显示规格
-        //        $(this).children('.spac').css('display', 'block');
-        //     //    $(this).siblings().width(dewidth/2);
-        //        $(this).siblings().css({'box-shadow':'none', 'z-index': '0'});
-
-
-        //        $(this).siblings('.order_title').width('100%');
-        //       $(this).siblings('.order_footer').width('100%');
-        //       $(this).siblings('.order_title').css('box-shadow','none');
-        //       $(this).siblings('.order_footer').css('box-shadow','none');
-        //        event.stopPropagation();
-        //    }); 
-        // });
-       
-        // var url = window.location.href.split("/").pop().split('.');
-        // console.log(url);
-        // url.pop();
         status = '<{$status}>';
         switch (status) {
                case "1":
@@ -129,21 +103,23 @@
                    break;
                case "2":
                    $('.r_send').attr('id', 'current');
-                //    console.log(url[0]);
+
                    break;
                case "3":
                      $('.r_recive').attr('id','current');
-                    //  console.log(url[0]);
+
                     break;
               case "4":
                      $('.finished').attr('id','current');
-                    //  console.log(url[0]);
+
                     break;
               default:
                    $('.all').attr('id','current');
-                    // console.log(url[0]);
                     break;
-        }
+        };
+        $('.header-right-btn').click(function(){
+            $('.cate').slideToggle(200);
+		});
     </script>
 </body>
 </html>

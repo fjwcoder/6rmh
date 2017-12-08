@@ -14,6 +14,7 @@
 </head>
 <body>
 		<{include file="public/header"/}>
+		<span class=" header-right-btn fa fa-paper-plane"></span>
 <!-- 顶部提现表单开始 -->
 <div class="head" >
 	<div class="head-content">
@@ -36,11 +37,11 @@
 		</form>
 		<span><button onclick="javascript:submit();">提现</button><button onclick="slide()">取消</button></span>
 	</div>
-	<div class="topp fa fa-chevron-up" aria-hidden="true"> &nbsp;&nbsp;申请提现</div>
-
+	<!--<div class="topp fa fa-chevron-up" aria-hidden="true"> &nbsp;&nbsp;申请提现</div>-->
+<!---->
 </div>
 <!-- 顶部提现表单结束 -->
-<div class="body">
+<div class="body" style="text-align: center;">
 	<!--<span class="withdraw-span"><span>提现记录</span></span>-->
 	<{volist name="list" id="vo"}>
 		<div class="withdraw row">
@@ -79,12 +80,10 @@
 	<script type="text/javascript">
 		function submit(){$('#form').submit()}
 		function slide(){$('.head-content').slideUp(200);}
-		$('.topp').click(function(event) {
+		$('.header-right-btn').click(function(event) {
       		$('.head-content').slideToggle(200);
     	});
-    	$('.head').siblings().click(function(event) {
-    	    $('.head-content').slideUp(200);
-    	});
+
 	</script>
 <{include file="public/footer"/}>
 </body>

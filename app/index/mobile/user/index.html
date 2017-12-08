@@ -219,7 +219,7 @@
 </body>
 <script>
 	$('.myInfo').click(function(event) {
-		$('.overflow').css('display','block');
+		$('.mask').css('display','block');
 		$('.setting-content').animate({
 			width:"80%",
 			left:"10%",
@@ -229,7 +229,7 @@
 			padding: '2em 0 0 0',
 			z_index: '99',
 		},500);
-		$('.overflow').click(function(event) {
+		$('.mask').click(function(event) {
 			$('.setting-content').animate({
 				width:"0",
 				height:'0',
@@ -262,11 +262,11 @@
 			this.tag = tag || false;
 			var link = this.el.find('.link');
 			link.on('click', {el: this.el, tag: this.tag}, this.dropDown)
-			console.log(link);
+
 		}
 		PutDown.prototype = {
 			dropDown:function(e){
-				// console.log('bbb')
+
 				var $el = e.data.el,
 					$tag = e.data.tag,
 					$this = $(this),
@@ -291,7 +291,7 @@
 		  	"z-index": " 1",
 		  	"width": " 100%",
 		  	"height": "3em",
-		  	"overflow": " hidden",
+		  	"mask": " hidden",
 		  	"border-radius": " inherit",
 		  	"pointer-events": " none"
 	  });
@@ -313,7 +313,7 @@
 			"-moz-transition": " all 0.7s",
 			"-o-transition": " all 0.7s",
 			"z-index": " 1",
-			"overflow": " hidden",
+			"mask": " hidden",
 			"pointer-events": " none"
 	    });
      	var R= parseInt(ripple_obj.outerWidth());
