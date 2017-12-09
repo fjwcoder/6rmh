@@ -199,10 +199,10 @@ class Order extends Common
                 $goods[$k]['order_id'] = $order_id;
                 if($v['promotion_id'] != 0){
                     $goods[$k]['promotion'] = $promotion[$v['promotion_id']]['title'];
-                    if($promotion[$v['promotion_id']]['type'] == 1){ 
+                    if($promotion[$v['promotion_id']]['type'] == 1){  //打折促销
                         $goods[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100; 
-                    }
-                    #还需要添加更多东西促销活动
+                    }#还需要添加更多东西促销活动 else{}
+                    
                 }else{
                     $goods[$k]['promotion'] = '';
                 }
@@ -221,14 +221,27 @@ class Order extends Common
                 }else{//余额不够的时候
 
                 }
-                // return dump($user);
+             
             }
-
+            # 处理收货地址
+            $region = getRegion();
+            $real_addr = '';
+            if($address['province'] != 0){
+                $real_addr .= $region[$address['province']]['name'];
+            }
+            if($address['city'] != 0){
+                $real_addr .= $region[$address['city']]['name'];
+            }
+            if($address['area'] != 0){
+                $real_addr .= $region[$address['area']]['name'];
+            }
+            
             $data = ['userid'=>session(config('USER_iD')), 'order_id'=>$order_id, 
                 'status'=>1, 'pay_status'=>0, 'money'=>$count['money'], 'baits'=>$count['baits'], 'points'=>$count['points'],
                 'payment_id'=>$pay, 'payment_name'=>$payment[$pay]['name'],
                 'shipping_id'=>$delivery[$ship]['id'], 'shipping_name'=>$delivery[$ship]['title'],
-                'user_name'=>$address['name'], 'user_address'=>$address['province'].$address['city'].$address['area'].$address['address'],
+                'user_name'=>$address['name'], 
+                'user_address'=>$real_addr.$address['address'],
                 'user_mobile'=>$address['mobile']  ];
 
             #生成细表记录
@@ -261,7 +274,6 @@ class Order extends Common
         $order_id = input('id', '', 'htmlspecialchars,trim');
         $user = decodeCookie('user');
         $order = db('order', [], false) ->where(array('order_id'=>$order_id)) ->find();
-        // return dump($order);
         #商品详情
         $orderdetail = Db::name('order_detail') ->alias('a') 
             -> join('goods b', 'a.gid=b.id', 'LEFT') 
@@ -269,16 +281,8 @@ class Order extends Common
             -> field('a.*,b.description,b.sub_name, c.opreason')    
             -> where(array('a.order_id'=>$order_id)) 
             -> select(); 
-        // return dump($orderdetail);
-        #驳回申请原因
-        // $opreason = Db::name('order_detail') ->alias('a') 
-        //     -> join('goods_after b', 'a.order_id=b.order_id', 'LEFT') 
-        //     -> field('b.opreason')
-        //     -> where(array('b.order_id'=>$order_id)) 
-        //     -> find();
-    
+
         $config = mallConfig();
-        // $this->assign('opreason', $opreason);
         $this->assign('order', $order);
         $this->assign('orderdetail', $orderdetail);
         $this->assign('config', ['page_title'=>'订单详情', 'template'=>$config['mall_template']['value'] ]);
@@ -335,6 +339,7 @@ class Order extends Common
         
     }
 
+    # 预览页添加地址
     public function addAddr(){
         $userid = session(config('USER_ID'));
         $id_list = input('id_list', 0, 'intval');
@@ -362,7 +367,7 @@ class Order extends Common
     }
     
 
-    #设置默认地址
+    # 预览页设置默认地址
     public function defAddr(){
         $cart_list = input('id_list', '', 'htmlspecialchars,trim');
         $id = input('id', 0, 'intval');
@@ -457,5 +462,21 @@ class Order extends Common
         }
 
     }
+
+    # 提醒发货
+    public function remand(){
+        $order_id = input('id', '', 'htmlspecialchars,trim');
+        $check = Db::name('order') -> where(['order_id'=>$order_id])-> find();
+        $today = strtotime(date("Y-m-d"), time()); 
+        if((empty($check['remand_time'])) || ($check['remand_time'] < $today) ){ //如果提醒发货的时间为空 或者 早于今天凌晨0点
+            $remand = Db::name('order') -> where(['order_id'=>$order_id]) -> update(['remand_time'=>time()]); //更新时间
+            if($remand){
+                return msg('-1', '提醒发货成功');
+            }
+        }else{
+            return msg('-1', '请等待发货');
+        }
+
+    } 
 
 }

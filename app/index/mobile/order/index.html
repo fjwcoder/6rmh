@@ -15,51 +15,60 @@
 <{include file="public/header"/}>
 <span class=" header-right-btn fa fa-search"></span>
     <div class="cate">
-        <a  class="all" href="<{:url('index')}>" >全部</a>
-        <span class="split">/</span>
-        <a  class="r_pay" href="<{:url('index', ['status'=>1])}>"  >待支付</a>
-        <span class="split">/</span>
-        <a  class="r_send" href="<{:url('index', ['status'=>2])}>" >待发货</a>
-        <span class="split">/</span>
-        <a  class="r_recive" href="<{:url('index', ['status'=>3])}>" >待收货</a>
-        <span class="split">/</span>
-        <a  class="finished" href="<{:url('index', ['status'=>4])}>" >待评价</a>
-        <!--<span class="split">/</span>
-        <a class="cancel" href="javascript: void(0);" >已取消</a>-->
+        <div class="top-nav"><a  class="all" href="<{:url('index')}>" >全部</a></div>
+        
+        <div class="top-nav"><a  class="r_pay" href="<{:url('index', ['status'=>1])}>"  >待支付</a></div>
+        
+        <div class="top-nav"><a  class="r_send" href="<{:url('index', ['status'=>2])}>" >待发货</a></div>
+        
+        <div class="top-nav"><a  class="r_recive" href="<{:url('index', ['status'=>3])}>" >待收货</a></div>
+        
+        <div class="top-nav"><a  class="finished" href="<{:url('index', ['status'=>4])}>" >待评价</a></div>
+        
+
     </div>
 	<{volist name="order" id="vo"}>
        <div class="order_info">
-            <div class="order_title">
-                <!--<span class="add_time"><{$vo.order.addtime}></span>-->&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="order_title">&nbsp;&nbsp;
                 <span class="order-no">
                     <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单号：<{$vo.order.order_id}></a>
+                </span>
+                <span class="user_info" >
+                    <{switch name="vo.order.status"}>
+                        <{case value="1"}>待支付<{/case}>
+                        <{case value="2"}>待发货<{/case}>
+                        <{case value="3"}>待收货<{/case}>
+                        <{case value="4"}>待评价<{/case}>
+                        <{case value="5"}>订单完成<{/case}>
+                        <{default/}>其他
+                    <{/switch}>
+
                 </span>
             </div>
             <div class="goods-container" >
                 <{volist name="vo.detail" id="v"}>
-                <div class="order_detail">
-                    <img src="<{$v.pic}>" alt="图片不见了">
-                    <div class="goods-info-div goods-name"><{$v.goods_name}></div>
-                    <div class="goods-info-div spac"><{$v.spec}> * <{$v.num}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <{if $v.promotion != ''}>
-                            <span class="promotion"><{$v.promotion}></span>
-                        <{/if}>
+                <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">
+                    <div class="order_detail">
+                        <img src="<{$v.pic}>" alt="图片走丢了">
+                        <div class="goods-info-div goods-name"><{$v.goods_name}></div>
+                        <div class="goods-info-div spac"><{$v.spec}> * <{$v.num}>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <{if $v.promotion != ''}>
+                                <span class="promotion"><{$v.promotion}></span>
+                            <{/if}>
+                        </div>
+                        
                     </div>
-                    
-                </div>
+                </a>
                 <{/volist}>
             </div>
             
             <div class="order_footer">
-                <span class="user_info">
-                    <span style="width: 100%; overflow: hidden">&nbsp;<{$vo.order.user_name}></span>
+                <{if $vo.order.status >= 4}>
+                <span class="after-sell">
+                    <a href="/index/order/returnGoods?id=<{$vo.order.order_id}>  ">申请售后</a>
                 </span>
-                <span class="price" style="color: #6ad4c9;">￥<{$vo.order.money}> </span>
-                <span class="go-detail">
-                    <a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单详情</a>
-                </span>
-                
+                <{/if}>
                 <span class="option">
                     <{switch name="vo.order.status"}>
                         <{case value="1"}>
@@ -68,7 +77,7 @@
                             </a>
                         <{/case}>
                         <{case value="2"}>
-                            <a href="javascript: void(0); ">
+                            <a href="/index/order/remand?id=<{$vo.order.order_id}> ">
                                 提醒发货
                             </a>
                         <{/case}>
@@ -78,7 +87,7 @@
                             </a>
                         <{/case}>
                         <{case value="4"}>
-                            <a href="javascript: void(0); ">
+                            <a href="/index/comment/index?id=<{$vo.order.order_id}>">
                                 评价
                             </a>
                             
@@ -86,11 +95,10 @@
                         <{default/}>其他
                     <{/switch}>
                 </span>
-                <{if $vo.order.status >= 4}>
-                <span class="after-sell">
-                    <a href="/index/order/returnGoods?id=<{$vo.order.order_id}>  ">售后</a>
-                </span>
-                <{/if}>
+                <span class="price" style="color: #6ad4c9;">￥<{$vo.order.money+$vo.order.balance}> </span>
+
+                
+                
             </div>  
        </div>
 	<{/volist}>
@@ -117,6 +125,7 @@
                    $('.all').attr('id','current');
                     break;
         };
+
         $('.header-right-btn').click(function(){
             $('.cate').slideToggle(200);
 		});

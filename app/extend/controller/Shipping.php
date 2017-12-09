@@ -7,7 +7,7 @@
 # +-------------------------------------------------------------
 
 // 应用公共文件
-namespace app\common\controller;
+namespace app\extend\controller;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -22,11 +22,11 @@ defined('AppKey') or define('AppKey', 'eebdc96c-5019-404c-8df2-863d94d28428'); /
 defined('RequestURL') or define('RequestURL', 'http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx');
 class Shipping extends controller
 {
-    
+
 	// $logistic: 快递单号； $order: 订单编号
-	public function index($logistic, $order=''){
-        $orderLogistic = json_decode($this->getOrderLogisticByJson($logistic), true);
-		$traceLogistic = json_decode($this->getOrderTracesByJson($order, $orderLogistic['Shippers'][0]['ShipperCode'], $logistic), true);
+	public function index($order, $shipping_code, $logistic){
+        
+		$traceLogistic = json_decode($this->getOrderTracesByJson($order, $shipping_code, $logistic), true);
         return $traceLogistic;
     }
 	
@@ -43,7 +43,7 @@ class Shipping extends controller
 			'DataType' => '2',
 		);
 		$datas['DataSign'] = $this->encrypt($requestData, AppKey);
-		$result=$this->sendPost(ReqURL, $datas);	
+		$result=$this->sendPost(RequestURL, $datas);	
 		
 		//根据公司业务处理返回的信息......
 		
@@ -51,7 +51,7 @@ class Shipping extends controller
 	}
 
 	/**
-    * Json方式 物流跟踪
+    * Json方式 物流跟踪 $order: 订单编号
     */
     public function getOrderTracesByJson($order = '', $shipper = '', $logistic = ''){
         $requestData= "{'OrderCode': '".$order."', 'ShipperCode': '".$shipper."','LogisticCode': '".$logistic."'}";
@@ -62,7 +62,7 @@ class Shipping extends controller
             'DataType' => '2',
         );
         $datas['DataSign'] = $this->encrypt($requestData, AppKey);
-        $result=$this->sendPost(ReqURL, $datas);	
+        $result=$this->sendPost(RequestURL, $datas);	
         
         //根据公司业务处理返回的信息......
         

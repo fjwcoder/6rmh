@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><{$config.page_title}></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+        <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            body{margin:0;padding:0;background: #efefef;}
+            .containter{width:100%;height:100%;overflow:hidden;padding-bottom:6px;}
+            .order_title{color: #fff;font-size: 1em;background: #6ad4c9;padding: 0.2em 0;margin-top: 1.5em;border-radius: 6px 6px 0 0;}
+            .order-no a{color: white; text-decoration: none;}
+            .com-content{margin-top:6px;padding:6px 3px;border-radius: 6px;overflow:hidden;background:#fff;}
+            .com-img{width:4.5em;height:4.5em;float:left;margin:0 6px 6px 0;}
+            .com-img img{width:4.5em;height:4.5em;}
+            .com-right{float:left;width:81.2%;height:4.5em;overflow:hidden;padding-bottom:6px;}
+            .p-name{height:3em;overflow:hidden;}
+            .com-right a{text-decoration: none;color:#454545;}
+            .com-right span{color: #6ad4c9;}
+            .starbox{width:100%;height:3em;position:relative;}
+            .starbox span{line-height:3em;}
+            ul,li{list-style: none;}
+            .star_ul{width:43%;float:right;margin:8px 163px 0px 0px;}
+            .star_ul{background:url(__STATIC__/images/comment/star.png) no-repeat 0 -150px;width:132px;z-index:10;position:relative;height:25px;}
+            .star_ul li{float:left;margin-right:1px;width:25px;height:25px;}
+            .star_ul li a{display:block;height:25px;position:absolute;left:0;top:0;text-indent:-999em;}
+            .star_ul li .active-star{background:url(__STATIC__/images/comment/star.png) no-repeat;}
+            .star_ul li .one-star{width:25px;background-position:0 -120px;z-index:50;}
+            .star_ul li .two-star{width:51px;background-position:0 -90px;z-index:40;}
+            .star_ul li .three-star{width:79px;background-position:0 -60px;z-index:30;}
+            .star_ul li .four-star{width:105px;background-position:0 -30px;z-index:20;}
+            .star_ul li .five-star{width:129px;margin-right:0;background-position:0 0;z-index:10;}
+            .s_result{width:16px;border:none;position:absolute;right:136px;bottom:10px;}
+            .starbox font{position: absolute;right:126px;bottom:8px;}
+            .com-textarea{height:6em;}
+            .o-textarea{border: 1px solid #e0e0e0;margin-bottom: 10px;overflow: hidden;position:relative;padding-bottom:16px;}
+            .o-textarea span{width:40px;position: absolute;bottom:0px;right:0px;}
+            .o-textarea textarea{border: medium none;color: #333;font-size: 12px;height: 30px;line-height: 18px;max-height: 54px;max-width: 100%;min-height: 4.8em;resize: none;width: 100%;}
+            .com-button{border:0;background: none;}
+            .shenqing{background: #6ad4c9;margin:6px 6px 0px 0px;height: 46px;min-width: 120px;font-size: 20px;font-weight: 700;border: 0;color: white;margin-left: 20px;}
+            
+        </style> 
+    </head>
+    <body>
+    <div class="containter">
+        
+        <form class="form-horizontal" method="post" role="form" onsubmit="return checkall()" action="<{:url('comment')}>" enctype="multipart/form-data">
+            <{include file="public/header"/}>
+        <!-- <span class="sub header-right-btn">提交</span> -->
+        <div class="order_title">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="order-no">
+                <a href="#">订单号：<{$orderinfo.order_id}></a>
+            </span>
+        </div> 
+        <{volist name="comment" id="vo" key="ids"}>
+        <div class="com-content">
+            <div class="com-img">
+                <a href="" target="_blank">
+                    <img src="<{$vo.pic}>" alt="" />
+                </a>
+            </div>
+            <div class="com-right">
+                <div class="p-name">
+                    <a href="" target="_blank"><{$vo.name}></a>
+                </div>
+                <span><strong>¥<{$vo.price}></strong>&nbsp;&nbsp;&nbsp;&nbsp;<{$vo.spec}></span>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="starbox">
+                <span>评分</span>
+                <ul id="ul_<{$ids}>" class="star_ul">
+                    <li><a class="one-star " site="ul_<{$ids}>" id="ul_<{$ids}>_1" title="1" href="#"></a></li>
+                    <li><a class="two-star " site="ul_<{$ids}>" id="ul_<{$ids}>_2" title="2" href="#"></a></li>
+                    <li><a class="three-star " site="ul_<{$ids}>" id="ul_<{$ids}>_3" title="3" href="#"></a></li>
+                    <li><a class="four-star " site="ul_<{$ids}>" id="ul_<{$ids}>_4" title="4" href="#"></a></li>
+                    <li><a class="five-star " site="ul_<{$ids}>" id="ul_<{$ids}>_5" title="5" href="#"></a></li>
+                </ul>
+                <input type="text" id="s_result<{$ids}>" class="s_result" value="0" name="comment[<{$ids}>][comment_star]" readonly="readonly"/><font style="line-height:25px;">分</font>
+                <input type="hidden" name="comment[<{$ids}>][gid]" value="<{$vo.gid}>">
+                <input type="hidden" name="order_id" value="<{$orderinfo.order_id}>" />
+                <input type="hidden" name="comment[<{$ids}>][gname]" value="<{$vo.name}>" />
+                <input type="hidden" name="comment[<{$ids}>][spec]" value="<{$vo.spec}>" />
+            </div>
+            <div style="clear:both;"></div>
+            <div class="com-textarea">
+                <div class="o-textarea h100">
+                    <textarea id="TextArea<{$ids}>" class="text"  name="comment[<{$ids}>][comment]" placeholder="商品是否给力？快分享你的购买心得吧~（评价多于10个字,有机会奖励积分哦~）"></textarea>
+                    <span class="o-info"><font id="textCount<{$ids}>" class="count">500</font></span>
+                </div>
+            </div>
+        </div>
+        <{/volist}>
+        <a class="" href="javascript: void(0);" title="提交">
+            <button class="shenqing pull-right">提交</button>
+        </a>
+        </form>
+    </div>
+    </body>
+    <script type="text/javascript">
+        $(function(){
+            var flag = 1;
+            $('.star_ul a').hover(function(){
+                var idval = $(this).attr('id');
+                var site = $(this).attr('site');
+                var sel = $(this).parent().parent().next().attr('id');
+                
+                flag = 1;
+                $('#'+site+' a').removeClass('active-star');
+                $(this).addClass('active-star');
+                $('#'+sel).css('color','#c00').val($(this).attr('title'))
+            },function(){
+                var sel = $(this).parent().parent().next().attr('id');
+                if( flag == 1){
+                $(this).removeClass('active-star');
+                $('#'+sel).css('color','#333').val('0')
+                }
+            });
+            
+            $('.star_ul a').click(function(){
+                var site = $(this).attr('site');
+                var sel = $(this).parent().parent().next().attr('id');
+                flag = 2;
+                $(this).addClass('active-star');
+                $('#'+sel).css('color','#c00').val($(this).attr('title'))
+                // var star = $('#'+sel).val();
+                // $('.s_result').attr("value",star);
+            });
+                
+            $('.text').keyup(function(){
+                var text = $(this).attr('id');
+                var curLength=$('#'+text).val().length;
+                var count = $(this).next().children().attr('id');
+                if(curLength>500){
+                    var num=$('#'+text).val().substr(0,500);
+                    $('#'+text).val(num);
+                    alert("超过字数限制，多出的字将被截断！" );
+                }else{
+                    $('#'+count).text(500-$('#'+text).val().length);
+                }
+            }); 
+        });
+    </script>
+</html>

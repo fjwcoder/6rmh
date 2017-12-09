@@ -1,40 +1,32 @@
 body{
 	margin: 0px;
-	background: #efefef;
+	background: #fff;
+}
+.mobile-head-navbar{
+	margin-bottom: 1em;
 }
 .cate{
-	padding: 0 0.5em; margin-top: 1em;
-	/*background: white;*/
+	margin: 0 0 1em 0; float: left; display: none;
+	width: 100%; text-align: center;
 }
-.cate a{
-	color: #666;
-	font-size: 1em;
-	display: inline-block;
-	-webkit-transform: skew(-15deg); 
-	-moz-transform: skew(-15deg); 
-	-o-transform: skew(-15deg);
-	-ms-transform: skew(-15deg); 
-	transform: skew(-15deg);
-}
-.cate a:actived{
-	color: #6ad4c9;
-}
-.split{
-	color: #6ad4c9;
-}
+.cate a{color: #666;font-size: 1.1em;	display: inline-block;}
+.top-nav{width: 20%; float: left;}
+.cate a:actived{	color: #6ad4c9;}
+
 
 .order_info{
 	height: 11em;
-
+	float: left;
 	overflow: hidden;
-	border-radius: 0.5em;
-	box-shadow: 0.5em 0.5em 1em #ccc;
-	margin: 1em auto;
+	/*border-radius: 0.5em;*/
+	box-shadow: 0em 0em 1em #ccc;
+	margin: 0 0 2em 0;
 	padding: 0 1px 1px 1px;
 	background-color: #fff;
 	/*text-align: center;*/
-	position: relative;
+	/*position: relative;*/
 }
+.order-no a{color:#8e8e8e; text-decoration: none;}
 div.goods-container{
 	overflow: scroll; height: 6em;
 }
@@ -56,7 +48,7 @@ div.goods-container{
 }
 div.goods-name{
 	height: 2.8em; overflow: hidden;
-	 width: 75%;;
+	 width: 75%; color: #666;
 }
 .head-title{
 	height: 3em;
@@ -83,9 +75,9 @@ img{
 	font-size: 0.5em;
 }
 .order_title{
-	color: #fff;
+	color: #8e8e8e;
 	font-size: 1em;
-	background: #6ad4c9;
+
 	padding: 0.2em 0;
 	margin-bottom: 0.5em;
 }
@@ -103,19 +95,12 @@ img{
 	height: 3em;
 }
 .order_footer span{
-	/*display: inline-block;*/
-	float: left;
+	width: 25%;
+	float: right;
 	text-align: center; 
 }
-.user_info{width: 20%;}
-.price{	width: 20%;}
-.option{	width: 21%; }
-.go-detail{width: 21%; margin-right: 2%;}
-.after-sell{width: 15%;}
+.user_info{float: right; margin-right: 1em;}
 
-.user_info .fa-user-circle-o{
-	margin-top: 1em;
-}
 
 .option a{
 
@@ -126,14 +111,14 @@ img{
 
 
 .go-detail a, .after-sell a {color: #999; text-decoration: none;}
-.order-no a{color: white; text-decoration: none;}
+
 
 #current{
-	background: #6ad4c9;
-	color: #fff;
-	-webkit-transform: skew(-15deg); 
+	/*background: #6ad4c9;*/
+	color: #6ad4c9;
+	/*-webkit-transform: skew(-15deg); 
 	-moz-transform: skew(-15deg); 
 	-o-transform: skew(-15deg);
 	-ms-transform: skew(-15deg); 
-	transform: skew(-15deg);
+	transform: skew(-15deg);*/
 }

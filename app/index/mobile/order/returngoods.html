@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><{$config.page_title}></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+        <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            body{margin:0;padding:0;background: #efefef;}
+            .containter{width:100%;height:100%;overflow:hidden;padding-bottom:6px;}
+            .sub{margin-top:-6px;font-size: 16px;background: #6ad4c9;}
+            .sub a{text-decoration: none;color:#fff;}
+            .order_title{color: #fff;font-size: 1em;background: #6ad4c9;padding: 0.2em 0;margin-top: 1.5em;border-radius: 6px 6px 0 0;}
+            .order-no a{color: white; text-decoration: none;}
+            .com-content{margin-top:6px;padding:6px 3px;border-radius: 6px;overflow:hidden;background:#fff;}
+            .com-img{width:4.5em;height:4.5em;float:left;margin:0 6px 6px 0;}
+            .com-img img{width:4.5em;height:4.5em;}
+            .com-right{float:left;width:81.2%;height:4.5em;overflow:hidden;padding-bottom:6px;}
+            .p-name{height:3em;overflow:hidden;}
+            .com-right a{text-decoration: none;color:#454545;}
+            .com-right span{color: #6ad4c9;}
+            .starbox{width:100%;height:3em;color:#999;position:relative;}
+            .starbox span{line-height:3em;}
+            .com-textarea{height:6em;margin-top:10px;}
+            .o-textarea{border: 1px solid #e0e0e0;margin-bottom: 10px;overflow: hidden;position:relative;padding-bottom:16px;}
+            .o-textarea span{width:40px;position: absolute;bottom:0px;right:0px;}
+            .o-textarea textarea{border: medium none;color: #333;font-size: 12px;height: 30px;line-height: 18px;max-height: 54px;max-width: 100%;min-height: 4.8em;resize: none;width: 100%;}
+            .com-button{border:0;background: none;}
+            .number{border:1px solid #A9A9A9;margin-left:42px;margin-top:1px;}
+            .shenqing{background: #6ad4c9;margin:6px 0px 0px 0px;height: 46px;min-width: 120px;font-size: 20px;font-weight: 700;border: 0;color: white;margin-left: 20px;}
+            .o-num-input{width:32px;border:none;}
+            .color{color:#999;}
+        </style> 
+    </head>
+    <body>
+    <div class="containter">
+        
+        <{include file="public/header"/}>
+        <span class="sub header-right-btn"></span>
+        <div class="order_title">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="order-no">
+                <a href="#">订单号：<{$orderinfo.order_id}></a>
+            </span>
+        </div> 
+        <{volist name="comment" id="vo" key="ids"}>
+        <{if $vo.type ==1}>
+        <form class="form-horizontal" method="post" role="form" onsubmit="return checkall()" action="<{:url('returnreason')}>" enctype="multipart/form-data">                                
+        <div class="com-content">
+            <div class="com-img">
+                <a href="" target="_blank">
+                    <img src="<{$vo.pic}>" alt="" />
+                </a>
+            </div>
+            <div class="com-right">
+                <div class="p-name">
+                    <a href="" target="_blank"><{$vo.name}></a>
+                </div>
+                <span><strong>¥<{$vo.price}></strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<input class="o-num-input" name="num" value="<{$vo.num}>" readonly="readonly"></span>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="starbox">
+                <span>售后类型</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="type" value="1" checked="checked"/>&nbsp;退货&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="type" value="2" />&nbsp;换货
+            </div>
+            <div style="clear:both;"></div>
+            <div class="starbox">
+                <span>数量</span>
+                <input class="number" type="text" name="number" placeholder="请输入退\换货数量" required/>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="com-textarea">
+                <div class="o-textarea h100">
+                    <textarea id="TextArea<{$ids}>" class="text"  name="comment" placeholder="请您在此描述问题" required></textarea>
+                    <span class="o-info"><font id="textCount<{$ids}>" class="count">500</font></span>
+                </div>
+            </div>
+            <input type="hidden" name="order_id" value="<{$orderinfo.order_id}>" />
+            <input type="hidden" name="gid" value="<{$vo.gid}>" />
+            <a class="" href="javascript: void(0);" title="申请">
+                <button class="shenqing pull-right">申请</button>
+            </a>
+        </div>
+        </form>
+        <{/if}>
+        <{/volist}>
+    </div>
+    </body>
+    <script type="text/javascript">
+        $(function(){
+            $('.text').keyup(function(){
+                var text = $(this).attr('id');
+                var curLength=$('#'+text).val().length;
+                var count = $(this).next().children().attr('id');
+                if(curLength>500){
+                    var num=$('#'+text).val().substr(0,500);
+                    $('#'+text).val(num);
+                    alert("超过字数限制，多出的字将被截断！" );
+                }else{
+                    $('#'+count).text(500-$('#'+text).val().length);
+                }
+            }); 
+            
+        });
+    </script>
+</html>

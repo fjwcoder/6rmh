@@ -1,0 +1,50 @@
+<{extend name="./index/iframe"}>
+<{block name="content"}>
+<div class="table-responsive">
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>订单号</th>
+                <th>金额</th>
+                <th>支付时间</th>
+                <th>收货人</th>
+                <th>地址</th>
+                <th>电话</th>
+
+                <th>状态</th>
+				<th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <{volist name="order" id="vo"}>
+            <tr>
+                <td><{$vo.order_id}></td>
+                <td><{$vo.money+$vo.balance}></td>
+                <td>
+                    <{if $vo.pay_time == ''}>
+                    待支付
+                    <{else}>
+                    <{$vo.pay_time | date="y-m-d H:i:s", ###}>
+                    <{/if}>
+                    
+                </td>
+                <td><{$vo.user_name}></td>
+                <td><{$vo.user_address}></td>
+                <td><{$vo.user_mobile}></td>
+                <td>
+                    <{$vo.status}>
+                </td>
+				<td>
+                    <a href="<{:url('detail', ['id'=>$vo.order_id])}>">详情</a>
+                </td>
+            </tr>
+            <{/volist}>
+        </tbody>
+
+    </table>
+    <{$order->render()}>
+</div>
+    
+    
+<{/block}>

@@ -5,68 +5,27 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="__CSS__/animate.min.css" type="text/css"/>
+        <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+        <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_help.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <style>
-            body{margin:0;padding:0;}
-            .help-title{width: 100%;height:3em;background:#393A3F;position: relative;}
-            .fanhui{float:none;text-align:-webkit-center;color:#fff;padding:5px 13px 5px 0px;border-right:1px solid #303136;margin-left:16px;line-height:3em;}
-            .help-tit{width: 76%;left: 0;position: absolute;top: 0;margin-left:46px;line-height: 3em;text-align: center;color: #fff;font-family: "微软雅黑";}
-            .dianji{position: absolute;top:0px;right:0px; height:3em;color:#fff;width:11%;}
-            .overflow{width: 300em;height: 100%;background-color: rgba(6,6,6,0);position: fixed;right: 0em;display: none;}
-            .top{display: blocck;line-height:3em;padding-left:10px;}
-            .help-panel{margin-top:20px;padding:0 15px;overflow:hidden;}
-            .help-panel .panels{margin-bottom: 20px;overflow:hidden;background-color: #fff;border: 1px solid #ddd;border-radius: 4px;box-shadow: 2px 3px 4px rgba(0,0,0,.05);}
-            .help-panel .panels .panel-heading {font-family: "微软雅黑";color: #333;background-color: #f5f5f5;border-color: #ddd;text-align: center;font-weight: bold;padding: 10px 15px;border-bottom: 2px solid #E0E0E0;border-top-left-radius: 3px;border-top-right-radius: 3px;}
-            .help-con{padding:16px;font-family: "微软雅黑";}
-            .announce_center{/* opacity: 0.5; */display:none;width:50%;position: absolute;right:0px;background:#fff;}
-            ul,li{list-style-type: none;padding:0px;margin:0px;}
-            .help_center{border:1px solid #E0E0E0;overflow: hidden;}
-            .center{height:50px;line-height: 50px;color: #666;text-align:center;border-bottom:1px solid #E0E0E0;background:#F5F5F5;font-size:18px;}
-            ul.expmenu li div.header .arrow.up{background-image:url('__STATIC__/images/arrow_u.png');}
-            ul.expmenu li div.header .arrow.down{background-image:url('__STATIC__/images/arrow_d.png');}
-            ul.expmenu{width:100%;overflow: hidden;}
-            ul.expmenu li div.header{padding:12px 0px 12px 16px;border-top:1px dashed #E0E0E0;}
-            ul.expmenu li:first-child div.header{border-top:none;}
-            ul.expmenu li ul li {padding:10px 0px 10px 66px;color:#727272;}
-            ul.expmenu li ul li:first-child{border-top:1px dashed #E0E0E0;}
-            ul.expmenu li ul li.selected{background-color:#f4f4f4;}
-            ul.expmenu li div.header .label{margin-left:32px;background:no-repeat;color: #666;font-size:14px;cursor: pointer;}
-            ul.expmenu li div.header .arrow{display:block;width:16px;height:16px;background:no-repeat center;float:right;margin:3px 30px 0px 0px;}
-            .menu{display:none;}
-            .block{display:block;}	
-            ul.expmenu li ul li:not(.selected):hover{background:#F5F5F5;cursor:pointer;}
-            ul.expmenu li ul li:not(.selected):active{background:#fff;cursor:pointer;}
-            .red{background-color:#f5f5f5!important;}
-            .none{background-color: #fff;}
-         </style> 
+
     </head>
-    <body>
-        <div class="help-title">
-            <a href="javascript:history.go(-1)" class="fanhui">
-                <i class="glyphicon glyphicon-arrow-left"></i>
-            </a>
-            <div class="help-tit">
-                <{$config.page_title}>
+    <body >
+        <{include file="public/header"/}>
+        <span class=" header-right-btn fa fa-list"></span>
+        <div class="announce_center">
+            <div class="help_center">
+                <div class="center">帮助中心</div>
+                <ul class="expmenu">
+                    <{$list_tree}>
+                </ul>
             </div>
-            <div class="overflow">
-                    
-            </div>
-            <div class="dianji">
-                <div class="top glyphicon glyphicon-list" aria-hidden="true"></div>
-            </div>
-
-            <div class="announce_center">
-                <div class="help_center">
-                    <div class="center">帮助中心</div>
-                    <ul class="expmenu">
-                        <{$list_tree}>
-                    </ul>
-                </div>
-            </div>
-
         </div>
+
+        <!-- </div> -->
         <div class="help-panel">
             <div class="panels">
                 <div class="panel-heading">
@@ -77,16 +36,13 @@
                 </div>
             </div>
         </div>
+        <{include file="public/footer"/}>
         <script>
-            $('.top').click(function(event) {
+            $('.header-right-btn, .mask').click(function(event) {
                 $('.announce_center').slideToggle(200);
-                $('.overflow').slideToggle(200);
+                $('.mask').slideToggle(200);
             });
-                $('.footer').siblings().click(function(event) {
-                    /* Act on the event */
-                    $('.overflow').slideUp(200);
-                    $('.announce_center').slideUp(200);
-                });
+
         </script>
         <script>
             $(document).ready(function(){
@@ -95,7 +51,7 @@
                 $(".licolor:first").removeClass(".none").addClass("red");
                 $(".licolor").click(function(){
                      
-                $('.overflow').slideUp(200);
+                $('.mask').slideUp(200);
                 $('.announce_center').slideUp(200);
                     var id = $(this).attr("id");
                     
