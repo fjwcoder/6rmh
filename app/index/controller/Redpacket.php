@@ -79,7 +79,7 @@ class Redpacket extends controller
             }
         }
 
-        return ['status'=>true, 'money'=>$fee, 'clear'=>$clear];
+        return ['status'=>true, 'money'=>$fee*0.9, 'clear'=>$clear];
     }
 
 
