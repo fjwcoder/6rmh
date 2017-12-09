@@ -4,7 +4,8 @@ use app\common\controller\Common;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Address as Address; 
 use app\index\controller\Cart as Cart; 
-
+use app\extend\controller\Shipping as Shipping;
+// use app\admin\controller\Order as AdminOrder;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -281,13 +282,71 @@ class Order extends Common
             -> field('a.*,b.description,b.sub_name, c.opreason')    
             -> where(array('a.order_id'=>$order_id)) 
             -> select(); 
+        $today = strtotime(date('Y-m-d', time()));
+        // echo $today; die;
+        if( ($order['trace_time'] == 0) || ($order['trace_time'] < $today) ){ //为空或者昨天查询的
+            
+            $result = $this->getShipper($order, $order['shipping_no']);
+            if($result['status']){
+                $traces['shipping_trace'] = json_encode(array_reverse($result['trace']['Traces']));
+                $traces['trace_time'] = time();
+                Db::name('order') -> where(['order_id'=>$order_id]) -> update($traces);
+                $this->assign('trace', array_reverse($result['trace']['Traces']));
+            }else{
+                $this->assign('trace', json_decode($order['shipping_trace'], true));
+            }
 
+        }else{
+            $this->assign('trace', json_decode($order['shipping_trace'], true));
+        }
+
+        // die('here');
         $config = mallConfig();
         $this->assign('order', $order);
         $this->assign('orderdetail', $orderdetail);
         $this->assign('config', ['page_title'=>'订单详情', 'template'=>$config['mall_template']['value'] ]);
         return $this->fetch('detail');
     }
+
+    #|======================================================
+    #| 获取物流信息
+    #| 1.更新shipping_name（快递名称）
+    #| 
+    #|
+    #|
+    #|======================================================
+    public function getShipper($order, $shipping_no=''){
+        $shipObj = new Shipping();
+        if($order['shipping_name'] === "默认物流"){
+            $ship_type = $this->getShipperType($shipping_no);
+        }else{
+            $ship_type['Shippers'][0]['ShipperCode'] = $order['shipping_code'];
+            $ship_type['Shippers'][0]['ShipperName'] = $order['shipping_name'];
+        }
+        
+        if($ship_type['Shippers'][0]['ShipperCode'] == ''){ //没有快递类别
+            return ['status'=>false];
+        }else{
+            $trace = $shipObj->index($order['order_id'], $ship_type['Shippers'][0]['ShipperCode'], $shipping_no);
+        }
+        
+        return ['status'=>true, 'trace'=>$trace];
+    }
+
+    // 识别单号
+    public function getShipperType($shipping_no){
+        $shipObj = new Shipping();
+        $ship_type = $shipObj -> getOrderLogisticByJson($shipping_no); //返回string 类型
+        if(empty($ship_type)){ //识别失败，返回空
+            $ship_type['Shippers'][0]['ShipperCode'] = '';
+            $ship_type['Shippers'][0]['ShipperName'] = '默认物流';
+        }else{
+            $ship_type = json_decode($ship_type, true);
+        }
+
+        return $ship_type;
+    }
+
 
     #退货
     public function returnGoods(){

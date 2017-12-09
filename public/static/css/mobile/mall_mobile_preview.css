@@ -144,3 +144,9 @@ li{
     box-shadow: 2px 2px 10px #ccc;
 }
 
+.trace-info{width: 100%; margin: 1em 0; }
+.trace-info p{border-left: 1px solid #e0e0e0 ; margin: 0 0 0 0.5em;
+    padding-left: 1em; font-size: 0.8em;}
+.fa-inbox{ height: 1em!important; width: 5%!important; color: #6ad4c9;}
+.trace_station{padding-left: 2em!important;}
+.trace_time{color: #8e8e8e;}

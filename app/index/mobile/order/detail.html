@@ -41,17 +41,30 @@
 
            
         </div>
+        <style>
+            
+        
+        </style>
         <div class="paper pay_way">
             <div>  支付方式: </div>  
             <span name="pay_way" class="chosePay"><{$order.payment_name}></span>
             <div> 配送方式: </div>
             <span class=" default-spec-li chosePay" name="delivery" ><{$order.shipping_name}></span>
             <div> 物流信息: </div>
-            <span class=" default-spec-li " name="shipping" >
-                <{volist name="trace" id="vo"}>
-                    <{$vo.}>
+            <div class=" default-spec-li " name="shipping" style="width: 100%!important;">
+                <{volist name="trace" id="vo" key="key"}>
+                    <div class="trace-info">
+                        
+                        <p class="trace_station"><{$vo.AcceptStation}></p>
+                        <p class="trace_time"><{$vo.AcceptTime}></p>
+
+                    </div>
+                    
+                    
+
+                    <!-- <p><{$vo.AcceptTime}>:<{$vo.AcceptStation}></p> -->
                 <{/volist}>
-            </span>
+            </div>
         </div>
         <div class="goods_info paper" style="font-size: 1em;">
             <div>

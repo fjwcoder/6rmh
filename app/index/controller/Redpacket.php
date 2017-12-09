@@ -122,9 +122,9 @@ class Redpacket extends controller
     }
 
     #在红包池中生成10000元的红包
-    public function createRedPacket(){
+    public function createRedPacket($limit=10000, $num=1000){
         $money = [
-            ['num'=>10000, 'name'=>'TOTAL_MONEY'], ['num'=>1000, 'name'=>'TOTAL_NUM']
+            ['num'=>$limit, 'name'=>'TOTAL_MONEY'], ['num'=>$num, 'name'=>'TOTAL_NUM']
         ];
         $num = [
             ['num'=>841, 'level'=>1],

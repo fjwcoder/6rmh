@@ -9,7 +9,7 @@ namespace app\index\controller;
 // use app\admin\controller\Wechat as Wechat;
 // use app\extend\controller\Mall as Mall;
 // use app\index\controller\Wxpay as Wxpay;
-// use app\index\controller\Payresult as Payresult;
+use app\index\controller\Redpacket as Redpacket;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -38,9 +38,9 @@ class Paysuccess extends controller
             $bait3 = $order['baits'] - ($bait1+$bait2); //第三层
             Db::name('payresult_step') -> insert(['order_id'=>$order['order_id'], 'content'=>'计算鱼饵', 'step'=>3]);
             # 推荐人不获得积分
-            // $point1 = intval($order['points']*floatval($config['FIRST_POINT']['value']/100));
-            // $point2 = intval($order['points']*floatval($config['SECOND_POINT']['value']/100));
-            // $point3 = $order['points'] - ($point1+$point2);
+            $point1 = intval($order['points']*floatval($config['FIRST_POINT']['value']/100));
+            $point2 = intval($order['points']*floatval($config['SECOND_POINT']['value']/100));
+            $point3 = $order['points'] - ($point1+$point2);
             $point3 = $order['points'];
             
             # 三级用户
@@ -56,8 +56,8 @@ class Paysuccess extends controller
                 $user2 = Db::name('users') -> where(['id'=>$id_list[1], 'status'=>1]) -> setInc('bait', $bait2);
                 $bait_log[1] = ['userid'=>$id_list[1], 'name'=>$user['nickname'], 'value'=>$bait2, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$bait2.'】鱼饵'];
 
-                // $user2 = Db::name('users') -> where(['id'=>$id_list[1], 'status'=>1]) -> setInc('point', $point2);
-                // $point_log[1] = ['userid'=>$id_list[1], 'name'=>$user['nickname'], 'value'=>$point2, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$point2.'】鱼饵'];
+                $user2 = Db::name('users') -> where(['id'=>$id_list[1], 'status'=>1]) -> setInc('point', $point2);
+                $point_log[1] = ['userid'=>$id_list[1], 'name'=>$user['nickname'], 'value'=>$point2, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$point2.'】鱼饵'];
             }
             Db::name('payresult_step') -> insert(['order_id'=>$order['order_id'], 'content'=>'父级计算完成', 'step'=>5]);
             # 一级用户
@@ -65,8 +65,8 @@ class Paysuccess extends controller
                 $user1 = Db::name('users') -> where(['id'=>$id_list[2], 'status'=>1]) -> setInc('bait', $bait1);
                 $bait_log[2] = ['userid'=>$id_list[2], 'name'=>$user['nickname'], 'value'=>$bait1, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$bait1.'】鱼饵'];
 
-                // $user1 = Db::name('users') -> where(['id'=>$id_list[2], 'status'=>1]) -> setInc('point', $point1);
-                // $point_log[2] = ['userid'=>$id_list[2], 'name'=>$user['nickname'], 'value'=>$point1, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$point1.'】鱼饵'];
+                $user1 = Db::name('users') -> where(['id'=>$id_list[2], 'status'=>1]) -> setInc('point', $point1);
+                $point_log[2] = ['userid'=>$id_list[2], 'name'=>$user['nickname'], 'value'=>$point1, 'type'=>1, 'remark'=>$user['nickname'].'购物，奖励获得【'.$point1.'】鱼饵'];
             }
             Db::name('payresult_step') -> insert(['order_id'=>$order['order_id'], 'content'=>'祖父级计算完成', 'step'=>6]);
 
@@ -86,6 +86,8 @@ class Paysuccess extends controller
             return false;
         }
     }
+
+    
 
     # 交易支付成功
     public function trade($resArr=[], $order=[]){
@@ -171,6 +173,24 @@ class Paysuccess extends controller
         
     }
 
+    # 生成红包
+    public function createRedpacket($money=10001, $limit = 10000){
+        $num_wan = 0; //一万的个数
+        $more_wan = 0;
+        $current = Db::name('redpacket') -> where(['name'=>'CURRENT_MONEY']) -> find();
+        $sum = floatval($current['num'])+floatval($money);
+        if($sum >= 10000){
+            $redObj = new Redpacket();
+            $num_wan = intval($sum/10000); //生成了几个一万
+            $more_wan = $sum%10000;
+            
+            for($i=0; $i<$num_wan; $i++){
+                $redObj -> createRedPacket($limit, 1000); //生成$limit的红包， 共1000个
+            }
+            
+            Db::name('redpacket') -> where(['name'=>'CURRENT_MONEY']) -> update(['num'=>$more_wan]);
+        }
+    }
 
 
 }

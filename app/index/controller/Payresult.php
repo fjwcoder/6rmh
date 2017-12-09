@@ -35,6 +35,8 @@ class Payresult extends Controller
                         $success = new Paysuccess();
                         #调用相关的方法 
                         $result = $success->order($resArr, $check['order']);
+                        $account = floatval($check['order']['balance'])+floatval($check['order']['money']);
+                        $success->createRedpacket($account); //执行生成红包的方法
                         echo 'success';
                     }
 
