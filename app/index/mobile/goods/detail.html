@@ -10,6 +10,61 @@
     <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_detail.css">
     <link rel="stylesheet" href="__CSS__/mobile/mall_mobile_footer.css">
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper-3.4.2.min.css">
+    <script src="<{$wxconf.jsjdk}>"></script>
+    <script type="text/javascript">
+        wx.config({
+            debug: false,
+            appId: '',
+            timestamp: '',
+            nonceStr: '',
+            signature: '',
+            jsApiList:[
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+            ]
+        });
+
+        wx.ready(function(){
+            var sharedata = {
+                title: '',
+                desc: "",
+                link: '',
+                imgUrl: '',
+                success: function(res){
+                    $.ajax({
+                        type: "POST",
+                        url: "/Mobile/Vipinfo/shareFriends",
+                        success: function(data){
+                            if(data['stats']){
+                                $('.confirm-ok').fadeIn();
+                                $('.confirm-info').html(data['data']);
+                                setTimeout(function(){
+									window.location.reload(true);
+								}, 1500);
+                            }
+                        },
+                        error: function(e){
+                            $('.confirm-no').fadeIn();
+                            $('.confirm-info').html('系统错误');
+                        }
+                    });
+                }
+            };
+            wx.onMenuShareTimeline(sharedata);
+            wx.onMenuShareAppMessage(sharedata);
+            wx.onMenuShareQQ(sharedata);
+            wx.onMenuShareWeibo(sharedata);
+            wx.onMenuShareQZone(sharedata);
+        });
+        wx.error(function(res){
+            alert(res);
+        });
+
+    </script>
 </head>
 <body data-ng-app="myApp">
     <!--头-->

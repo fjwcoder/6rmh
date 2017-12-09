@@ -57,6 +57,7 @@ class Order extends Manage
         # 物流信息，最好是弄成异步
         if($order['shipping_no'] != ''){
             $result = $this-> getShipper($order, $order['shipping_no']);
+            
             $this->assign('trace', array_reverse($result['trace']['Traces']));
         }
 

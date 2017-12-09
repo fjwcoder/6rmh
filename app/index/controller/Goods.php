@@ -19,6 +19,8 @@ class Goods extends controller
         $id = input('id', 0, 'intval');
         
         $config = mallConfig();
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
 
         $mallObj = new Mall();

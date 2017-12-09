@@ -32,13 +32,10 @@ div.goods-container{
 }
 .order_detail{
 	height: 6em; width: 100%;
-	float: left;
+	float: left; 
 	transition: all 0.5s;
-	/*text-align: center;*/
-	background-color: #fff;
-	/*background-color: #e0e0e0;;*/
+	background-color: #fcfcfc;
 	overflow: hidden;
-	/*border-bottom: 1px solid white;*/
 }
 
 .order_detail div{

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
     <title>订单预览</title>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    
 </head>
 <body data-ng-app="myApp">
 
@@ -47,7 +48,9 @@
             <span class=" default-spec-li chosePay" name="delivery" ><{$order.shipping_name}></span>
             <div> 物流信息: </div>
             <span class=" default-spec-li " name="shipping" >
-                物流信息
+                <{volist name="trace" id="vo"}>
+                    <{$vo.}>
+                <{/volist}>
             </span>
         </div>
         <div class="goods_info paper" style="font-size: 1em;">
