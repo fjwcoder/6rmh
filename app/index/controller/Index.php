@@ -42,6 +42,7 @@ class Index extends controller
         return $this->fetch($config['mall_template']['value']);
     }
 
+    # 获取每期产品
     public function termGoods(){
         $term = getTerm();
 
@@ -54,16 +55,6 @@ class Index extends controller
         }else{
             return ['status'=>false, 'goods'=>'空空如也'];
         }
-    }
-
-    public function get_gameinfo(){
-        $info = array(
-            "title" => "飞赚钓鱼",
-            "desc" => "《飞赚钓鱼》震撼来袭！休闲益智、快乐游戏，关注微信，坐拥五洋四海，做自己的波塞冬！游戏不仅可以体会到钓鱼寻宝的乐趣，还可以通过游戏交易来赚钱，游戏操作简洁，只需一指一键，即可畅玩《飞赚钓鱼》。",
-            "imgUrl" => "http://www.5fz2.com/Public/Mobile/default/images/game_name.png",
-            "link" => "http://www.5fz2.com",
-        );
-        return $info;
     }
     
     #======================================================angularjs的$http========================================================================

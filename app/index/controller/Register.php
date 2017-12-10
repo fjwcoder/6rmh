@@ -10,12 +10,26 @@ use think\Cache;
 class Register extends controller
 {
 
+    # 用户注册
     public function index(){
-
+        
 
         $this->assign('header', ['title'=>'用户注册', 'loginbg'=>'']);
         return $this->fetch();
     }
+
+    public function myQrcode(){
+        $userid = input('id', 0, 'intval');
+        if($userid === 0){ 
+
+        }else{
+            
+        } 
+
+
+        return $this->fetch();
+    }
+        
 
     
     #####处理注册提交##############
@@ -160,6 +174,7 @@ class Register extends controller
             return ['status'=>false, 'content'=>"参数为空\n"];
         }
     }
+
 
     #微信取消关注
     public function unSubscribe(){

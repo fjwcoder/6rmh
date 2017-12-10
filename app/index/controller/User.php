@@ -4,6 +4,7 @@ use app\common\controller\Common;
 use app\index\controller\Order as Order;
 use app\index\controller\Announce as Announce;
 use app\index\controller\Index as Index;
+use app\index\controller\Share as Share;
 use app\extend\controller\Gaode as Gaode;
 use think\Controller;
 use think\Config;
@@ -74,6 +75,14 @@ class User extends Common
             }else{
                 $this->assign('mysell', ['status'=>false, 'mysell'=>'空空如也']);
             }
+        }else{
+             // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+            $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            // return $url; die;
+            $shareObj = new Share();
+            $signPackage = $shareObj->shareConfig($url);
         }
 
         $config = mallConfig();

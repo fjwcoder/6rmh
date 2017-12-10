@@ -82,6 +82,30 @@ class Wechat extends Controller
         }
 
     }
+
+    # 获取jsapi_ticket: by fjw in 17.12.10
+    public function jsapi_ticket(){
+        $res = db("wechat_config", [], false) -> where(array("name"=>'JSAPI_TICKET')) -> find();
+        if($res['endtime'] > time()){ //没过期
+            return $res['value'];
+        }else{
+            $wxconf = getWxConf();
+            $url = $wxconf['JSAPI_URL']['value'].$this->access_token()."&type=jsapi";//.$wxconf['APPID']['value']."&secret=".$wxconf['APPSECRET']['value'];
+            $response = httpsGet($url);
+            $res = json_decode($response, true);
+            // return dump($res);
+            if( (!empty($res['ticket'])) && ($res['errmsg']=='ok')){
+                $data['value'] = $res['ticket'];
+                $data['exprire'] = intval($res['expires_in'])-100;
+                #endtime 是到期时间
+                $data['edittime'] = time();
+                $data['endtime'] = $data['edittime']+$data['exprire'];
+                db('wechat_config') -> where(array('name'=>'JSAPI_TICKET')) -> update($data);
+                return $res['ticket'];
+            }
+        }
+    }
+
     #获取素材
     // public function sucaiList(){
     //     $token = $this->access_token();
