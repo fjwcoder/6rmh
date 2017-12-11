@@ -57,16 +57,15 @@
                             </span>
                             <{/if}>        
                         </li>
-                        <li class="given-info" href="javascript: void(0);">赠送鱼饵<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;获得<{$vo.point}>积分</li>
+                        <li class="given-info" href="javascript: void(0);">单件商品赠<{$vo.bait}>个鱼饵 + <{$vo.point}>积分</li>
                     </div>
                     <div id="goods-option-<{$vo.cart_id}>"  class="good-option">
                          <li class="option-title" ng-click="slideCover(<{$vo.cart_id}>);"> </li>
                          <li class="changeNum">
-                            <{if $vo.num > 1}>
-                            <span class="number-change"  ng-click="subnum(<{$vo.cart_id}>);" title="数量减1">-</span>
-                            <{/if}>
+                            
+                            <span class="number-change " ng-click="subnum(<{$vo.cart_id}>);" title="数量减1">-</span>
                             <input id="cart-goods-num-<{$vo.cart_id}>" class="cart-goods-num" name="number" value="<{$vo.num}>"/>
-                            <span class="number-change"  ng-click="addnum(<{$vo.cart_id}>);" title="数量加1">+</span>
+                            <span class="number-change "  ng-click="addnum(<{$vo.cart_id}>);" title="数量加1">+</span>
                         </li>
                         <li>
                             <a class="btn"href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">删除</a>
@@ -113,6 +112,8 @@
                 $scope.cart_list = check_list.join();
             }
 
+            
+            
             $scope.addnum = function($id){
                 var curr_num = angular.element('#cart-goods-num-'+$id).val();
                 $http.post("/index/cart/setInc/id/"+$id).success( function(data) {
@@ -123,10 +124,13 @@
 
             $scope.subnum = function ($id, $num){
                 var curr_num = angular.element('#cart-goods-num-'+$id).val();
-                $http.post("/index/cart/setDec/id/"+$id).success( function(data) {
-                    angular.element('#cart-goods-num-'+$id).val(parseInt(curr_num)-parseInt(data.num));
-                    angular.element('#goods-num-'+$id).html(parseInt(curr_num)-parseInt(data.num));
-                });
+                if(curr_num >=2){
+                    $http.post("/index/cart/setDec/id/"+$id).success( function(data) {
+                        angular.element('#cart-goods-num-'+$id).val(parseInt(curr_num)-parseInt(data.num));
+                        angular.element('#goods-num-'+$id).html(parseInt(curr_num)-parseInt(data.num));
+                    });
+                }
+                
             }
             
             $scope.slideCover = function($id){

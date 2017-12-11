@@ -73,12 +73,14 @@ class Order extends Common
 
     #生成订单预览
     public function preview($cart_list=''){
-        if(empty($cart_list)){
-            $cart_list = input('id_list', '', 'htmlspecialchars,trim');
+        // if(empty($cart_list)){
+            // $cart_list = input('id_list', '', 'htmlspecialchars,trim');
+            $cart_list = empty($cart_list)?input('id_list', '', 'htmlspecialchars,trim'):$cart_list;
             if($cart_list == ''){
-                return $this->error('请选择商品'); exit;
+                // return $this->error('请选择商品'); exit;
+                return msg('-1', '请选择商品'); exit;
             }
-        }
+        // }
         $addrID = input('addrid', 0, 'intval'); 
         $user = decodeCookie('user');
         $mallObj = new Mall();

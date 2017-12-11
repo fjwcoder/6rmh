@@ -158,7 +158,8 @@ class Wechat extends Controller
         $access_token = $this->access_token();
 
         $content = "";
-		// $content .= $object->Event;
+        // $content .= $object->Event;
+        // file_put_contents('fjw.txt', $object->Event);
         switch ($object->Event){
             case "subscribe":
                 
@@ -199,54 +200,65 @@ class Wechat extends Controller
                 break;
             case "CLICK":
                 switch($object->EventKey){
-                    case "qr_code":
+                    case "my_qrcode":
                         $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
                         if(!empty($user)){
-                            $result = $this->transmitText($object, $user['qr_code']);
+                            $view_url = 'http://www.6rmh.com/index/register/myqrcode/id/'.$user['id'];
+                            $content = array(); // 写成这种方式，是为了多图文消息
+                            $content[] = [
+                                'Title'=>'我的推广二维码', 
+                                'Description'=>$user['nickname'].'的推广二维码', 
+                                'PicUrl'=>$user['qr_code'], 
+                                'Url'=>$view_url
+                            ];
                         }else{
-                            $result = $this->transmitText($object, '未关注公众号或者用户已锁定');
+                            $content .= '未关注公众号或者用户已锁定';
                         }
                         
                     break;
+                    default: 
+                        $content .= " unknown ";
+                    break;
                 }
+            break;
             case "VIEW":
             
-                $content = "跳转链接 ".$object->EventKey;
+                $content .= "跳转链接 ".$object->EventKey;
             break;
             case "SCAN": 
-                $content = "扫描场景 ".$object->EventKey;
+                $content .= "扫描场景 ".$object->EventKey;
             break;
             case "LOCATION":
-                $content = "上传位置：纬度 ".$object->Latitude.";经度 ".$object->Longitude;
+                $content .= "上传位置：纬度 ".$object->Latitude.";经度 ".$object->Longitude;
             break;
             case "scancode_waitmsg":
                 if ($object->ScanCodeInfo->ScanType == "qrcode"){
-                    $content = "扫码带提示：类型 二维码 结果：".$object->ScanCodeInfo->ScanResult;
+                    $content .= "扫码带提示：类型 二维码 结果：".$object->ScanCodeInfo->ScanResult;
                 }else if ($object->ScanCodeInfo->ScanType == "barcode"){
                     $codeinfo = explode(",",strval($object->ScanCodeInfo->ScanResult));
                     $codeValue = $codeinfo[1];
-                    $content = "扫码带提示：类型 条形码 结果：".$codeValue;
+                    $content .= "扫码带提示：类型 条形码 结果：".$codeValue;
                 }else{
-                    $content = "扫码带提示：类型 ".$object->ScanCodeInfo->ScanType." 结果：".$object->ScanCodeInfo->ScanResult;
+                    $content .= "扫码带提示：类型 ".$object->ScanCodeInfo->ScanType." 结果：".$object->ScanCodeInfo->ScanResult;
                 }
             break;
             case "scancode_push":
-                $content = "扫码推事件";
+                $content .= "扫码推事件";
             break;
             case "pic_sysphoto":
-                $content = "系统拍照";
+                $content .= "系统拍照";
             break;
             case "pic_weixin":
-                $content = "相册发图：数量 ".$object->SendPicsInfo->Count;
+                $content .= "相册发图：数量 ".$object->SendPicsInfo->Count;
             break;
             case "pic_photo_or_album":
-                $content = "拍照或者相册：数量 ".$object->SendPicsInfo->Count;
+                $content .= "拍照或者相册：数量 ".$object->SendPicsInfo->Count;
             break;
             case "location_select":
-                $content = "发送位置：标签 ".$object->SendLocationInfo->Label;
+                $content .= "发送位置：标签 ".$object->SendLocationInfo->Label;
             break;
             default:
-                $content = "receive a new event: ".$object->Event;
+                $content .= "receive a new event: ".$object->Event;
             break;
         }
         if(is_array($content)){
@@ -289,8 +301,7 @@ class Wechat extends Controller
 			}
 		}
 	}
-
-	//回复图文消息
+    //回复图文消息
     private function transmitNews($object, $newsArray)
     {
         if(!is_array($newsArray)){
@@ -307,13 +318,13 @@ class Wechat extends Controller
             $item_str .= sprintf($itemTpl, $item['Title'], $item['Description'], $item['PicUrl'], $item['Url']);
         }
         $xmlTpl = "<xml>
-			<ToUserName><![CDATA[%s]]></ToUserName>
-			<FromUserName><![CDATA[%s]]></FromUserName>
-			<CreateTime>%s</CreateTime>
-			<MsgType><![CDATA[news]]></MsgType>
-			<ArticleCount>%s</ArticleCount>
-			<Articles>$item_str</Articles>
-		</xml>";
+            <ToUserName><![CDATA[%s]]></ToUserName>
+            <FromUserName><![CDATA[%s]]></FromUserName>
+            <CreateTime>%s</CreateTime>
+            <MsgType><![CDATA[news]]></MsgType>
+            <ArticleCount>%s</ArticleCount>
+            <Articles>$item_str</Articles>
+        </xml>";
 
         $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), count($newsArray));
         return $result;

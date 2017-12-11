@@ -210,12 +210,13 @@ class Cart extends Common
 
 
     #清除购物车
-    public function delete($id_list, $action=''){
+    public function delete($id_list='', $action=''){
+        $id_list = empty($id_list)?input('id_list', '', 'htmlspecialchars,trim'):$id_list;
         if(empty($id_list)){
             if($action === 'order'){ //订单
                 return false; exit;
             }else{
-                return $this->error('所选商品为空'); exit;
+                return msg('-1', '所选商品为空'); exit;
             }
             
         }else{
@@ -224,14 +225,16 @@ class Cart extends Common
                 if($action === 'order'){ //订单
                     return true; exit;
                 }else{
-                    return $this->success('购物车清理成功', 'Cart/index');
+                    return $this->redirect('Cart/index');
+                    // return $this->success('购物车清理成功', 'Cart/index');
                 }
                 
             }else{
                 if($action === 'order'){ //订单
                     return false; exit;
                 }else{
-                    return $this->error('购物车清理失败'); exit;
+                    return msg('-1', '购物车清理失败');
+                    // return $this->error('购物车清理失败'); exit;
                 }
             }
         }
