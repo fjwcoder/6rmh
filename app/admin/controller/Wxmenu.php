@@ -38,8 +38,8 @@ class Wxmenu extends Manage
         
         $header =  ['title'=>'扩展管理->微信设置->'.$nav[$navid]['title'], 'icon'=>$nav[$navid]['icon'], 
             'form'=>'list', 'navid'=>$navid ]; 
-        $show_list = db('wechat_menu', [], false) ->order('id_list', 'sort') ->select();
-
+        $show_list = db('wechat_menu', [], false) -> where(['status'=>1]) ->order('id_list', 'sort') ->select();
+        // return dump($show_list);
         if(empty($show_list)){
             $this->assign('list_tree', '<h3>尚无列表信息</h3>');
         }else{
@@ -57,7 +57,6 @@ class Wxmenu extends Manage
         global $html, $show_list;
         for($i=0; $i<count($show_list); $i++){
             if($show_list[$i]['pid'] == $fid){
-                // echo $show_list[$i]['title'].'<br>';
                 if($show_list[$i]['deep'] === 1){
                     $html .= '<li>';
                     $html .= '<a  href="'.$show_list[$i]['url'].'" class="on">';
@@ -101,6 +100,7 @@ class Wxmenu extends Manage
 		$menu_url = $menu_url['value'].$wechat->access_token();
         $menu_data = $this->getMenuData();
 
+
 		$menu_res = httpsPost($menu_url, strval($menu_data) );
         $response = json_decode($menu_res, true);
 
@@ -116,7 +116,8 @@ class Wxmenu extends Manage
     #生成json格式的菜单数据
     public function getMenuData(){
         global $json, $menu;
-        $menu = Db::name('wechat_menu') -> where(['status'=>1]) ->select();
+        $menu = db('wechat_menu', [], false) -> where(['status'=>1]) ->order('id_list', 'sort') ->select();
+        // return dump($menu);
         $json = '{';
         $json .= '"button":[';
         $this->MenuBuild(0);
@@ -134,7 +135,16 @@ class Wxmenu extends Manage
                         $json .= '{ ';
                         $json .= ' "type":"'.$menu[$i]['type'].'", ';
                         $json .= ' "name":"'.$menu[$i]['title'].'", ';
-                        $json .= ' "url":"'.$this->createView($menu[$i]['url']).'" ';
+                        switch($menu[$i]['type']){
+                            case 'view':  
+                                $json .= ' "url":"'.$this->createView($menu[$i]['url']).'", ';
+                            break;
+                            case 'click':
+                                $json .= ' "key":"'.$menu[$i]['url'].'", ';
+                            break;
+                            default: break;
+                        }
+                        
                         $json .= '},';
                     }else{
                         $json .= '{';
@@ -150,7 +160,15 @@ class Wxmenu extends Manage
                     $json .= '{';
                     $json .= ' "type":"'.$menu[$i]['type'].'", ';
                     $json .= ' "name":"'.$menu[$i]['title'].'", ';
-                    $json .= ' "url":"'.$this->createView($menu[$i]['url']).'", ';
+                    switch($menu[$i]['type']){
+                            case 'view':  
+                                $json .= ' "url":"'.$this->createView($menu[$i]['url']).'", ';
+                            break;
+                            case 'click':
+                                $json .= ' "key":"'.$menu[$i]['url'].'", ';
+                            break;
+                            default: break;
+                        }
                     $json .= '},';
                 }
             }
@@ -159,7 +177,7 @@ class Wxmenu extends Manage
     }
 
     #静默授权
-    public function createView($url = 'http://www.yiqianyun.com'){
+    public function createView($url = 'http://www.6rmh.com'){
         $wxconf = getWxConf();
         $url = urlencode($url);
         $view_url = $wxconf['MENU_VIEW_URL']['value'].$wxconf['APPID']['value'].'&redirect_uri='.$url."&response_type=code&scope=snsapi_base&state=1#wechat_redirect";

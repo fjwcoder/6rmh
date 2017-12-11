@@ -158,6 +158,7 @@ class Wechat extends Controller
         $access_token = $this->access_token();
 
         $content = "";
+		// $content .= $object->Event;
         switch ($object->Event){
             case "subscribe":
                 
@@ -198,7 +199,15 @@ class Wechat extends Controller
                 break;
             case "CLICK":
                 switch($object->EventKey){
-                    
+                    case "qr_code":
+                        $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
+                        if(!empty($user)){
+                            $result = $this->transmitText($object, $user['qr_code']);
+                        }else{
+                            $result = $this->transmitText($object, '未关注公众号或者用户已锁定');
+                        }
+                        
+                    break;
                 }
             case "VIEW":
             
@@ -249,37 +258,37 @@ class Wechat extends Controller
     }
 
 
-    // public function getMediaId($content){
-	// 	$find = M('config') -> where(array('remark'=>"$content")) -> find();
-	// 	if(empty($find)){
-	// 		return "";
-	// 	}else{
-	// 		$media_id = $find['tvalue'];
-	// 		if(empty($media_id)){
-	// 			$count_json = httpsGet(SUCAI_COUNT.$this->access_token());
-	// 			$count_arr = json_decode($count_json, true);//素材总数
-	// 			$img_count = $count_arr['image_count'];
+    public function getMediaId($content){
+		$find = M('config') -> where(array('remark'=>"$content")) -> find();
+		if(empty($find)){
+			return "";
+		}else{
+			$media_id = $find['tvalue'];
+			if(empty($media_id)){
+				$count_json = httpsGet(SUCAI_COUNT.$this->access_token());
+				$count_arr = json_decode($count_json, true);//素材总数
+				$img_count = $count_arr['image_count'];
 
-	// 			$post_arr = array("type"=>"image", "offset"=>0, "count"=>$img_count);
-	// 			$post_json = json_encode($post_arr);
-	// 			$url = SUCAI_LIST.$this->access_token();
-	// 			$list_json = httpsPost($url, $post_json);
-	// 			$list_arr = json_decode($list_json, true);
-	// 			\Think\Log::write(var_export($list_arr), true);//写入日志
-	// 			foreach($list_arr as $v){
-	// 				if($v['name'] === 'share.jpg' ){
-	// 					$save_media_id = M("config") -> where(array("name"=>"SHARE_ID")) -> setField("tvalue", $v['media_id']);
-	// 					if($save_media_id){
-	// 						return $v['media_id'];
-	// 						break;
-	// 					}
-	// 				}
-	// 			}
-	// 		}else{
-	// 			return $media_id;
-	// 		}
-	// 	}
-	// }
+				$post_arr = array("type"=>"image", "offset"=>0, "count"=>$img_count);
+				$post_json = json_encode($post_arr);
+				$url = SUCAI_LIST.$this->access_token();
+				$list_json = httpsPost($url, $post_json);
+				$list_arr = json_decode($list_json, true);
+				\Think\Log::write(var_export($list_arr), true);//写入日志
+				foreach($list_arr as $v){
+					if($v['name'] === 'share.jpg' ){
+						$save_media_id = M("config") -> where(array("name"=>"SHARE_ID")) -> setField("tvalue", $v['media_id']);
+						if($save_media_id){
+							return $v['media_id'];
+							break;
+						}
+					}
+				}
+			}else{
+				return $media_id;
+			}
+		}
+	}
 
 	//回复图文消息
     private function transmitNews($object, $newsArray)
@@ -321,14 +330,7 @@ class Wechat extends Controller
             $result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
 		    return $result;
         }
-		// $openid = strval($object->FromUserName);
-		// $content = "";
-		// if(($object->Content) == '分享'){
-		// 	$content = array();
-		// 	$result = $this->transmitImage($object, $object->Content);
-		// }else{
-		// 	$result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
-		// }
+
         
 	}
     //回复多客服消息
