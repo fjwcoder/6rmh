@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\admin\controller\Wechat as Wechat;
+use app\index\controller\Share as Share;
 use think\Controller;
 use think\Db;
 use think\Config;
@@ -20,14 +21,41 @@ class Register extends controller
 
     public function myQrcode(){
         $userid = input('id', 0, 'intval');
+
+        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        // echo $url; die;
+        $shareObj = new Share();
+        $signPackage = $shareObj->shareConfig($url);
+        $this->assign('shareconfig', $signPackage);
+
+        $shareInfo = $shareObj->shareInfo($url);
+        $this->assign('shareinfo', $shareInfo);
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+        
         if($userid === 0){ 
-
+            $qrcode['status'] = false;
+            $qrcode['img'] = "__STATIC__/images/company/scanRegist.jpg";
+            $qrcode['hint'] = "微信扫描或识别二维码<br><strong>关注公众号，完成注册</strong>";
+            $page_title = "注册二维码";
         }else{
-            
+            $user = Db::name('users') -> where(['id'=>$userid, 'status'=>1]) -> find();
+            if(!empty($user)){
+                $qrcode = ['status'=>true, 'img'=>$user['qr_code'], 'hint'=>"【".$user['nickname']."】的推广二维码<br>微信扫描或识别二维码<br>关注公众号，完成注册"];
+                $page_title = "【".$user['nickname']."】的二维码";
+            }else{
+                $qrcode['status'] = false;
+                $qrcode['img'] = "__STATIC__/images/company/scanRegist.jpg";
+                $qrcode['hint'] = "微信扫描或识别二维码<br><strong>关注公众号，完成注册</strong>";
+                $page_title = "注册二维码";
+            }
         } 
-
-
-        return $this->fetch();
+        $this->assign('qrcode', $qrcode);
+        $config = mallConfig();
+        $this->assign('config', ['page_title'=>$page_title, 'template'=>$config['mall_template']['value'] ]);  
+        return $this->fetch('myqrcode');
     }
         
 

@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use app\common\controller\Common; 
 use app\extend\controller\Mall as Mall;
+use app\index\controller\Share as Share;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -19,16 +20,28 @@ class Goods extends controller
         $id = input('id', 0, 'intval');
         
         $config = mallConfig();
-        $wxconf = getWxConf();
-        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
 
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
-        // return dump($goods);
+
+        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+
         $comment = db('goods_comment', [], false)->where('gid='.$id)->order('addtime DESC') ->select();
         if($goods['status']){
-            // return dump($goods);
+
+            $shareObj = new Share();
+            $signPackage = $shareObj->shareConfig($url);
+            $this->assign('shareconfig', $signPackage);
+
+            $shareInfo = $shareObj->shareInfo($url, $goods['data']['name'], 'http://www.6rmh.com'.$goods['data']['img']);
+            $this->assign('shareinfo', $shareInfo);
+
             $this->assign('goods', $goods['data']);
             $this ->assign('comment', json_encode($comment));
             return $this->fetch('detail');

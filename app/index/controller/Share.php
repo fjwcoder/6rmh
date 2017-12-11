@@ -45,12 +45,13 @@ class Share extends controller
 
     }
 
-    public function get_gameinfo(){
+    public function shareInfo($url="http://www.6rmh.com", $desc="欢迎来到六耳猕猴商城",$imgUrl="http://www.6rmh.com/static/images/mall/share_img.png"){
+        
         $info = array(
-            "title" => "飞赚钓鱼",
-            "desc" => "《飞赚钓鱼》震撼来袭！休闲益智、快乐游戏，关注微信，坐拥五洋四海，做自己的波塞冬！游戏不仅可以体会到钓鱼寻宝的乐趣，还可以通过游戏交易来赚钱，游戏操作简洁，只需一指一键，即可畅玩《飞赚钓鱼》。",
-            "imgUrl" => "http://www.5fz2.com/Public/Mobile/default/images/game_name.png",
-            "link" => "http://www.5fz2.com",
+            "title" => "六耳猕猴商城",
+            "desc" => $desc,
+            "imgUrl" => $imgUrl,
+            "link" => $url,
         );
         return $info;
     }

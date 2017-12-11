@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>注册二维码</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="<{$wxconf.jsjdk}>"></script>
+        <style>
+            body{margin: 0px;font-family:"微软雅黑";}
+            img.my-qrcode{width: 90%; margin: 5% 5%;}
+            .my-qrcode-hint{text-align: center; font-size: 1.3em; color: #666;
+                box-shadow: 0 0 1em #8e8e8e;}
+            .header-right-btn{font-size: 1.5em!important; top: 0.6em!important;}
+        </style>
+        <script type="text/javascript">
+        wx.config({
+            debug: false,
+            appId: '<{$shareconfig.appId}>',
+            timestamp: '<{$shareconfig.timestamp}>',
+            nonceStr: '<{$shareconfig.nonceStr}>',
+            signature: '<{$shareconfig.signature}>',
+            jsApiList:[
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+            ]
+        });
+
+        wx.ready(function(){
+            var sharedata = {
+                title: '<{$shareinfo.title}>',
+                desc: '<{$shareinfo.desc}>',
+                link: '<{$shareinfo.link}>',
+                imgUrl: '<{$shareinfo.imgUrl}>',
+                success: function(res){
+                    // alert('分享成功，不要刷屏哦~');
+                }, //不做处理
+                error: function(e){} // 不做处理
+            };
+            wx.onMenuShareTimeline(sharedata);
+            wx.onMenuShareAppMessage(sharedata);
+            wx.onMenuShareQQ(sharedata);
+            wx.onMenuShareWeibo(sharedata);
+            wx.onMenuShareQZone(sharedata);
+        });
+        wx.error(function(res){
+            alert(res);
+        });
+
+    </script>
+    </head>
+    
+    <body>
+        <{include file="public/header"/}>
+        <a href="/index/register/index">
+            <span class=" header-right-btn fa fa-edit "></span>
+        </a>
+        
+        <div class="modal-body">
+            <img class="my-qrcode" src="<{$qrcode.img}>"/>
+            <p class="my-qrcode-hint">
+                <{$qrcode.hint}>
+            </p>		
+        </div> 
+        <{include file="public/footer"/}>
+    </body>
+</html>

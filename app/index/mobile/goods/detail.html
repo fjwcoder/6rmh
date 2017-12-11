@@ -14,10 +14,10 @@
     <script type="text/javascript">
         wx.config({
             debug: false,
-            appId: '',
-            timestamp: '',
-            nonceStr: '',
-            signature: '',
+            appId: '<{$shareconfig.appId}>',
+            timestamp: '<{$shareconfig.timestamp}>',
+            nonceStr: '<{$shareconfig.nonceStr}>',
+            signature: '<{$shareconfig.signature}>',
             jsApiList:[
                 'checkJsApi',
                 'onMenuShareTimeline',
@@ -30,10 +30,10 @@
 
         wx.ready(function(){
             var sharedata = {
-                title: '',
-                desc: '',
-                link: '',
-                imgUrl: '',
+                title: '<{$shareinfo.title}>',
+                desc: '<{$shareinfo.desc}>',
+                link: '<{$shareinfo.link}>',
+                imgUrl: '<{$shareinfo.imgUrl}>',
                 success: function(res){}, //不做处理
                 error: function(e){} // 不做处理
             };
