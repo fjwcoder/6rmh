@@ -38,7 +38,8 @@
     padding: 5%;
     box-sizing:border-box;
     /*background-color: rgba(248,248,255, 1);*/
-    background-color: rgba(255,255,255, 1);
+    /*background-color: rgba(255,255,255, 1);*/
+    background-color: white;
     font-weight: 300;
     -webkit-transition:  -webkit-transform .2s ease-out, opacity .3s ease-out;
             transition:          transform .2s ease-out, opacity .3s ease-out;
@@ -49,9 +50,12 @@
     font-size: 1.5em;
     z-index: 1;
     color: #207d78;
-    -webkit-transform:translateY(-100%) translatez(-1px);
+    -webkit-transform:translateY(-100%) ;
+        -ms-transform:translateY(-100%) ;
+            transform:translateY(-100%) ;
+    /*-webkit-transform:translateY(-100%) translatez(-1px);
         -ms-transform:translateY(-100%) translatez(-1px);
-            transform:translateY(-100%) translatez(-1px);
+            transform:translateY(-100%) translatez(-1px);*/
     margin: 0!important;
 }
 .hex h1:after {
@@ -67,18 +71,24 @@
     margin: 0!important;
     top: 50%;
     padding-bottom:50%;
-    -webkit-transform:translateY(100%) translatez(-1px);
+    /*-webkit-transform:translateY(100%) translatez(-1px);
         -ms-transform:translateY(100%) translatez(-1px);
-            transform:translateY(100%) translatez(-1px);
+            transform:translateY(100%) translatez(-1px);*/
+    -webkit-transform:translateY(100%) ;
+        -ms-transform:translateY(100%) ;
+            transform:translateY(100%) ;
 }
 
 
 /*** HOVER EFFECT  **********************************************************************/
 .hexIn:hover h1, .hexIn:focus h1,
 .hexIn:hover p, .hexIn:focus p{
-    -webkit-transform:translateY(0%) translatez(-1px);
+    /*-webkit-transform:translateY(0%) translatez(-1px);
         -ms-transform:translateY(0%) translatez(-1px);
-            transform:translateY(0%) translatez(-1px);
+            transform:translateY(0%) translatez(-1px);*/
+    -webkit-transform:translateY(0%) ;
+        -ms-transform:translateY(0%) ;
+            transform:translateY(0%) ;
 }
 /*本期直推*/
 .hex {

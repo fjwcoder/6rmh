@@ -13,63 +13,65 @@ use think\Db;
 
 class Order extends Common
 {
+    public static function orderStatus($status){
+        $array = ['全部订单', '待支付订单', '待发货订单', '待收货订单', '待评价订单', '已完成订单'];
+        return $array[$status];
+    }
 
     #订单列表页
     public function index(){
         $status = input('status', 0, 'intval');
         // echo $status;
         
-        $where['a.userid'] = session(config('USER_ID'));
+        $where['userid'] = session(config('USER_ID'));
         if($status !== 0 ){
             $where['status'] = $status;
         }
         
         $order = $this->getOrder($where, 0, 16); //获取订单信息
+
         $this->assign('order', $order);
         $this->assign('status', $status);
         $page_title = $this->orderStatus($status);
-        // return $page_title;
+        
         $config = mallConfig();
 
         $this->assign('config', ['page_title'=>$page_title, 'template'=>$config['mall_template']['value'] ]);
         return $this->fetch();
     }
 
-    public static function orderStatus($status){
-        $array = ['全部订单', '待支付订单', '待发货订单', '待收货订单', '待评价订单', '已完成订单'];
-        return $array[$status];
-    }
+    
 
-    public function getOrder($where, $from=0, $to=4){
+    public function getOrder($where , $form=0, $to=4){
         $order = [];
-        $data = Db::name('order') ->alias('a')
-            ->join('order_detail b', 'a.order_id=b.order_id', 'LEFT') 
-            ->field(['a.*', 'b.gid', 'b.catid_list', 'b.name as goods_name', 'b.pic', 'b.price', 'b.num', 'b.bait', 
-                'b.point', 'b.promotion_id', 'b.promotion', 'b.service', 'b.spec'])
-            ->where($where) ->order('a.add_time desc') ->limit($from, $to) -> select();
-        // return dump($data);
+        $data = Db::name('order') -> where($where) 
+        -> field(['order_id', 'userid', 'status', 'pay_status', 'balance', 'money', 'baits', 'points', 'payment_id', 'payment_name', 
+            'shipping_id', 'shipping_name', 'add_time as addtime', 'user_name', 'user_address', 'user_mobile']) 
+        -> order('add_time desc') -> limit($form, $to) -> select();
         if(!empty($data)){
+            $id_list = " ('' ";
             foreach($data as $k=>$v){
-                if(!array_key_exists($v['order_id'], $order)){
-                    $order[$v['order_id']]['order'] = ['order_id'=>$v['order_id'], 'userid'=>$v['userid'], 'status'=>$v['status'], 
-                        'pay_status'=>$v['pay_status'], 'balance'=>$v['balance'], 'money'=>$v['money'], 'baits'=>$v['baits'], 
-                        'points'=>$v['points'], 'payment_id'=>$v['payment_id'], 'payment_name'=>$v['payment_name'], 
-                        'shipping_id'=>$v['shipping_id'], 'shipping_name'=>$v['shipping_name'], 'addtime'=>$v['add_time'],
-                        'user_name'=>$v['user_name'], 'user_address'=>$v['user_address'], 'user_mobile'=>$v['user_mobile']];
-                }
-                $order[$v['order_id']]['detail'][] = ['gid'=>$v['gid'], 'goods_name'=>$v['goods_name'], 'pic'=>$v['pic'], 'price'=>$v['price'], 
-                    'num'=>$v['num'], 'bait'=>$v['bait'], 'point'=>$v['point'], 'promotion'=>$v['promotion'], 'spec'=>$v['spec']
-                ];
+                $order[$v['order_id']]['order'] = $v;
+                $order[$v['order_id']]['detail'] = [];
+                $id_list .= ", '$v[order_id]' ";
+            }
+            $id_list .=")";
+            $data = Db::name('order_detail')-> where("order_id in $id_list") 
+                -> field(['order_id', 'gid', 'catid_list', 'name as goods_name', 'pic', 'price', 
+                    'num', 'bait', 'point', 'promotion_id', 'promotion', 'service', 'spec']) 
+                -> select();
 
+            foreach($data as $k => $v){
+                $order[$v['order_id']]['detail'][] = $v;
             }
 
-            // $this->assign('order', $order);
             return $order;
         }else{
-            // $this->assign('order', []);
             return [];
         }
+        
     }
+
 
     #生成订单预览
     public function preview($cart_list=''){

@@ -28,7 +28,11 @@
 									<a class="hexIn" href="<{:url('goods/detail', ['id'=>$vo.id])}>">
 										<img src="<{$vo.img}>" alt="" />
 										<h1><{$vo.name}></h1>
-										<p><{$vo.description}></p>
+										<p><{$vo.description}><br><br>
+											<strong style="color: red;">￥<{$vo.price}></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+											<span style="color: red;" >免邮</span>
+										</p>
+										
 									</a>
 								</li>
 							<{/volist}>

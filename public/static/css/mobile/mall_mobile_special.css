@@ -1,3 +1,23 @@
+@import "../keep_base.css";/*公共css*/
+
+#index-body{ position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+    background: url(../../images/mall/m_index_bg.jpg) no-repeat; 
+    background-size: 100%; 
+    background-attachment: fixed;
+}
+
+/* ios 移动端 background-attachment: fixed; 不起作用的解决方法*/
+#index-body:before{
+    content: '';
+    position: fixed;
+    z-index: -1;
+    top: 0; bottom: 0;
+    right: 0; left: 0;
+    background: url(../../images/mall/m_index_bg.jpg) center 0 no-repeat;
+    background-size: cover;
+}
+/*以上是原来layout.css 里的文件*/
+
 .product_show:nth-child(2n){
 	margin-left: 15%;
 }

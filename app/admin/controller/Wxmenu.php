@@ -95,11 +95,63 @@ class Wxmenu extends Manage
 
     #创建自定义菜单
     public function createMenu(){
+        $code = input('code', '', 'htmlspecialchars,trim');
+        if($code != 'fjwcoder'){
+            return $this->success('自定义菜单设置成功', 'Wxmenu/index');  exit;
+        }
         $menu_url = getWxConf('MENU_CREATE_URL');
         $wechat = new Wechat();
 		$menu_url = $menu_url['value'].$wechat->access_token();
         $menu_data = $this->getMenuData();
-
+        $menu_data = '{
+    "button": [
+        {
+            "type": "view",
+            "name": "进入商城",
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Dindex%2Findex&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+            "name": "活动中心",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "我的推广",
+                    "key": "my_qrcode"
+                },
+                {
+                    "type": "view",
+                    "name": "交易大厅",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Dinner%2Fpurchase&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "活动入口",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Dfishing%2Findex&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+                }
+            ]
+        },
+        {
+            "name": "服务中心",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "系统公告",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Dannounce%2Findex&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "帮助中心",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Dhelp%2Findex&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "用户中心",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6daa65cc6fc26c29&redirect_uri=http%3A%2F%2Fwww.6rmh.com%2Findex%2Flogin%2Flogin%3Fredirect%3Duser%2Findex&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+                }
+            ]
+        }
+    ]
+}';
 
 		$menu_res = httpsPost($menu_url, strval($menu_data) );
         $response = json_decode($menu_res, true);

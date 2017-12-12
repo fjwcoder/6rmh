@@ -17,6 +17,7 @@
 namespace app\index\controller;
 use app\common\controller\Common; 
 use app\index\controller\Redpacket as Redpacket; 
+use app\index\controller\Share as Share;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -28,6 +29,20 @@ class Fishing extends controller
     public function index(){
 
         $uid = session(config('USER_ID'));
+
+        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        $shareObj = new Share();
+        $signPackage = $shareObj->shareConfig($url);
+        $this->assign('shareconfig', $signPackage);
+
+        $shareInfo = $shareObj->shareInfo($url, '红包来袭');
+        $this->assign('shareinfo', $shareInfo);
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+
         if(isset($uid)){
             $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) -> find();
             $this->assign('login', true);

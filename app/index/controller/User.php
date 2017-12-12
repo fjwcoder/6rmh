@@ -4,7 +4,7 @@ use app\common\controller\Common;
 use app\index\controller\Order as Order;
 use app\index\controller\Announce as Announce;
 use app\index\controller\Index as Index;
-
+use app\index\controller\Share as Share;
 use app\extend\controller\Gaode as Gaode;
 use think\Controller;
 use think\Config;
@@ -47,15 +47,14 @@ class User extends Common
 
             # 获取订单
             $orderObj = new Order();
-            $where['a.userid'] = session(config('USER_ID'));
-            $order_arr = $orderObj->getOrder($where, 0, 4);
+            $where['userid'] = session(config('USER_ID'));
+            $order_arr = $orderObj->getOrder($where, 0, 3);
             // return dump($order_arr);
             $this->assign('order', $order_arr);
 
             # 获取公告
             $announce = new Announce();
             $this->assign('announce', $announce->defaultAnnounce());
-            // return dump($announce->defaultAnnounce());
 
             $index = new Index();
             $goods = $index->termGoods();
@@ -76,6 +75,19 @@ class User extends Common
                 $this->assign('mysell', ['status'=>false, 'mysell'=>'空空如也']);
             }
         }
+
+        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        // echo $url; die;
+        $shareObj = new Share();
+        $signPackage = $shareObj->shareConfig($url);
+        $this->assign('shareconfig', $signPackage);
+
+        $shareInfo = $shareObj->shareInfo($url);
+        $this->assign('shareinfo', $shareInfo);
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
 
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'用户中心', 'template'=>$config['mall_template']['value'] 

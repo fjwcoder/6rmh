@@ -3,6 +3,7 @@ namespace app\index\controller;
 use app\common\controller\Common; 
 use app\extend\controller\Gaode as Gaode;
 use app\extend\controller\Mall as Mall;
+use app\index\controller\Share as Share;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -14,9 +15,6 @@ class Index extends controller
 	
     public function index(){
 
-        // return dump(mallconfig());
-        
-		
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
             $gaode->IPLocation();
@@ -27,6 +25,19 @@ class Index extends controller
             $user = decodeCookie('user');
         }
         
+        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        // echo $url; die;
+        $shareObj = new Share();
+        $signPackage = $shareObj->shareConfig($url);
+        $this->assign('shareconfig', $signPackage);
+
+        $shareInfo = $shareObj->shareInfo($url);
+        $this->assign('shareinfo', $shareInfo);
+        $wxconf = getWxConf();
+        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+
         $goods = $this->termGoods();
         if($goods['status']){
             $this->assign('goods', $goods['goods']);
