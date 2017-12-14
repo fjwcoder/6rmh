@@ -1,7 +1,27 @@
 <?php
+# +------------------------------------------------------------------------------------
+# | index：
+# | valid：验证
+# | checkSignature：签名验证
+# | access_token：获取access_token
+# | jsapi_ticket：获取jsapi_ticket
+# | responseMsg：回复消息
+# | handleEvent：处理事件消息
+# | handleText：处理文本消息
+# | transmitNews：回复图文消息
+# | transmitService：回复多客服消息
+# | transmitImage：回复图片消息
+# | transmitText：回复文本消息
+# | getMediaId：获取素材id
+# | getTempMaterial：获取临时素材
+# | uploadTempMaterial: 上传临时素材
+# |
+# |
+# |
+# |
+# | sceneQRCode：生成带场景值参数的二维码信息
+# +------------------------------------------------------------------------------------
 namespace app\admin\controller;
-
-#define('REDIRECT_URL', 'http://www.ajconsulting.top');//定义网站地址
 // define('SUCAI_COUNT', 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=');//素材数量
 // define('FOREVER_SUCAI', 'https://api.weixin.qq.com/cgi-bin/material/get_material?access_token='); //获取永久素材
 // define('SUCAI_LIST', 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=');//素材列表
@@ -18,6 +38,9 @@ use think\Cache;
 
 class Wechat extends Controller
 {   
+    
+
+
     #验证信息
     public function index(){
         
@@ -147,9 +170,61 @@ class Wechat extends Controller
 			echo "no user's post data";
 		}
 	}
-    
-    
-    
+    public function uploadTempMaterial($openid, $path='', $type='image'){
+        $wxconf = getWxConf();
+        $url = $wxconf['UPLOAD_TEMP_MATERIAL']['value'].$this->access_token().'&type='.$type;
+        if(class_exists('\CURLFile')){
+            $fileObj = new \CURLFile($path);
+            // $fileObj->setMimeType('image/jpeg');
+            $data = array('media'=>$fileObj);
+        }else{
+            $data = array('media'=>'@'.$path);
+        }
+        $res = httpsPost($url, $data);
+        $res = json_decode($res, true);
+        if(isset($res['media_id'])){ //
+            $res['created_at'] = intval($res['created_at'])+3600*23*3;
+            Db::name('users') -> where(['openid'=>$openid]) -> update(['temp_material'=>json_encode($res)]); 
+            return $res; //数组形势
+        }else{
+            return false;
+        }  
+    }
+
+    public function getTempMaterial($openid){
+        $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
+
+        if(empty($user)){
+            return ['status'=>false, 'content'=>'账号尚未关注或已锁定']; exit;
+        }
+
+        if(empty($user['spread_img'])){
+            return ['status'=>false, 'content'=>'尚未设置推广图片']; exit;
+        }
+
+        if(empty($user['temp_material'])){
+            # 上传最新的图片
+            $media= $this->uploadTempMaterial($openid, $_SERVER['DOCUMENT_ROOT'].$user['spread_img']);
+            if($media != false){
+                return ['status'=>true, 'media_id'=>$media['media_id']]; exit;
+            }
+        }
+
+        $material = json_decode($user['temp_material'], true);
+		
+        if($material['created_at'] < time()){
+
+            # 上传最新的图片
+            $media = $this->uploadTempMaterial($openid, $_SERVER['DOCUMENT_ROOT'].$user['spread_img']);
+            if($media != false){
+                return ['status'=>true, 'media_id'=>$media['media_id']]; exit;
+            }
+        }else{
+
+            return ['status'=>true, 'media_id'=>$material['media_id']]; exit;
+        }
+        
+    }
     //接收事件消息
     public function handleEvent($object){
         $openid = strval($object->FromUserName);
@@ -158,8 +233,6 @@ class Wechat extends Controller
         $access_token = $this->access_token();
 
         $content = "";
-        // $content .= $object->Event;
-        // file_put_contents('fjw.txt', $object->Event);
         switch ($object->Event){
             case "subscribe":
                 
@@ -167,7 +240,6 @@ class Wechat extends Controller
                 $user_res = httpsGet($user_url);
                 $user_arr = json_decode($user_res, true);//获取到的用户信息
                 $content .= "欢迎关注 亿签网络旗下六耳猕猴商城\n";
-				// file_put_contents('eventkey.txt', json_encode($object->EventKey));
                 if(empty($object->EventKey)){ //不带场景值,直接注册 或者 重新关注
 
                     $regist = $register->subscribe($user_arr); //参数为用户数据
@@ -201,18 +273,30 @@ class Wechat extends Controller
             case "CLICK":
                 switch($object->EventKey){
                     case "my_qrcode":
-                        $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
-                        if(!empty($user)){
-                            $view_url = 'http://www.6rmh.com/index/register/myqrcode/id/'.$user['id'];
-                            $content = array(); // 写成这种方式，是为了多图文消息
-                            $content[] = [
-                                'Title'=>'我的推广二维码', 
-                                'Description'=>$user['nickname'].'的推广二维码', 
-                                'PicUrl'=>$user['qr_code'], 
-                                'Url'=>$view_url
-                            ];
+                        # 图文模式 , 不可删除, 与图片模式只能留一个
+                        // $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
+                        // if(!empty($user)){
+                        //     $view_url = 'http://www.6rmh.com/index/register/myqrcode/id/'.$user['id'];
+                        //     $content = array(); // 写成这种方式，是为了多图文消息
+                        //     $content[] = [
+                        //         'Title'=>'我的推广二维码', 
+                        //         'Description'=>$user['nickname'].'的推广二维码', 
+                        //         'PicUrl'=>$user['qr_code'], 
+                        //         'Url'=>$view_url
+                        //     ];
+                        // }else{
+                        //     $content .= '未关注公众号或者用户已锁定';
+                        // }
+
+                        # 图片模式
+                        
+                        $media = $this->getTempMaterial($openid);
+						
+                        if($media['status']){
+                            $content = $this->transmitImage($object, $media['media_id']);
+							file_put_contents('fjw.txt', $content);
                         }else{
-                            $content .= '未关注公众号或者用户已锁定';
+                            $content .= $media['content'];
                         }
                         
                     break;
@@ -269,38 +353,20 @@ class Wechat extends Controller
         return $result;
     }
 
-
-    public function getMediaId($content){
-		$find = M('config') -> where(array('remark'=>"$content")) -> find();
-		if(empty($find)){
-			return "";
-		}else{
-			$media_id = $find['tvalue'];
-			if(empty($media_id)){
-				$count_json = httpsGet(SUCAI_COUNT.$this->access_token());
-				$count_arr = json_decode($count_json, true);//素材总数
-				$img_count = $count_arr['image_count'];
-
-				$post_arr = array("type"=>"image", "offset"=>0, "count"=>$img_count);
-				$post_json = json_encode($post_arr);
-				$url = SUCAI_LIST.$this->access_token();
-				$list_json = httpsPost($url, $post_json);
-				$list_arr = json_decode($list_json, true);
-				\Think\Log::write(var_export($list_arr), true);//写入日志
-				foreach($list_arr as $v){
-					if($v['name'] === 'share.jpg' ){
-						$save_media_id = M("config") -> where(array("name"=>"SHARE_ID")) -> setField("tvalue", $v['media_id']);
-						if($save_media_id){
-							return $v['media_id'];
-							break;
-						}
-					}
-				}
-			}else{
-				return $media_id;
-			}
-		}
+    //文本消息处理函数
+	private function handleText($object)
+	{
+        $keyword = trim($object->Content);
+        if(strstr($keyword, '呼叫客服') || strstr($keyword, '在线客服')|| strstr($keyword, '客服') ){
+            $result = $this->transmitService($object);
+            return $result;
+        }else{
+            $result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
+		    return $result;
+        } 
 	}
+
+    
     //回复图文消息
     private function transmitNews($object, $newsArray)
     {
@@ -330,20 +396,7 @@ class Wechat extends Controller
         return $result;
     }	
 
-	//文本消息处理函数
-	private function handleText($object)
-	{
-        $keyword = trim($object->Content);
-        if(strstr($keyword, '呼叫客服') || strstr($keyword, '在线客服')|| strstr($keyword, '客服') ){
-            $result = $this->transmitService($object);
-            return $result;
-        }else{
-            $result = $this->transmitText($object, "系统收到信息，客服人员正在处理，请稍后……");
-		    return $result;
-        }
-
-        
-	}
+	
     //回复多客服消息
     private function transmitService($object)
     {
@@ -358,15 +411,14 @@ class Wechat extends Controller
     }
 	
     //回复图片消息
-	private function transmitImage($object, $content=''){
+	private function transmitImage($object, $media_id){
 		if(!isset($object)){
-			return "";
+			return "error";
 		}
-		if(empty($content)){
-			return "";
+		if(empty($media_id)){
+			return "error";
 		}
 		
-		$media_id = $this->getMediaId($content);
 		$xmlTpl = "<xml>
 						<ToUserName><![CDATA[%s]]></ToUserName>
 						<FromUserName><![CDATA[%s]]></FromUserName>
@@ -398,6 +450,39 @@ class Wechat extends Controller
 
         return $result;
     }
+
+    // public function getMediaId($content){
+	// 	$find = M('config') -> where(array('remark'=>"$content")) -> find();
+	// 	if(empty($find)){
+	// 		return "";
+	// 	}else{
+	// 		$media_id = $find['tvalue'];
+	// 		if(empty($media_id)){
+	// 			$count_json = httpsGet(SUCAI_COUNT.$this->access_token());
+	// 			$count_arr = json_decode($count_json, true);//素材总数
+	// 			$img_count = $count_arr['image_count'];
+
+	// 			$post_arr = array("type"=>"image", "offset"=>0, "count"=>$img_count);
+	// 			$post_json = json_encode($post_arr);
+	// 			$url = SUCAI_LIST.$this->access_token();
+	// 			$list_json = httpsPost($url, $post_json);
+	// 			$list_arr = json_decode($list_json, true);
+	// 			\Think\Log::write(var_export($list_arr), true);//写入日志
+	// 			foreach($list_arr as $v){
+	// 				if($v['name'] === 'share.jpg' ){
+	// 					$save_media_id = M("config") -> where(array("name"=>"SHARE_ID")) -> setField("tvalue", $v['media_id']);
+	// 					if($save_media_id){
+	// 						return $v['media_id'];
+	// 						break;
+	// 					}
+	// 				}
+	// 			}
+	// 		}else{
+	// 			return $media_id;
+	// 		}
+	// 	}
+	// }
+
 
     #==========================================================
     # 生成带场景值的二维码
