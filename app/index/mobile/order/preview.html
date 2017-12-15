@@ -165,7 +165,7 @@
                     </div>
                 </div>
            <{else}>
-                <a href="/index/address/index" title="">+添加收货地址</a> &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #8e8e8e;"><{$addcount}>/10</span>
+                <a href="javascript: void(0);"  data-toggle="modal" data-target="#formModal" title="">+添加收货地址</a> &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #8e8e8e;"><{$addcount}>/10</span>
            <{/if}> 
            
         </div>
@@ -213,7 +213,7 @@
         <div>
            <input type="hidden" name="id_list" value="<{$id_list}>"/><!--商品列表ID-->
            <input type="hidden" name="pay" value="{{isChose}}"/><!--支付方式-->
-           <input type="hidden" name="addr" value="<{$address[0]['id']}>"/><!--收货地址-->
+           <input type="hidden" name="addr" <{if $address}>value="<{$address[0]['id']}>"/><{else}>value=""<{/if}><!--收货地址-->
            <input type="hidden" name="delivery" value="{{delivery}}"/><!--配送方式--> 
         </div>
         <div class="pay">
