@@ -1,41 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title><{$admin.title}></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="__CSS__/admin_default_layout.css" type="text/css"/>
-        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="login-panel o_h">
-            <div class="cms-title wp_100 t_c">
-                <{$admin.title}>
-            </div>
-            <form action="login/login" method="post">
-                <div class="cms-login wp_100 t_c">
-                    <div class="cms-login-div">
-                        <span class="glyphicon glyphicon-user" ></span>
-                        <input name="login[name]" required/>
-                    </div>
-                    <div class="cms-login-div">
-                        <span class="glyphicon glyphicon-lock"></span>
-                        <input name="login[password]" type="password" required/>
-                    </div>
-                    <div class="cms-login-img">
-                        <input name="login[verify]" placeholder="验证码" required/>
-                        <img class="verify-img" name="login[verify]" src="<{:captcha_src()}>" onclick="this.src='<{:captcha_src()}>?x='+Math.random();" alt="验证码"/>
-                    </div>
-                    <div class="cms-login-div">
-                        <button type="submit">登录</button/>
-                    </div>
-                </div>
-            </form>
-            
-        </div>
-        
-    </body>
-    
+<head>
+	<meta charset="UTF-8">
+	<title><{$admin.title}></title>
+	<meta name="renderer" content="webkit">	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">	
+	<meta name="apple-mobile-web-app-capable" content="yes">	
+	<meta name="format-detection" content="telephone=no">	
+	<!-- load css -->
+	<link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css" media="all">
+	<link rel="stylesheet" type="text/css" href="__CSS__/admin/login.css" media="all">
+</head>
+<body>
+<div class="layui-canvs"></div>
+<div class="layui-layout layui-layout-login">
+	<h1>
+		 <strong><{$admin.title}></strong>
+		 <em>Management System</em>
+	</h1>
+	<form action="login/login" method="post">
+	<div class="layui-user-icon larry-login">
+		 <input type="text" name="login[name]" placeholder="账号" class="login_txtbx"/>
+	</div>
+	<div class="layui-pwd-icon larry-login">
+		 <input type="password" name="login[password]" placeholder="密码" class="login_txtbx"/>
+	</div>
+    <div class="layui-val-icon larry-login">
+    	<div class="layui-code-box">
+    		<input type="text" id="code" name="login[verify]" placeholder="验证码" maxlength="4" class="login_txtbx">
+			<!-- <img src="images/verifyimg.png" alt="" class="verifyImg" id="verifyImg" onClick="javascript:this.src='xxx'+Math.random();"> -->
+			<img  name="login[verify]" class="verifyImg verify-img" id="verifyImg" src="<{:captcha_src()}>" onclick="this.src='<{:captcha_src()}>?x='+Math.random();" alt="验证码"/>
+			<!-- <img class="verify-img"  src="<{:captcha_src()}>" onclick="this.src='<{:captcha_src()}>?x='+Math.random();" alt="验证码"/> -->
+		</div>
+    </div>
+    <div class="layui-submit larry-login">
+    	<input type="submit" value="立即登陆" class="submit_btn"/>
+	</div>
+	</form>
+    <div class="layui-login-text">
+    	<p>© 2016-2017 Larry 版权所有</p>
+        <p>鄂xxxxxx</p>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/layui/layui.all.js"></script>
+<script type="text/javascript" src="__JS__/admin/login.js"></script>
+<script type="text/javascript" src="__JS__/admin/plugin/jparticle.jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".layui-canvs").jParticle({
+		background: "#141414",
+		color: "#E6E6E6"
+	});
+	//登录链接测试，使用时可删除
+	// $(".submit_btn").click(function(){
+	  
+	// });
+});
+</script>
+</body>
 </html>
