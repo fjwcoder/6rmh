@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="__STATIC__/css/mall_mobile_passcode.css">
-	<link rel="stylesheet" href="__STATIC__/css/plugin/mall_mobile_footer.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_passcode.css">
+	<link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_footer.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<title>修改密码</title>
 </head>
@@ -23,15 +23,19 @@
 	<div class="change_con down">
 		<form class="pay_form" method="post" role="form" action="<{:url('payword')}>" >
 		<div class="change_title">修改付款密码</div>
-		<li><span class="left-side">原密码：</span><span><input type="text" name="oldpassword" value=""></span></li>
-		<li><span class="left-side">新密码：</span><span><input type="password" name="pass" value=""></span></li>
-		<li><span class="left-side">重复密码：</span><span><input type="password" name="repass" value=""></span></li>
+		<li><span class="left-side">原密码：</span><span><input type="text" name="oldpassword" value=""></span>
+			<br>
+			<small style="color: #8e8e8e; margin-left: 22%;">默认付款密码为123456</small>
+		</li>
+
+		<li><span class="left-side">新密码：</span><span><input type="password" name="pass" maxlength="6" placeholder="6位数字" value=""></span></li>
+		<li><span class="left-side">重复密码：</span><span><input type="password" name="repass" maxlength="6" placeholder="6位数字" value=""></span></li>
 		<li class="pay_submit">修改</li>
 		</form>
 	</div>
 	<{include file="public/footer"/}>
 	<script>
-		$('.change_con').height($(window).height()/2.1);
+		// $('.change_con').height($(window).height()/2.1);
 		$('.login_submit').click(function(event) {
 			/* Act on the event */
 			$('.login_form').submit();

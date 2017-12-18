@@ -75,13 +75,15 @@
             </div>
             
             <p class="goods-info">
+                <{if $goods.free_shipping ==1}>
+                    <span class="item-title">运费：</span>免运费
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <{/if}>
                 <span class="item-title">重量：</span>
                 <{$goods.weight}>kg
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                
            
-                <{if $goods.free_shipping ==1}>
-                    免运费 
-                <{/if}>
+                
             </p>
             
             <ul>

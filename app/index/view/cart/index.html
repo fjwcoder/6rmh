@@ -4,7 +4,7 @@
     <div class="more-info-navbar wp_100 ">
         <ul  >
             <li>
-                <a href="javascript: void(0);">购物车</a>
+                <a href="/index/cart/index">购物车</a>
             </li>
         </ul>
     </div>
@@ -63,7 +63,7 @@
                     
                 </div>
                 <div class=" wp_5">
-                    <a href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" title="删除该商品">
+                    <a href="<{:url('cart/del', ['id'=>$vo.cart_id])}>" onClick="return confirm('删除后将无法恢复,确定要删除?')" title="删除该商品">
                         删除
                     </a>
                 </div>
@@ -78,8 +78,8 @@
                 </div>
                 &nbsp;全选
             </li>
-            <li> <a href="/index/cart/delete/id_list/{{cart_list}}" >删除选中商品</a></li>
-            <li><a href="<{:url('cart/delete')}>" >清理下架商品</a></li>
+            <li> <a href="/index/cart/delete/id_list/{{cart_list}}" onClick="return confirm('删除后将无法恢复,确定要删除?')" >删除选中商品</a></li>
+            <!--<li><a href="<{:url('cart/delete')}>" >清理下架商品</a></li>-->
         </ul>
 
         <a class="pull-right" href="/index/order/preview/id_list/{{cart_list}}" title="结算选中商品">

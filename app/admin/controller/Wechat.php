@@ -223,15 +223,16 @@ class Wechat extends Controller
 
             return ['status'=>true, 'media_id'=>$material['media_id']]; exit;
         }
-        
     }
+
+    
     //接收事件消息
     public function handleEvent($object){
         $openid = strval($object->FromUserName);
         $wxconf = getWxConf();
         $register = new Register();
         $access_token = $this->access_token();
-
+        $deal = true; // 是否做统一处理：$content is array 发送图文 $content is string 发送消息
         $content = "";
         switch ($object->Event){
             case "subscribe":
@@ -274,30 +275,29 @@ class Wechat extends Controller
                 switch($object->EventKey){
                     case "my_qrcode":
                         # 图文模式 , 不可删除, 与图片模式只能留一个
-                        // $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
-                        // if(!empty($user)){
-                        //     $view_url = 'http://www.6rmh.com/index/register/myqrcode/id/'.$user['id'];
-                        //     $content = array(); // 写成这种方式，是为了多图文消息
-                        //     $content[] = [
-                        //         'Title'=>'我的推广二维码', 
-                        //         'Description'=>$user['nickname'].'的推广二维码', 
-                        //         'PicUrl'=>$user['qr_code'], 
-                        //         'Url'=>$view_url
-                        //     ];
-                        // }else{
-                        //     $content .= '未关注公众号或者用户已锁定';
-                        // }
+                        $user = Db::name('users') -> where(['openid'=>$openid, 'subscribe'=>1,'status'=>1]) -> find();
+                        if(!empty($user)){
+                            $view_url = 'http://www.6rmh.com/index/register/myqrcode/id/'.$user['id'];
+                            $content = array(); // 写成这种方式，是为了多图文消息
+                            $content[] = [
+                                'Title'=>'我的推广二维码', 
+                                'Description'=>$user['nickname'].'的推广二维码', 
+                                'PicUrl'=>$user['qr_code'], 
+                                'Url'=>$view_url
+                            ];
+                        }else{
+                            $content .= '未关注公众号或者用户已锁定';
+                        }
 
                         # 图片模式
-                        
-                        $media = $this->getTempMaterial($openid);
+                        // $media = $this->getTempMaterial($openid);
 						
-                        if($media['status']){
-                            $content = $this->transmitImage($object, $media['media_id']);
-							file_put_contents('fjw.txt', $content);
-                        }else{
-                            $content .= $media['content'];
-                        }
+                        // if($media['status']){
+                        //     $result = $this->transmitImage($object, $media['media_id']);
+                        //     $deal = false;
+                        // }else{
+                        //     $content .= $media['content'];
+                        // }
                         
                     break;
                     default: 
@@ -345,10 +345,12 @@ class Wechat extends Controller
                 $content .= "receive a new event: ".$object->Event;
             break;
         }
-        if(is_array($content)){
-            $result = $this->transmitNews($object, $content);
-        }else{
-            $result = $this->transmitText($object, $content);
+        if($deal){
+            if(is_array($content)){
+                $result = $this->transmitNews($object, $content);
+            }else{
+                $result = $this->transmitText($object, $content);
+            }
         }
         return $result;
     }

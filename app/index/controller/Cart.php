@@ -161,7 +161,8 @@ class Cart extends Common
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
                 'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
                 'price'=>$goods['sprice']?$goods['sprice']:$goods['gprice'],
-                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'parent_id'=>$user['pid']
+                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 
+                'parent_id'=>empty($user['pid'])?0:$user['pid']
                 ];
             
             $result = Db::name('cart') -> insert($data);
@@ -205,7 +206,16 @@ class Cart extends Common
     #删除购物车商品
     public function del(){
         $id = input('id', 0, 'intval');
-        return $id;
+        if($id==0){
+            return msg('-1', '商品信息错误'); exit;
+        }else{
+            $del = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 'id'=>$id]) -> delete();
+            if($del){
+                return $this->redirect('Cart/index');
+            }else{
+                return msg('-1', '购物车商品删除失败');
+            }
+        }
     }
 
 

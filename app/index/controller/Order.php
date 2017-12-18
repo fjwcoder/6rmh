@@ -139,7 +139,8 @@ class Order extends Common
             // return dump($this->getDelivery());
             $this->assign('delivery', $this->getDelivery());
         }else{
-            return $this->error('订单查询错误'); die;
+            // return $this->error('订单查询错误'); die;
+            return msg('-1', '商品不存在或订单错误');
         }
         $this->assign('id_list', $cart_list);
         $this->assign('carts', $cart);

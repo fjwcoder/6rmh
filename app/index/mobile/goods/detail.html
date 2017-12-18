@@ -27,13 +27,13 @@
         <div class="close"></div><!--黑色部分-->
         <div class="size-content">
         <img src="<{$goods.img}>" alt="商品图片" rel="<{$goods.img}>">
+        <{if $goods.free_shipping ==1}>
+            <span class="item-title">运费：</span>免运费 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <{/if}>
         <span class="item-title">重量：</span>
         <{$goods.weight}>kg
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         
-        <{if $goods.free_shipping ==1}>
-            免运费 
-        <{/if}>
         <li><span class="item-title">选择规格：</span></li>
         <{volist name="$goods.spec" id="vo"}>
             <li id="spec-<{$vo.id}>" class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
@@ -98,8 +98,9 @@
                 
                 <!--商品来源-->
                 <p class="goods-item ">
-                    重量：<{$goods.weight}> kg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    免邮费<br>
+                    免运费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    重量：<{$goods.weight}> kg 
+                    <br>
                     <span class="item-title">来 源：</span>
                     <{if $goods.userid == 0}>
                         六耳猕猴官方商城
@@ -195,6 +196,7 @@
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
     <{include file="public/footer"/}>
+    
     <script>
         var app = angular.module('myApp', []);
         app.controller('goodsCtrl', function($scope,$http) {
@@ -248,71 +250,8 @@
                 $scope.buy_number++;
             } 
         });
-        //设置展示图片的高宽相同
-        var scr_height=window.screen.width;
-        $('.swiper-container img').css("height",scr_height);
-
-        var mySwiper = new Swiper ('.swiper-container', {
-            autoplay : 3000,
-            loop: true,
-            pagination: '.swiper-pagination',
-        })
-        //外部切换
-        var Swiper1 = new Swiper('.swiper-container-contant',{
-            loop:true,
-            autoHeight: true,
-            iOSEdgeSwipeDetection : true,
-            onSlideChangeStart:function(swiper){
-                $("html,body").animate({scrollTop:0}, 1);
-                $('.current').removeClass('current');
-                $('.tab').children().eq(swiper.realIndex).addClass('current');
-            }
-        });
-        //标签页点击切换
-        $('.tab li').click(function(){
-            $('.tab li').removeClass('current');
-            $(this).addClass('current');
-            var index = $(this).index()+1;
-            Swiper1.slideTo(index, 500, false);
-            $("html,body").animate({scrollTop:0}, 1);
-        });
-
-        //判断滑动方向    
-  /*      function scroll( fn ) {
-            var beforeScrollTop = document.body.scrollTop,
-                fn = fn || function() {};
-            window.addEventListener("scroll", function() {
-                var afterScrollTop = document.body.scrollTop,
-                    delta = afterScrollTop - beforeScrollTop;
-                if( delta === 0 ) return false;
-                fn( delta > 0 ? "down" : "up" );
-                beforeScrollTop = afterScrollTop;
-            }, false);
-        }
-        scroll(function(direction) {
-            if(direction=="up"){
-                $(".tab").slideUp(100);
-            }else if(direction=="down"){
-                $(".tab").slideDown(100);
-            }
-         });*/
-        //按钮点击切换显示
-        $(".choice_size").click(function(){
-            $(".choice_size").css("display","none");
-            $(".size").slideToggle(100);
-            $('.shop_car').css('display','none');
-        });
-        $('.close').click(function(){
-            $(".size").slideToggle(100);
-            $('.shop_car').css('display', 'block');
-            $(".choice_size").css("display","block");
-        });
-        $('.add_car').click(function(){
-            $(".size").slideToggle(100);
-            $(".choice_size").css("display","block");
-            $('.shop_car').css('display','block');
-        });
+        
       </script>
-      
+      <script src="__STATIC__/js/mall/mobile/mall_mobile_goods.js"></script>
 </body>
 </html>
