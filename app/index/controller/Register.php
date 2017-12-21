@@ -2,11 +2,13 @@
 namespace app\index\controller;
 use app\admin\controller\Wechat as Wechat;
 use app\index\controller\Share as Share;
+use app\index\controller\Index as Index;
 use think\Controller;
 use think\Db;
 use think\Config;
 use think\Session;
 use think\Cache;
+
 
 class Register extends controller
 {
@@ -83,6 +85,14 @@ class Register extends controller
                 'nickname'=>$phone, 'subscribe' =>2, 'qr_code'=>'', 'qr_seconds'=>0, 'qr_ticket'=>'', 'headimgurl'=>'__STATIC__\images\mall\default_headimg.png'
 
             ]; //修改 by fjw: 增加注册时间和个人二维码等字段
+
+            ## add by fjw in 17.12.21 增加活动时注册
+            $index = new Index();
+            $isactive = $index->isActive();
+            if($isactive['isactive']){
+                $data['isactive'] = 1;
+            }
+            
             $add = Db::name('users')->insert($data);
             $uid = Db::name('users') ->getLastInsID();
             if($uid>0){
@@ -173,7 +183,12 @@ class Register extends controller
                 $paycode = cryptCode($paycode,'ENCODE',  $paycrypt);
                 $user['pay_code'] = $paycode;
                 $user['paycrypt'] = $paycrypt;
-
+                ## add by fjw in 17.12.21 增加活动时注册
+                $index = new Index();
+                $isactive = $index->isActive();
+                if($isactive['isactive']){
+                    $user['isactive'] = 1;
+                }
                 $add = Db::name('users') -> insert($user);
                 $uid = Db::name('users') ->getLastInsID();
                 if($uid>0){

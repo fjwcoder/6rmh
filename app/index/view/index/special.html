@@ -29,7 +29,10 @@
 										<img src="<{$vo.img}>" alt="" />
 										<h1><{$vo.name}></h1>
 										<p><{$vo.description}><br><br>
-											<strong style="color: red; margin-left: -15%;" >￥<{$vo.price}></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+											<strong style="color: red; margin-left: -15%;" >￥
+												<{if $isactive}> <{$vo.active_price}> <{else}> <{$vo.price}> <{/if}>
+												
+											</strong>&nbsp;&nbsp;&nbsp;&nbsp;
 											<span style="color: red; margin-left: 5%;" >免邮</span>
 										</p>
 
@@ -52,7 +55,9 @@
 										<img src="<{$vo.img}>" alt="" />
 										<h1><{$vo.name}></h1>
 										<p><{$vo.description}><br><br>
-											<strong style="color: red; margin-left: -15%;" >￥<{$vo.price}></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+											<strong style="color: red; margin-left: -15%;" >￥
+												<{if $isactive}> <{$vo.active_price}> <{else}> <{$vo.price}> <{/if}>
+											</strong>&nbsp;&nbsp;&nbsp;&nbsp;
 											<span style="color: red; margin-left: 5%;" >免邮</span>
 										</p>
 									</a>

@@ -1,42 +1,39 @@
 <{extend name="./index/iframe"}>
 <{block name="content"}>
-<div class="table-responsive">
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>商品ID</th>
-                <th>名称</th>
-                <th>价格</th>        
-                <th>库存</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <{volist name="list" id="vo"}>
-            <tr>
-                <td><{$vo.id}></td>
-                <td><{$vo.name}></td>
-                <td><{$vo.price}></td>
-                <td><{$vo.amount}></td>
+<!--<style>
+    .layui-table-view{
+        border-left: 0!important;
+        border-right: 0!important;
+    }
+</style>-->
+<table id="goods" lay-filter="test"></table>
 
-                <td>
-                    <{switch name="vo['status']"}>
-                        <{case value="1"}>上架<{/case}>
-                        <{case value="2"}>下架<{/case}>
-                        <{default/}>其他
-                    <{/switch}>
-                </td>
-                <td>
-                    <a href="<{:url('edit', ['navid'=>$header.navid, 'id'=>$vo.id])}>"><span class="glyphicon glyphicon-edit" title="编辑"></span></a>
-                    <a href="javascript: void(0);"><span data-toggle="modal" data-target="#myModal_0"  class="glyphicon glyphicon-trash data-delete" title="删除"></span></a>
-                </td>
-            </tr>
-            <{/volist}>
-        </tbody>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  var iframe_height = $('.ccontent-panel').height();
+  var iframe_width = $('.content-panel').width();
+  
+  //第一个实例
+  table.render({
+    elem: '#goods'
+    ,height: iframe_height
+    ,width: iframe_width
+    ,url: '/admin/goods/getGoodsList/' //数据接口
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'id', title: 'ID', width: iframe_width*0.05, sort: true, fixed: 'left'}
+      ,{field: 'name', title: '名称', width: iframe_width*0.25}
+      ,{field: 'price', title: '价格', width: iframe_width*0.1, sort: true}
+      ,{field: 'amount', title: '数量', width: iframe_width*0.1} 
+      ,{field: 'bait', title: '鱼饵', width: iframe_width*0.1} 
+      ,{field: 'point', title: '积分', width: iframe_width*0.1, sort: true}
+      ,{field: 'addtime', title: '添加时间', width: iframe_width*0.1, sort: true}
+      ,{field: 'adduser', title: '添加人', width: iframe_width*0.05}
+      ,{field: 'option', title: '操作', width: iframe_width*0.14}
+    ]]
+  });
 
-    </table>
-</div>
-    
-    
+});
+</script>
 <{/block}>

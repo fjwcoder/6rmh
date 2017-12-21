@@ -67,14 +67,14 @@
                     <span class="product_description" title="<{$goods.description}>"><{$goods.description}></span>
                     <!--价格：-->
                     <span class="money-mark">￥</span>
-                    <{if $goods.promotion.type == 1}>
-                    <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}">
-                    </span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <s>原价:<span ng-bind="{{price}}"></span></s>
-                    <{else}>
-                    <span class="price" ng-bind="{{price}}"></span>
-                    <{/if}>
+                    
+                        <{if $goods.promotion.type == 1}>
+                        <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <s>原价:<span ng-bind="{{price|number:2}}"></span></s>
+                        <{else}>
+                        <span class="price" ng-bind="{{price|number:2}}"></span>
+                        <{/if}>
+                    
 
                     
 
@@ -200,7 +200,12 @@
     <script>
         var app = angular.module('myApp', []);
         app.controller('goodsCtrl', function($scope,$http) {
-            $scope.price = <{$goods.price}>;
+            <{if $isactive}>
+                $scope.price = <{$goods.active_price}>;
+            <{else}>
+                $scope.price = <{$goods.price}>;
+            <{/if}>
+            
             <{if $goods.promotion.type==1}>
                 $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
             <{/if}>

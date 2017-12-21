@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
+use app\index\controller\Index as Index;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Share as Share;
 use think\Controller;
@@ -14,13 +15,15 @@ class Goods extends controller
 
     public function detail(){
         
-        if(Session::get(Config::get('USER_ID'))){
-            $user = decodeCookie('user');
-        }
+        
         $id = input('id', 0, 'intval');
         
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
+
+        $index = new Index();
+        $isactive = $index->isActive();
+        $this->assign('isactive', $isactive['isactive']);
 
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
@@ -41,7 +44,7 @@ class Goods extends controller
 
             $shareInfo = $shareObj->shareInfo($url, $goods['data']['name'], 'http://www.6rmh.com'.$goods['data']['img']);
             $this->assign('shareinfo', $shareInfo);
-
+            // return dump($goods);
             $this->assign('goods', $goods['data']);
             $this ->assign('comment', json_encode($comment));
             return $this->fetch('detail');

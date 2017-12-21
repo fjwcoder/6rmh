@@ -19,16 +19,15 @@ class Index extends controller
             $gaode = new Gaode();
             $gaode->IPLocation();
         }
-        
 
-        if(Session::get(Config::get('USER_ID'))){
-            $user = decodeCookie('user');
-        }
+        $isactive = $this->isActive();
+        $this->assign('isactive', $isactive['isactive']);
+
         
         // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        // echo $url; die;
+
         $shareObj = new Share();
         $signPackage = $shareObj->shareConfig($url);
         $this->assign('shareconfig', $signPackage);
@@ -39,11 +38,13 @@ class Index extends controller
         $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
 
         $goods = $this->termGoods();
+
         if($goods['status']){
             $this->assign('goods', $goods['goods']);
         }else{
             $this->assign('goods', []); 
         }
+        
         
         
 
@@ -53,13 +54,39 @@ class Index extends controller
         return $this->fetch($config['mall_template']['value']);
     }
 
+    // 是否在活动中
+    public function isActive(){
+        $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
+        if(!empty($active)){
+            if(Session::get(Config::get('USER_ID'))){
+                $user = Db::name('users') -> where(['id'=>Session::get(Config::get('USER_ID')), 'status'=>1])-> find();
+            }
+            if(!empty($user)){
+                if($user['isactive'] == 1){
+                    return ['isactive'=>true, 'user'=>$user];
+                }else{
+                    return ['isactive'=>false, 'user'=>$user];
+                }
+            }else{
+                return ['isactive'=>true];
+            }
+
+        }else{
+            if(Session::get(Config::get('USER_ID'))){
+                $user = decodeCookie('user');
+            }
+            return ['isactive'=>false, 'user'=>$user];
+        }
+    }
+
     # 获取每期产品
     public function termGoods(){
         $term = getTerm();
 
         $goods = Db::name('term_goods') -> alias('a') 
             -> join('goods b', 'a.gid=b.id', 'LEFT') 
-            -> field(['b.id, b.name', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
+            // -> join('goods_spec c', 'a.gid=c.gid')
+            -> field(['b.id, b.name', 'b.active_price', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
             -> where(['a.term'=>$term['id']]) -> select();
         if($goods){
             return ['status'=>true, 'goods'=>$goods];

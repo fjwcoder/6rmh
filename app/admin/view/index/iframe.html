@@ -7,21 +7,23 @@
 <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="__CSS__/admin_default_layout.css" type="text/css"/>
 <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/css/fileinput.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.4.2/js/fileinput.min.js"></script>
 <!--加载fileinput 对中文的支持-->
 <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
-<script src="__JS__/plugin/laydate/laydate.js"></script> <!--引入日期插件 -->
+<!--<script src="__JS__/plugin/laydate/laydate.js"></script> 引入日期插件 -->
 <script src="__JS__/admin/admin_default_layout.js"></script>
 
-
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
 </head>
 <body>
-    <div class="iframe-panel container ">
+    <div class="iframe-panel " style="width: 100%">
         <div class="content-panel wp_100">
-            <!--引入头文件-->
-            <!--<{include file="iframe/header"}>-->
             <!--主要内容-->
             <{block name="content"}>
                 iframe里的内容
@@ -29,8 +31,6 @@
         </div>
     </div>
 
-    <!--模态框-->
-    <{include file="model/model_0"}>
-    
+
 </body>
 </html>
