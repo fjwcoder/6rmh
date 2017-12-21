@@ -22,7 +22,8 @@ class Index extends Manage
 
         $config = webConfig();
         $this->assign('admin', ['title'=>$config['admin_title']['value']]);
-        $this->assign('navbar', $this->loadNavbar());
+        $this->assign('headnav', $this->getHeadNav());
+        $this->assign('leftnav', $this->leftNav());
         $this->assign('user', getUserInfo('admin_member', Session::get(Config::get('USER_KEY'))));
         return $this->fetch();
     }
@@ -36,16 +37,21 @@ class Index extends Manage
         }
     }
 
-    public function loadNavbar(){
+    public function getHeadNav(){
+        $head = Db::name('admin_menu') -> where(['deep'=>1, 'status'=>1]) -> order('sort') -> select();
+        return $head;
+    }
+
+    public function leftNav(){
         global $navbar, $html;
         if(session('ADMIN_NAVBAR')){
             $result =  session('ADMIN_NAVBAR'); //修改这里记得修改system里的ADMIN_NAVBAR
+
         }else{
             #查询用户权限
             $result = getAdminNode(Session::get(Config::get('USER_KEY')));
-            
-            // session('ADMIN_NAVBAR', $result);
         }
+        
         if(empty($result)){
             session(null);
             return msg('/admin/login/index', '未配置节点', 'iframe');
@@ -56,8 +62,38 @@ class Index extends Manage
         $this->recursion(0);
         return $html;
     }
-
     public function recursion($fid=0){
+        global $navbar, $html;
+
+        for($i=0; $i<count($navbar); $i++){
+            if($navbar[$i]['pid'] == $fid){
+                if($navbar[$i]['deep'] != 1){
+                    if($navbar[$i]['isnode'] > 0){
+                        $html .= '<li class="layui-nav-item head-item  khidden" parent-id="'.$navbar[$i]['pid'].'" >';
+                        $html .= '<a href="javascript: void(0);">'.$navbar[$i]['title'].'</a>';
+                        $html .= '<dl class="layui-nav-child">';
+                        
+                    }else{
+                        $html .= '<dd><a data-url="'.$navbar[$i]['url'].'" href="javascript: void(0);">'.$navbar[$i]['title'].'</a></dd>';
+                    }
+
+                    $this->recursion($navbar[$i]['id']);
+
+                    if($navbar[$i]['isnode'] > 0){
+                        $html .= '</dl></li>';
+                    }
+
+                }else{
+                    $this->recursion($navbar[$i]['id']);
+                }  
+            }
+        }
+        
+    }
+// ===========================================以前的版本，别删============================================
+    
+
+    public function recursion_copy($fid=0){
         global $navbar, $html;
         for($i=0; $i<count($navbar); $i++){
             if($navbar[$i]['pid'] == $fid){

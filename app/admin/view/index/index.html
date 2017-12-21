@@ -1,28 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html>
 <head>
-    <title><{$admin.title}></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="__CSS__/admin_default_layout.css" type="text/css"/>
-    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="__JS__/admin/admin_default_layout.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title><{$admin.title}></title>
+  <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+  <style>
+    .khidden{display: none!important;}
+    .kshow{display: block!important;}
+  </style>
 </head>
-<body class="cms-body">
-    <div class=" cms-header ">
-        <{include file="index/navbar"/}>
-    </div>
-    <div class="abs cms-panel wp_100">
-        <div class="cms-content wp_100 hp_100">
-            <iframe id="iframe" frameborder="0" name="Iframe" src="/admin/web/index" width="100%" height="99%">
-                您的浏览器不支持嵌入式框架，或者当前配置为不显示嵌入式框架。
-            </iframe>
-        </div>
-    </div>
-        
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo"><{$admin.title}></div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+        <{volist name="headnav" id="vo"}>
+            <li class="layui-nav-item"><a href="javascript: void(0);" onclick="headNavClick(<{$vo.id}>);" ><{$vo.title}></a></li>
+        <{/volist}>
+      <!--<li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+          <dd><a href="javascript: void(0);">邮件管理</a></dd>
+          <dd><a href="javascript: void(0);">消息管理</a></dd>
+          <dd><a href="javascript: void(0);">授权管理</a></dd>
+        </dl>
+      </li>-->
+    </ul>
 
-    
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript: void(0);">
+          <img src="<{$user.headimg}>" class="layui-nav-img"><{$user.name}>
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="javascript: void(0);">基本资料</a></dd>
+          <dd><a href="javascript: void(0);">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="/admin/login/logout">注销</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+          <{$leftnav}>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="height: 100%; width: 100%;">
+        <iframe id="iframe" frameborder="0" name="Iframe" src="/admin/web/index" width="100%" height="99%">
+            您的浏览器不支持嵌入式框架，或者当前配置为不显示嵌入式框架。
+        </iframe>
+    </div>
+  </div>
+  
+  <!--<div class="layui-footer">
+    © layui.com - 底部固定区域
+  </div>-->
+</div>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script>
+headNavClick(1);
+layui.use('element', function(){
+  var element = layui.element;
+});
+function headNavClick($id){
+    $('[parent-id]').removeClass('kshow').addClass('khidden');
+    $("[parent-id='"+$id+"']").removeClass('khidden').addClass('kshow');
+    $('.layui-nav-tree .kshow:first').addClass('layui-nav-itemed');
+}
+
+$('[data-url]').click(function(){
+    var url = $(this).attr('data-url');
+    if( (url != '') && (url != null) && (url != 'undefind')){
+        $('#iframe').attr('src', url); 
+    }
+});
+
+</script>
 </body>
 </html>
