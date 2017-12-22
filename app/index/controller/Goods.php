@@ -20,11 +20,11 @@ class Goods extends controller
         
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
-
+        ## 17.12.21=====
         $index = new Index();
-        $isactive = $index->isActive();
+        $isactive = $index->isGoodsActive($id);
         $this->assign('isactive', $isactive['isactive']);
-
+        ## end 17.12.21=====
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
 

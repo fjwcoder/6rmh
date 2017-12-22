@@ -45,9 +45,6 @@ class Index extends controller
             $this->assign('goods', []); 
         }
         
-        
-        
-
         $config = mallConfig();
         $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
             ]);
@@ -61,7 +58,7 @@ class Index extends controller
             if(Session::get(Config::get('USER_ID'))){
                 $user = Db::name('users') -> where(['id'=>Session::get(Config::get('USER_ID')), 'status'=>1])-> find();
             }
-            if(!empty($user)){
+            if(isset($user)){
                 if($user['isactive'] == 1){
                     return ['isactive'=>true, 'user'=>$user];
                 }else{
@@ -75,7 +72,38 @@ class Index extends controller
             if(Session::get(Config::get('USER_ID'))){
                 $user = decodeCookie('user');
             }
-            return ['isactive'=>false, 'user'=>$user];
+            return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
+        }
+    }
+
+    public function isGoodsActive($goods){
+        $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
+        if(!empty($active)){
+            if(Session::get(Config::get('USER_ID'))){
+                $user = Db::name('users') -> where(['id'=>Session::get(Config::get('USER_ID')), 'status'=>1])-> find();
+            }
+            $list = explode(',', $active['list']);
+            // return dump($list);
+            if(in_array($goods, $list)){
+                if(isset($user)){
+                    if($user['isactive'] == 1){
+                        return ['isactive'=>true, 'user'=>$user];
+                    }else{
+                        return ['isactive'=>false, 'user'=>$user];
+                    }
+                }else{
+                    return ['isactive'=>true];
+                }
+            }else{
+                return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
+            }
+            
+
+        }else{
+            if(Session::get(Config::get('USER_ID'))){
+                $user = decodeCookie('user');
+            }
+            return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
         }
     }
 

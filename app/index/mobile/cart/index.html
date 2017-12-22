@@ -63,8 +63,9 @@
                     <div id="goods-option-<{$vo.cart_id}>"  class="good-option">
                          <li class="option-title" ng-click="slideCover(<{$vo.cart_id}>);"> </li>
                          <li class="changeNum">
-                            
+                            <{if $vo.num>1}>
                             <span class="number-change " ng-click="subnum(<{$vo.cart_id}>);" title="数量减1">-</span>
+                            <{/if}>
                             <input id="cart-goods-num-<{$vo.cart_id}>" class="cart-goods-num" name="number" value="<{$vo.num}>"/>
                             <span class="number-change "  ng-click="addnum(<{$vo.cart_id}>);" title="数量加1">+</span>
                         </li>

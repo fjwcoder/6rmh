@@ -45,6 +45,12 @@
                     <span class="item-title">价格：</span>
                     <span class="font-color-sub_main">¥</span>
                     <span class=" price" ng-bind="{{price|number:2}}"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                        <{if $isactive}>
+                        <span class="goods-promotion " >
+                            一元秒杀活动 在这里加个倒计时
+                        </span>
+                        <{/if}>
                     <{/if}>
                     
                 </p>

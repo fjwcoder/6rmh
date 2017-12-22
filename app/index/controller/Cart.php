@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
+use app\index\controller\Index as Index;
 use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
@@ -66,6 +67,18 @@ class Cart extends Common
     # 移动端数量增加 ajax
     public function setInc(){
         $id = input('id', 0, 'intval');
+        $cart = Db::name('cart') -> where(['id'=>$id]) -> find();
+        if(isset($cart)){
+            $index = new Index();
+            $active = $index->isGoodsActive($cart['goods_id']);
+            if($active['isactive']){
+                return json_encode(['num'=>0]);
+            }
+        }else{
+            return json_encode(['num'=>0]);
+        }
+        
+
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
         if($inc){
             return json_encode(['num'=>1]);
@@ -90,6 +103,19 @@ class Cart extends Common
     # PC端数量增加 刷新页面
     public function setIncPC(){
         $id = input('id', 0, 'intval');
+        
+        $cart = Db::name('cart') -> where(['id'=>$id]) -> find();
+        if(isset($cart)){
+            $index = new Index();
+            $active = $index->isGoodsActive($cart['goods_id']);
+            if($active['isactive']){
+                return msg('-1', '活动商品，限量购买'); exit;
+            }
+        }else{
+            return msg('-1', '购物车数据错误'); exit;
+        }
+        
+        
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
         if($inc){
             return $this->redirect('index'); exit;
@@ -125,7 +151,7 @@ class Cart extends Common
         $goods = Db::name('goods') ->alias('a') 
             -> join('goods_picture b', 'a.id=b.gid', 'LEFT') 
             -> join('goods_spec c', 'a.id=c.gid', 'LEFT') 
-            -> field(['a.id as id', 'a.name', 'a.description', 'a.weight', 'a.price as gprice', 'a.userid', 'a.status',
+            -> field(['a.id as id', 'a.name', 'a.description', 'a.weight', 'a.active_price','a.price as gprice', 'a.userid', 'a.status',
                 'b.pic', 'c.spec', 'c.num', 'c.price as sprice'])  
             -> where(['a.id'=>$id, 'c.id'=>$sid]) 
             -> group('b.gid')
@@ -135,10 +161,27 @@ class Cart extends Common
 
     #加入购物车
     public function add(){
-        $user = decodeCookie('user');
+        
+        
+        
         $id = input('id', 0, 'intval'); //商品id
         $sid = input('spec', 0, 'intval'); //规格  id
         $num = input('num', 0, 'intval'); //数量
+
+        ## add by fjw in 17.12.21: 增加活动商品只能增加一个的过滤 =====
+        $index = new Index();
+        $active = $index->isGoodsActive($id);
+        if($active['isactive']){ // 活动中
+            if($num>1){
+                return msg('-1', '活动商品，只能购买一件');
+            }
+        }
+        if(isset($active['user'])){
+            $user = $active['user'];
+        }else{
+            $user = decodeCookie('user');
+        }
+        ## ===== 17.12.21 end =====
 
         $goods = $this->getCartGoods($id, $sid);
         
@@ -160,20 +203,31 @@ class Cart extends Common
         if(empty($cart)){ //空的，新加
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
                 'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
-                'price'=>$goods['sprice']?$goods['sprice']:$goods['gprice'],
                 'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 
                 'parent_id'=>empty($user['pid'])?0:$user['pid']
                 ];
-            
+            ## add by fjw in 17.12.21:
+            if($active['isactive']){
+                $data['price'] = $goods['active_price'];
+            }else{
+                $data['price'] = $goods['sprice']?$goods['sprice']:$goods['gprice'];
+            }
+            ## === 17.12.21 end ====
+
             $result = Db::name('cart') -> insert($data);
 
         }else{
+            ## add by fjw in 17.12.21: 增加活动商品只能增加一个的过滤 =====
+            if($active['isactive']){ // 活动中
+                return msg('-1', '购物车已存在该活动商品'); exit;
+            }
+            ## ===== 17.12.21 end =====
+
             $result = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
                 'goods_id'=>$id, 'spec'=>$sid]) -> setInc('num', $num);
             //增加修改价格（待修改）
-
-            $data = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
-                'goods_id'=>$id, 'spec'=>$sid]) -> find();
+            // $data = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
+            //     'goods_id'=>$id, 'spec'=>$sid]) -> find();
         }
 
         if($result){
