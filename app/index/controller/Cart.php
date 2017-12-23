@@ -1,7 +1,8 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\index\controller\Index as Index;
+use app\index\controller\Active as Active;
+// use app\index\controller\Order as Order;
 use app\extend\controller\Mall as Mall;
 use think\Controller;
 use think\Config;
@@ -45,7 +46,7 @@ class Cart extends Common
                     
             }
 
-            // return dump($cart); //打印
+
             $all_cart = json_encode($cart_list);
             //$this->assign('all_cart', json_encode($cart_list)); //把全部购物车ID
             $flag = true;
@@ -67,18 +68,6 @@ class Cart extends Common
     # 移动端数量增加 ajax
     public function setInc(){
         $id = input('id', 0, 'intval');
-        $cart = Db::name('cart') -> where(['id'=>$id]) -> find();
-        if(isset($cart)){
-            $index = new Index();
-            $active = $index->isGoodsActive($cart['goods_id']);
-            if($active['isactive']){
-                return json_encode(['num'=>0]);
-            }
-        }else{
-            return json_encode(['num'=>0]);
-        }
-        
-
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
         if($inc){
             return json_encode(['num'=>1]);
@@ -103,18 +92,6 @@ class Cart extends Common
     # PC端数量增加 刷新页面
     public function setIncPC(){
         $id = input('id', 0, 'intval');
-        
-        $cart = Db::name('cart') -> where(['id'=>$id]) -> find();
-        if(isset($cart)){
-            $index = new Index();
-            $active = $index->isGoodsActive($cart['goods_id']);
-            if($active['isactive']){
-                return msg('-1', '活动商品，限量购买'); exit;
-            }
-        }else{
-            return msg('-1', '购物车数据错误'); exit;
-        }
-        
         
         $inc = Db::name('cart') -> where(['id'=>$id]) -> setInc('num', 1);
         if($inc){
@@ -151,7 +128,7 @@ class Cart extends Common
         $goods = Db::name('goods') ->alias('a') 
             -> join('goods_picture b', 'a.id=b.gid', 'LEFT') 
             -> join('goods_spec c', 'a.id=c.gid', 'LEFT') 
-            -> field(['a.id as id', 'a.name', 'a.description', 'a.weight', 'a.active_price','a.price as gprice', 'a.userid', 'a.status',
+            -> field(['a.id as id', 'a.name', 'a.description', 'a.weight','a.price as gprice', 'a.userid', 'a.status',
                 'b.pic', 'c.spec', 'c.num', 'c.price as sprice'])  
             -> where(['a.id'=>$id, 'c.id'=>$sid]) 
             -> group('b.gid')
@@ -163,29 +140,13 @@ class Cart extends Common
     public function add(){
         
         
+        $user = Db::name('users') -> where(['id'=>session(config('USER_ID')), 'status'=>1]) -> find();
         
         $id = input('id', 0, 'intval'); //商品id
         $sid = input('spec', 0, 'intval'); //规格  id
         $num = input('num', 0, 'intval'); //数量
 
-        ## add by fjw in 17.12.21: 增加活动商品只能增加一个的过滤 =====
-        $index = new Index();
-        $active = $index->isGoodsActive($id);
-        if($active['isactive']){ // 活动中
-            if($num>1){
-                return msg('-1', '活动商品，只能购买一件');
-            }
-        }
-        if(isset($active['user'])){
-            $user = $active['user'];
-        }else{
-            $user = decodeCookie('user');
-        }
-        ## ===== 17.12.21 end =====
-
         $goods = $this->getCartGoods($id, $sid);
-        
-        // return dump($goods);
         if($goods['status'] != 1 || empty($goods)){
             return $this->error('商品已下架'); exit;
         }
@@ -194,7 +155,31 @@ class Cart extends Common
         if($goods['num'] < $num){
             return $this->error('商品数量不足'); exit;
         }
-        
+
+        if($user['isactive'] >= 1){
+            $activeObj = new Active();
+            $active = $activeObj->isActive($id);
+
+            if($active['status']){
+               $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
+                'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
+                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'price'=>$active['goods']['price'],
+                'parent_id'=>empty($user['pid'])?0:$user['pid'], 
+                'remark'=>$active['goods']['active_name']
+                ];
+
+                $result = Db::name('cart') -> insert($data);
+                $cart_id = Db::name('cart') ->getLastInsID();
+                if($cart_id >0){
+                    return $this->redirect('/index/order/preview?cart_list='.$cart_id);
+                    // return $this->redirect('/index/order/preview', ['cart_list'=>$cart_id]); exit;
+                    // $orderObj = new Order();
+                    // $orderObj->preview($cart_id);
+                    exit;
+                }
+            }
+        }
+
         #查询是否存在 同商品 同规格
         #有则数量相加、没有则新建一条
         $cart = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
@@ -206,22 +191,12 @@ class Cart extends Common
                 'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 
                 'parent_id'=>empty($user['pid'])?0:$user['pid']
                 ];
-            ## add by fjw in 17.12.21:
-            if($active['isactive']){
-                $data['price'] = $goods['active_price'];
-            }else{
-                $data['price'] = $goods['sprice']?$goods['sprice']:$goods['gprice'];
-            }
-            ## === 17.12.21 end ====
+
 
             $result = Db::name('cart') -> insert($data);
 
         }else{
-            ## add by fjw in 17.12.21: 增加活动商品只能增加一个的过滤 =====
-            if($active['isactive']){ // 活动中
-                return msg('-1', '购物车已存在该活动商品'); exit;
-            }
-            ## ===== 17.12.21 end =====
+
 
             $result = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
                 'goods_id'=>$id, 'spec'=>$sid]) -> setInc('num', $num);

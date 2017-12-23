@@ -4,6 +4,7 @@ use app\common\controller\Common;
 use app\extend\controller\Gaode as Gaode;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Share as Share;
+use app\index\controller\Active as Active;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -14,35 +15,69 @@ class Index extends controller
 	
 	
     public function index(){
-
         if(empty(session('LOCATION'))){
             $gaode = new Gaode();
             $gaode->IPLocation();
         }
 
-        $isactive = $this->isActive();
-        $this->assign('isactive', $isactive['isactive']);
+        if(isMobile()){ // 设置分享信息
+            // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+            $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-        
-        // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $shareObj = new Share();
+            $signPackage = $shareObj->shareConfig($url);
+            $this->assign('shareconfig', $signPackage);
 
-        $shareObj = new Share();
-        $signPackage = $shareObj->shareConfig($url);
-        $this->assign('shareconfig', $signPackage);
+            $shareInfo = $shareObj->shareInfo($url);
+            $this->assign('shareinfo', $shareInfo);
+            $wxconf = getWxConf();
+            $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+        }
 
-        $shareInfo = $shareObj->shareInfo($url);
-        $this->assign('shareinfo', $shareInfo);
-        $wxconf = getWxConf();
-        $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
+        $this->assign('active', false); //默认没有活动
+        # 1. 查询活动
+        $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
+        if(isset($active)){
 
-        $goods = $this->termGoods();
+            $this->assign('active', $active);
+            $term = getTerm();
+            # 1.获取当前期的产品
+            $goods = Db::name('term_goods') -> alias('a') 
+                    -> join('goods b', 'a.gid=b.id', 'LEFT') 
+                    -> join('active_detail c', 'a.gid=c.gid', 'LEFT')
+                    -> field(['b.id, b.name', 'b.price','c.price as active_price', 'b.description', 'c.bait', 'c.point', 'b.img', 'c.gbegin_time', 'c.gend_time'])
+                    -> where(['a.term'=>$term['id']]) -> select();
 
-        if($goods['status']){
-            $this->assign('goods', $goods['goods']);
+            if(isset($goods)){
+                foreach($goods as $k=>$v){
+                    if(empty($v['gbegin_time']) && empty($v['gend_time']) ){ //没设时间，默认活动中
+                        $goods[$k]['price'] = $v['active_price'];
+                    }else{
+                        $time = time();
+                        if( ($v['gbegin_time']<intval($time)) && ($v['gend_time']>intval($time)) ){
+
+                            $goods[$k]['price'] = $v['active_price'];
+                        }
+                    }
+                }
+
+                $this->assign('goods', $goods);
+            }else{
+                $goods = $this->termGoods();
+                if($goods['status']){
+                    $this->assign('goods', $goods['goods']);
+                }else{
+                    $this->assign('goods', []); 
+                }
+            }
         }else{
-            $this->assign('goods', []); 
+            $goods = $this->termGoods();
+            if($goods['status']){
+                $this->assign('goods', $goods['goods']);
+            }else{
+                $this->assign('goods', []); 
+            }
         }
         
         $config = mallConfig();
@@ -51,76 +86,30 @@ class Index extends controller
         return $this->fetch($config['mall_template']['value']);
     }
 
-    // 是否在活动中
-    public function isActive(){
-        $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
-        if(!empty($active)){
-            if(Session::get(Config::get('USER_ID'))){
-                $user = Db::name('users') -> where(['id'=>Session::get(Config::get('USER_ID')), 'status'=>1])-> find();
-            }
-            if(isset($user)){
-                if($user['isactive'] == 1){
-                    return ['isactive'=>true, 'user'=>$user];
-                }else{
-                    return ['isactive'=>false, 'user'=>$user];
-                }
-            }else{
-                return ['isactive'=>true];
-            }
-
-        }else{
-            if(Session::get(Config::get('USER_ID'))){
-                $user = decodeCookie('user');
-            }
-            return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
-        }
-    }
-
-    public function isGoodsActive($goods){
-        $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
-        if(!empty($active)){
-            if(Session::get(Config::get('USER_ID'))){
-                $user = Db::name('users') -> where(['id'=>Session::get(Config::get('USER_ID')), 'status'=>1])-> find();
-            }
-            $list = explode(',', $active['list']);
-            // return dump($list);
-            if(in_array($goods, $list)){
-                if(isset($user)){
-                    if($user['isactive'] == 1){
-                        return ['isactive'=>true, 'user'=>$user];
-                    }else{
-                        return ['isactive'=>false, 'user'=>$user];
-                    }
-                }else{
-                    return ['isactive'=>true];
-                }
-            }else{
-                return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
-            }
-            
-
-        }else{
-            if(Session::get(Config::get('USER_ID'))){
-                $user = decodeCookie('user');
-            }
-            return ['isactive'=>false, 'user'=>isset($user)?$user:[]];
-        }
-    }
+    
 
     # 获取每期产品
     public function termGoods(){
-        $term = getTerm();
-
-        $goods = Db::name('term_goods') -> alias('a') 
-            -> join('goods b', 'a.gid=b.id', 'LEFT') 
-            // -> join('goods_spec c', 'a.gid=c.gid')
-            -> field(['b.id, b.name', 'b.active_price', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
-            -> where(['a.term'=>$term['id']]) -> select();
-        if($goods){
+        if(cache('TERM_GOODS')){
+            $goods = cache('TERM_GOODS');
+        }else{
+            $term = getTerm();
+            # 1.获取当前期的产品
+            $goods = Db::name('term_goods') -> alias('a') 
+                    -> join('goods b', 'a.gid=b.id', 'LEFT') 
+                    -> field(['b.id, b.name', 'b.price', 'b.description', 'b.bait', 'b.point', 'img'])
+                    -> where(['a.term'=>$term['id']]) -> select();
+            
+            if(isset($goods)){
+                cache('TERM_GOODS', $goods);
+            }
+        }
+        if(isset($goods)){
             return ['status'=>true, 'goods'=>$goods];
         }else{
             return ['status'=>false, 'goods'=>'空空如也'];
-        }
+        } 
+                
     }
     
     #======================================================angularjs的$http========================================================================

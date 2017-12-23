@@ -56,8 +56,10 @@
                 <div class=" wp_10">
                     <{if $vo.num>1}>
                     <a class="number-change" href="/index/cart/setDecPC/id/<{$vo.cart_id}>/num/<{$vo.num}>" title="数量减1">-</a>
+                    <{else}>
+                    <a class="number-change" href="javascript: void(0);" title="数量减1">-</a>
                     <{/if}>
-                    <input class="cart-goods-num" name="number" value="<{$vo.num}>"/>
+                    <input class="cart-goods-num" name="number" readonly value="<{$vo.num}>"/>
                     <a class="number-change" href="/index/cart/setIncPC/id/<{$vo.cart_id}>/num/<{$vo.num}>" title="数量加1">+</a>
                 </div>
                 <div class=" wp_10">

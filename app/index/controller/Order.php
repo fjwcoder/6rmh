@@ -5,7 +5,7 @@ use app\extend\controller\Mall as Mall;
 use app\index\controller\Address as Address; 
 use app\index\controller\Cart as Cart; 
 use app\extend\controller\Shipping as Shipping;
-// use app\admin\controller\Order as AdminOrder;
+use app\index\controller\Active as Active;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -75,14 +75,12 @@ class Order extends Common
 
     #生成订单预览
     public function preview($cart_list=''){
-        // if(empty($cart_list)){
-            // $cart_list = input('id_list', '', 'htmlspecialchars,trim');
-            $cart_list = empty($cart_list)?input('id_list', '', 'htmlspecialchars,trim'):$cart_list;
-            if($cart_list == ''){
-                // return $this->error('请选择商品'); exit;
-                return msg('-1', '请选择商品'); exit;
-            }
-        // }
+// return $cart_list; exit;
+        $cart_list = empty($cart_list)?input('id_list', '', 'htmlspecialchars,trim'):$cart_list;
+        if($cart_list == ''){
+            return msg('-1', '请选择商品'); exit;
+        }
+        
         $addrID = input('addrid', 0, 'intval'); 
         $user = decodeCookie('user');
         $mallObj = new Mall();
@@ -100,9 +98,16 @@ class Order extends Common
              -> order('a.addtime desc') 
              -> where('a.id in ('.$cart_list.')') 
              -> select(); 
-        // return dump($cart);
+        return dump($cart);
+
         if(!empty($cart)){
             $count = ['baits'=>0, 'points'=>0, 'prices'=>0];
+            # 查询活动
+            // if(){
+
+            // }
+            $activeObj = new Active();
+
             # 查询促销
             $promotion = Db::name('mall_promotion') 
                 -> where('status=1 and begin_time<='.time().' and end_time>='.time()) -> select();
@@ -121,7 +126,7 @@ class Order extends Common
                 $count['points'] += floatval($cart[$k]['point']*$cart[$k]['num']);
                 $count['prices'] += floatval($cart[$k]['price']*$cart[$k]['num']); 
             }
-
+            
             # 收货地址
             if($addrID === 0){
                 $curr_address = $this->getAddress();
@@ -142,13 +147,14 @@ class Order extends Common
             // return $this->error('订单查询错误'); die;
             return msg('-1', '商品不存在或订单错误');
         }
+        
         $this->assign('id_list', $cart_list);
         $this->assign('carts', $cart);
         $this->assign('count', $count);
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'订单预览', 'template'=>$config['mall_template']['value'] ]);
 
-
+// return dump($count);
 
         return $this->fetch();
     }

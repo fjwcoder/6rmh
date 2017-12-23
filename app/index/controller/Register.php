@@ -2,7 +2,7 @@
 namespace app\index\controller;
 use app\admin\controller\Wechat as Wechat;
 use app\index\controller\Share as Share;
-use app\index\controller\Index as Index;
+use app\index\controller\Active as Active;
 use think\Controller;
 use think\Db;
 use think\Config;
@@ -87,8 +87,8 @@ class Register extends controller
             ]; //修改 by fjw: 增加注册时间和个人二维码等字段
 
             ## add by fjw in 17.12.21 增加活动时注册
-            $index = new Index();
-            $isactive = $index->isActive();
+            $activeObj = new Active();
+            $isactive = $activeObj->isActive();
             if($isactive['isactive']){
                 $data['isactive'] = 1;
             }
@@ -184,8 +184,8 @@ class Register extends controller
                 $user['pay_code'] = $paycode;
                 $user['paycrypt'] = $paycrypt;
                 ## add by fjw in 17.12.21 增加活动时注册
-                $index = new Index();
-                $isactive = $index->isActive();
+                $activeObj = new Active();
+                $isactive = $activeObj->isActive();
                 if($isactive['isactive']){
                     $user['isactive'] = 1;
                 }

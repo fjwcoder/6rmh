@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use app\common\controller\Common; 
-use app\index\controller\Index as Index;
+use app\index\controller\Active as Active;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Share as Share;
 use think\Controller;
@@ -20,13 +20,37 @@ class Goods extends controller
         
         $config = mallConfig();
         $this->assign('config', ['page_title'=>'商品详情', 'template'=>$config['mall_template']['value'] ]);
-        ## 17.12.21=====
-        $index = new Index();
-        $isactive = $index->isGoodsActive($id);
-        $this->assign('isactive', $isactive['isactive']);
-        ## end 17.12.21=====
+
         $mallObj = new Mall();
         $goods = $mallObj->getGoodsDetail($id); //获取商品详情
+        $this->assign('isactive', false);
+        ## 17.12.21=====
+        if(session(config('USER_ID'))){
+            $user = Db::name('users') -> where(['id'=>session(config('USER_ID')), 'status'=>1]) -> find();
+            if($user['isactive'] >= 1){
+                $activeObj = new Active();
+                $active = $activeObj->isActive($id);
+                if($active['status']){
+                    $goods['data']['active_price'] = $active['goods']['price'];
+                    $goods['data']['bait'] = $active['goods']['bait'];
+                    $goods['data']['point'] = $active['goods']['point'];
+                    $this->assign('isactive', $active['goods']);
+                }
+            }
+        }else{
+            $activeObj = new Active();
+            $active = $activeObj->isActive($id);
+            if($active['status']){
+                $goods['data']['active_price'] = $active['goods']['price'];
+                $goods['data']['bait'] = $active['goods']['bait'];
+                $goods['data']['point'] = $active['goods']['point'];
+                $this->assign('isactive', $active['goods']);
+            }
+            
+        }
+        
+        ## end 17.12.21=====
+        
 
         // 注意 URL 一定要动态获取，不能 handcode.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";

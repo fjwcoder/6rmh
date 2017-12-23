@@ -1,6 +1,9 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <div  class=" content-panel ">
+    <style>
+        .goods-promotion{padding: 0 5px;}
+    </style>
     <!--导航栏-->
     <!--<{include file="./public/navbar"/}>-->
     <link rel="stylesheet" href="__CSS__/mall_default_comment.css" type="text/css"/>
@@ -35,21 +38,23 @@
                     
                     
                     <{if $goods.promotion.type == 1}>
-                    <span class="item-title">促销价：</span>
-                    <span class="font-color-sub_main">¥</span>
-                    <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <s >原价:<span ng-bind="{{price|number:2}}"></span></s>
+                        <span class="item-title">促销价：</span>
+                        <span class="font-color-sub_main">¥</span>
+                        <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <s >原价:<span ng-bind="{{price|number:2}}"></span></s>
 
                     <{else}>
-                    <span class="item-title">价格：</span>
-                    <span class="font-color-sub_main">¥</span>
-                    <span class=" price" ng-bind="{{price|number:2}}"></span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="item-title">价格：</span>
+                        <span class="font-color-sub_main">¥</span>
+                        <span class=" price" ng-bind="{{price|number:2}}"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <{if $isactive}>
                         <span class="goods-promotion " >
-                            一元秒杀活动 在这里加个倒计时
-                        </span>
+                            <{$isactive.active_name}> &nbsp;&nbsp;&nbsp;&nbsp;
+                            12:32:12
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <s>原价：￥<{$goods.price}></s>
                         <{/if}>
                     <{/if}>
                     
@@ -106,7 +111,6 @@
                     <span >
                         <a href="javascript: void(0);" ng-click="subNumber(1);" title="减少数量">-</a>
                         <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
-                        
                         <a href="javascript: void(0);" ng-click="addNumber(1);" title="增加数量">+</a>
                     </span>
                 </p>
@@ -117,11 +121,17 @@
                 <!--<a href="/index/sale/buy/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}">
                     <div>立即购买</div>
                 </a>-->
-
+                <{if $isactive}>
+                <a href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/1" title="加入购物车">
+                    <button class="submit-btn " title="<{$isactive.active_name}>">立即抢购</button>
+                </a>
+                <{else}>
                 <a href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">
                     <button class="submit-btn ">加入购物车</button>
                 </a>
+                <{/if}>
 
+                
                 <!--<a href="/index/sale/collect/id/<{$goods.id}>">
                     <div>收藏</div>
                 </a>-->
