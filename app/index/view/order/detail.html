@@ -4,8 +4,6 @@
     .panel-style{padding:10px 15px;height:50px;}
     .panel-biaoti{color:#666;font-family: inherit;font-size:16px;}
     .panel-zf{line-height:32px;margin-left:120px;font-size:16px;
-    /*color:#E4393C;
-    border:1px solid #E4393C;*/
     padding:0px 10px;margin-top:3px;}
     .red{color:red;}
     .goods-opreason{font-size: 12px;font-weight: 400;margin-left:10px;color:#e4393c;}
@@ -65,12 +63,26 @@
         <span class="f_l panel-zf"><{$order.shipping_name}></span>
     </div>
 
-    <div class="panel-style">
-        <h4 class="panel-biaoti f_l"> 
-            物流信息：
-        </h4>
-        <span class="f_l panel-zf">显示物流信息</span>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title pull-left">物流信息</h3>
+        </div>
+        <div class="panel-body" style="padding-left: 100px;">
+            <{if $trace == ''}>
+                <div class="trace-info">
+                    <p class="trace_station">正在查询物流信息，请稍后~</p>
+                </div>
+            <{else}>
+                <{volist name="trace" id="vo" key="key"}>
+                    <div class="trace-info">
+                        <p class="trace_station"><{$vo.AcceptStation}></p>
+                        <p class="trace_time"><{$vo.AcceptTime}></p>
+                    </div>
+                <{/volist}>
+            <{/if}>
+        </div>
     </div>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class=" f_l wp_55 panel-title">商品详情</div>
@@ -78,7 +90,7 @@
             <div class=" f_l wp_10 panel-title">数量</div>
             <div class=" f_l wp_10 panel-title">小计</div>
             <div class=" f_l wp_5 panel-title">&nbsp;</div>
-            <div class=" f_l wp_10 panel-title">售后状态</div>
+            <div class=" f_l wp_10 panel-title">状态</div>
         </div>
         <div class="panel-body more-info-detail">
             <{volist name="orderdetail" id="vo"}>
@@ -109,28 +121,38 @@
                     <div class=" wp_10">
                         <span class="font-color-sub_main">¥ <{$vo.price*$vo.num}></span>
                     </div>
-                    <div class=" wp_5">
-                        <{if $vo.type == 1}>
-                        <a href="/index/order/returnGoods?id=<{$vo.order_id}>&gid=<{$vo.gid}>&spec=<{$vo.spec}> ">售后</a>
-                        <{else}>
-                        &nbsp;
-                        <{/if}>
-                    </div>
-                    <div class=" wp_10">
-                        <span class="hint-str">
-                            <{if $vo.type == 1}>未申请
-                            <{elseif $vo.type == 2}>等待审核
-                            <{elseif $vo.type == 3}>审核通过
-                            <{elseif $vo.type == 4}>驳回<br><div class="goods-opreason">驳回原因：<{$vo.opreason}></div>
-                            <{/if}> 
-                        </span>
-                    </div>
+                    <{if $islong}>
+                        <div class=" wp_5"> &nbsp; </div>
+                        <div class=" wp_10">
+                            <span class="hint-str">
+                                已完成
+                            </span>
+                        </div>
+                    <{else}>
+
+                        <div class=" wp_5">
+                            <{if $vo.type == 1}>
+                            <a href="/index/order/returnGoods?id=<{$vo.order_id}>&gid=<{$vo.gid}>&spec=<{$vo.spec}> ">售后</a>
+                            <{else}>
+                            &nbsp;
+                            <{/if}>
+                        </div>
+                        <div class=" wp_10">
+                            <span class="hint-str">
+                                <{if $vo.type == 1}>未申请
+                                <{elseif $vo.type == 2}>等待审核
+                                <{elseif $vo.type == 3}>审核通过
+                                <{elseif $vo.type == 4}>驳回<br><div class="goods-opreason">驳回原因：<{$vo.opreason}></div>
+                                <{/if}> 
+                            </span>
+                        </div>
+                    <{/if}>
                 </div>
             <{/volist}>
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <!--<div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
                 订单详情
@@ -140,7 +162,7 @@
             <p>鱼饵：<{$order.baits}></p>
             <p>积分：<{$order.points}></p>
         </div>
-    </div>
+    </div>-->
     
 </div>
 <{/block}>

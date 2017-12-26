@@ -88,8 +88,8 @@ class Register extends controller
 
             ## add by fjw in 17.12.21 增加活动时注册
             $activeObj = new Active();
-            $isactive = $activeObj->isActive();
-            if($isactive['isactive']){
+            $isactive = $activeObj->regIsActive();
+            if($isactive){
                 $data['isactive'] = 1;
             }
             
@@ -185,8 +185,8 @@ class Register extends controller
                 $user['paycrypt'] = $paycrypt;
                 ## add by fjw in 17.12.21 增加活动时注册
                 $activeObj = new Active();
-                $isactive = $activeObj->isActive();
-                if($isactive['isactive']){
+                $isactive = $activeObj->regIsActive();
+                if($isactive){
                     $user['isactive'] = 1;
                 }
                 $add = Db::name('users') -> insert($user);

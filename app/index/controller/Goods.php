@@ -37,7 +37,8 @@ class Goods extends controller
                     $this->assign('isactive', $active['goods']);
                 }
             }
-        }else{
+        }else{ // 未登录
+        
             $activeObj = new Active();
             $active = $activeObj->isActive($id);
             if($active['status']){

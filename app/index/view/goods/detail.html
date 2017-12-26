@@ -109,9 +109,15 @@
                 <p style="line-height: 45px;"><span class="item-title">库存：</span><{$goods.amount}>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span >
+                        <{if $isactive}>
+                        <a href="javascript: void(0);" ng-click="activeNum(0);" title="减少数量">-</a>
+                        <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
+                        <a href="javascript: void(0);" ng-click="activeNum(1);" title="增加数量">+</a>
+                        <{else}>
                         <a href="javascript: void(0);" ng-click="subNumber(1);" title="减少数量">-</a>
                         <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
                         <a href="javascript: void(0);" ng-click="addNumber(1);" title="增加数量">+</a>
+                        <{/if}>
                     </span>
                 </p>
 
@@ -324,6 +330,10 @@
                 $scope.buy_number -= $num;
             }
             
+        }
+
+        $scope.activeNum = function($num){
+            alert('抢购商品，数量不可更改！');
         }
         //商品详情
         $scope.choseBar = 0;

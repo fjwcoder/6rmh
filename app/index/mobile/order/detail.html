@@ -52,18 +52,18 @@
             <span class=" default-spec-li chosePay" name="delivery" ><{$order.shipping_name}></span>
             <div> 物流信息: </div>
             <div class=" default-spec-li " name="shipping" style="width: 100%!important;">
+                <{if $trace == ''}>
+                <div class="trace-info">
+                    <p class="trace_station">正在查询物流信息，请稍后~</p>
+                </div>
+                <{else}>
                 <{volist name="trace" id="vo" key="key"}>
                     <div class="trace-info">
-                        
                         <p class="trace_station"><{$vo.AcceptStation}></p>
                         <p class="trace_time"><{$vo.AcceptTime}></p>
-
                     </div>
-                    
-                    
-
-                    <!-- <p><{$vo.AcceptTime}>:<{$vo.AcceptStation}></p> -->
                 <{/volist}>
+                <{/if}>
             </div>
         </div>
         <div class="goods_info paper" style="font-size: 1em;">

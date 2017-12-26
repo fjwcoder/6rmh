@@ -17,7 +17,8 @@ class Cart extends Common
         $mallObj = new Mall();
         // 查出购物车信息，包括
         // 商品具体信息、规格、图片、促销活动、买家信息
-        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'b.promotion as promotion_id', 
+        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 
+            'a.active' ,'b.promotion as promotion_id', 
             'c.spec', 'b.name', 'b.sub_name', 'b.description', 'b.key_words', 'b.brand', 'b.bait', 'b.point','d.pic'];
         $cart = Db::name('cart') ->alias('a') 
              -> join('goods b', 'a.goods_id=b.id', 'LEFT') 
@@ -26,7 +27,7 @@ class Cart extends Common
              -> field($field)    
              -> group('b.id, a.spec') 
              -> order('a.addtime desc') 
-             -> where(['a.buyer_id'=>session(config('USER_ID')), 'a.status'=>1, 'b.status'=>1]) -> select(); 
+             -> where(['a.buyer_id'=>session(config('USER_ID')), 'a.status'=>1, 'a.active'=>0,'b.status'=>1]) -> select(); // 购物车只查询非活动商品
         if(!empty($cart)){
             # 查询促销
             $promotion = Db::name('mall_promotion') 
@@ -159,23 +160,27 @@ class Cart extends Common
         if($user['isactive'] >= 1){
             $activeObj = new Active();
             $active = $activeObj->isActive($id);
-
             if($active['status']){
-               $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
-                'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
-                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'price'=>$active['goods']['price'],
-                'parent_id'=>empty($user['pid'])?0:$user['pid'], 
-                'remark'=>$active['goods']['active_name']
-                ];
-
-                $result = Db::name('cart') -> insert($data);
-                $cart_id = Db::name('cart') ->getLastInsID();
-                if($cart_id >0){
-                    return $this->redirect('/index/order/preview?cart_list='.$cart_id);
-                    // return $this->redirect('/index/order/preview', ['cart_list'=>$cart_id]); exit;
-                    // $orderObj = new Order();
-                    // $orderObj->preview($cart_id);
-                    exit;
+                $add_time = time();
+                $aleadyOrder = Db::name('order') -> where('userid='.session(config('USER_ID')).' and active=1 and pay_status=1 and '.$add_time.' between '.
+                    $active['goods']['begin_time'].' and '.$active['goods']['end_time']
+                    ) -> select();
+                if(!empty($aleadyOrder)){
+                    return msg('-1', '已存本次活动的完成订单'); exit;
+                }else{
+                    $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
+                    'seller_id'=>$goods['userid'], 'goods_id'=>$id, 'active'=>$active['goods']['id'],
+                    'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'price'=>$active['goods']['price'],
+                    'parent_id'=>empty($user['pid'])?0:$user['pid'], 
+                    'remark'=>$active['goods']['active_name']
+                    ];
+                    
+                    $result = Db::name('cart') -> insert($data);
+                    $cart_id = Db::name('cart') ->getLastInsID();
+                    if($cart_id >0){
+                        return $this->redirect('/index/order/preview?cart_list='.$cart_id);
+                        exit;
+                    }
                 }
             }
         }
@@ -185,9 +190,12 @@ class Cart extends Common
         $cart = Db::name('cart') -> where(['buyer_id'=>session(config('USER_ID')), 
             'goods_id'=>$id, 'spec'=>$sid]) -> find();
 
+        if(($goods['sprice'] <= 0) || ($goods['sprice'] == '') ){
+            $goods['sprice'] = $goods['gprice'];
+        }
         if(empty($cart)){ //空的，新加
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
-                'seller_id'=>$goods['userid'], 'goods_id'=>$id, 
+                'seller_id'=>$goods['userid'], 'goods_id'=>$id, 'price'=>$goods['sprice'],
                 'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 
                 'parent_id'=>empty($user['pid'])?0:$user['pid']
                 ];

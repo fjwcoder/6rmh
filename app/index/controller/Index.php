@@ -34,13 +34,23 @@ class Index extends controller
             $wxconf = getWxConf();
             $this->assign('wxconf', ['jsjdk'=>$wxconf['JSJDK_URL']['value']]);
         }
-
-        $this->assign('active', false); //默认没有活动
+        $is_active = false;
+        
         # 1. 查询活动
         $active = Db::name('active') -> where('status =1 and begin_time<'.time().' and end_time>'.time()) -> find();
-        if(isset($active)){
-
+        if(isset($active)){ // add by fjw in 17.12.24 增加活动商品
             $this->assign('active', $active);
+            if(session(config('USER_ID'))){ // 登录了
+                $user = Db::name('users') -> where(['id'=>session(config('USER_ID')), 'status'=>1]) -> find();
+                if($user['isactive'] > 0){
+                    $is_active = true;
+                }
+            }else{
+                $is_active = true;
+            }
+        }
+
+        if($is_active){ // 存在活动
             $term = getTerm();
             # 1.获取当前期的产品
             $goods = Db::name('term_goods') -> alias('a') 
@@ -63,13 +73,6 @@ class Index extends controller
                 }
 
                 $this->assign('goods', $goods);
-            }else{
-                $goods = $this->termGoods();
-                if($goods['status']){
-                    $this->assign('goods', $goods['goods']);
-                }else{
-                    $this->assign('goods', []); 
-                }
             }
         }else{
             $goods = $this->termGoods();
@@ -79,7 +82,7 @@ class Index extends controller
                 $this->assign('goods', []); 
             }
         }
-        
+        $this->assign('active', $is_active); //默认没有活动
         $config = mallConfig();
         $this->assign('config', ['page_title'=>$config['web_name']['value'], 'template'=>$config['mall_template']['value']
             ]);

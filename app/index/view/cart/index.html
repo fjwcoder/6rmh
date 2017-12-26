@@ -37,10 +37,16 @@
                     <p title="<{$vo.description}>"><{$vo.name}></p>
                     <p>
                         规格：<{$vo.spec}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <{if $vo.active > 0}>
+                        <a href="javascript: void(0);" class="pull-right">
+                            一元秒杀 活动商品
+                        </a>
+                        <{else}>
                         <a href="javascript: void(0);" class="pull-right">
                             赠送鱼饵：<{$vo.bait}>个&nbsp;&nbsp;&nbsp;&nbsp;
                             获得<{$vo.point}>积分
                         </a>
+                        <{/if}>
                     </p>
                     <{if $vo.promotion != ''}>
                     <span class="goods-promotion " >

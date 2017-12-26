@@ -141,7 +141,11 @@
                     <{/switch}>
                 <div><a href="/index/order/orderDetail?id=<{$vo.order.order_id}> ">订单详情</a></div>
                 <{if $vo.order.status >=4}>
+                    <{if $vo.islong}>
+                    <div><a href="javascript: void(0);">已完成</a></div>
+                    <{else}>
                     <div><a href="/index/order/returnGoods?id=<{$vo.order.order_id}> ">售后</a></div>
+                    <{/if}>
                 <{/if}>
             </div>
         </div>

@@ -65,6 +65,8 @@
                          <li class="changeNum">
                             <{if $vo.num>1}>
                             <span class="number-change " ng-click="subnum(<{$vo.cart_id}>);" title="数量减1">-</span>
+                            <{else}>
+                            <a class="number-change" href="javascript: void(0);" title="数量减1">-</a>
                             <{/if}>
                             <input id="cart-goods-num-<{$vo.cart_id}>" class="cart-goods-num" name="number" value="<{$vo.num}>"/>
                             <span class="number-change "  ng-click="addnum(<{$vo.cart_id}>);" title="数量加1">+</span>
@@ -88,22 +90,10 @@
         
     </div>
     <{include file="public/footer"/}>
-    <script src="__STATIC__/js/mall/mobile/mall_mobile_cart.js"></script>
     <script>
         var all_cart = <{$all_cart}>; //获取全部的购物车ID
-        var check_list = []; //选中的ID
-        $scope.cart_list = ''; //初始化
-        $scope.checkAllCart = function($event){
-            var checkbox = $event.target;
-            if(checkbox.checked){
-                check_list = all_cart;
-                $scope.cart_list = check_list.join(); //把数组放入一个数组，并用分隔符分割，默认是","
-            }else{
-                check_list = [];
-                $scope.cart_list = '';
-            }
-        }
-
     </script>
+    <script src="__STATIC__/js/mall/mobile/mall_mobile_cart.js"></script>
+    
 </body>
 </html>

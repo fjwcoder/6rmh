@@ -15,7 +15,7 @@ class Payresult extends Controller
 
     public function orderResult(){
         $postStr = file_get_contents('php://input');
-        file_put_contents('orderresult.txt', $postStr);
+
         try{
             if (!empty($postStr) ){
                 $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
@@ -29,14 +29,25 @@ class Payresult extends Controller
                     $order_id = substr($resArr['out_trade_no'], 1); //订单号
                     $check = $this->orderCheck($order_id, 'order', $wxconf);
 
-                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
-
-                    if($check['status']){ //订单查询成功
+                    if($check['status']){ //订单查询成功后执行的业务逻辑
                         $success = new Paysuccess();
-                        #调用相关的方法 
-                        $result = $success->order($resArr, $check['order']);
-                        $account = floatval($check['order']['balance'])+floatval($check['order']['money']);
-                        $success->createRedpacket($account); //执行生成红包的方法
+                       
+                        // if($check['order']['active'] > 0){ //活动订单 取消活动用户的资格
+                            $no_active = Db::name('users') -> where(['id'=>$check['order']['userid'], 
+                                'status'=>1]) -> update(['isactive'=>0]);
+                        // }else{
+                            #调用相关的方法 
+                            $result = $success->order($resArr, $check['order']);
+                        // }
+                         
+
+                        # 生成红包
+                        $account = floatval($check['order']['balance']+$check['order']['money']-$check['order']['cost_price']);
+                        if($account > 0){
+                            $success->createRedpacket($account);
+                        }
+                        
+                        
                         echo 'success';
                     }
 
@@ -53,7 +64,7 @@ class Payresult extends Controller
 
     public function chargeResult(){
         $postStr = file_get_contents('php://input');
-        file_put_contents('chargeResult.txt', $postStr);
+        // file_put_contents('chargeResult.txt', $postStr);
 
         try{
             if (!empty($postStr) ){
@@ -69,7 +80,7 @@ class Payresult extends Controller
                     // $wxpay = new Wxpay();
                     $check = $this->orderCheck($order_id, 'charge', $wxconf);
 
-                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
+                    // Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
 
                     if($check['status']){ //订单查询成功
                         $success = new Paysuccess();
@@ -90,7 +101,7 @@ class Payresult extends Controller
 
     public function tradeResult(){
         $postStr = file_get_contents('php://input');
-        file_put_contents('tradeResult.txt', $postStr);
+        // file_put_contents('tradeResult.txt', $postStr);
         try{
             if (!empty($postStr) ){
                 $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);//把XML载入对象中
@@ -104,7 +115,7 @@ class Payresult extends Controller
                     $order_id = substr($resArr['out_trade_no'], 1); //订单号
                     $check = $this->orderCheck($order_id, 'trade', $wxconf);
 
-                    Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
+                    // Db::name('payresult_step') -> insert(['order_id'=>$order_id, 'content'=>json_encode($check), 'step'=>2]); 
 
                     if($check['status']){ //订单查询成功
                         $success = new Paysuccess();
@@ -205,7 +216,7 @@ class Payresult extends Controller
                 
                 $jsApiParameters = $wxpay->orderPay($check['order'], $user);
 
-                file_put_contents('payresults.txt', $jsApiParameters);
+                // file_put_contents('payresults.txt', $jsApiParameters);
 
 
             }

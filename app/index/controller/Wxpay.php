@@ -5,7 +5,7 @@ vendor('wxpay.WxPay#JsApiPay');
 use app\common\controller\Common; 
 use app\admin\controller\Wechat as Wechat;
 use app\extend\controller\Mall as Mall;
-
+use app\index\controller\Active as Active;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -23,15 +23,40 @@ class Wxpay extends Common
         if(empty($type)){
             $type = input('type', '', 'htmlspecialchars,trim');
         }
+        $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
         
-        $check = $this->orderCheck($id, $type);
 
+        $check = $this->orderCheck($id, $type);
         if($check['status']){
-            #获取用户信息
-            $user = decodecookie("user");
-            if(empty($user)){
-                $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
+            ## =========17.12.25 by fjw : 活动订单验证查询==========
+            if($check['order']['active'] == 1){ //该订单是一元抢购订单
+                if($user['isactive'] < 1){
+                    return msg('-1', '活动机会已经用完');
+                }
+
+                $goods = Db::name('order_detail') -> where(['order_id'=>$check['order']['order_id'] ]) -> find();
+                $activeObj = new Active();
+                $active = $activeObj->isActive($goods['gid']);
+                if($active['status']){
+                    # 查询是否存在已经完成的一元秒杀
+                    $add_time = strtotime($check['order']['add_time']);
+                    $aleadyOrder = Db::name('order') -> where('userid='.session(config('USER_ID')).' and active=1 and pay_status=1 and '.$add_time.' between '.
+                        $active['goods']['begin_time'].
+                         ' and '.$active['goods']['end_time']
+                        ) -> select();
+                    if(!empty($aleadyOrder)){
+                        return msg('-1', '已存本次活动的完成订单');
+                    }
+                }
             }
+            ## =========17.12.25 by fjw : end==========
+
+
+            #获取用户信息 注释in 17.12.25 by fjw 
+            // $user = decodecookie("user");
+            // if(empty($user)){
+                // $user = Db::name('users') -> where(['id'=>$uid, 'status'=>1]) ->find();
+            // }
 
             # 判断支付模式 
             if(isMobile() ===true){ 

@@ -64,10 +64,12 @@
             </div>
             
             <div class="order_footer">
-                <{if $vo.order.status >= 4}>
-                <span class="after-sell">
-                    <a href="/index/order/returnGoods?id=<{$vo.order.order_id}>  ">申请售后</a>
-                </span>
+                <{if $vo.islong == false}>
+                    <{if $vo.order.status >= 4}>
+                    <span class="after-sell">
+                        <a href="/index/order/returnGoods?id=<{$vo.order.order_id}>  ">申请售后</a>
+                    </span>
+                    <{/if}>
                 <{/if}>
                 <span class="option">
                     <{switch name="vo.order.status"}>
@@ -92,7 +94,7 @@
                             </a>
                             
                         <{/case}>
-                        <{default/}>其他
+                        <{default/}>已完成
                     <{/switch}>
                 </span>
                 <span class="price" style="color: #6ad4c9;">￥<{$vo.order.money+$vo.order.balance}> </span>

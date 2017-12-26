@@ -20,8 +20,7 @@
         <li>评价</li>
     </div>
     <!--购物车-->
-    <div class="shop_car glyphicon glyphicon-shopping-cart" onclick="location='/index/cart'">
-    </div>
+    <!--<div class="shop_car glyphicon glyphicon-shopping-cart" onclick="location='/index/cart'"></div>-->
     
     <div class="size" data-ng-controller="goodsCtrl">
         <div class="close"></div><!--黑色部分-->
@@ -40,11 +39,21 @@
         <{/volist}>
          <span class="end_count item-title">库存：<{$goods.amount}></span>
         <div class="buy_count input-group">
+            <{if $isactive}>
+            <div class="input-group-addon" ng-click="activeNum(0);">-</div>
+            <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
+            <div class="input-group-addon" ng-click="activeNum(0)">+</div>
+            <{else}>
             <div class="input-group-addon" ng-click="redNum()">-</div>
             <input id="buy-number"  ng-model="buy_number" title="填写购买数量"/>
             <div class="input-group-addon" ng-click="addNum()">+</div>
+            <{/if}>
         </div>
-        <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">加入购物车</a>
+        <{if $isactive}>
+            <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/1" title="加入购物车">立即抢购</a>
+        <{else}>
+            <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">加入购物车</a>
+        <{/if}>
         </div>
     </div>
     <div class="swiper-container-contant" data-ng-controller="goodsCtrl">
@@ -67,12 +76,20 @@
                     <span class="product_description" title="<{$goods.description}>"><{$goods.description}></span>
                     <!--价格：-->
                     <span class="money-mark">￥</span>
-                    
                         <{if $goods.promotion.type == 1}>
                         <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                         <s>原价:<span ng-bind="{{price|number:2}}"></span></s>
                         <{else}>
-                        <span class="price" ng-bind="{{price|number:2}}"></span>
+                            
+                            <span class=" price" ng-bind="{{price|number:2}}"></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <{if $isactive}>
+                            <span class="goods-promotion " >
+                                <{$isactive.active_name}> &nbsp;&nbsp;&nbsp;&nbsp;
+                                12:32:12
+                            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <s>原价：￥<{$goods.price}></s>
+                            <{/if}>
                         <{/if}>
                     
 
@@ -92,7 +109,7 @@
                 </div>
                 <!--规格-->
                 <p class="goods-item choice_size" style="font-size: 1.2em; color: #6ad4c9;"> 
-                    <span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;选择规格 
+                    <span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;购买
                     <span class="spec-des pull-right" ></span>
                 </p>
                 
@@ -210,7 +227,10 @@
                 $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
             <{/if}>
             $scope.buy_number = 1; //购买数量初始化
-            
+
+            $scope.activeNum = function($num){
+                alert('抢购商品，数量不可更改！');
+            }
             //商品详情
             $scope.choseBare = 0;
             $scope.comment=<{$comment}>;
@@ -241,11 +261,11 @@
             // 默认选中第一个规格
             $scope.isChose = <{$goods.spec.0.id}>;
             $scope.specValue = <{$goods.spec.0.id}>; 
-            $('.spec-des').html('已选：<{$goods.spec.0.spec}>'); //需要修改成angularjs
+            $('.spec-des').html('已选规格：<{$goods.spec.0.spec}>'); //需要修改成angularjs
             $scope.specSelect = function($id) {
                 $scope.specValue = $id; 
                 $scope.isChose = $id;
-                $('.spec-des').html('已选：'+angular.element('#spec-'+$id).html()); //需要修改成angularjs
+                $('.spec-des').html('已选规格：'+angular.element('#spec-'+$id).html()); //需要修改成angularjs
             }
 
             $scope.redNum = function(){
