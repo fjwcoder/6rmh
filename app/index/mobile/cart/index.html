@@ -46,19 +46,20 @@
                     <div class="goods-detail" ng-click="slideCover(<{$vo.cart_id}>);">
                         <li class="name-title" title="<{$vo.description}>"><{$vo.name}></li>
                         <li class="good-info">
-                            规格：<{$vo.spec}>
+                            规格：<{$vo.spec}> &nbsp;&nbsp;&nbsp;&nbsp; 数量：<span id="goods-num-<{$vo.cart_id}>"><{$vo.num}></span>
                         </li>
                         <li class="">
-                            数量：<span id="goods-num-<{$vo.cart_id}>"><{$vo.num}></span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            单价：¥<{$vo.price}>
+                            单价：￥<{$vo.price}>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            运费：￥<{$vo.shipping_money}>
+                        </li>
+                        <li class="given-info" href="javascript: void(0);">
                             <{if $vo.promotion != ''}>
                             <span class="goods-promotion" >
                                 <{$vo.promotion}>
                             </span>
-                            <{/if}>        
-                        </li>
-                        <li class="given-info" href="javascript: void(0);">单件商品赠<{$vo.bait}>个鱼饵 + <{$vo.point}>积分</li>
+                            <{/if}> 
+                            单商品<{$vo.bait}>个鱼饵 + <{$vo.point}>积分</li>
                     </div>
                     <div id="goods-option-<{$vo.cart_id}>"  class="good-option">
                          <li class="option-title" ng-click="slideCover(<{$vo.cart_id}>);"> </li>

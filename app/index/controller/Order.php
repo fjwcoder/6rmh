@@ -78,31 +78,7 @@ class Order extends Common
         
     }
 
-    public function dealOrder($list, $order_id = ''){
-        $count = ['baits'=>0, 'points'=>0, 'prices'=>0, 'cost_prices'=>0];
-        $promotion = Db::name('mall_promotion') 
-            -> where('status=1 and begin_time<='.time().' and end_time>='.time()) -> select();
-        $promotion = getField($promotion, 'id');
-        // return dump($list);
-        foreach($list as $k=>$v){
-            if($v['promotion_id'] != 0){
-                $list[$k]['promotion'] = $promotion[$v['promotion_id']]['title'];
-                if($promotion[$v['promotion_id']]['type'] == 1){
-                    $list[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100;//单价
-                }
-            }else{
-                $list[$k]['promotion'] = '';
-            }
-            $list[$k]['order_id'] = $order_id;
-            #计算订单总额们
-            $count['baits'] += intval($list[$k]['bait']*$list[$k]['num']);  
-            $count['points'] += intval($list[$k]['point']*$list[$k]['num']);
-            $count['prices'] += floatval($list[$k]['price']*$list[$k]['num']); 
-            $count['cost_prices'] += floatval($list[$k]['cost_price']*$list[$k]['num']); 
-        }
-
-        return ['list'=>$list, 'count'=>$count];
-    }
+    
 
 
     #生成订单预览
@@ -119,7 +95,9 @@ class Order extends Common
         // 查出订单预览信息，包括
         // 查出购物车信息，包括
         // 商品具体信息、规格、图片、促销活动、买家信息
-        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'a.active', 'b.promotion as promotion_id', 
+        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'a.active', 
+            'a.shipping_money', // 17.12.27 by fjw 增加运费
+            'b.promotion as promotion_id', 
             'c.spec', 'b.name', 'b.sub_name', 'b.description', 'b.key_words', 
             'b.cost_price', // 17.12.26 by fjw 增加查询成本价
             'b.brand', 'b.bait', 'b.point','d.pic'];
@@ -162,11 +140,12 @@ class Order extends Common
                         $count['points'] = intval($cart[0]['point']*$cart[0]['num']);
                         $count['prices'] = floatval($cart[0]['price']*$cart[0]['num']); 
                         $count['cost_prices'] = 0; // 一元抢购不参与生成红包
+                        $count['shipping_money'] = 0;
+                    }else{
+                        // $no_active = false;
+                        echo "<script>alert('该商品抢购已结束');</script>";
+                        // return msg('-1', '该产品抢购已结束'); exit;
                     }
-                    // else{
-                    //     $no_active = false;
-                    //     return msg('-1', '该产品抢购已结束'); exit;
-                    // }
                 }
             }
 
@@ -209,7 +188,32 @@ class Order extends Common
         return $this->fetch();
     }
 
-    
+    public function dealOrder($list, $order_id = ''){
+        $count = ['baits'=>0, 'points'=>0, 'prices'=>0, 'cost_prices'=>0, 'shipping_money'=>0];
+        $promotion = Db::name('mall_promotion') 
+            -> where('status=1 and begin_time<='.time().' and end_time>='.time()) -> select();
+        $promotion = getField($promotion, 'id');
+        // return dump($list);
+        foreach($list as $k=>$v){
+            if($v['promotion_id'] != 0){
+                $list[$k]['promotion'] = $promotion[$v['promotion_id']]['title'];
+                if($promotion[$v['promotion_id']]['type'] == 1){
+                    $list[$k]['price'] = $v['price']*$promotion[$v['promotion_id']]['percent']/100;//单价
+                }
+            }else{
+                $list[$k]['promotion'] = '';
+            }
+            $list[$k]['order_id'] = $order_id;
+            #计算订单总额们
+            $count['shipping_money'] += intval($list[$k]['shipping_money']);
+            $count['baits'] += intval($list[$k]['bait']*$list[$k]['num']);  
+            $count['points'] += intval($list[$k]['point']*$list[$k]['num']);
+            $count['prices'] += floatval($list[$k]['price']*$list[$k]['num']); 
+            $count['cost_prices'] += floatval($list[$k]['cost_price']*$list[$k]['num']); 
+        }
+
+        return ['list'=>$list, 'count'=>$count];
+    }
 
     #创建订单
     public function create(){
@@ -239,6 +243,8 @@ class Order extends Common
         $delivery = $this->getDelivery();
         #获取商品信息 (跟预览方法里的一样，应该封装方法)
         $field = ['a.buyer_id', 'a.goods_id as gid', 'a.price', 'a.num', 
+            'a.shipping_money', // 17.12.27 by fjw 增加运费
+            'a.spec as specid', // 17.12.27 by fjw 增加查询规格ID
             'b.point', 'b.bait', 'b.promotion as promotion_id', 'b.service', 
             'b.cost_price', // 17.12.26 by fjw 增加查询成本价
             'b.catid_list', 'b.name', 'c.spec', 'd.pic'];
@@ -280,11 +286,12 @@ class Order extends Common
                         $count['points'] = intval($goods[0]['point']*$goods[0]['num']);
                         $count['prices'] = floatval($goods[0]['price']*$goods[0]['num']); 
                         $count['cost_prices'] = 0;  // 活动商品不参与红包生成
-                    }
-                    // else{
-                    //     $no_active = false;
-                    //     return msg('-1', '该产品抢购已结束'); exit;
-                    // } 
+                        $count['shipping_money'] = 0;
+                    }else{
+                        // $no_active = false;
+                        echo "<script>alert('该商品抢购已结束');</script>";
+                        // return msg('-1', '该产品抢购已结束'); exit;
+                    } 
                 }
             }
 
@@ -292,6 +299,7 @@ class Order extends Common
                 $deal_order = $this->dealOrder($goods, $order_id);
                 $goods = $deal_order['list'];
                 $count = $deal_order['count'];
+                
             }  
 
 // return dump($deal_order);
@@ -322,7 +330,7 @@ class Order extends Common
             }
             
             $data = ['userid'=>session(config('USER_iD')), 'order_id'=>$order_id, 
-                'status'=>1, 'pay_status'=>0, 'money'=>$count['prices'], 'baits'=>$count['baits'], 'points'=>$count['points'],
+                'status'=>1, 'pay_status'=>0, 'money'=>$count['prices']+$count['shipping_money'], 'baits'=>$count['baits'], 'points'=>$count['points'],
                 'payment_id'=>$pay, 'payment_name'=>$payment[$pay]['name'], 
                 'active'=>$active_id, // 17.12.25 by fjw 增加订单是否活动价格
                 'cost_price'=>floatval($count['cost_prices']), // 17.12.26 by fjw 增加订单中商品成本价格
@@ -330,7 +338,7 @@ class Order extends Common
                 'user_name'=>$address['name'], 
                 'user_address'=>$real_addr.$address['address'],
                 'user_mobile'=>$address['mobile']  ];
-            // return dump($data);
+            
             #生成细表记录
             $detail = Db::name('order_detail') -> insertAll($goods);
 
@@ -340,11 +348,19 @@ class Order extends Common
                     # 删除购物车信息
                     $cartObj = new Cart();
                     $cartObj->delete($id_list, 'order'); //注意这个方法有两个参数的时候
-                    if($active_id > 0){
-                        return $this->redirect('/index/wxpay/index?type=order&id='.$order_id);
-                    }else{
-                        return $this->redirect('index');
+
+                    # 修改商品库存 by fjw in 17.12.27
+                    foreach($goods as $k=>$v){
+                        Db::name('goods_spec') -> where(['id'=>$v['specid'] ]) -> setDec('num', $v['num']);
                     }
+
+                    // 注释 by fjw in 17.12.27 修改为直接跳转支付
+                    // if($active_id > 0){
+                    //     return $this->redirect('/index/wxpay/index?type=order&id='.$order_id); 
+                    // }else{
+                        // return $this->redirect('index'); // 注释 by fjw in 17.12.27 修改为直接跳转支付
+                        return $this->redirect('/index/wxpay/index?type=order&id='.$order_id); // 直接跳转支付
+                    // }
                     
                 }
             }else{

@@ -58,7 +58,7 @@ li{
 .footer_right{
     text-align: right;
 }
-.pay_way span{
+.pay_way span.item-select{
     height: 2.5em;
     line-height: 2.5em;
     border-radius: 0.25em;
@@ -67,6 +67,9 @@ li{
     width: 44%;
     display: inline-block;
     text-align: center;
+}
+span.money{
+    color: #f00;
 }
 .chosePay{
     background: #6ad4c9;
@@ -94,7 +97,7 @@ li{
 .panel-body .info_footer a{color: #8e8e8e;}
 .goods_details{
     line-height: 100%;   
-    border-top: 1px solid #6ad4c9;
+    border-top: 1px solid #e0e0e0;
     margin: 0.25em 0em;
 }
 .goods_details p{margin: 0.5em 1em 0 0; text-align: right;}
@@ -109,9 +112,7 @@ li{
     width: 100%;
     margin: 1em 0 0 0;
 }
-.goods_right{
-    color: #f00;
-}
+
 .goods_center{
     text-align: left;
     width: 80%;

@@ -169,23 +169,29 @@
            <{/if}> 
            
         </div>
+        <style>
+            .item-title{color: #8e8e8e;}
+        </style>
         <div class="paper pay_way">
             <div>
-                支付方式:
+                <span class="item-title">支付方式:</span>
             </div>
             <{volist name="pay_way" id="vo"}>
-                <span name="pay_way" ng-class="{chosePay: <{$vo.id}>==isChose}" ng-click="paySelect(<{$vo.id}>);"><{$vo.name}></span>
+                <span name="pay_way" class="item-select" ng-class="{chosePay: <{$vo.id}>==isChose}" ng-click="paySelect(<{$vo.id}>);"><{$vo.name}></span>
             <{/volist}>
             <div>
-                配送方式:
+                <span class="item-title">配送方式:</span>
             </div>
             <{volist name="delivery" id="vo"}>
-                <span class=" default-spec-li" name="delivery" ng-class="{chosePay: <{$vo.id}>==delivery}" ng-click="deliverySelect(<{$vo.id}>);"><{$vo.title}></span>
+                <span class=" default-spec-li item-select" name="delivery" ng-class="{chosePay: <{$vo.id}>==delivery}" ng-click="deliverySelect(<{$vo.id}>);"><{$vo.title}></span>
             <{/volist}>
         </div>
         <div class="goods_info paper">
-            <div>
-                应付总额：<span style="color: red; font-size: 1.5em;">¥<{$count.prices}></span>
+            <div style="text-align: right;">
+                <span class="item-title">应付总额：</span>
+                <span class="money" style="font-size: 1.2em;"> ¥<{$count.prices}></span>&nbsp;&nbsp;
+                <span class="item-title">运费：</span>
+                <span class="money" style="font-size: 1em;"> ¥<{$count.shipping_money}></span>
             </div>
             <{volist name="carts" id="vo"}>
             <div class="goods_details">
@@ -194,17 +200,18 @@
                 </span>
                 <span class="goods_center">
                     <li><{$vo.name}></li>
-                    <li>规格：<{$vo.spec}></li>
-                    <li>单价: ￥<{$vo.price}>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数量：<{$vo.num}></li>
+                    <li><span class="item-title">规格：</span> <{$vo.spec}></li>
+                    <li><span class="item-title">单价：</span> ￥<{$vo.price}>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="item-title">数量：</span><{$vo.num}></li>
                      <{if $vo.promotion != ''}>
                         <li class="promotion">
                      <{$vo.promotion}>
                         </li>
                      <{/if}>
-                    <li>鱼饵：<{$vo.bait*$vo.num}>个&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;积分：<{$vo.point*$vo.num}></li>
+                    <li><span class="item-title">鱼饵：</span> <{$vo.bait*$vo.num}>个 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="item-title">积分：</span><{$vo.point*$vo.num}></li>
                 </span>
                 <p>
-                    <span class="goods_right">小计:¥<{$vo.price*$vo.num}></span>
+                    <span class=" money">小计:¥<{$vo.price*$vo.num}></span>
                 </p>
                 
             </div>

@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="__STATIC__/css/mobile/mall_mobile_detail.css">
-    <link rel="stylesheet" href="__CSS__/mobile/mall_mobile_footer.css">
+    <link rel="stylesheet" href="__CSS__/mobile/mall_mobile_detail_footer.css">
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper-3.4.2.min.css">
+    <style>
+        .fa-check-circle-o, .fa-ban{color: #6ad4c9;}
+    </style>
     <{include file="public/share"}><!--微信分享配置文件-->
 </head>
 <body data-ng-app="myApp">
@@ -26,31 +29,52 @@
         <div class="close"></div><!--黑色部分-->
         <div class="size-content">
         <img src="<{$goods.img}>" alt="商品图片" rel="<{$goods.img}>">
-        <{if $goods.free_shipping ==1}>
-            <span class="item-title">运费：</span>免运费 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <{/if}>
-        <span class="item-title">重量：</span>
-        <{$goods.weight}>kg
-        
-        <li><span class="item-title">选择规格：</span></li>
-        <{volist name="$goods.spec" id="vo"}>
-            <li id="spec-<{$vo.id}>" class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);"><{$vo.spec}></li>
-        <{/volist}>
-         <span class="end_count item-title">库存：<{$goods.amount}></span>
-        <div class="buy_count input-group">
+        <span class="end_count item-title">单价：<span style="color: red;">￥</span>
             <{if $isactive}>
-            <div class="input-group-addon" ng-click="activeNum(0);">-</div>
-            <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
-            <div class="input-group-addon" ng-click="activeNum(0)">+</div>
+                <span class="common_price price" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="goods-promotion " >
+                    <{$isactive.active_name}>
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <s>原价：￥<{$goods.price}></s>
             <{else}>
-            <div class="input-group-addon" ng-click="redNum()">-</div>
-            <input id="buy-number"  ng-model="buy_number" title="填写购买数量"/>
-            <div class="input-group-addon" ng-click="addNum()">+</div>
+                <{if $goods.promotion.type == 1}>
+                    <span  class="promotion_price price" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <s>原价:<span class="common_price "></span></s>
+                <{else}>
+                    <span class="common_price price" ></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                <{/if}>
             <{/if}>
+        </span>
+        <div style="width: 100%; height: 9em;">
+            <span class="end_count item-title" style="width: 40%!important; float: left; margin-top: 1.3em!important;">库存：&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="spec_amount"></span>
+            </span>
+            <div class="buy_count input-group" style="width: 40%!important; float: right;">
+                <{if $isactive}>
+                <div class="input-group-addon" ng-click="activeNum(0);">-</div>
+                <input id="buy-number" type="text" style="margin-left: 0!important;"  ng-model="buy_number" readonly/>
+                <div class="input-group-addon" ng-click="activeNum(0)">+</div>
+                <{else}>
+                <div class="input-group-addon" ng-click="redNum()">-</div>
+                <input id="buy-number"  ng-model="buy_number" />
+                <div class="input-group-addon" ng-click="addNum()">+</div>
+                <{/if}>
+            </div>
         </div>
+        
+
+        <!--<li><span class="item-title">选择规格：</span></li>-->
+        <{volist name="$goods.spec" id="vo"}>
+            <li id="spec-<{$vo.id}>" class="default-spec-li" ng-class="{choseSpec: <{$vo.id}>==isChose}" ng-click="specSelect(<{$vo.id}>);">
+                <{$vo.spec}>
+                <span class="fa fa-check-circle faHidden" ng-class="{faShow: <{$vo.id}>==isChose}"></span>
+            </li>
+        <{/volist}>
+         
+        
         <{if $isactive}>
-            <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/1" title="加入购物车">立即抢购</a>
+            <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/1" title="立即抢购">立即抢购</a>
         <{else}>
             <a class="btn add_car" href="/index/cart/add/id/<{$goods.id}>/spec/{{specValue}}/num/{{buy_number}}" title="加入购物车">加入购物车</a>
         <{/if}>
@@ -76,58 +100,81 @@
                     <span class="product_description" title="<{$goods.description}>"><{$goods.description}></span>
                     <!--价格：-->
                     <span class="money-mark">￥</span>
+                    <{if $isactive}>
+                        <span class="common_price price" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="goods-promotion " >
+                            <{$isactive.active_name}>
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <s>原价：￥<{$goods.price}></s>
+                    <{else}>
                         <{if $goods.promotion.type == 1}>
-                        <span class=" price" title="折扣后价格" ng-bind="{{real_price|number:2}}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <s>原价:<span ng-bind="{{price|number:2}}"></span></s>
+                            <span  class="promotion_price price" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <s>原价:<span class="common_price "></span></s>
                         <{else}>
-                            
-                            <span class=" price" ng-bind="{{price|number:2}}"></span>
+                            <span class="common_price price" ></span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <{if $isactive}>
-                            <span class="goods-promotion " >
-                                <{$isactive.active_name}> &nbsp;&nbsp;&nbsp;&nbsp;
-                                12:32:12
-                            </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <s>原价：￥<{$goods.price}></s>
-                            <{/if}>
                         <{/if}>
-                    
+                    <{/if}>
 
                     
-
+                    
+                    <!--活动提示-->
+                    <{if $isactive}>
+                        <p style="margin-top: 0.5em;">
+                            <span class="fa fa-ban"></span>&nbsp;&nbsp;
+                            <span class="item-title"><{$isactive.active_name}> 商品不参与其余促销活动</span>
+                        </p>
+                    <{/if}>
+                    
                     <{if $goods.promotion.title != ''}>
-                        <p>
+                        <p style="margin-top: 0.5em;">
                             <span class="item-title">促 销：</span>
                             <span class="goods-promotion " title="<{$goods.promotion.description}>">
                             <{$goods.promotion.title}>
                             </span>
                         </p>
                     <{/if}>
-
-                    
-                    
                 </div>
+
                 <!--规格-->
                 <p class="goods-item choice_size" style="font-size: 1.2em; color: #6ad4c9;"> 
-                    <span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;购买
+                    <span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;选择规格
                     <span class="spec-des pull-right" ></span>
+                </p>
+                <p class="goods-item">
+                    <span class="item-title">配送至：</span>
+                    <span class=" fa fa-map-marker" style="color: #6ad4c9;"></span>&nbsp;&nbsp;
+                    <{$address}> <span style="color: red; float: right;" >有货</span>
                 </p>
                 
                 <!--商品来源-->
                 <p class="goods-item ">
-                    免运费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    重量：<{$goods.weight}> kg 
+                    <{if $goods.shipping_money == 0}>
+                    免运费
+                    <{else}>
+                    <span class="item-title">运 费：</span> ￥<{$goods.shipping_money}>
+                    <{/if}>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="item-title">重 量：</span><{$goods.weight}> kg 
                     <br>
                     <span class="item-title">来 源：</span>
                     <{if $goods.userid == 0}>
-                        六耳猕猴官方商城
+                        六耳猕猴团购专营
                     <{else}>
                         入驻商家
                     <{/if}>
-                    
-                    
                 </p>
-
+                <!--享受服务-->
+                
+                <p class="goods-item">
+                
+                    <span class="fa fa-check-circle-o"></span>
+                    &nbsp;&nbsp;<span class="item-title">六耳猕猴发货&售后</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="fa fa-check-circle-o"></span>
+                    &nbsp;&nbsp;<span class="item-title">30-10-10</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="fa fa-check-circle-o"></span>
+                    &nbsp;&nbsp;<span class="item-title">自提</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
             </div>
             <!--详情页-->
             <div class="details swiper-slide">
@@ -207,41 +254,98 @@
             </div>
         </div>
     </div>
-    
+    <div class="footer">
+        <div class="footer_content">
+            <a href="/">
+                <div class="index item">
+                    <span class="fa fa-shopping-bag "></span><br>商城
+                </div>
+            </a>
+            <a href="/index/user/index">
+                <div class="user item">
+                    <span class="fa fa-user-circle-o"></span><br>用户中心
+                </div>
+            </a>
+            <a href="/index/cart/index">
+                <div class="cart item">
+                    <span class="fa fa-shopping-cart"></span><br> 购物车
+                </div>
+            </a>
+
+            <a id="add_cart" >
+                <div class="add_cart"></div>
+            </a>  
+        </div>
+    </div>
+
+
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="__STATIC__/js/plugin/swiper3/swiper-3.4.2.jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
-    <{include file="public/footer"/}>
+    
     
     <script>
+
         var app = angular.module('myApp', []);
         app.controller('goodsCtrl', function($scope,$http) {
+            var specArr = <{$spec}>;
+            $scope.buy_number = 1; //购买数量初始化
             <{if $isactive}>
-                $scope.price = <{$goods.active_price}>;
+                angular.element('.common_price').html(<{$goods.active_price}>);
+                angular.element('#add_cart').attr('href', '/index/cart/add/id/<{$goods.id}>/spec/<{$goods.spec.0.id}>/num/'+$scope.buy_number);
+                angular.element('.add_cart').html('立即抢购');
             <{else}>
-                $scope.price = <{$goods.price}>;
+                angular.element('.add_cart').html('加入购物车');
+                angular.element('#add_cart').attr('href', '/index/cart/add/id/<{$goods.id}>/spec/<{$goods.spec.0.id}>/num/'+$scope.buy_number);
+                <{if $goods.promotion.type==1}>
+                    angular.element('.promotion_price').html(<{$goods.price}>*<{$goods.promotion.percent}>/100);
+
+                <{else}>
+                    angular.element('.common_price').html(<{$goods.spec.0.price}>);
+
+                <{/if}>
             <{/if}>
             
-            <{if $goods.promotion.type==1}>
-                $scope.real_price = <{$goods.price}>*<{$goods.promotion.percent}>/100;
-            <{/if}>
-            $scope.buy_number = 1; //购买数量初始化
-
+            
+            
             $scope.activeNum = function($num){
                 alert('抢购商品，数量不可更改！');
             }
             //商品详情
-            $scope.choseBare = 0;
             $scope.comment=<{$comment}>;
             $scope.barSelected = function($id){
-                
-                $scope.choseBare = $id;
                 var url="/index/goods/comment/"+"comment_id/"+$id+"/goods_id/"+<{$goods.id}>;
                 $http.get(url).success( function(data) {
                     $scope.comment=data; 
                 });
             }
+
+            // 默认选中第一个规格
+            $scope.isChose = <{$goods.spec.0.id}>;
+            $scope.specValue = <{$goods.spec.0.id}>; // 规格值
+
+            angular.element('#spec_amount').html(<{$goods.spec.0.num}>);
+            angular.element('.spec-des').html('已选规格：<{$goods.spec.0.spec}>');//需要修改成angularjs
+
+            $scope.specSelect = function($id) {
+                $scope.specValue = $id;  // 规格值
+                $scope.isChose = $id; //规格框
+                angular.element('#spec_amount').html(specArr[$id]['num']);
+                angular.element('.common_price').html(specArr[$id]['price']);
+                angular.element('#add_cart').attr('href', '/index/cart/add/id/<{$goods.id}>/spec/'+$scope.specValue+'/num/'+$scope.buy_number);
+                angular.element('.spec-des').html('已选规格：'+angular.element('#spec-'+$id).html()); //需要修改成angularjs
+            }
+
+            $scope.redNum = function(){
+                ($scope.buy_number - 1 <= 0) ? $scope.buy_number = 1 : $scope.buy_number--;
+                angular.element('#add_cart').attr('href', '/index/cart/add/id/<{$goods.id}>/spec/'+$scope.specValue+'/num/'+$scope.buy_number);
+            }
+            $scope.addNum = function(){
+                $scope.buy_number++;
+                angular.element('#add_cart').attr('href', '/index/cart/add/id/<{$goods.id}>/spec/'+$scope.specValue+'/num/'+$scope.buy_number);
+            } 
+
 
             // $scope.zan = function($gid){
             //     var url="/index/goods/zan/gid/"+$gid;
@@ -257,23 +361,6 @@
             //         }
             //     });
             // }
-
-            // 默认选中第一个规格
-            $scope.isChose = <{$goods.spec.0.id}>;
-            $scope.specValue = <{$goods.spec.0.id}>; 
-            $('.spec-des').html('已选规格：<{$goods.spec.0.spec}>'); //需要修改成angularjs
-            $scope.specSelect = function($id) {
-                $scope.specValue = $id; 
-                $scope.isChose = $id;
-                $('.spec-des').html('已选规格：'+angular.element('#spec-'+$id).html()); //需要修改成angularjs
-            }
-
-            $scope.redNum = function(){
-                ($scope.buy_number - 1 <= 0) ? $scope.buy_number = 1 : $scope.buy_number--;
-            }
-            $scope.addNum = function(){
-                $scope.buy_number++;
-            } 
         });
         
       </script>

@@ -17,7 +17,7 @@ class Cart extends Common
         $mallObj = new Mall();
         // 查出购物车信息，包括
         // 商品具体信息、规格、图片、促销活动、买家信息
-        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 
+        $field = ['a.id as cart_id', 'a.goods_id', 'a.buyer_id', 'a.num', 'a.spec as spec_id', 'a.price', 'a.shipping_money',
             'a.active' ,'b.promotion as promotion_id', 
             'c.spec', 'b.name', 'b.sub_name', 'b.description', 'b.key_words', 'b.brand', 'b.bait', 'b.point','d.pic'];
         $cart = Db::name('cart') ->alias('a') 
@@ -130,7 +130,7 @@ class Cart extends Common
             -> join('goods_picture b', 'a.id=b.gid', 'LEFT') 
             -> join('goods_spec c', 'a.id=c.gid', 'LEFT') 
             -> field(['a.id as id', 'a.name', 'a.description', 'a.weight','a.price as gprice', 'a.userid', 'a.status',
-                'b.pic', 'c.spec', 'c.num', 'c.price as sprice'])  
+                'b.pic', 'c.spec', 'c.num', 'c.price as sprice', 'a.shipping_money'])  
             -> where(['a.id'=>$id, 'c.id'=>$sid]) 
             -> group('b.gid')
             -> find();
@@ -148,6 +148,7 @@ class Cart extends Common
         $num = input('num', 0, 'intval'); //数量
 
         $goods = $this->getCartGoods($id, $sid);
+
         if($goods['status'] != 1 || empty($goods)){
             return $this->error('商品已下架'); exit;
         }
@@ -196,7 +197,7 @@ class Cart extends Common
         if(empty($cart)){ //空的，新加
             $data = ['buyer_id'=>Session::get(Config::get('USER_ID')), 
                 'seller_id'=>$goods['userid'], 'goods_id'=>$id, 'price'=>$goods['sprice'],
-                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 
+                'num'=>$num, 'addtime'=>time(), 'spec'=>$sid , 'shipping_money'=>$goods['shipping_money'],
                 'parent_id'=>empty($user['pid'])?0:$user['pid']
                 ];
 

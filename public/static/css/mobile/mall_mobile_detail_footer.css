@@ -1,0 +1,86 @@
+
+a{text-decoration: none;}
+hr{margin: 2px 0;background-color: #ccc;border: none;height: 1px;}
+.footer{
+	z-index: 10;
+	position: fixed;
+	bottom: 0em;
+	/*padding: 0.5em 0;*/
+	background: #fff;
+	width: 100%;
+	box-shadow: 0.25em 0.25em 1em #666;
+}
+
+.footer_content{
+	height: 4em;
+	background: #fff;
+}
+.footer_content div{
+	height: 100%; float: left; text-align: center; 
+}
+ .footer_content div.item{
+	width: 20%; line-height: 1.5em;
+	padding-top: 0.5em; color: #8e8e8e;
+}
+.footer_content a{width: 40%;
+
+}
+.footer_content .add_cart{width: 40%; background-color: #6ad4c9; color: #fff;
+line-height: 2.8em; font-size: 1.5em;}
+
+.footer span{
+	font-size: 1.8em;
+	/*color: #666;*/
+	color: #6ad4c9;
+	display: inline;
+}
+
+/*============================public==============================*/
+/*add by fjw*/
+.mobile-head-navbar{
+    background: #6ad4c9;
+    color: #fff;
+    text-align: center;
+    font-size: 1.3em;
+    height: 2.4em;
+    line-height: 2.4em;
+    box-shadow: 0px 3px 5px #ccc;
+	border-top-left-radius: 2em; border-bottom-left-radius: 2em;
+}
+.mobile-head-navbar .fa-user-circle{
+	float: left; font-size: 1.6em; margin: 0.25em 0 0 0.3em;
+	color: #fff;
+}
+.mobile-head-navbar .page_title{
+	margin-left: -2.5em;
+}
+
+.header-right-btn{position: absolute; top: 0.3em; 
+right: 0.5em; font-size: 2em!important; color: #fff;}
+
+/*分页的样式*/
+.pagination>.active>span{
+	background-color: #6ad4c9!important;
+	border-color: #6ad4c9!important;
+}
+.pagination>li>a{
+	color: #6ad4c9!important;
+}
+.modal-content .btn-primary{ background-color: #6ad4c9!important;
+	border-color: #6ad4c9!important;}
+/* >=iphone6 */
+/*iphone 6*/
+@media  (min-width:320px) {
+	.footer li{
+		text-align: center;
+		display: inline-block;
+		height: 5em;
+		line-height: 5em;
+		width: 23%;
+	}
+}
+
+
+
+
+/*over by fjw*/

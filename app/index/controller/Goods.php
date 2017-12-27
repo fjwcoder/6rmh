@@ -4,6 +4,7 @@ use app\common\controller\Common;
 use app\index\controller\Active as Active;
 use app\extend\controller\Mall as Mall;
 use app\index\controller\Share as Share;
+use app\index\controller\Order as Order;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -62,7 +63,15 @@ class Goods extends controller
 
         $comment = db('goods_comment', [], false)->where('gid='.$id)->order('addtime DESC') ->select();
         if($goods['status']){
-
+            $address = '北京朝阳区三环以内';
+            if(session(config('USER_ID'))){
+                $orderObj = new Order();
+                $addr = $orderObj->getAddress();
+                if(!empty($addr)){
+                    $address = $addr[0]['province'].$addr[0]['city'].$addr[0]['area'].$addr[0]['address'];
+                }
+            }
+            $this->assign('address', $address);
             $shareObj = new Share();
             $signPackage = $shareObj->shareConfig($url);
             $this->assign('shareconfig', $signPackage);
@@ -71,6 +80,9 @@ class Goods extends controller
             $this->assign('shareinfo', $shareInfo);
             // return dump($goods);
             $this->assign('goods', $goods['data']);
+            $specArr = getField($goods['data']['spec'], 'id');
+            // return dump($specArr);
+            $this->assign('spec', json_encode($specArr));
             $this ->assign('comment', json_encode($comment));
             return $this->fetch('detail');
         }else{

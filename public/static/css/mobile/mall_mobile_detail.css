@@ -1,11 +1,13 @@
 body{
     background: rgba(245, 245, 245, 1);
-    padding:3.25em 0em 3em 0em;
+    padding:3.25em 0em 4.5em 0em!important;
 }
 li{
     list-style-type: none;
 }
-
+.fa-check-circle{color: red; position: relative; right: -2.5em; top: -0.2em; font-size: 1.2em;}
+.faHidden{display: none!important;}
+.faShow{display: inline!important;}
 .current{
     border-bottom: 3px solid #6ad4c9; 
 }
@@ -20,6 +22,7 @@ li{
     border-bottom:1px solid #6ad4c9;
     background: #fff;
 }
+#buy-number{width: 6em;}
 .tab li{
     text-align: center;
     font-size: 1.25em;
@@ -72,14 +75,13 @@ li{
 }
 .item-title{
     display: inline;
+    color: #8e8e8e;
 }
 s{
     color: #ccc;
 }
-.price_con{
-    padding: 2em 0;
-    padding: 1em;
-}
+.price_con{ padding: 1em;}
+.shipping_con{ padding: 0.5em 1em;}
 .product_name{
     display: block;
     font-size: 1.2em;
@@ -131,7 +133,7 @@ p.goods-item{
 .size-content img{
     display: block;
     position: relative;
-    top: -4em;
+    top: -2.5em;
     left: 1em;
     width: 8em;
     height: 8em;
@@ -157,7 +159,8 @@ p.goods-item{
 .end_count{
     float: left;
     width: 100%;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    margin: 0.5em 0;
 }
 .buy_count{
     height: 2em;
@@ -167,6 +170,7 @@ p.goods-item{
     float: left;
     border-radius: 0px;
 }
+
 .buy_count input{
     height: 3em;
     border: none;
@@ -180,13 +184,13 @@ p.goods-item{
     font-size: 2em;
 }
 .choseSpec{
-    border: 1px dashed #f00;
+    border: 1px solid #f00;
 }
 .add_car{
     width: 100%;
     background: #6ad4c9;
     color: #fff!important;
-    font-size: 1.5em;
+    font-size: 1.5em; margin-top: 1em;
 }
 .add_car:active{
     color: #fff;
