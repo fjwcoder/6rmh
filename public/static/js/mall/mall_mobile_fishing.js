@@ -13,11 +13,12 @@ var qiandao = {
     bar_left: 0, //鱼竿左边
     bait: 0, //当前鱼饵
     point: 0, //当前积分
+    bubbleAct: '', // 气泡活动
 };
 
 //获取点击坐标, 并开始钓鱼动画
 function getClickPosition(event){
-    console.log('2.获取点击坐标点，出现鱼漂');
+
     if(event.originalEvent.targetTouches.length == 1){
         event.preventDefault();// 阻止浏览器默认事件 important
         var touch = event.originalEvent.targetTouches[0];
@@ -76,7 +77,7 @@ function getClickPosition(event){
 
 // 钓鱼执行的方法
 function getFishingResult(){
-    console.log('4.执行收杆方法');
+
     clearInterval(qiandao.setShake);
     qiandao.float_count = 0;
     $.ajax({
@@ -84,7 +85,7 @@ function getFishingResult(){
         url: '/Index/Fishing/fishing',
         success: function(response){
             cleanCanvas();
-            console.log(response);
+
             if(response['status']){
                 $('#fishing-panel').css({'background':'url(../../static/images/mall/'+response.type+'.png) no-repeat',
                      'display':'block'});
@@ -237,9 +238,21 @@ $(document).ready(function(){
         }
     });
 
+    // bubble  add by fjw in 18.1.2 气泡
+    qiandao.bubbleAct = setInterval(function(){
+        
+
+    }, 5000);
+
 
 
 });
+
+function bubble(){
+
+}
+
+
 
 function cleanCanvas(){
 
